@@ -31,13 +31,15 @@ input#search {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border: 1px solid #444; /* debug */
+  padding: 10px;
 }
 
 .level {
   background: #1e1e2e;
   padding: 10px;
   border-radius: 5px;
-  /* Removed flex from here to allow vertical stacking */
+  /* block layout */
 }
 
 .level-summary {
@@ -51,4 +53,5 @@ input#search {
   margin-top: 8px;
   font-size: 0.9em;
   color: #ccc;
+  display: none; /* initially hidden */
 }
