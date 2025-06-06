@@ -1,13 +1,11 @@
 @font-face {
   font-family: 'Manaspace';
-  src: url('fonts/MyCustomFont.woff2') format('woff2'),
-
+  src: url('fonts/manaspace.ttf') format('truetype'),
   font-weight: normal;
   font-style: normal;
 }
-
 body {
-  font-family: 'MyCustomFont', Arial, sans-serif;
+  font-family: 'Manaspace', Arial, sans-serif;
     background: #0f0f1b;
     color: #f0f0f0;
     margin: 0;
