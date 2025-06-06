@@ -12,7 +12,24 @@ async function loadLevels() {
       .forEach(lvl => {
         const div = document.createElement('div');
         div.className = 'level';
-        div.innerHTML = `<span>#${lvl.rank}: ${lvl.name}</span><strong>${lvl.klp} KLP</strong>`;
+        div.innerHTML = `
+          <div class="level-summary" style="cursor: pointer;">
+            <span>#${lvl.rank}: ${lvl.name}</span>
+            <strong>${lvl.klp} KLP</strong>
+          </div>
+          <div class="level-details" style="display:none; margin-top: 8px;">
+            <p><strong>ID:</strong> ${lvl.id}</p>
+            <p><strong>Creator:</strong> ${lvl.creator}</p>
+            <p><strong>Verifier:</strong> ${lvl.verifier}</p>
+          </div>
+        `;
+
+        // Toggle details visibility when clicking summary
+        div.querySelector('.level-summary').addEventListener('click', () => {
+          const details = div.querySelector('.level-details');
+          details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        });
+
         container.appendChild(div);
       });
   };
