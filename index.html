@@ -5,30 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Kaizo List</title>
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Open Graph meta tags for Discord preview -->
+  <meta property="og:title" content="The Kaizo List!" />
+  <meta property="og:description" content="A curated list of the HARDEST Kaizo levels." />
+  <meta property="og:image" content="https://yourdomain.com/path-to-image.jpg" />
+  <meta property="og:url" content="https://yourdomain.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Optional Twitter Card tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Kaizo List!" />
+  <meta name="twitter:description" content="A curated list of the HARDEST Kaizo levels." />
+  <meta name="twitter:image" content="https://yourdomain.com/path-to-image.jpg" />
 </head>
 <body>
   <div class="container">
-        <nav>
+    <nav>
       <a href="index.html">Level List</a> |
       <a href="PlayerList.html">Player List</a>
     </nav>
     <h1>The Kaizo List</h1>
     <input type="text" id="search" placeholder="Search levels..." />
     <div class="filters">
-  <select id="creator-filter">
-    <option value="">All Creators</option>
-  </select>
+      <select id="creator-filter">
+        <option value="">All Creators</option>
+      </select>
 
-  <select id="verifier-filter">
-    <option value="">All Verifiers</option>
-  </select>
+      <select id="verifier-filter">
+        <option value="">All Verifiers</option>
+      </select>
 
-  <select id="sort-filter">
-    <option value="rank">Sort by Rank</option>
-    <option value="id-desc">Newest (by ID)</option>
-    <option value="id-asc">Oldest (by ID)</option>
-  </select>
-</div>
+      <select id="sort-filter">
+        <option value="rank">Sort by Rank</option>
+        <option value="id-desc">Newest (by ID)</option>
+        <option value="id-asc">Oldest (by ID)</option>
+      </select>
+    </div>
 
     <div id="total-klp">Total: 0 KLP</div>
     <div id="level-list"></div>
