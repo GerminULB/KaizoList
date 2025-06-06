@@ -13,7 +13,7 @@
     "klp": 1170,
     "creator": "Ocelote",
     "verifier": "Ocelote",
-    "ID": "270324"
+    "id": "270324"
   },
   {
     "rank": 3,
@@ -21,7 +21,7 @@
     "klp": 1140,
     "creator": "Redstom",
     "verifier": "Redstom",
-    "ID": ""
+    "id": ""
   },
   {
     "rank": 4,
@@ -29,7 +29,7 @@
     "klp": 1110,
     "creator": "Ocelote",
     "verifier": "Ocelote",
-    "ID": ""
+    "id": ""
   },
   {
     "rank": 5,
@@ -37,7 +37,7 @@
     "klp": 1090,
     "creator": "Zevorcen",
     "verifier": "Zevorcen",
-    "ID": ""
+    "id": ""
   },
   {
     "rank": 6,
@@ -45,7 +45,7 @@
     "klp": 1070,
     "creator": "Ocelote",
     "verifier": "Ocelote",
-    "ID": ""
+    "id": ""
   },
   {
     "rank": 7,
@@ -53,7 +53,7 @@
     "klp": 1050,
     "creator": "Saarck",
     "verifier": "Saarck",
-    "ID": ""
+    "id": ""
   },
   {
     "rank": 8,
@@ -61,7 +61,7 @@
     "klp": 1030,
     "creator": "Ocelote",
     "verifier": "Ocelote",
-    "ID": ""
+    "id": ""
   },
   {
     "rank": 9,
@@ -69,7 +69,7 @@
     "klp": 1000,
     "creator": "Whatwhatw",
     "verifier": "Whatwhatw",
-    "ID": ""
+    "id": ""
   },
   {
     "rank": 10,
@@ -77,382 +77,9 @@
     "klp": 990,
     "creator": "Redstom",
     "verifier": "Redstom",
-    "ID": ""
+    "id": ""
   },
   {
     "rank": 11,
     "name": "Lanzimbo",
     "klp": 970,
-    "creator": "LanzyULB",
-    "verifier": "Ocelote",
-    "ID": ""
-  },
-  {
-    "rank": 12,
-    "name": "Bob is Mad",
-    "klp": 950,
-    "creator": "Ocelote",
-    "verifier": "Ocelote",
-    "ID": ""
-  },
-  {
-    "rank": 13,
-    "name": "The Magnetic Void",
-    "klp": 930,
-    "creator": "Ocelote",
-    "verifier": "Ocelote",
-    "ID": ""
-  },
-  {
-    "rank": 14,
-    "name": "Abyssal Horizon",
-    "klp": 910,
-    "creator": "Saarck",
-    "verifier": "Saarck",
-    "ID": ""
-  },
-  {
-    "rank": 15,
-    "name": "Ice Frostbite",
-    "klp": 890,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 16,
-    "name": "Cataclysmic Delusion",
-    "klp": 870,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 17,
-    "name": "Dark Travel",
-    "klp": 850,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 18,
-    "name": "Kaizo 0",
-    "klp": 830,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 19,
-    "name": "Catastrophic Mysery",
-    "klp": 810,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 20,
-    "name": "Kaizo Ship",
-    "klp": 790,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 21,
-    "name": "Mount Pyrlen",
-    "klp": 770,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 22,
-    "name": "Pyrlen Wastes",
-    "klp": 750,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 23,
-    "name": "Dunes of the Damned",
-    "klp": 730,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 24,
-    "name": "Cliffside Precision",
-    "klp": 710,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 25,
-    "name": "Tenebris",
-    "klp": 690,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 26,
-    "name": "Trio Kaizo Infinity",
-    "klp": 670,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 27,
-    "name": "Ice Shardnel",
-    "klp": 650,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 28,
-    "name": "Castle Shooter",
-    "klp": 630,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 29,
-    "name": "VS Fake Ocelote",
-    "klp": 610,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 30,
-    "name": "Long Clover",
-    "klp": 590,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 31,
-    "name": "Make Longs Kaizo Jumps",
-    "klp": 570,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 32,
-    "name": "Magnetic Hard kaizo",
-    "klp": 550,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 33,
-    "name": "Kaizo",
-    "klp": 530,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 34,
-    "name": "Red House",
-    "klp": 510,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 35,
-    "name": "Red Castle Kaizo",
-    "klp": 490,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 36,
-    "name": "Sonic Power",
-    "klp": 470,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 37,
-    "name": "Infected Planet",
-    "klp": 450,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 38,
-    "name": "Ablivision",
-    "klp": 430,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 39,
-    "name": "Forest Hell",
-    "klp": 410,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 40,
-    "name": "Extreme Worlds 1",
-    "klp": 390,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 41,
-    "name": "Lava Paradise",
-    "klp": 370,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 42,
-    "name": "Magnetic Easy Kaizo",
-    "klp": 350,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 43,
-    "name": "Harakiri",
-    "klp": 330,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 44,
-    "name": "The Final Planet",
-    "klp": 310,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 45,
-    "name": "Dark Moon",
-    "klp": 290,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 46,
-    "name": "The Hardst",
-    "klp": 270,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 47,
-    "name": "Moonl",
-    "klp": 250,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 48,
-    "name": "A True Nightmare",
-    "klp": 230,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 49,
-    "name": "Internal Vortex",
-    "klp": 210,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 50,
-    "name": "Speedrun - 40 Seconds",
-    "klp": 190,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 51,
-    "name": "Cute Travel",
-    "klp": 170,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 52,
-    "name": "Forest Madness",
-    "klp": 150,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 53,
-    "name": "Tower of Worlds",
-    "klp": 130,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 54,
-    "name": "Kaizo 56 v2 X Redux Ex",
-    "klp": 110,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 55,
-    "name": "Cheese Burrito 1",
-    "klp": 90,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 56,
-    "name": "Rocco Siffredi",
-    "klp": 70,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  },
-  {
-    "rank": 57,
-    "name": "Kaizo lol",
-    "klp": 0,
-    "creator": "",
-    "verifier": "",
-    "ID": ""
-  }
-]
