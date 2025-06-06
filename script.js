@@ -6,7 +6,7 @@ async function loadLevels() {
   document.getElementById('total-klp').innerText = `Total: ${total.toLocaleString()} KLP`;
 
   // Populate dropdown filters
-  <p><strong>Creator:</strong> ${lvl.creator.split(',').map(s => s.trim()).join(', ')}</p>
+  const creators = [...new Set(levels.flatMap(l => l.creator.split(',').map(s => s.trim())))].sort();
   const verifiers = [...new Set(levels.map(l => l.verifier))].sort();
   const creatorFilter = document.getElementById('creator-filter');
   const verifierFilter = document.getElementById('verifier-filter');
