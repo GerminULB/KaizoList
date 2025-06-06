@@ -40,6 +40,11 @@ input#search {
     justify-content: space-between;
 }
 
+.level-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .level-details {
   margin-top: 8px;
