@@ -39,3 +39,10 @@ input#search {
     display: flex;
     justify-content: space-between;
 }
+
+
+.level-details {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #ccc;
+}
