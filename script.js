@@ -20,12 +20,23 @@ async function loadLevels() {
     const sortMethod = document.getElementById('sort-filter').value;
 
     container.innerHTML = '';
-    let filtered = levels.filter(lvl => {
-      const levelCreators = lvl.creator.split(',').map(s => s.trim());
-      return lvl.name.toLowerCase().includes(search) &&
-        (selectedCreator === '' || levelCreators.includes(selectedCreator)) &&
-        (selectedVerifier === '' || lvl.verifier === selectedVerifier);
-    });
+let filtered = levels.filter(lvl => {
+  const levelCreators = lvl.creator.split(',').map(s => s.trim());
+  const match = (
+    lvl.name.toLowerCase().includes(search) &&
+    (selectedCreator === '' || levelCreators.includes(selectedCreator)) &&
+    (selectedVerifier === '' || lvl.verifier === selectedVerifier)
+  );
+
+  console.log({
+    name: lvl.name,
+    creators: levelCreators,
+    selectedCreator,
+    match
+  });
+
+  return match;
+});
 
 
     if (sortMethod === 'id-asc') {
