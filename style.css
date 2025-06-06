@@ -27,21 +27,7 @@ input#search {
   border-radius: 4px;
 }
 
-<div class="filters">
-  <select id="creator-filter">
-    <option value="">All Creators</option>
-  </select>
 
-  <select id="verifier-filter">
-    <option value="">All Verifiers</option>
-  </select>
-
-  <select id="sort-filter">
-    <option value="rank">Sort by Rank</option>
-    <option value="id-desc">Newest (by ID)</option>
-    <option value="id-asc">Oldest (by ID)</option>
-  </select>
-</div>
 
 .filters {
   display: flex;
