@@ -20,11 +20,13 @@ async function loadLevels() {
     const sortMethod = document.getElementById('sort-filter').value;
 
     container.innerHTML = '';
-    let filtered = levels.filter(lvl =>
-      lvl.name.toLowerCase().includes(search) &&
-      (selectedCreator === '' || lvl.creator.split(',').map(s => s.trim()).includes(selectedCreator) &&
-      (selectedVerifier === '' || lvl.verifier === selectedVerifier)
-    );
+    let filtered = levels.filter(lvl => {
+      const levelCreators = lvl.creator.split(',').map(s => s.trim());
+      return lvl.name.toLowerCase().includes(search) &&
+        (selectedCreator === '' || levelCreators.includes(selectedCreator)) &&
+        (selectedVerifier === '' || lvl.verifier === selectedVerifier);
+    });
+
 
     if (sortMethod === 'id-asc') {
       filtered.sort((a, b) => +a.id - +b.id);
