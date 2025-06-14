@@ -1,3 +1,5 @@
 [
-
+  { "player": "Redstom", "levelId": 333616 },
+  { "player": "PlayerX", "levelId": 123456 },
+  { "player": "PlayerY", "levelId": 333616 }
 ]
