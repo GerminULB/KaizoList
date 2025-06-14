@@ -12,9 +12,9 @@ async function loadPlayers() {
   // Add KLP for verifiers ONLY (ignore creators)
   for (const level of levels) {
     const verifier = level.verifier;
-    if (!playerMap[verifier]) playerMap[verifier] = { klp: 0, levels: [], type: 'Verifier' };
+    if (!playerMap[verifier]) playerMap[verifier] = { klp: 0, levels: [] };
     playerMap[verifier].klp += level.klp;
-    playerMap[verifier].levels.push({ name: level.name, klp: level.klp });
+    playerMap[verifier].levels.push({ name: level.name, klp: level.klp, type: 'Verification' });
   }
 
   // Add KLP for victors (manual entries)
@@ -22,14 +22,14 @@ async function loadPlayers() {
     const level = levels.find(l => l.id === entry.levelId);
     if (!level) continue;
     const player = entry.player;
-    if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [], type: 'Victor' };
+    if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
     playerMap[player].klp += level.klp;
-    playerMap[player].levels.push({ name: level.name, klp: level.klp });
+    playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victory' });
   }
 
   // Convert to array and sort by KLP descending
   const playerList = Object.entries(playerMap)
-    .map(([name, data]) => ({ name, klp: data.klp, levels: data.levels, type: data.type }))
+    .map(([name, data]) => ({ name, klp: data.klp, levels: data.levels }))
     .sort((a, b) => b.klp - a.klp);
 
   const container = document.getElementById('player-list');
@@ -39,6 +39,9 @@ async function loadPlayers() {
   document.getElementById('player-total-klp').innerText = `Total: ${totalKLP.toLocaleString()} KLP`;
 
   playerList.forEach((player, index) => {
+    const verifications = player.levels.filter(lvl => lvl.type === 'Verification');
+    const victories = player.levels.filter(lvl => lvl.type === 'Victory');
+
     const div = document.createElement('div');
     div.className = 'level';
     div.innerHTML = `
@@ -47,7 +50,8 @@ async function loadPlayers() {
         <strong>${player.klp} KLP</strong>
       </div>
       <div class="level-details" style="display:none;">
-        ${player.levels.map(lvl => `<p>${lvl.name} (${lvl.klp} KLP)</p>`).join('')}
+        ${verifications.length ? `<h4>Verifications</h4>${verifications.map(lvl => `<p>${lvl.name} (${lvl.klp} KLP)</p>`).join('')}` : ''}
+        ${victories.length ? `<h4>Victories</h4>${victories.map(lvl => `<p>${lvl.name} (${lvl.klp} KLP)</p>`).join('')}` : ''}
       </div>
     `;
     div.querySelector('.level-summary').addEventListener('click', () => {
