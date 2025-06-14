@@ -43,7 +43,7 @@ async function loadPlayers() {
     div.className = 'level';
     div.innerHTML = `
       <div class="level-summary">
-        <span>#${index + 1}: ${player.name} (${player.type})</span>
+        <span>#${index + 1}: ${player.name}</span>
         <strong>${player.klp} KLP</strong>
       </div>
       <div class="level-details" style="display:none;">
