@@ -19,7 +19,7 @@ async function loadPlayers() {
 
   // Add KLP for victors (manual entries)
   for (const entry of victors) {
-    const level = levels.find(l => l.id === entry.levelId);
+    const level = levels.find(l => l.name === entry.levelName);
     if (!level) continue;
     const player = entry.player;
     if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
