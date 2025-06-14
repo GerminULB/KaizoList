@@ -74,3 +74,10 @@ input#search {
   color: #ccc;
   display: none; /* initially hidden */
 }
+
+.level-details h4 {
+  margin-top: 10px;
+  margin-bottom: 4px;
+  font-size: 1em;
+  color: #f0f0f0;
+}
