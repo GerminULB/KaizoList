@@ -37,12 +37,11 @@ async function loadPlayers() {
   document.getElementById('player-total-klp').innerText = `Total: ${totalKLP.toLocaleString()} KLP`;
 
   playerList.forEach((player, index) => {
-    const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
     const div = document.createElement('div');
     div.className = 'level';
     div.innerHTML = `
       <div class="level-summary">
-        <span>${medal} ${player.name}</span>
+        <span>#${index + 1}: ${player.name}</span>
         <strong>${player.klp} KLP</strong>
       </div>
       <div class="level-details">
@@ -50,7 +49,8 @@ async function loadPlayers() {
       </div>
     `;
     div.querySelector('.level-summary').addEventListener('click', () => {
-      div.querySelector('.level-details').classList.toggle('show');
+      const details = div.querySelector('.level-details');
+      details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
     container.appendChild(div);
   });
