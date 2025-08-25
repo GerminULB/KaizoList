@@ -48,10 +48,11 @@ async function loadPlayers() {
         ${player.levels.map(lvl => `<p>[${lvl.type}] ${lvl.name} (${lvl.klp} KLP)</p>`).join('')}
       </div>
     `;
-    div.querySelector('.level-summary').addEventListener('click', () => {
-      const details = div.querySelector('.level-details');
-      details.style.display = details.style.display === 'none' ? 'block' : 'none';
-    });
+      div.querySelector('.level-summary').addEventListener('click', () => {
+        const details = div.querySelector('.level-details');
+        const isHidden = window.getComputedStyle(details).display === 'none';
+        details.style.display = isHidden ? 'block' : 'none';
+      });
     container.appendChild(div);
   });
 }
