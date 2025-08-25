@@ -44,5 +44,6 @@
   { "player": "GameCuboid" , "levelName": "Forest Madness" },
   { "player": "GameCuboid" , "levelName": "The Finall Planet" },
   { "player": "GameCuboid" , "levelName": "SpaceX Tower" },
-  { "player": "GameCuboid" , "levelName": "Ladder Lunatics" }
+  { "player": "GameCuboid" , "levelName": "Ladder Lunatics" },
+  { "player": "Lanzy-ULB" , "levelName": "Lanzimbo" }
 ]
