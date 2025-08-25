@@ -20,20 +20,23 @@ function parseCSV(text) {
 function loadLevelsFromJSON(levels) {
   currentLevels = levels;
   const container = document.getElementById('level-list');
+
+  // Compute rank automatically based on KLP descending
+  const sortedLevels = [...levels].sort((a, b) => b.klp - a.klp);
+
   const total = levels.reduce((sum,lvl)=>sum+lvl.klp,0);
   document.getElementById('total-klp').innerText = `Total: ${total.toLocaleString()} KLP`;
   container.innerHTML = '';
 
-  levels.forEach(lvl=>{
+  sortedLevels.forEach((lvl,index)=>{
     const div = document.createElement('div');
     div.className='level';
     div.innerHTML=`
       <div class="level-summary">
-        <span>#${lvl.rank}: ${lvl.name}</span>
+        <span>#${index + 1}: ${lvl.name}</span>
         <strong>${lvl.klp} KLP</strong>
       </div>
       <div class="level-details">
-        <p><strong>ID:</strong> ${lvl.id}</p>
         <p><strong>Creator:</strong> ${lvl.creator}</p>
         <p><strong>Verifier:</strong> ${lvl.verifier}</p>
       </div>
@@ -46,6 +49,7 @@ function loadLevelsFromJSON(levels) {
     container.appendChild(div);
   });
 }
+
 
 // Populate filters
 function populateFilters(levels) {
@@ -105,3 +109,4 @@ document.getElementById('history-select').addEventListener('change', e=>{
 
 // Initial load
 loadCSV('levels.csv');
+
