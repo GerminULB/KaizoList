@@ -23,7 +23,7 @@ async function loadPlayers() {
     const player = entry.player;
     if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
     playerMap[player].klp += level.klp;
-    playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victory' });
+    playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victor' });
   }
 
   const playerList = Object.entries(playerMap)
