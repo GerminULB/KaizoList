@@ -2,21 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Player List</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <nav>
-      <a href="index.html">Level List</a> |
-      <a href="PlayerList.html">Player List</a>
-    </nav>
+  <header class="site-header">
+    <div class="container header-inner">
+      <nav class="nav">
+        <a href="index.html">Level List</a>
+        <a href="players.html" class="active">Player List</a>
+      </nav>
+      <h1 class="title">Top Players</h1>
+    </div>
+  </header>
 
-    <h1>Top Players</h1>
-    <div id="player-total-klp">Total: 0 KLP</div>
-    <div id="player-list"></div>
-  </div>
+  <main class="container">
+    <section class="controls sticky">
+      <div class="filters">
+        <label class="toggle">
+          <input type="checkbox" id="include-victories" checked />
+          <span>Count Victories KLP</span>
+        </label>
+      </div>
+      <div class="totals">
+        <div id="player-total-klp" class="pill">Total: 0 KLP</div>
+        <div id="player-count" class="pill">0 players</div>
+      </div>
+    </section>
+
+    <section id="player-list" class="list"></section>
+    <div id="p-empty" class="empty" hidden>No players to show.</div>
+  </main>
+
+  <dialog id="player-modal" class="modal">
+    <div class="modal-card">
+      <button class="close" id="pmodal-close" aria-label="Close">×</button>
+      <h3 id="p-title"></h3>
+      <div id="p-details"></div>
+    </div>
+  </dialog>
 
   <script src="playerlist.js"></script>
 </body>
