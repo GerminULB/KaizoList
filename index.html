@@ -1,49 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Kaizo List</title>
-  <link rel="stylesheet" href="style.css"/>
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="The Kaizo List!"/>
-  <meta property="og:description" content="A ranked list of the HARDEST Kaizo levels in Ultimate Level Builder."/>
-  <meta property="og:image" content="images/kaizolistlogo.png"/>
-  <meta property="og:url" content="https://yourusername.github.io/KaizoList/"/>
-  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="stylesheet" href="style.css" />
+  <meta property="og:title" content="The Kaizo List!" />
+  <meta property="og:description" content="A curated list of the HARDEST Kaizo levels in Ultimate Level Builder." />
+  <meta property="og:image" content="images/kaizolistlogo.png" />
+  <meta property="og:url" content="https://yourgithubusername.github.io/KaizoList/" />
 </head>
 <body>
-  <header>
+  <div class="container">
     <nav>
-      <a href="index.html" class="active">Level List</a>
-      <a href="PlayerList.html">Player Rankings</a>
+      <a href="index.html" class="active">Level List</a> | 
+      <a href="PlayerList.html">Player List</a>
     </nav>
-    <h1> The Kaizo List </h1>
-  </header>
+    <h1>The Kaizo List</h1>
 
-  <main class="container">
-    <input type="text" id="search" placeholder="🔍 Search levels..."/>
+    <input type="text" id="search" placeholder="Search levels..." />
 
     <div class="filters">
       <select id="creator-filter"><option value="">All Creators</option></select>
       <select id="verifier-filter"><option value="">All Verifiers</option></select>
       <select id="sort-filter">
         <option value="rank">Sort by Rank</option>
-        <option value="id-desc">Newest</option>
-        <option value="id-asc">Oldest</option>
+        <option value="id-desc">Newest (by ID)</option>
+        <option value="id-asc">Oldest (by ID)</option>
       </select>
     </div>
 
-    <div id="total-klp" class="totals">Total: 0 KLP</div>
+    <div id="total-klp">Total: 0 KLP</div>
     <div id="level-list"></div>
-  </main>
-
-  <footer>
-    <p>Made with KAIZO for the Kaizo ULB community</p>
-  </footer>
-
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
-
