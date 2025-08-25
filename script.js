@@ -48,20 +48,42 @@ function loadLevelsFromJSON(levels) {
   });
 }
 
-// Populate filters for creators and verifiers
 function populateFilters(levels) {
-  const creators = [...new Set(levels.flatMap(l => l.creator.split(',').map(s => s.trim()).filter(Boolean)))].sort();
-  const verifiers = [...new Set(levels.map(l => l.verifier).filter(Boolean))].sort();
+  // Count frequency of each creator
+  const creatorCount = {};
+  levels.forEach(lvl => {
+    lvl.creator.split(',').map(s => s.trim()).forEach(c => {
+      if (!c) return;
+      if (!creatorCount[c]) creatorCount[c] = 0;
+      creatorCount[c]++;
+    });
+  });
 
+  // Sort creators by frequency (most first)
+  const creators = Object.keys(creatorCount).sort((a, b) => creatorCount[b] - creatorCount[a]);
+
+  // Count frequency of each verifier
+  const verifierCount = {};
+  levels.forEach(lvl => {
+    const v = lvl.verifier;
+    if (!v) return;
+    if (!verifierCount[v]) verifierCount[v] = 0;
+    verifierCount[v]++;
+  });
+
+  const verifiers = Object.keys(verifierCount).sort((a, b) => verifierCount[b] - verifierCount[a]);
+
+  // Populate the dropdowns
   const creatorFilter = document.getElementById('creator-filter');
   const verifierFilter = document.getElementById('verifier-filter');
 
   creatorFilter.innerHTML = '<option value="">All Creators</option>';
-  verifierFilter.innerHTML = '<option value="">All Verifiers</option>';
-
   creators.forEach(c => creatorFilter.innerHTML += `<option value="${c}">${c}</option>`);
+
+  verifierFilter.innerHTML = '<option value="">All Verifiers</option>';
   verifiers.forEach(v => verifierFilter.innerHTML += `<option value="${v}">${v}</option>`);
 }
+
 
 // Render levels according to search, filters, and sort method
 function renderFilteredLevels() {
@@ -89,4 +111,5 @@ document.getElementById('search').addEventListener('input', renderFilteredLevels
 document.getElementById('creator-filter').addEventListener('change', renderFilteredLevels);
 document.getElementById('verifier-filter').addEventListener('change', renderFilteredLevels);
 document.getElementById('sort-filter').addEventListener('change', renderFilteredLevels);
+
 
