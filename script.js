@@ -1,8 +1,8 @@
 async function loadLevels() {
   const res = await fetch('levels.json');
   const levels = await res.json();
-
   const container = document.getElementById('level-list');
+
   const total = levels.reduce((sum, lvl) => sum + lvl.klp, 0);
   document.getElementById('total-klp').innerText = `Total: ${total.toLocaleString()} KLP`;
 
@@ -23,6 +23,7 @@ async function loadLevels() {
     const sortMethod = document.getElementById('sort-filter').value;
 
     container.innerHTML = '';
+
     let filtered = levels.filter(lvl => {
       const creators = lvl.creator.split(',').map(s => s.trim());
       return (
@@ -32,12 +33,10 @@ async function loadLevels() {
       );
     });
 
-    // Sort
     if (sortMethod === 'id-asc') filtered.sort((a, b) => +a.id - +b.id);
     else if (sortMethod === 'id-desc') filtered.sort((a, b) => +b.id - +a.id);
     else filtered.sort((a, b) => a.rank - b.rank);
 
-    // Render
     filtered.forEach(lvl => {
       const div = document.createElement('div');
       div.className = 'level';
@@ -53,7 +52,8 @@ async function loadLevels() {
         </div>
       `;
       div.querySelector('.level-summary').addEventListener('click', () => {
-        div.querySelector('.level-details').classList.toggle('show');
+        const details = div.querySelector('.level-details');
+        details.style.display = details.style.display === 'none' ? 'block' : 'none';
       });
       container.appendChild(div);
     });
