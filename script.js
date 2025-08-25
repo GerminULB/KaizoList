@@ -53,7 +53,8 @@ async function loadLevels() {
       `;
       div.querySelector('.level-summary').addEventListener('click', () => {
         const details = div.querySelector('.level-details');
-        details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        const isHidden = window.getComputedStyle(details).display === 'none';
+        details.style.display = isHidden ? 'block' : 'none';
       });
       container.appendChild(div);
     });
@@ -67,3 +68,4 @@ async function loadLevels() {
   render();
 }
 loadLevels();
+
