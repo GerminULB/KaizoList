@@ -5,91 +5,75 @@
 
 body {
   font-family: 'Manaspace', Arial, sans-serif;
-  background: #141820;
+  background: #1b253e;
   color: #f0f0ff;
   margin: 0;
-}
-
-header {
-  background: #1b253e;
-  padding: 1rem;
-  text-align: center;
-}
-header h1 {
-  margin: 0.5rem 0;
-}
-nav a {
-  color: #ccc;
-  margin: 0 1rem;
-  text-decoration: none;
-}
-nav a.active, nav a:hover {
-  color: #fff;
-  font-weight: bold;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
   padding: 20px;
 }
 
-input#search, select {
-  background: #1e1e2e;
-  border: 1px solid #444;
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+nav {
+  margin-bottom: 15px;
+}
+nav a {
+  color: #ccc;
+  text-decoration: none;
+  margin: 0 5px;
+}
+nav a.active, nav a:hover {
   color: #fff;
-  padding: 8px;
-  border-radius: 5px;
+}
+
+input#search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
 }
 
 .filters {
   display: flex;
-  gap: 10px;
-  margin: 1rem 0;
   flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
 }
-
-.totals {
-  font-weight: bold;
-  margin-bottom: 1rem;
+.filters select {
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 1em;
+  background: #1e1e2e;
+  color: #f0f0f0;
+  border: 1px solid #444;
 }
 
 #level-list, #player-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .level {
   background: #1e1e2e;
-  border-radius: 8px;
-  padding: 12px;
-  transition: background 0.2s;
+  padding: 10px;
+  border-radius: 5px;
 }
-.level:hover {
-  background: #252b3f;
-}
-
 .level-summary {
   display: flex;
   justify-content: space-between;
   cursor: pointer;
 }
-
+.level-summary:hover {
+  color: #ffd966;
+}
 .level-details {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
+  margin-top: 8px;
   font-size: 0.9em;
-  margin-top: 5px;
-}
-.level-details.show {
-  max-height: 500px;
-  opacity: 1;
-}
-footer {
-  text-align: center;
-  padding: 1rem;
-  color: #666;
+  color: #ccc;
+  display: none;
 }
