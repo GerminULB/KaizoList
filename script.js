@@ -1,26 +1,33 @@
 let currentLevels = [];
-let currentVictors = [];
 
+// Load levels.json and initialize
+fetch('levels.json')
+  .then(res => res.json())
+  .then(data => {
+    currentLevels = data;
 
+    // Compute rank automatically based on KLP descending
+    currentLevels.sort((a, b) => b.klp - a.klp);
+    currentLevels.forEach((lvl, index) => lvl.rank = index + 1);
+
+    populateFilters(currentLevels);
+    renderFilteredLevels();
+  })
+  .catch(err => console.error('Error loading levels.json:', err));
 
 // Load levels into the DOM
 function loadLevelsFromJSON(levels) {
-  currentLevels = levels;
   const container = document.getElementById('level-list');
-
-  // Compute rank automatically based on KLP descending
-  const sortedLevels = [...levels].sort((a, b) => b.klp - a.klp);
-
   const total = levels.reduce((sum,lvl)=>sum+lvl.klp,0);
   document.getElementById('total-klp').innerText = `Total: ${total.toLocaleString()} KLP`;
   container.innerHTML = '';
 
-  sortedLevels.forEach((lvl,index)=>{
+  levels.forEach((lvl) => {
     const div = document.createElement('div');
     div.className='level';
     div.innerHTML=`
       <div class="level-summary">
-        <span>#${index + 1}: ${lvl.name}</span>
+        <span>#${lvl.rank}: ${lvl.name}</span>
         <strong>${lvl.klp} KLP</strong>
       </div>
       <div class="level-details">
@@ -36,7 +43,6 @@ function loadLevelsFromJSON(levels) {
     container.appendChild(div);
   });
 }
-
 
 // Populate filters
 function populateFilters(levels) {
@@ -72,27 +78,8 @@ function renderFilteredLevels() {
   loadLevelsFromJSON(filtered);
 }
 
-
-
 // Event listeners
 document.getElementById('search').addEventListener('input', renderFilteredLevels);
 document.getElementById('creator-filter').addEventListener('change', renderFilteredLevels);
 document.getElementById('verifier-filter').addEventListener('change', renderFilteredLevels);
 document.getElementById('sort-filter').addEventListener('change', renderFilteredLevels);
-document.getElementById('history-select').addEventListener('change', e=>{
-  loadCSV(e.target.value);
-});
-fetch('levels.json')
-  .then(res => res.json())
-  .then(data => {
-    currentLevels = data;
-
-    // Compute rank automatically based on KLP
-    currentLevels.sort((a, b) => b.klp - a.klp);
-    currentLevels.forEach((lvl, index) => lvl.rank = index + 1);
-
-    populateFilters(currentLevels);
-    renderFilteredLevels();
-  })
-  .catch(err => console.error('Error loading levels.json:', err));
-
