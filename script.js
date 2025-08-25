@@ -34,9 +34,9 @@ function loadLevelsFromJSON(levels) {
         <strong>${lvl.klp} KLP</strong>
       </div>
       <div class="level-details">
-        <p><strong>ID:</strong> ${lvl.id}</p>
         <p><strong>Creator:</strong> ${lvl.creator}</p>
         <p><strong>Verifier:</strong> ${lvl.verifier}</p>
+        <p><strong>ID:</strong> ${lvl.id}</p>
       </div>
     `;
     div.querySelector('.level-summary').addEventListener('click', () => {
@@ -89,3 +89,4 @@ document.getElementById('search').addEventListener('input', renderFilteredLevels
 document.getElementById('creator-filter').addEventListener('change', renderFilteredLevels);
 document.getElementById('verifier-filter').addEventListener('change', renderFilteredLevels);
 document.getElementById('sort-filter').addEventListener('change', renderFilteredLevels);
+
