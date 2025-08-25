@@ -1,20 +1,7 @@
 let currentLevels = [];
 let currentVictors = [];
 
-// CSV → JSON parser
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.trim());
-  return lines.slice(1).map(line => {
-    const values = line.split(',').map(v => v.trim());
-    const obj = {};
-    headers.forEach((h,i)=>obj[h]=values[i]);
-    obj.klp = Number(obj.klp);
-    obj.rank = Number(obj.rank);
-    obj.id = Number(obj.id);
-    return obj;
-  });
-}
+
 
 // Load levels into the DOM
 function loadLevelsFromJSON(levels) {
@@ -85,18 +72,7 @@ function renderFilteredLevels() {
   loadLevelsFromJSON(filtered);
 }
 
-// Load CSV from GitHub repo
-async function loadCSV(file) {
-  const res = await fetch(file);
-  const text = await res.text();
-  const levels = parseCSV(text);
-  currentLevels = levels;
-  populateFilters(levels);
-  renderFilteredLevels();
-  document.getElementById('history-banner').innerText =
-    file==='levels.csv' ? '' : `Viewing historical version: ${file.split('/').pop()}`;
-  document.getElementById('history-banner').style.display = file==='levels.csv' ? 'none' : 'block';
-}
+
 
 // Event listeners
 document.getElementById('search').addEventListener('input', renderFilteredLevels);
@@ -106,7 +82,17 @@ document.getElementById('sort-filter').addEventListener('change', renderFiltered
 document.getElementById('history-select').addEventListener('change', e=>{
   loadCSV(e.target.value);
 });
+fetch('levels.json')
+  .then(res => res.json())
+  .then(data => {
+    currentLevels = data;
 
-// Initial load
-loadCSV('levels.csv');
+    // Compute rank automatically based on KLP
+    currentLevels.sort((a, b) => b.klp - a.klp);
+    currentLevels.forEach((lvl, index) => lvl.rank = index + 1);
+
+    populateFilters(currentLevels);
+    renderFilteredLevels();
+  })
+  .catch(err => console.error('Error loading levels.json:', err));
 
