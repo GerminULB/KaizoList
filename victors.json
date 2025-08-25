@@ -45,5 +45,8 @@
   { "player": "GameCuboid" , "levelName": "The Finall Planet" },
   { "player": "GameCuboid" , "levelName": "SpaceX Tower" },
   { "player": "GameCuboid" , "levelName": "Ladder Lunatics" },
-  { "player": "Lanzy-ULB" , "levelName": "Lanzimbo" }
+  { "player": "Lanzy-ULB" , "levelName": "Lanzimbo" },
+  { "player": "Lanzy-ULB" , "levelName": "Dark Travel" },
+  { "player": "Lanzy-ULB" , "levelName": "Dark Moon" },
+  { "player": "Lanzy-ULB" , "levelName": "Cute Travel" },
 ]
