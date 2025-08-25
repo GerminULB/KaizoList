@@ -2,50 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Kaizo List</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Open Graph meta tags for Discord preview -->
+  <!-- (Optional) Open Graph / Twitter cards -->
   <meta property="og:title" content="The Kaizo List!" />
   <meta property="og:description" content="A curated list of the HARDEST Kaizo levels in Ultimate Level Builder." />
-  <meta property="og:image" content="https://germenntia.github.io/KaizoList/images/kaizolistlogo.png" />
-  <meta property="og:url" content="https://germenntia.github.io/KaizoList/" />
+  <meta property="og:image" content="images/kaizolistlogo.png" />
   <meta property="og:type" content="website" />
-
-  <!-- Optional Twitter Card tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="The Kaizo List!" />
-  <meta name="twitter:description" content="A curated list of the HARDEST Kaizo levels in Ultimate Level Builder." />
-  <meta name="twitter:image" content="https://germenntia.github.io/KaizoList/images/kaizolistlogo.png" />
 </head>
 <body>
-  <div class="container">
-    <nav>
-      <a href="index.html">Level List</a> |
-      <a href="PlayerList.html">Player List</a>
-    </nav>
-    <h1>The Kaizo List</h1>
-    <input type="text" id="search" placeholder="Search levels..." />
-    <div class="filters">
-      <select id="creator-filter">
-        <option value="">All Creators</option>
-      </select>
-
-      <select id="verifier-filter">
-        <option value="">All Verifiers</option>
-      </select>
-
-      <select id="sort-filter">
-        <option value="rank">Sort by Rank</option>
-        <option value="id-desc">Newest (by ID)</option>
-        <option value="id-asc">Oldest (by ID)</option>
-      </select>
+  <header class="site-header">
+    <div class="container header-inner">
+      <nav class="nav">
+        <a href="index.html" class="active">Level List</a>
+        <a href="players.html">Player List</a>
+      </nav>
+      <h1 class="title">The Kaizo List</h1>
     </div>
+  </header>
 
-    <div id="total-klp">Total: 0 KLP</div>
-    <div id="level-list"></div>
-  </div>
+  <main class="container">
+    <section class="controls sticky">
+      <input type="text" id="search" class="input" placeholder="Search levels or creators..." aria-label="Search levels" />
+
+      <div class="filters">
+        <label>
+          <span>Creator</span>
+          <select id="creator-filter"></select>
+        </label>
+        <label>
+          <span>Verifier</span>
+          <select id="verifier-filter"></select>
+        </label>
+        <label>
+          <span>Sort</span>
+          <select id="sort-filter">
+            <option value="rank-asc">Rank ↑</option>
+            <option value="rank-desc">Rank ↓</option>
+            <option value="klp-desc">KLP ↓</option>
+            <option value="klp-asc">KLP ↑</option>
+            <option value="name-asc">Name A→Z</option>
+            <option value="name-desc">Name Z→A</option>
+            <option value="id-desc">Newest (by ID)</option>
+            <option value="id-asc">Oldest (by ID)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="totals">
+        <div id="total-klp" class="pill">Total: 0 KLP</div>
+        <div id="count" class="pill">0 levels</div>
+      </div>
+    </section>
+
+    <section id="level-list" class="list"></section>
+    <div id="empty" class="empty" hidden>No results match your filters.</div>
+  </main>
+
+  <!-- Modal -->
+  <dialog id="level-modal" class="modal">
+    <div class="modal-card">
+      <button class="close" id="modal-close" aria-label="Close">×</button>
+      <h3 id="m-title"></h3>
+      <div class="modal-grid">
+        <div><strong>Rank:</strong> <span id="m-rank"></span></div>
+        <div><strong>KLP:</strong> <span id="m-klp"></span></div>
+        <div><strong>ID:</strong> <span id="m-id"></span></div>
+        <div><strong>Creator(s):</strong> <span id="m-creator"></span></div>
+        <div><strong>Verifier:</strong> <span id="m-verifier"></span></div>
+      </div>
+      <div class="modal-actions">
+        <a id="m-copy" class="btn" href="#">Copy ID</a>
+      </div>
+    </div>
+  </dialog>
+
   <script src="script.js"></script>
 </body>
 </html>
+
