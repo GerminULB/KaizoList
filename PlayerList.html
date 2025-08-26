@@ -35,6 +35,7 @@
   </div>
   <script src="playerlist.js"></script>
 
+  
 <script>
 const patterns = [
   'images/pattern/pattern0.png',
@@ -48,9 +49,10 @@ const patterns = [
 document.querySelectorAll('.hub-button').forEach(btn => {
   const idx = Math.floor(Math.random() * patterns.length);
   btn.style.backgroundImage = `url('${patterns[idx]}')`;
-  btn.style.backgroundRepeat = 'repeat';      
-  btn.style.backgroundSize = '16px 16px';
-  btn.style.color = '#1b253e';               
+  btn.style.backgroundRepeat = 'repeat';
+  btn.style.backgroundSize = '32px 32px';
+  btn.style.imageRendering = 'pixelated';
+  btn.style.color = '#ffffff;
 });
 </script>
   
