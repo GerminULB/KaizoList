@@ -40,17 +40,22 @@ img.logo {
 }
 
 .hub-button {
-  background: #ffd966;
-  color: #1b253e;
+  color: #1b253e; /* Text color */
   padding: 10px 20px;
   border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
-  transition: background 0.3s;
-}
+  transition: filter 0.3s;
 
+  /* Fallback background color */
+  background-color: #ffd966;
+
+  /* Repeat pattern */
+  background-repeat: repeat;
+  background-size: 16px 16px;
+}
 .hub-button:hover {
-  background: #ffb800;
+  filter: brightness(1.2);
 }
 
 /* Info box */
@@ -134,3 +139,4 @@ input#search {
   color: #ccc;
   display: none;
 }
+
