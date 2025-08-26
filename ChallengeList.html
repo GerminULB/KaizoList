@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Kaizo Challenge List!">
+  <meta name="twitter:description" content="The toughest challenges outside the main Kaizo list.">
+  <meta name="twitter:image" content="https://germenntia.github.io/KaizoList/images/kaizolistlogo.png">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Challenge List</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta property="og:title" content="The Challenge List!" />
+  <meta property="og:description" content="The toughest challenges outside the main Kaizo list." />
+  <meta property="og:image" content="images/kaizolistlogo.png" />
+  <meta property="og:url" content="https://germenntia.github.io/KaizoList/ChallengeList.html" />
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="index.html">Hub</a> | 
+      <a href="MainList.html">Main List</a> | 
+      <a href="ChallengeList.html" class="active">Challenge List</a> | 
+      <a href="PlayerList.html">Player Rankings</a>
+    </nav>
+    <h1>The Challenge List</h1>
+
+    <!-- Search and filters -->
+    <input type="text" id="search" placeholder="Search challenges..." />
+    <div class="filters">
+      <select id="creator-filter"><option value="">All Creators</option></select>
+      <select id="verifier-filter"><option value="">All Verifiers</option></select>
+      <select id="sort-filter">
+        <option value="rank">Sort by Rank</option>
+        <option value="id-desc">Newest (by ID)</option>
+        <option value="id-asc">Oldest (by ID)</option>
+      </select>
+    </div>
+
+    <!-- Total and challenge list -->
+    <div id="total-klp">Total: 0 KLP</div>
+    <div id="level-list"></div>
+  </div>
+
+  <script src="challenges.js"></script>
+</body>
+</html>
 
