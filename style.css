@@ -18,7 +18,7 @@ body {
 }
 
 img.logo {
-  width: 240px;
+  width: 360px;
   height: auto;
   display: block;
   margin: 20px auto;
@@ -160,5 +160,6 @@ input#search {
 .site-footer a:hover {
   text-decoration: underline;
 }
+
 
 
