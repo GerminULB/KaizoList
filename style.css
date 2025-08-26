@@ -139,3 +139,12 @@ input#search {
   color: #ccc;
   display: none;
 }
+
+.site-footer {
+  margin-top: 40px;
+  padding-top: 10px;
+  border-top: 1px solid #444;
+  color: #aaa;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
