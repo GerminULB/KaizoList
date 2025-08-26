@@ -62,10 +62,10 @@ const patterns = [
 document.querySelectorAll('.hub-button').forEach(btn => {
   const idx = Math.floor(Math.random() * patterns.length);
   btn.style.backgroundImage = `url('${patterns[idx]}')`;
-  btn.style.backgroundRepeat = 'repeat';       // repeat horizontally & vertically
-  btn.style.backgroundSize = '32px 32px';      // doubled size
-  btn.style.imageRendering = 'pixelated';      // keeps blocky pixel art look
-  btn.style.color = '#ffffff';                 // white text
+  btn.style.backgroundRepeat = 'repeat';
+  btn.style.backgroundSize = '32px 32px';
+  btn.style.imageRendering = 'pixelated';
+  btn.style.color = '#ffffff;
 });
 </script>
 
