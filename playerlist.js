@@ -1,15 +1,18 @@
 async function loadPlayers() {
-  const [levelsRes, victorsRes] = await Promise.all([
+  const [levelsRes, challengesRes, victorsRes] = await Promise.all([
     fetch('levels.json'),
+    fetch('challenges.json'),
     fetch('victors.json')
   ]);
   const levels = await levelsRes.json();
+  const challenges = await challengesRes.json();
   const victors = await victorsRes.json();
 
+  const allLevels = [...levels, ...challenges];
   const playerMap = {};
 
   // Verifiers
-  for (const level of levels) {
+  for (const level of allLevels) {
     const verifier = level.verifier;
     if (!playerMap[verifier]) playerMap[verifier] = { klp: 0, levels: [] };
     playerMap[verifier].klp += level.klp;
@@ -18,7 +21,7 @@ async function loadPlayers() {
 
   // Victors
   for (const entry of victors) {
-    const level = levels.find(l => l.name === entry.levelName);
+    const level = allLevels.find(l => l.name === entry.levelName);
     if (!level) continue;
     const player = entry.player;
     if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
@@ -48,11 +51,11 @@ async function loadPlayers() {
         ${player.levels.map(lvl => `<p>[${lvl.type}] ${lvl.name} (${lvl.klp} KLP)</p>`).join('')}
       </div>
     `;
-      div.querySelector('.level-summary').addEventListener('click', () => {
-        const details = div.querySelector('.level-details');
-        const isHidden = window.getComputedStyle(details).display === 'none';
-        details.style.display = isHidden ? 'block' : 'none';
-      });
+    div.querySelector('.level-summary').addEventListener('click', () => {
+      const details = div.querySelector('.level-details');
+      const isHidden = window.getComputedStyle(details).display === 'none';
+      details.style.display = isHidden ? 'block' : 'none';
+    });
     container.appendChild(div);
   });
 }
