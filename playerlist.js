@@ -25,15 +25,15 @@ async function loadPlayers() {
   }
 
   // Add victors, even if level is missing (KLP = 0)
-  for (const entry of victors) {
-    const player = entry.player;
-    const level = allLevels.find(l => l.name === entry.levelName);
-    const klp = level ? level.klp : 0;
-
+for (const [player, levelNames] of Object.entries(victors)) {
+  for (const levelName of levelNames) {
+    const level = allLevels.find(l => l.name === levelName);
+    if (!level) continue;
     if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
-    playerMap[player].klp += klp;
-    playerMap[player].levels.push({ name: entry.levelName, klp, type: 'Victor' });
+    playerMap[player].klp += level.klp;
+    playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victor' });
   }
+}
 
   // Convert map to array & sort by KLP descending
   const playerList = Object.entries(playerMap)
