@@ -1,54 +1,72 @@
-[
-  { "player": "Sasha Krutoy YT2" , "levelName": "Cataclysmic Delusion" },
-  { "player": "Sasha Krutoy YT2" , "levelName": "Catastrophic Misery" },
-  { "player": "Sasha Krutoy YT2" , "levelName": "Red Caslte Kaizo" },
-  { "player": "Sasha Krutoy YT2" , "levelName": "Forest Madness" },
-  { "player": "Sasha Krutoy YT2" , "levelName": "The Hardst" },
-  { "player": "Firecube" , "levelName": "Tower of Worlds" },
-  { "player": "Firecube" , "levelName": "Forest Madness" },
-  { "player": "AnDronolis" , "levelName": "Ablivition" },
-  { "player": "AnDronolis" , "levelName": "Bob is Mad" },
-  { "player": "RomaiQD" , "levelName": "Forest Madness" },
-  { "player": "Saarck" , "levelName": "Forest Madness" },
-  { "player": "RomaiQD" , "levelName": "Tower of Worlds" },
-  { "player": "RomaiQD" , "levelName": "Speedrun-40 Seconds" },
-  { "player": "RomaiQD" , "levelName": "A True Nightmare" },
-  { "player": "RomaiQD" , "levelName": "Moonl" },
-  { "player": "RomaiQD" , "levelName": "The Hardst" },
-  { "player": "RomaiQD" , "levelName": "Dark Moon" },
-  { "player": "RomaiQD" , "levelName": "Harakiri" },
-  { "player": "RomaiQD" , "levelName": "Ablivition" },
-  { "player": "RomaiQD" , "levelName": "Extreme Worlds 1" },
-  { "player": "AnDronolis" , "levelName": "Magnetic Easy Kaizo" },
-  { "player": "AnDronolis" , "levelName": "A True Nightmare" },
-  { "player": "AnDronolis" , "levelName": "Forest Hell" },
-  { "player": "AnDronolis" , "levelName": "Speedrun-40 Seconds" },
-  { "player": "AnDronolis" , "levelName": "The Final Planet" },
-  { "player": "AnDronolis" , "levelName": "The Hardst" },
-  { "player": "AnDronolis" , "levelName": "Magnetic Hard Kaizo" },
-  { "player": "AnDronolis" , "levelName": "Bombas De Ocelote" },
-  { "player": "AnDronolis" , "levelName": "Cliffside Precision" },
-  { "player": "Saarck" , "levelName": "Cheese Burrito 1" },
-  { "player": "redstom" , "levelName": "The Final Planet" },
-  { "player": "redstom" , "levelName": "Bob is Mad" },
-  { "player": "redstom" , "levelName": "Extreme Worlds 1" },
-  { "player": "redstom" , "levelName": "The Final Planet" },
-  { "player": "redstom" , "levelName": "Harakiri" },
-  { "player": "redstom" , "levelName": "Moonl" },
-  { "player": "redstom" , "levelName": "Moonmarsh Madness" },
-  { "player": "redstom" , "levelName": "Ladder Lunatics" },
-  { "player": "redstom" , "levelName": "Smash Spire" },
-  { "player": "redstom" , "levelName": "SpaceX Tower" },
-  { "player": "GameCuboid" , "levelName": "Internal Vortex" },
-  { "player": "GameCuboid" , "levelName": "Tower of Worlds" },
-  { "player": "GameCuboid" , "levelName": "Forest Madness" },
-  { "player": "GameCuboid" , "levelName": "The Finall Planet" },
-  { "player": "GameCuboid" , "levelName": "SpaceX Tower" },
-  { "player": "GameCuboid" , "levelName": "Ladder Lunatics" },
-  { "player": "Lanzy-ULB" , "levelName": "Lanzimbo" },
-  { "player": "Lanzy-ULB" , "levelName": "Dark Travel" },
-  { "player": "Lanzy-ULB" , "levelName": "Dark Moon" },
-  { "player": "Lanzy-ULB" , "levelName": "Cute Travel" },
-  { "player": "Germinxvee" , "levelName": "Bob is Mad" },
-  { "player": "Germinxvee" , "levelName": "Magnihell" }
-]
+{
+  "Sasha Krutoy YT2": [
+    "Cataclysmic Delusion",
+    "Catastrophic Misery",
+    "Red Caslte Kaizo",
+    "Forest Madness",
+    "The Hardst"
+  ],
+  "Firecube": [
+    "Tower of Worlds",
+    "Forest Madness"
+  ],
+  "AnDronolis": [
+    "Ablivition",
+    "Bob is Mad",
+    "Magnetic Easy Kaizo",
+    "A True Nightmare",
+    "Forest Hell",
+    "Speedrun-40 Seconds",
+    "The Final Planet",
+    "The Hardst",
+    "Magnetic Hard Kaizo",
+    "Bombas De Ocelote",
+    "Cliffside Precision"
+  ],
+  "RomaiQD": [
+    "Forest Madness",
+    "Tower of Worlds",
+    "Speedrun-40 Seconds",
+    "A True Nightmare",
+    "Moonl",
+    "The Hardst",
+    "Dark Moon",
+    "Harakiri",
+    "Ablivition",
+    "Extreme Worlds 1"
+  ],
+  "Saarck": [
+    "Forest Madness",
+    "Cheese Burrito 1"
+  ],
+  "redstom": [
+    "The Final Planet",
+    "Bob is Mad",
+    "Extreme Worlds 1",
+    "The Final Planet",
+    "Harakiri",
+    "Moonl",
+    "Moonmarsh Madness",
+    "Ladder Lunatics",
+    "Smash Spire",
+    "SpaceX Tower"
+  ],
+  "GameCuboid": [
+    "Internal Vortex",
+    "Tower of Worlds",
+    "Forest Madness",
+    "The Finall Planet",
+    "SpaceX Tower",
+    "Ladder Lunatics"
+  ],
+  "Lanzy-ULB": [
+    "Lanzimbo",
+    "Dark Travel",
+    "Dark Moon",
+    "Cute Travel"
+  ],
+  "Germinxvee": [
+    "Bob is Mad",
+    "Magnihell"
+  ]
+}
