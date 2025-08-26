@@ -9,6 +9,7 @@ body {
   color: #f0f0ff;
   margin: 0;
   padding: 20px;
+  text-align: center;
 }
 
 .container {
@@ -16,6 +17,52 @@ body {
   margin: auto;
 }
 
+/* Logo */
+img.logo {
+  width: 120px;
+  display: block;
+  margin: 20px auto;
+}
+
+/* Hub / Page intro text */
+.hub-intro {
+  margin-top: 10px;
+  font-size: 1.1em;
+}
+
+/* Hub navigation buttons */
+.hub-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.hub-button {
+  background: #ffd966;
+  color: #1b253e;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.hub-button:hover {
+  background: #ffb800;
+}
+
+/* Info box */
+.hub-info {
+  background: #1e1e2e;
+  color: #f0f0ff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 30px;
+}
+
+/* Nav links for list pages */
 nav {
   margin-bottom: 15px;
 }
@@ -24,10 +71,12 @@ nav a {
   text-decoration: none;
   margin: 0 5px;
 }
-nav a.active, nav a:hover {
+nav a.active,
+nav a:hover {
   color: #fff;
 }
 
+/* Filters / search bar */
 input#search {
   width: 100%;
   padding: 10px;
@@ -41,8 +90,11 @@ input#search {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .filters select {
   padding: 8px;
   border-radius: 4px;
@@ -52,6 +104,7 @@ input#search {
   border: 1px solid #444;
 }
 
+/* Level and Player list items */
 #level-list, #player-list {
   display: flex;
   flex-direction: column;
@@ -62,19 +115,22 @@ input#search {
   background: #1e1e2e;
   padding: 10px;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
+
 .level-summary {
   display: flex;
   justify-content: space-between;
   cursor: pointer;
 }
+
 .level-summary:hover {
   color: #ffd966;
 }
+
 .level-details {
   margin-top: 8px;
   font-size: 0.9em;
   color: #ccc;
   display: none;
 }
-
