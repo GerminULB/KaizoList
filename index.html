@@ -34,5 +34,25 @@
       Explore the Kaizo levels, challenges, and player rankings!
     </div>
   </div>
+
+  <script>
+const patterns = [
+  'images/pattern/pattern0.png',
+  'images/pattern/pattern1.png',
+  'images/pattern/pattern2.png',
+  'images/pattern/pattern3.png',
+  'images/pattern/pattern4.png',
+  'images/pattern/pattern5.png',
+];
+
+document.querySelectorAll('.hub-button').forEach(btn => {
+  const idx = Math.floor(Math.random() * patterns.length);
+  btn.style.backgroundImage = `url('${patterns[idx]}')`;
+  btn.style.backgroundRepeat = 'repeat';      
+  btn.style.backgroundSize = '16px 16px';
+  btn.style.color = '#1b253e';               
+});
+</script>
+  
 </body>
 </html>
