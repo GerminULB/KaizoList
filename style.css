@@ -17,12 +17,14 @@ body {
   margin: auto;
 }
 
-/* Logo */
 img.logo {
-  width: 120px;
+  width: 240px;
+  height: auto;
   display: block;
   margin: 20px auto;
+  image-rendering: pixelated;
 }
+
 
 /* Hub / Page intro text */
 .hub-intro {
@@ -158,4 +160,5 @@ input#search {
 .site-footer a:hover {
   text-decoration: underline;
 }
+
 
