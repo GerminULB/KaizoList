@@ -42,12 +42,12 @@
   document.body.appendChild(victorsContainer);
 
   const ITEMS_PER_PAGE = 9;
-  let currentPage = 1;
-  const totalPages = Math.ceil(victors.length / ITEMS_PER_PAGE);
+  let victorsPage = 1;
+  const totalVictorPages = Math.ceil(victors.length / ITEMS_PER_PAGE);
 
   function renderVictorsPage() {
     victorsContainer.innerHTML = '';
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const start = (victorsPage - 1) * ITEMS_PER_PAGE;
     const pageItems = victors.slice(start, start + ITEMS_PER_PAGE);
 
     pageItems.forEach(player => {
@@ -55,38 +55,89 @@
       div.className = 'grid-item';
       div.innerText = player;
       div.addEventListener('click', () => {
-        window.location.href(`playerDetails.html?name=${encodeURIComponent(player)}`, '_blank');
+        window.location.href = `playerDetails.html?name=${encodeURIComponent(player)}`;
       });
       victorsContainer.appendChild(div);
     });
 
     // Pagination
-    const pagination = document.querySelector('.victors-pagination') || document.createElement('div');
-    pagination.className = 'victors-pagination';
+    let pagination = document.querySelector('.victors-pagination');
+    if (!pagination) {
+      pagination = document.createElement('div');
+      pagination.className = 'victors-pagination';
+      victorsContainer.parentElement.appendChild(pagination);
+    }
     pagination.innerHTML = '';
-    if (totalPages > 1) {
-      for (let i = 1; i <= totalPages; i++) {
+
+    if (totalVictorPages > 1) {
+      for (let i = 1; i <= totalVictorPages; i++) {
         const btn = document.createElement('button');
         btn.innerText = i;
-        if (i === currentPage) btn.disabled = true;
+        if (i === victorsPage) btn.disabled = true;
         btn.addEventListener('click', () => {
-          currentPage = i;
+          victorsPage = i;
           renderVictorsPage();
         });
         pagination.appendChild(btn);
       }
     }
-    victorsContainer.parentElement.appendChild(pagination);
   }
 
   if (victors.length > 0) renderVictorsPage();
 
+  // --- Verifications (same style as victors) ---
+  const verifiers = level.verifier ? [level.verifier] : [];
+  const verifiersContainer = document.createElement('div');
+  verifiersContainer.className = 'grid verifications-grid';
+  document.body.appendChild(verifiersContainer);
+
+  let verifierPage = 1;
+  const totalVerifierPages = Math.ceil(verifiers.length / ITEMS_PER_PAGE);
+
+  function renderVerifiersPage() {
+    verifiersContainer.innerHTML = '';
+    const start = (verifierPage - 1) * ITEMS_PER_PAGE;
+    const pageItems = verifiers.slice(start, start + ITEMS_PER_PAGE);
+
+    pageItems.forEach(player => {
+      const div = document.createElement('div');
+      div.className = 'grid-item';
+      div.innerText = player;
+      div.addEventListener('click', () => {
+        window.location.href = `playerDetails.html?name=${encodeURIComponent(player)}`;
+      });
+      verifiersContainer.appendChild(div);
+    });
+
+    // Pagination
+    let pagination = document.querySelector('.verifiers-pagination');
+    if (!pagination) {
+      pagination = document.createElement('div');
+      pagination.className = 'verifiers-pagination';
+      verifiersContainer.parentElement.appendChild(pagination);
+    }
+    pagination.innerHTML = '';
+
+    if (totalVerifierPages > 1) {
+      for (let i = 1; i <= totalVerifierPages; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        if (i === verifierPage) btn.disabled = true;
+        btn.addEventListener('click', () => {
+          verifierPage = i;
+          renderVerifiersPage();
+        });
+        pagination.appendChild(btn);
+      }
+    }
+  }
+
+  if (verifiers.length > 0) renderVerifiersPage();
+
   // --- History ---
-  const historyFiles = [
-  ];
+  const historyFiles = [];
 
   let isNew = true;
-
   for (const file of historyFiles) {
     try {
       const res = await fetch(file);
@@ -116,7 +167,7 @@
 
   if (isNew) {
     const div = document.createElement('div');
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    const today = new Date().toISOString().split('T')[0];
     div.innerText = `On ${today}, "${level.name}" was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.`;
     historyEl.prepend(div);
   }
