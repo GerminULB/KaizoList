@@ -113,6 +113,15 @@ function highlightText(text) {
   return text.replace(regex, '<mark>$1</mark>');
 }
 
+// Scroll to top button
+const scrollBtn = document.getElementById('scroll-top');
+window.addEventListener('scroll', () => {
+  scrollBtn.style.display = (window.scrollY > 300) ? 'block' : 'none';
+});
+scrollBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 
 // Event listeners
 document.getElementById('search').addEventListener('input', renderFilteredLevels);
