@@ -39,8 +39,7 @@
 
   // History files
   const historyFiles = [
-    'history/2025-12-02-levels.json',
-    'history/2025-12-15-levels.json'
+
   ];
 
   let isNew = true; // assume level is new
