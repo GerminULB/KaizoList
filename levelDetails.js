@@ -33,9 +33,10 @@
   document.getElementById('level-rank').innerText = rank;
 
   // --- Victors ---
-  const victors = Object.entries(victorsData)
-    .filter(([player, levels]) => levels.includes(levelName))
-    .map(([player]) => player);
+const victors = Object.entries(victorsData)
+  .filter(([player, levels]) => levels.includes(levelName) && player !== level.verifier)
+  .map(([player]) => player);
+
 
   const victorsContainer = document.createElement('div');
   victorsContainer.className = 'grid victors-grid';
