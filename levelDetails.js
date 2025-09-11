@@ -55,7 +55,7 @@
       div.className = 'grid-item';
       div.innerText = player;
       div.addEventListener('click', () => {
-        window.open(`playerDetails.html?name=${encodeURIComponent(player)}`, '_blank');
+        window.location.href(`playerDetails.html?name=${encodeURIComponent(player)}`, '_blank');
       });
       victorsContainer.appendChild(div);
     });
