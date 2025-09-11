@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Player Details</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+
+  <!-- Open Graph & Twitter Cards -->
+  <meta property="og:title" content="The Kaizo List!" />
+  <meta property="og:description" content="View detailed stats for players in the Kaizo List." />
+  <meta property="og:image" content="images/kaizolistlogo.png" />
+  <meta property="og:url" content="https://germenntia.github.io/KaizoList/playerDetails.html" />
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Kaizo List!">
+  <meta name="twitter:description" content="View detailed stats for players in the Kaizo List.">
+  <meta name="twitter:image" content="https://germenntia.github.io/KaizoList/images/kaizolistlogo.png">
+
+</head>
+<body>
+
+  <div class="container">
+    <a href="index.html">
+      <img src="images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo">
+    </a>
+
+    <h1>Player Details</h1>
+    <p class="hub-intro">View KLP, victories, and verifications for any player.</p>
+
+    <nav>
+      <div class="hub-links">
+        <a href="MainList.html" class="hub-button">Main List</a>
+        <a href="ChallengeList.html" class="hub-button">Challenge List</a>
+        <a href="PlayerList.html" class="hub-button">Player Rankings</a>
+      </div>
+    </nav>
+
+    <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
+      <!-- Left Column: Stats + Recent Levels -->
+      <div id="player-stats" style="flex:1; min-width: 280px;"></div>
+
+      <!-- Right Column: Victors + Verifications -->
+      <div style="flex:1; min-width: 280px;">
+        <div id="player-victors"></div>
+        <div id="player-verifications" style="margin-top:20px;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <p>The Kaizo List &copy; 2025 — Version 1.10</p>
+    <p>
+      Game & All assets belong to 
+      <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
+      <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
+    </p>
+  </footer>
+
+  <script src="playerDetails.js"></script>
+</body>
+</html>
