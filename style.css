@@ -161,5 +161,22 @@ input#search {
   text-decoration: underline;
 }
 
+#scroll-top {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #ffd966;
+  cursor: pointer;
+}
+
+#scroll-top:hover {
+  filter: brightness(1.2);
+}
 
 
