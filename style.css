@@ -217,6 +217,13 @@ input#search {
 }
 
 
-
+.page-banner {
+  width: 100%;
+  height: 200px; 
+  background-image: url('images/banner.png'); 
+  background-size: auto;   
+  background-position: top left;
+  background-repeat: repeat;    
+}
 
 
