@@ -179,42 +179,23 @@ input#search {
   filter: brightness(1.2);
 }
 
-
-#theme-toggle {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: #ffd966;
-  border: none;
-  border-radius: 50%;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-size: 18px;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+.scrollable {
+  max-height: 200px; 
+  overflow-y: auto;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
-
-#theme-toggle:hover {
-  filter: brightness(1.2);
+.scrollable::-webkit-scrollbar {
+  width: 6px;
 }
-
-body.light {
-  background: #f9f9f9;
-  color: #1b253e;
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
 }
-
-body.light .level,
-body.light .hub-info {
-  background: #fff;
-  color: #000;
-}
-
-body.light .filters select {
-  background: #fff;
-  color: #000;
-}
-
-body.light .site-footer {
-  color: #444;
+.scrollable::-webkit-scrollbar-track {
+  background: #eee;
 }
 
 
