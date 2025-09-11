@@ -106,35 +106,33 @@
     loadLevelsFromJSON(filtered);
   }
 
-  function loadLevelsFromJSON(levels) {
-    const container = document.getElementById('level-list');
-    const total = levels.reduce((sum, lvl) => sum + (Number(lvl.klp) || 0), 0);
-    const totalEl = document.getElementById('total-klp');
-    if (totalEl) totalEl.innerText = `Total: ${total.toLocaleString()} KLP`;
-    if (!container) return;
-    container.innerHTML = '';
-    if (!levels.length) {
-      container.innerHTML = '<div class="no-results">No results found.</div>';
-      return;
-    }
+function loadLevelsFromJSON(levels) {
+  const container = document.getElementById('level-list');
+  const total = levels.reduce((sum, lvl) => sum + (Number(lvl.klp) || 0), 0);
+  const totalEl = document.getElementById('total-klp');
+  if (totalEl) totalEl.innerText = `Total: ${total.toLocaleString()} KLP`;
+  if (!container) return;
+  container.innerHTML = '';
+  if (!levels.length) {
+    container.innerHTML = '<div class="no-results">No results found.</div>';
+    return;
+  }
 
-    levels.forEach(lvl => {
-      const div = document.createElement('div');
-      div.className = 'level';
-      div.innerHTML = `
-        <div class="level-summary" role="button" tabindex="0">
-          <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
-          <strong>${escapeHtml(lvl.klp)}</strong>
-        </div>
-      `;
-      div.querySelector('.level-summary').addEventListener('click', () => {
-        window.open(`levelHistory.html?name=${encodeURIComponent(lvl.name)}`, '_blank');
-      });
-    
-      container.appendChild(div);
+  levels.forEach(lvl => {
+    const div = document.createElement('div');
+    div.className = 'level';
+    div.innerHTML = `
+      <div class="level-summary" role="button" tabindex="0">
+        <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
+        <strong>${escapeHtml(lvl.klp)}</strong>
+      </div>
+    `;
+    div.querySelector('.level-summary').addEventListener('click', () => {
+      window.location.href = `levelDetails.html?name=${encodeURIComponent(lvl.name)}`;
     });
-
-
+    container.appendChild(div);
+  });
+}
   function highlightText(text) {
     const search = (document.getElementById('search')?.value || '').toLowerCase();
     if (!search) return escapeHtml(text || '');
