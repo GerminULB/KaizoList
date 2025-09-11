@@ -122,25 +122,18 @@
       const div = document.createElement('div');
       div.className = 'level';
       div.innerHTML = `
-        <div class="level-summary" role="button" tabindex="0" aria-expanded="false">
+        <div class="level-summary" role="button" tabindex="0">
           <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
           <strong>${escapeHtml(lvl.klp)}</strong>
         </div>
-        <div class="level-details">
-          <p><strong>Creator:</strong> ${escapeHtml(lvl.creator)}</p>
-          <p><strong>Verifier:</strong> ${escapeHtml(lvl.verifier)}</p>
-          <p><strong>ID:</strong> ${escapeHtml(lvl.id)}</p>
-        </div>
       `;
       div.querySelector('.level-summary').addEventListener('click', () => {
-        const details = div.querySelector('.level-details');
-        const isHidden = window.getComputedStyle(details).display === 'none';
-        details.style.display = isHidden ? 'block' : 'none';
-        div.querySelector('.level-summary').setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+        window.open(`levelHistory.html?name=${encodeURIComponent(lvl.name)}`, '_blank');
       });
+    
       container.appendChild(div);
     });
-  }
+
 
   function highlightText(text) {
     const search = (document.getElementById('search')?.value || '').toLowerCase();
