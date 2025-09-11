@@ -30,7 +30,7 @@ function loadLevelsFromJSON(levels) {
     div.className = 'level';
     div.innerHTML = `
       <div class="level-summary">
-        <span>#${lvl.rank}: ${lvl.name}</span><span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
+        <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
         <strong>${lvl.klp} KLP</strong>
       </div>
       <div class="level-details">
