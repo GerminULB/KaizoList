@@ -37,10 +37,9 @@ const victors = Object.entries(victorsData)
   .filter(([player, levels]) => levels.includes(levelName) && player !== level.verifier)
   .map(([player]) => player);
 
+const victorsContainer = document.getElementById('victors-grid');
+victorsContainer.innerHTML = ''; // clear it in case of reload
 
-  const victorsContainer = document.createElement('div');
-  victorsContainer.className = 'grid victors-grid';
-  document.body.appendChild(victorsContainer);
 
   const ITEMS_PER_PAGE = 9;
   let victorsPage = 1;
