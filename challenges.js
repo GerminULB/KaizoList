@@ -30,7 +30,7 @@ function loadLevelsFromJSON(levels) {
     div.className = 'level';
     div.innerHTML = `
       <div class="level-summary">
-        <span>#${lvl.rank}: ${lvl.name}</span>
+        <span>#${lvl.rank}: ${lvl.name}</span><span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
         <strong>${lvl.klp} KLP</strong>
       </div>
       <div class="level-details">
@@ -105,6 +105,14 @@ function renderFilteredLevels() {
 
   loadLevelsFromJSON(filtered);
 }
+
+function highlightText(text) {
+  const search = document.getElementById('search').value.toLowerCase();
+  if (!search) return text;
+  const regex = new RegExp(`(${search})`, 'gi');
+  return text.replace(regex, '<mark>$1</mark>');
+}
+
 
 // Event listeners
 document.getElementById('search').addEventListener('input', renderFilteredLevels);
