@@ -45,17 +45,18 @@
 
 
     <!-- Search and filters -->
-    <input type="text" id="search" placeholder="Search challenges..." />
-    <div class="filters">
-      <select id="creator-filter"><option value="">All Creators</option></select>
-      <select id="verifier-filter"><option value="">All Verifiers</option></select>
-      <select id="sort-filter">
-        <option value="rank">Sort by Rank</option>
-        <option value="id-desc">Newest (by ID)</option>
-        <option value="id-asc">Oldest (by ID)</option>
-      </select>
-    </div>
-
+  <input type="text" id="search" placeholder="Search challenges..." />
+  <div class="filters">
+    <select id="creator-filter"><option value="">All Creators</option></select>
+    <select id="verifier-filter"><option value="">All Verifiers</option></select>
+    <select id="sort-filter">
+      <option value="rank">Sort by Rank</option>
+      <option value="id-desc">Newest (by ID)</option>
+      <option value="id-asc">Oldest (by ID)</option>
+    </select>
+    <button id="clear-filters">Clear Filters</button>
+  </div>
+    
     <!-- Total and challenge list -->
     <div id="total-klp">Total: 0 KLP</div>
     <div id="level-list"></div>
@@ -93,18 +94,7 @@ document.querySelectorAll('.hub-button').forEach(btn => {
 `;
 });
 </script>
-  <!-- Search and filters -->
-<input type="text" id="search" placeholder="Search challenges..." />
-<div class="filters">
-  <select id="creator-filter"><option value="">All Creators</option></select>
-  <select id="verifier-filter"><option value="">All Verifiers</option></select>
-  <select id="sort-filter">
-    <option value="rank">Sort by Rank</option>
-    <option value="id-desc">Newest (by ID)</option>
-    <option value="id-asc">Oldest (by ID)</option>
-  </select>
-  <button id="clear-filters">Clear Filters</button>
-</div>
+
 
   
   <footer class="site-footer">
