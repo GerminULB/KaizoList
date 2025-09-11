@@ -198,5 +198,21 @@ input#search {
   background: #eee;
 }
 
+.grid-item {
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.grid-item:hover {
+  transform: scale(1.05);
+  background-color: #f0f0f0;
+}
+
 
 
