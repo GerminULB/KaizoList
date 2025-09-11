@@ -111,4 +111,11 @@ document.getElementById('search').addEventListener('input', renderFilteredLevels
 document.getElementById('creator-filter').addEventListener('change', renderFilteredLevels);
 document.getElementById('verifier-filter').addEventListener('change', renderFilteredLevels);
 document.getElementById('sort-filter').addEventListener('change', renderFilteredLevels);
+document.getElementById('clear-filters').addEventListener('click', () => {
+  document.getElementById('search').value = '';
+  document.getElementById('creator-filter').value = '';
+  document.getElementById('verifier-filter').value = '';
+  document.getElementById('sort-filter').value = 'rank';
+  renderFilteredLevels();
+});
 
