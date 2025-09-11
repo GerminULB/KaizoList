@@ -1,5 +1,11 @@
 (async () => {
-  const ITEMS_PER_PAGE = 9; // 3x3 grid per page
+  const ITEMS_PER_PAGE = 9; // 3x3 grid
+
+  // Parse player name from URL
+  const params = new URLSearchParams(window.location.search);
+  const playerName = params.get('name');
+  if (!playerName) return alert('No player specified');
+  document.getElementById('player-name').innerText = playerName;
 
   // Fetch all sources
   const [levelsRes, challengesRes, victorsRes] = await Promise.all([
@@ -11,7 +17,6 @@
   const levels = await levelsRes.json();
   const challenges = await challengesRes.json();
   const victorsData = await victorsRes.json();
-
   const allLevels = [...levels, ...challenges];
 
   // Build player map
@@ -36,66 +41,36 @@
     });
   });
 
-  // Convert to array & sort by KLP
-  const players = Object.entries(playerMap)
-    .map(([name, data]) => ({ name, klp: data.klp, levels: data.levels }))
-    .sort((a, b) => b.klp - a.klp);
+  const playerData = playerMap[playerName];
+  if (!playerData) return alert('Player not found');
 
-  // Render total KLP
-  const totalKLP = players.reduce((sum, p) => sum + p.klp, 0);
-  document.getElementById('player-total-klp').innerText = `Total: ${totalKLP.toLocaleString()} KLP`;
+  // Fill stats on the left
+  const totalKLP = playerData.klp;
+  const victoryKLP = playerData.levels.filter(l => l.type === 'Victor').reduce((sum, l) => sum + l.klp, 0);
+  const verificationKLP = playerData.levels.filter(l => l.type === 'Verification').reduce((sum, l) => sum + l.klp, 0);
 
-  // Render players list
-  const container = document.getElementById('player-list');
-  container.innerHTML = '';
+  document.getElementById('player-total-klp').innerText = totalKLP.toLocaleString();
+  document.getElementById('player-victory-klp').innerText = victoryKLP.toLocaleString();
+  document.getElementById('player-verification-klp').innerText = verificationKLP.toLocaleString();
 
-  players.forEach((player, idx) => {
+  // --- History (recent KLP additions) ---
+  const historyEl = document.getElementById('player-history');
+  historyEl.innerHTML = '';
+  const sortedLevels = playerData.levels.sort((a, b) => b.klp - a.klp);
+  sortedLevels.forEach(l => {
     const div = document.createElement('div');
-    div.className = 'level';
-    div.innerHTML = `
-      <div class="level-summary">
-        <span>#${idx + 1}: ${player.name}</span>
-        <strong>${player.klp} KLP</strong>
-      </div>
-      <div class="level-details">
-        <div class="stats-left">
-          <p><strong>Total KLP:</strong> ${player.klp}</p>
-          <p><strong>KLP from Verifications:</strong> ${player.levels.filter(l=>l.type==='Verification').reduce((sum,l)=>sum+l.klp,0)}</p>
-          <p><strong>KLP from Victories:</strong> ${player.levels.filter(l=>l.type==='Victor').reduce((sum,l)=>sum+l.klp,0)}</p>
-        </div>
-        <div class="grids-right">
-          <h4>Victors</h4>
-          <div class="grid victors-grid"></div>
-          <h4>Verifications</h4>
-          <div class="grid verifications-grid"></div>
-        </div>
-      </div>
-    `;
-
-    const summary = div.querySelector('.level-summary');
-    const details = div.querySelector('.level-details');
-    summary.addEventListener('click', () => {
-      const isHidden = window.getComputedStyle(details).display === 'none';
-      details.style.display = isHidden ? 'flex' : 'none';
-
-      if (isHidden) {
-        // Render grids with pagination
-        renderPaginatedGrid(player.levels.filter(l=>l.type==='Victor'), details.querySelector('.victors-grid'));
-        renderPaginatedGrid(player.levels.filter(l=>l.type==='Verification'), details.querySelector('.verifications-grid'));
-      }
-    });
-
-    container.appendChild(div);
+    div.innerText = `${l.type}: ${l.name} (+${l.klp} KLP)`;
+    historyEl.appendChild(div);
   });
 
-  // --- Pagination / Grid Functions ---
+  // --- Right Grids ---
   function renderPaginatedGrid(items, container) {
     let currentPage = 1;
     const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
 
     function renderPage() {
       container.innerHTML = '';
-      const pageItems = items.slice((currentPage-1)*ITEMS_PER_PAGE, currentPage*ITEMS_PER_PAGE);
+      const pageItems = items.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
       pageItems.forEach(item => {
         const cell = document.createElement('div');
@@ -107,7 +82,7 @@
         container.appendChild(cell);
       });
 
-      // Pagination buttons
+      // Pagination
       let pagination = container.parentElement.querySelector('.pagination');
       if (!pagination) {
         pagination = document.createElement('div');
@@ -130,5 +105,12 @@
 
     renderPage();
   }
+
+  // Filter by type
+  const victors = playerData.levels.filter(l => l.type === 'Victor');
+  const verifications = playerData.levels.filter(l => l.type === 'Verification');
+
+  renderPaginatedGrid(victors, document.getElementById('player-victors'));
+  renderPaginatedGrid(verifications, document.getElementById('player-verifications'));
 
 })();
