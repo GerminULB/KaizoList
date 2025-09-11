@@ -207,12 +207,14 @@ input#search {
   text-align: center;
   cursor: pointer;
   transition: transform 0.1s ease;
+  color: #000; 
 }
 
 .grid-item:hover {
   transform: scale(1.05);
   background-color: #f0f0f0;
 }
+
 
 
 
