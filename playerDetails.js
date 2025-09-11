@@ -77,7 +77,7 @@
         cell.className = 'grid-item';
         cell.innerText = `${item.name} (${item.klp} KLP)`;
         cell.addEventListener('click', () => {
-          window.location.href(`levelDetails.html?name=${encodeURIComponent(item.name)}`, '_blank');
+          window.location.href = `levelDetails.html?name=${encodeURIComponent(item.name)}`;
         });
         container.appendChild(cell);
       });
