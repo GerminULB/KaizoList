@@ -5,14 +5,16 @@
 
   const historyEl = document.getElementById('history');
 
-  // Fetch levels and challenges
-  const [resLevels, resChallenges] = await Promise.all([
+  // Fetch all sources
+  const [levelsRes, challengesRes, victorsRes] = await Promise.all([
     fetch('levels.json'),
-    fetch('challenges.json')
+    fetch('challenges.json'),
+    fetch('victors.json')
   ]);
 
-  const levels = await resLevels.json();
-  const challenges = await resChallenges.json();
+  const levels = await levelsRes.json();
+  const challenges = await challengesRes.json();
+  const victorsData = await victorsRes.json();
   const allLevels = [...levels, ...challenges];
 
   const level = allLevels.find(l => l.name === levelName);
@@ -30,19 +32,60 @@
   const rank = sortedLevels.findIndex(l => l.name === levelName) + 1;
   document.getElementById('level-rank').innerText = rank;
 
-  // Optional: show challenge info
-  const challenge = challenges.find(c => c.name === levelName);
-  if (challenge && document.getElementById('level-challenge')) {
-    document.getElementById('level-challenge').innerText =
-      `Challenge creator: ${challenge.creator}, verifier: ${challenge.verifier}`;
+  // --- Victors ---
+  const victors = Object.entries(victorsData)
+    .filter(([player, levels]) => levels.includes(levelName))
+    .map(([player]) => player);
+
+  const victorsContainer = document.createElement('div');
+  victorsContainer.className = 'grid victors-grid';
+  document.body.appendChild(victorsContainer);
+
+  const ITEMS_PER_PAGE = 9;
+  let currentPage = 1;
+  const totalPages = Math.ceil(victors.length / ITEMS_PER_PAGE);
+
+  function renderVictorsPage() {
+    victorsContainer.innerHTML = '';
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const pageItems = victors.slice(start, start + ITEMS_PER_PAGE);
+
+    pageItems.forEach(player => {
+      const div = document.createElement('div');
+      div.className = 'grid-item';
+      div.innerText = player;
+      div.addEventListener('click', () => {
+        window.open(`playerDetails.html?name=${encodeURIComponent(player)}`, '_blank');
+      });
+      victorsContainer.appendChild(div);
+    });
+
+    // Pagination
+    const pagination = document.querySelector('.victors-pagination') || document.createElement('div');
+    pagination.className = 'victors-pagination';
+    pagination.innerHTML = '';
+    if (totalPages > 1) {
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        if (i === currentPage) btn.disabled = true;
+        btn.addEventListener('click', () => {
+          currentPage = i;
+          renderVictorsPage();
+        });
+        pagination.appendChild(btn);
+      }
+    }
+    victorsContainer.parentElement.appendChild(pagination);
   }
 
-  // History files
-  const historyFiles = [
+  if (victors.length > 0) renderVictorsPage();
 
+  // --- History ---
+  const historyFiles = [
   ];
 
-  let isNew = true; // assume level is new
+  let isNew = true;
 
   for (const file of historyFiles) {
     try {
@@ -71,7 +114,6 @@
     }
   }
 
-  // If level is new, show notice at top
   if (isNew) {
     const div = document.createElement('div');
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
