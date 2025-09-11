@@ -113,15 +113,18 @@ nav a:hover {
 }
 
 /* ----------------- Filters & search ----------------- */
+/* Search bar */
 input#search {
-  width: 100%;
+  width: calc(100% - 40px); /* respect container padding */
+  max-width: 600px;         /* optional max width */
   padding: 10px;
-  margin-bottom: 20px;
+  margin: 0 auto 20px auto; /* center horizontally */
+  display: block;
   font-size: 1em;
   border: none;
   border-radius: 4px;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
+
 
 input#search:focus {
   outline: none;
@@ -339,5 +342,6 @@ button, a, .hub-button, .grid-item, .level-summary span, .level-summary strong {
   transform: scale(1.02);
   background-color: #fff299;
 }
+
 
 
