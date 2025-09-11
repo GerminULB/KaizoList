@@ -3,7 +3,7 @@
 
   async function init() {
     try {
-      const res = await fetch('challanges.json');
+      const res = await fetch('challenges.json');
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
 
