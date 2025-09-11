@@ -217,26 +217,10 @@ input#search {
 }
 
 body {
-  margin: 0;
-  background-image: url('images/banner.png'); 
-  background-repeat: repeat;      
-  background-size: auto;         
-  font-family: sans-serif;
-  min-height: 100vh;
-}
-
-.container {
-  max-width: 1200px;    
-  margin: 0 auto;        
-  background-color: rgba(255, 255, 255, 0.95); 
-  padding: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  border-radius: 8px;    
-}
-
-
-h1, h2, p {
-  color: #111; 
+  background-image: url('images/banner.png'); /* your image */
+  background-repeat: repeat; /* tiles the image */
+  background-size: auto;     /* keeps original image size */
+  background-position: center;
 }
 
 
