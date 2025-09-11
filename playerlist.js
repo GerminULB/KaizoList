@@ -24,16 +24,16 @@ async function loadPlayers() {
     playerMap[verifier].levels.push({ name: level.name, klp: level.klp, type: 'Verification' });
   }
 
-  // Add victors, even if level is missing (KLP = 0)
-for (const [player, levelNames] of Object.entries(victors)) {
-  for (const levelName of levelNames) {
-    const level = allLevels.find(l => l.name === levelName);
-    if (!level) continue;
-    if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
-    playerMap[player].klp += level.klp;
-    playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victor' });
+  // Add victors
+  for (const [player, levelNames] of Object.entries(victors)) {
+    for (const levelName of levelNames) {
+      const level = allLevels.find(l => l.name === levelName);
+      if (!level) continue;
+      if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
+      playerMap[player].klp += level.klp;
+      playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victor' });
+    }
   }
-}
 
   // Convert map to array & sort by KLP descending
   const playerList = Object.entries(playerMap)
@@ -56,22 +56,15 @@ for (const [player, levelNames] of Object.entries(victors)) {
         <span>#${index + 1}: ${player.name}</span>
         <strong>${player.klp} KLP</strong>
       </div>
-      <div class="level-details">
-        ${player.levels.map(lvl => `<p>[${lvl.type}] ${lvl.name} (${lvl.klp} KLP)</p>`).join('')}
-      </div>
     `;
 
+    // Click opens playerDetails.html in a new tab
     div.querySelector('.level-summary').addEventListener('click', () => {
-      const details = div.querySelector('.level-details');
-      const isHidden = window.getComputedStyle(details).display === 'none';
-      details.style.display = isHidden ? 'block' : 'none';
+      window.open(`playerDetails.html?name=${encodeURIComponent(player.name)}`, '_blank');
     });
 
     container.appendChild(div);
   });
 }
-
-
-
 
 loadPlayers();
