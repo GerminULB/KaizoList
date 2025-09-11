@@ -133,11 +133,9 @@
         </div>
       `;
       div.querySelector('.level-summary').addEventListener('click', () => {
-        const details = div.querySelector('.level-details');
-        const isHidden = window.getComputedStyle(details).display === 'none';
-        details.style.display = isHidden ? 'block' : 'none';
-        div.querySelector('.level-summary').setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+        window.location.href = `levelDetails.html?name=${encodeURIComponent(lvl.name)}`;
       });
+
       container.appendChild(div);
     });
   }
@@ -156,3 +154,4 @@
 
   init();
 })();
+
