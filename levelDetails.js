@@ -1,12 +1,11 @@
 (async () => {
-
   const params = new URLSearchParams(window.location.search);
   const levelName = params.get('name');
   if (!levelName) return alert('No level specified');
 
-
-  const res = await fetch('levels.json');
-  const levels = await res.json();
+  // Fetch levels
+  const resLevels = await fetch('levels.json');
+  const levels = await resLevels.json();
   const level = levels.find(l => l.name === levelName);
   if (!level) return alert('Level not found');
 
@@ -16,16 +15,22 @@
   document.getElementById('level-id').innerText = level.id;
   document.getElementById('level-klp').innerText = level.klp;
 
-
-  const sorted = levels.slice().sort((a, b) => b.klp - a.klp);
-  const rank = sorted.findIndex(l => l.name === levelName) + 1;
+  const sortedLevels = levels.slice().sort((a, b) => b.klp - a.klp);
+  const rank = sortedLevels.findIndex(l => l.name === levelName) + 1;
   document.getElementById('level-rank').innerText = rank;
 
+  // Fetch challenges too
+  const resChallenges = await fetch('challenges.json');
+  const challenges = await resChallenges.json();
+  const challenge = challenges.find(c => c.name === levelName);
+  if (challenge) {
+    document.getElementById('level-challenge').innerText = `Challenge creator: ${challenge.creator}, verifier: ${challenge.verifier}`;
+  }
 
+  // History
   const historyFiles = [
     'history/2025-12-02-levels.json',
     'history/2025-12-15-levels.json'
-
   ];
   const historyEl = document.getElementById('history');
 
