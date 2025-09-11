@@ -197,5 +197,25 @@ input#search {
   filter: brightness(1.2);
 }
 
+body.light {
+  background: #f9f9f9;
+  color: #1b253e;
+}
+
+body.light .level,
+body.light .hub-info {
+  background: #fff;
+  color: #000;
+}
+
+body.light .filters select {
+  background: #fff;
+  color: #000;
+}
+
+body.light .site-footer {
+  color: #444;
+}
+
 
 
