@@ -10,16 +10,31 @@
   <div class="container">
     <a href="MainList.html">← Back to Main List</a>
     <h1 id="level-name">Level Name</h1>
-    <div id="level-info">
-      <p><strong>Creator(s):</strong> <span id="level-creator"></span></p>
-      <p><strong>Verifier(s):</strong> <span id="level-verifier"></span></p>
-      <p><strong>ID:</strong> <span id="level-id"></span></p>
-      <p><strong>KLP:</strong> <span id="level-klp"></span></p>
-      <p><strong>Current Rank:</strong> <span id="level-rank"></span></p>
+
+    <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
+      <!-- Left Column: Stats + History -->
+      <div style="flex:1; min-width: 280px;">
+        <div id="level-info">
+          <p><strong>Creator(s):</strong> <span id="level-creator"></span></p>
+          <p><strong>Verifier(s):</strong> <span id="level-verifier"></span></p>
+          <p><strong>ID:</strong> <span id="level-id"></span></p>
+          <p><strong>KLP:</strong> <span id="level-klp"></span></p>
+          <p><strong>Current Rank:</strong> <span id="level-rank"></span></p>
+        </div>
+
+        <h2>History</h2>
+        <div id="history"></div>
+      </div>
+
+      <!-- Right Column: Victors -->
+      <div style="flex:1; min-width: 280px;">
+        <h2>Victors</h2>
+        <div id="victors-grid" class="grid"></div>
+      </div>
     </div>
-    <h2>History</h2>
-    <div id="history"></div>
+
   </div>
+
   <script src="levelDetails.js"></script>
 </body>
 </html>
