@@ -52,3 +52,21 @@
     historyEl.appendChild(div);
   }
 })();
+
+const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+// check if level is new (YOU KNOW WHAT COMMENTS ARE GOOD LOWKEY)
+let isNew = true;
+if (historyFiles.length) {
+  const latestRes = await fetch(historyFiles[historyFiles.length - 1]);
+  const latestSnapshot = await latestRes.json();
+  isNew = !latestSnapshot.some(l => l.name === levelName);
+}
+
+if (isNew) {
+  const div = document.createElement('div');
+  div.innerText = `On ${today}, ${level.name} was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.`;
+  historyEl.prepend(div); 
+}
+
+
