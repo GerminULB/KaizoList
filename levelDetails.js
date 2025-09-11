@@ -104,7 +104,7 @@ victorsContainer.innerHTML = ''; // clear it in case of reload
       div.className = 'grid-item';
       div.innerText = player;
       div.addEventListener('click', () => {
-        window.location.href = `playerDetails.html?name=${encodeURIComponent(player)}`;
+          window.location.href = `playerDetails.html?name=${encodeURIComponent(player)}`;
       });
       verifiersContainer.appendChild(div);
     });
