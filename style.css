@@ -234,5 +234,16 @@ input#search {
 
 
 
+button, a, .hub-button, .grid-item, .level-summary, .level-summary span, .level-summary strong {
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+}
+
+button:hover, a:hover, .hub-button:hover, .grid-item:hover, .level-summary:hover, .level-summary span:hover, .level-summary strong:hover {
+  transform: scale(1.05);
+  /* subtle highlight effect */
+  background-color: rgba(255,255,255,0.1);
+  color: #ffd966;
+}
 
 
