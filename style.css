@@ -3,18 +3,33 @@
   src: url('fonts/manaspace.ttf') format('truetype');
 }
 
+/* Full-page tiled background */
 body {
-  font-family: 'Manaspace', Arial, sans-serif;
-  background: #1b253e;
-  color: #f0f0ff;
   margin: 0;
-  padding: 20px;
-  text-align: center;
+  padding: 20px;               /* keep your old padding */
+  font-family: 'Manaspace', Arial, sans-serif; /* old font */
+  background-color: #1b253e;   /* fallback in case image fails */
+  background-image: url('images/banner.png'); /* tiling image */
+  background-repeat: repeat;    /* tiles across both axes */
+  background-size: auto;        /* keeps original size of tiles */
+  color: #f0f0ff;              /* old text color */
+  text-align: center;           /* old alignment */
+  min-height: 100vh;
 }
 
+/* Main content wrapper */
 .container {
-  max-width: 800px;
-  margin: auto;
+  max-width: 800px;             /* old width */
+  margin: 0 auto;               /* center horizontally */
+  background-color: rgba(27, 37, 62, 0.95); /* slightly transparent, keep old dark tone */
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2); /* optional shadow for depth */
+  border-radius: 8px;           /* optional rounded corners */
+}
+
+/* Headers and text */
+h1, h2, p {
+  color: #f0f0ff;               /* keep old light color */
 }
 
 img.logo {
@@ -24,6 +39,7 @@ img.logo {
   margin: 20px auto;
   image-rendering: pixelated;
 }
+
 
 
 /* Hub / Page intro text */
@@ -216,11 +232,7 @@ input#search {
   background-color: #f0f0f0;
 }
 
-body {
-  background-image: url('images/banner.png'); /* your image */
-  background-repeat: repeat; /* tiles the image */
-  background-size: auto;     /* keeps original image size */
-  background-position: center;
-}
+
+
 
 
