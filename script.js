@@ -124,7 +124,7 @@
       div.innerHTML = `
         <div class="level-summary" role="button" tabindex="0" aria-expanded="false">
           <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
-          <strong>${escapeHtml(lvl.klp)}</strong>
+          <strong>${escapeHtml(lvl.klp)} KLP</strong>
         </div>
         <div class="level-details">
           <p><strong>Creator:</strong> ${escapeHtml(lvl.creator)}</p>
@@ -154,4 +154,5 @@
 
   init();
 })();
+
 
