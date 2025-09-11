@@ -33,31 +33,32 @@
   document.getElementById('level-rank').innerText = rank;
 
   // --- Victors ---
-const victors = Object.entries(victorsData)
-  .filter(([player, levels]) => levels.includes(levelName) && player !== level.verifier)
-  .map(([player]) => player);
+  const victors = Object.entries(victorsData)
+    .filter(([player, levels]) => levels.includes(levelName))
+    .map(([player]) => player)
+    .filter(player => player !== level.verifier); // exclude verifier
 
-const victorsContainer = document.getElementById('victors-grid');
-victorsContainer.innerHTML = ''; // clear it in case of reload
-
+  const victorsContainer = document.getElementById('victors-grid');
+  victorsContainer.innerHTML = '';
 
   const ITEMS_PER_PAGE = 9;
-  let victorsPage = 1;
-  const totalVictorPages = Math.ceil(victors.length / ITEMS_PER_PAGE);
+  let currentPage = 1;
+  const totalPages = Math.ceil(victors.length / ITEMS_PER_PAGE);
 
   function renderVictorsPage() {
     victorsContainer.innerHTML = '';
-    const start = (victorsPage - 1) * ITEMS_PER_PAGE;
+
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
     const pageItems = victors.slice(start, start + ITEMS_PER_PAGE);
 
     pageItems.forEach(player => {
-      const div = document.createElement('div');
-      div.className = 'grid-item';
-      div.innerText = player;
-      div.addEventListener('click', () => {
+      const cell = document.createElement('div');
+      cell.className = 'grid-item clickable';
+      cell.innerText = player;
+      cell.addEventListener('click', () => {
         window.location.href = `playerDetails.html?name=${encodeURIComponent(player)}`;
       });
-      victorsContainer.appendChild(div);
+      victorsContainer.appendChild(cell);
     });
 
     // Pagination
@@ -69,13 +70,13 @@ victorsContainer.innerHTML = ''; // clear it in case of reload
     }
     pagination.innerHTML = '';
 
-    if (totalVictorPages > 1) {
-      for (let i = 1; i <= totalVictorPages; i++) {
+    if (totalPages > 1) {
+      for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement('button');
         btn.innerText = i;
-        if (i === victorsPage) btn.disabled = true;
+        if (i === currentPage) btn.disabled = true;
         btn.addEventListener('click', () => {
-          victorsPage = i;
+          currentPage = i;
           renderVictorsPage();
         });
         pagination.appendChild(btn);
@@ -85,59 +86,13 @@ victorsContainer.innerHTML = ''; // clear it in case of reload
 
   if (victors.length > 0) renderVictorsPage();
 
-  // --- Verifications (same style as victors) ---
-  const verifiers = level.verifier ? [level.verifier] : [];
-  const verifiersContainer = document.createElement('div');
-  verifiersContainer.className = 'grid verifications-grid';
-  document.body.appendChild(verifiersContainer);
-
-  let verifierPage = 1;
-  const totalVerifierPages = Math.ceil(verifiers.length / ITEMS_PER_PAGE);
-
-  function renderVerifiersPage() {
-    verifiersContainer.innerHTML = '';
-    const start = (verifierPage - 1) * ITEMS_PER_PAGE;
-    const pageItems = verifiers.slice(start, start + ITEMS_PER_PAGE);
-
-    pageItems.forEach(player => {
-      const div = document.createElement('div');
-      div.className = 'grid-item';
-      div.innerText = player;
-      div.addEventListener('click', () => {
-          window.location.href = `playerDetails.html?name=${encodeURIComponent(player)}`;
-      });
-      verifiersContainer.appendChild(div);
-    });
-
-    // Pagination
-    let pagination = document.querySelector('.verifiers-pagination');
-    if (!pagination) {
-      pagination = document.createElement('div');
-      pagination.className = 'verifiers-pagination';
-      verifiersContainer.parentElement.appendChild(pagination);
-    }
-    pagination.innerHTML = '';
-
-    if (totalVerifierPages > 1) {
-      for (let i = 1; i <= totalVerifierPages; i++) {
-        const btn = document.createElement('button');
-        btn.innerText = i;
-        if (i === verifierPage) btn.disabled = true;
-        btn.addEventListener('click', () => {
-          verifierPage = i;
-          renderVerifiersPage();
-        });
-        pagination.appendChild(btn);
-      }
-    }
-  }
-
-  if (verifiers.length > 0) renderVerifiersPage();
-
   // --- History ---
-  const historyFiles = [];
+  const historyFiles = [
+    // put snapshot json files here if you have them
+  ];
 
   let isNew = true;
+
   for (const file of historyFiles) {
     try {
       const res = await fetch(file);
@@ -171,5 +126,4 @@ victorsContainer.innerHTML = ''; // clear it in case of reload
     div.innerText = `On ${today}, "${level.name}" was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.`;
     historyEl.prepend(div);
   }
-
 })();
