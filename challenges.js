@@ -124,7 +124,7 @@ function loadLevelsFromJSON(levels) {
     div.innerHTML = `
       <div class="level-summary" role="button" tabindex="0">
         <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
-        <strong>${escapeHtml(lvl.klp)}</strong>
+          <strong>${escapeHtml(lvl.klp)} KLP</strong>
       </div>
     `;
     div.querySelector('.level-summary').addEventListener('click', () => {
