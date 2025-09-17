@@ -35,8 +35,10 @@
     display: none;
   }
 
-  #muteBtn {
-    margin-top: 20px;
+#muteBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
     font-size: 20px;
     padding: 8px 16px;
     cursor: pointer;
@@ -44,8 +46,9 @@
     background: #00ffdd;
     border: none;
     border-radius: 5px;
-    font-family: 'manaspace', monospace; /* added font */
-  }
+    font-family: 'manaspace', monospace;
+    z-index: 10;
+}
 </style>
 </head>
 <body>
