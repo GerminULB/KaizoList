@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Countdown with Start Sequence</title>
+<title>Progressive Countdown</title>
 <style>
   html, body {
     margin: 0;
@@ -13,81 +13,30 @@
     overflow: hidden;
     background: black;
     font-family: 'manaspace', monospace;
+    color: #00ffdd;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #00ffdd;
     position: relative;
-  }
-
-  #overlay {
-    position: absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:black;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:36px;
-    cursor:pointer;
-    z-index:3;
-    transition: opacity 1s ease;
-  }
-
-  canvas#bgCanvas {
-    position: absolute;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1s ease;
-    z-index:0;
   }
 
   #timer {
     position: relative;
-    z-index: 2;
-    display: flex;          
-    flex-wrap: nowrap;
-    justify-content: center;
+    z-index: 5;
+    display: flex;
     font-size: 72px;
     letter-spacing: 6px;
-    opacity: 1;
   }
 
-  .digit {
-    display: inline-block;
-    width: 0.55ch;
-    text-align: center;
-    position: relative;
-  }
-
+  .digit { display:inline-block; width:0.55ch; text-align:center; }
   .sep { padding:0 8px; }
 
-  .digit-clone {
-    position: absolute;
-    pointer-events: none;
-    font-family: 'manaspace', monospace;
-    letter-spacing: 6px;
-  }
-
-  #preCountdown {
-    position: absolute;
-    top: 20px;
-    font-size: 48px;
-    z-index: 4;
-    text-align: center;
-    width: 100%;
-  }
+  canvas { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
 </style>
 </head>
 <body>
 
-<div id="overlay">Click to Start Countdown</div>
-
-<canvas id="bgCanvas"></canvas>
+<canvas id="canvas"></canvas>
 
 <div id="timer">
   <span class="digit">0</span><span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
@@ -96,185 +45,210 @@
   <span class="digit">0</span><span class="digit">0</span>
 </div>
 
-<div id="preCountdown"></div>
-
-<audio id="jingle" src="countdown.ogg"></audio>
+<audio id="ambience" src="ambience.mp3"></audio>
 
 <script>
-const targetTime = new Date('2025-10-06T23:30:15Z').getTime();
-const timerDigits = document.querySelectorAll(".digit");
-const overlay = document.getElementById('overlay');
-const canvas = document.getElementById('bgCanvas');
+const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-const jingle = document.getElementById('jingle');
-const preCountdownEl = document.getElementById('preCountdown');
+const timerDigits = document.querySelectorAll(".digit");
+const ambience = document.getElementById('ambience');
 
-// ------------------ Timer Jitter (1 per second) ------------------
-let lastTimer = '';
-function updateTimer() {
+let startTime = Date.now();
+const targetTime = new Date('2025-10-06T23:30:15Z').getTime();
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener('resize', ()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+// --- Particle setup ---
+let particles = [];
+function spawnParticles(count) {
+  for(let i=0;i<count;i++){
+    particles.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      size: 5 + Math.random()*5,
+      dx: (Math.random()*2-1)*0.5,
+      dy: (Math.random()*2-1)*0.5
+    });
+  }
+}
+function updateParticles(progress){
+  if(progress>=0.2 && particles.length<50) spawnParticles(1);
+  ctx.fillStyle='white';
+  particles.forEach(p=>{
+    p.x += p.dx*(1+progress*5);
+    p.y += p.dy*(1+progress*5);
+    if(p.x>canvas.width)p.x=0;
+    if(p.x<0)p.x=canvas.width;
+    if(p.y>canvas.height)p.y=0;
+    if(p.y<0)p.y=canvas.height;
+    ctx.fillRect(p.x,p.y,p.size,p.size);
+  });
+}
+
+// --- Grid ---
+let gridOffsetX1=0, gridOffsetY1=0, gridOffsetX2=0, gridOffsetY2=0;
+function drawGrid(progress){
+  if(progress>=0.4){
+    ctx.strokeStyle='rgba(128,128,128,'+Math.min(0.3,(progress-0.4)*2)+')';
+    ctx.lineWidth=1;
+    for(let x=-50*2;x<canvas.width+50*2;x+=50){
+      ctx.beginPath();
+      ctx.moveTo(x+gridOffsetX1,0);
+      ctx.lineTo(x+gridOffsetX1,canvas.height);
+      ctx.stroke();
+    }
+    for(let y=-50*2;y<canvas.height+50*2;y+=50){
+      ctx.beginPath();
+      ctx.moveTo(0,y+gridOffsetY1);
+      ctx.lineTo(canvas.width,y+gridOffsetY1);
+      ctx.stroke();
+    }
+    gridOffsetX1 += 0.3 + progress*2;
+    gridOffsetY1 += 0.2 + progress*2;
+  }
+  if(progress>=0.6){
+    ctx.strokeStyle='rgba(128,128,128,'+Math.min(0.15,(progress-0.6)*2)+')';
+    for(let x=-50*2;x<canvas.width+50*2;x+=50){
+      ctx.beginPath();
+      ctx.moveTo(x+gridOffsetX2,0);
+      ctx.lineTo(x+gridOffsetX2,canvas.height);
+      ctx.stroke();
+    }
+    for(let y=-50*2;y<canvas.height+50*2;y+=50){
+      ctx.beginPath();
+      ctx.moveTo(0,y+gridOffsetY2);
+      ctx.lineTo(canvas.width,y+gridOffsetY2);
+      ctx.stroke();
+    }
+    gridOffsetX2 -= 0.2 + progress*1.5;
+    gridOffsetY2 -= 0.1 + progress*1.5;
+  }
+}
+
+// --- Clone digits ---
+let clones = [];
+function spawnClone(progress, subtle=false){
+  const d = timerDigits[Math.floor(Math.random()*timerDigits.length)];
+  const rect = d.getBoundingClientRect();
+  const clone = d.cloneNode(true);
+  clone.style.position='absolute';
+  clone.style.left = rect.left+'px';
+  clone.style.top = rect.top+'px';
+  clone.style.opacity = subtle ? (0.1+Math.random()*0.15) : (0.25+Math.random()*0.25);
+  clone.style.color='#00ffdd';
+  document.body.appendChild(clone);
+  clones.push({el:clone, dx:(Math.random()*2-1)*(1+progress*5), dy:0});
+}
+function updateClones(progress){
+  clones.forEach((c,i)=>{
+    c.el.style.transform = `translate(${c.dx}px, ${c.dy}px)`;
+  });
+  if(progress>=0.5 && progress<0.8){
+    if(Date.now()%500<16) timerDigits.forEach(()=>spawnClone(progress,true));
+  }
+}
+
+// --- Timer display ---
+function updateTimer(){
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
-
   const days = String(Math.floor(diff / (1000*60*60*24))).padStart(3,'0');
   diff %= (1000*60*60*24);
   const hours = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
   diff %= (1000*60*60);
-  const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0'); // fixed
+  const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
   diff %= (1000*60);
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
-
   const timeStr = days + hours + minutes + seconds;
   timeStr.split("").forEach((num,i)=>{
-    if(timerDigits[i]){
-      timerDigits[i].textContent = num;
-    }
+    if(timerDigits[i]) timerDigits[i].textContent=num;
   });
+}
 
-  // Jitter only if timer changed
-  if(timeStr !== lastTimer){
-    timerDigits.forEach(d=>{
-      const offsetX = (Math.random()*2-1);
-      const offsetY = (Math.random()*2-1);
-      d.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-    });
-    lastTimer = timeStr;
+// --- Pattern setup ---
+const patterns = [];
+for(let i=0; i<=9; i++){
+  const img = new Image();
+  img.src = `images/pattern${i}.png`; 
+  patterns.push(img);
+}
+
+let patternIndex = 0;
+let lastPatternChange = 0;
+let patternFill = null;
+
+function drawPatterns(progress){
+  if(progress < 0.98) return;
+  const now = Date.now();
+  if(now - lastPatternChange > 200){
+    patternFill = ctx.createPattern(patterns[patternIndex], 'repeat');
+    patternIndex = (patternIndex + 1) % patterns.length;
+    lastPatternChange = now;
+  }
+  if(patternFill){
+    ctx.save();
+    ctx.imageSmoothingEnabled = false; // nearest neighbor
+    ctx.fillStyle = patternFill;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
   }
 }
 
-// ------------------ Grid Canvas ------------------
-let gridOffsetX = 0, gridOffsetY = 0;
-const gridSpacing = 50;
-
-function resizeCanvas(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// --- Intense particles ---
+function spawnIntenseParticles(progress){
+  if(progress>=0.95){
+    for(let i=0;i<5;i++){
+      particles.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        size: 5 + Math.random()*5,
+        dx: (Math.random()*4-2) * progress,
+        dy: (Math.random()*4-2) * progress
+      });
+    }
+  }
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
 
-function drawGrid(){
+// --- Main animation ---
+function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.strokeStyle='rgba(128,128,128,0.3)';
-  ctx.lineWidth=1;
-  for(let x=-gridSpacing*2;x<canvas.width+gridSpacing*2;x+=gridSpacing){
-    ctx.beginPath();
-    ctx.moveTo(x+gridOffsetX,0);
-    ctx.lineTo(x+gridOffsetX,canvas.height);
-    ctx.stroke();
-  }
-  for(let y=-gridSpacing*2;y<canvas.height+gridSpacing*2;y+=gridSpacing){
-    ctx.beginPath();
-    ctx.moveTo(0,y+gridOffsetY);
-    ctx.lineTo(canvas.width,y+gridOffsetY);
-    ctx.stroke();
-  }
-}
-
-function animateGrid(){
-  gridOffsetX += 0.3;
-  gridOffsetY += 0.2;
-  gridOffsetX %= gridSpacing;
-  gridOffsetY %= gridSpacing;
-  drawGrid();
-  requestAnimationFrame(animateGrid);
-}
-
-// ------------------ Clone Digit Parallax Drop + Bluish Purple → Cyan Tint ------------------
-function runCloneAnimation(){
-  const clones = [];
-  const startTime = Date.now();
-  const numClones = 60;
-
-  for(let i=0;i<numClones;i++){
-    const d = timerDigits[Math.floor(Math.random()*timerDigits.length)];
-    const rect = d.getBoundingClientRect();
-    const clone = d.cloneNode(true);
-    clone.classList.add('digit-clone');
-    clone.style.left = (rect.left + Math.random()*40-20) + 'px';
-    clone.style.top = (rect.top + Math.random()*40-20) + 'px';
-    clone.style.fontSize = window.getComputedStyle(d).fontSize;
-    clone.style.opacity = (0.25 + Math.random()*0.5).toString();
-    clone.style.color = '#00ffdd';
-    document.body.appendChild(clone);
-
-    clones.push({
-      el: clone,
-      dx: Math.random()*2-1,
-      dy: 0,
-      baseOpacity: parseFloat(clone.style.opacity),
-    });
-  }
-
-  canvas.style.opacity = 1;
-  animateGrid();
-
-  function animateClones(){
-    const now = Date.now();
-    const elapsed = (now - startTime)/1000;
-
-    // Bluish purple → cyan gradient tint
-    const alpha = Math.min(0.5, (elapsed/6)*0.5);
-    const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
-    gradient.addColorStop(0,'rgba(128,0,255,'+alpha+')'); // bluish purple
-    gradient.addColorStop(1,'rgba(0,255,255,'+alpha+')'); // cyan
-    ctx.globalCompositeOperation = "multiply";
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.globalCompositeOperation = "source-over"; // reset
-
-  clones.forEach((c,i)=>{
-    if(!c) return;
-    const progress = Math.min(1, elapsed / 14); 
-    const scaleX = 1 - progress * 0.5;     
-  
-    c.el.style.transform = `
-      translate(${c.dx*elapsed*10}px, ${c.dy*elapsed*20}px)
-      scale(${scaleX}, 1)
-    `;
-  
-    // Fade out after 12s
-    if(elapsed > 12 && elapsed <= 14){
-      const fade = Math.max(0, parseFloat(c.el.style.opacity) * (1 - (elapsed-12)/2));
-      c.el.style.opacity = fade.toString();
-    }
-  
-    if(elapsed > 14){
-      c.el.remove();
-      clones[i] = null;
-    }
-  });
-
-    // Fade canvas with clones
-    if(elapsed > 12 && elapsed <= 14){
-      canvas.style.opacity = Math.max(0, 1 - (elapsed-12)/2);
-    } else if(elapsed > 14){
-      canvas.style.opacity = 0;
-    }
-
-    if(clones.some(c=>c) || elapsed < 14) requestAnimationFrame(animateClones);
-  }
-
-  animateClones();
-  jingle.play().catch(e=>console.log("Audio blocked:", e));
-}
-
-// ------------------ Start Sequence ------------------
-overlay.addEventListener('click', ()=>{
-  overlay.style.opacity = 0;
-  setTimeout(()=>overlay.style.display='none', 1000);
-
   updateTimer();
-  setInterval(updateTimer, 1000);
 
-let preCount = 30;
-const preInterval = setInterval(()=>{
-  preCount--;
-  if(preCount <= 0){
-    clearInterval(preInterval);
-    runCloneAnimation();
+  const now = Date.now();
+  const left = Math.max(0, targetTime - now);
+  const total = targetTime - startTime;
+  let progress = 1 - left / total;
+  if(progress>1) progress=1;
+
+  drawPatterns(progress);
+  spawnIntenseParticles(progress);
+  updateParticles(progress);
+  drawGrid(progress);
+  updateClones(progress);
+
+  if(progress>=0.7 && ambience.paused){
+    ambience.play().catch(e=>console.log("Audio blocked"));
   }
-}, 1000);
-});
+
+  if(progress>=1){
+    document.body.style.background='black';
+    clones.forEach(c=>c.el.remove());
+    particles=[];
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    window.open('https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform','_blank');
+    return;
+  }
+
+  requestAnimationFrame(animate);
+}
+
+// --- Start ---
+animate();
 </script>
 </body>
 </html>
