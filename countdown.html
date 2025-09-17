@@ -71,131 +71,6 @@ const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 
 // German time: October 6th 20:00 local → convert to UTC
-const targetTime = new Date('2025-10-06T18:00:00Z').getTime();
-let lastSecond = null;
-
-// Handle mute/unmute
-muteBtn.addEventListener('click', () => {
-  isMuted = false;
-  tickSound.muted = false;
-  muteBtn.style.display = 'none'; // hide button once unmuted
-});
-
-function updateTimer() {
-  const now = Date.now();
-  let diff = Math.max(0, targetTime - now);
-
-  // Total hours
-  let totalHours = Math.floor(diff / (1000*60*60));
-  diff %= (1000*60*60);
-  const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
-  diff %= (1000*60);
-  const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
-
-  // Hour twist: ??? if >= 100
-  let hoursDisplay = totalHours >= 100 ? '??' : String(totalHours).padStart(2,'0');
-
-  const timeStr = hoursDisplay + minutes + seconds;
-  timerDigits.forEach((d,i)=>{
-    if(timerDigits[i]) d.textContent = timeStr[i];
-  });
-
-  // Play tick only if second changed and not muted
-  if(seconds !== lastSecond){
-    if(!isMuted){
-      tickSound.currentTime = 0;
-      tickSound.play().catch(e=>console.log("Audio blocked:", e));
-    }
-    lastSecond = seconds;
-  }
-
-  // Reveal forum link if countdown finished
-  if(now >= targetTime){
-    forumLink.style.display = 'block';
-  }
-}
-
-// Initial check in case page loads after countdown
-updateTimer();
-
-// Update every second
-setInterval(updateTimer, 1000);
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Countdown with Mystery Hours</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: black;
-    color: #00ffdd;
-    font-family: 'manaspace', monospace;
-  }
-
-  #timer {
-    font-size: 72px;
-    letter-spacing: 12px;
-  }
-
-  .digit, .sep { display:inline-block; width:auto; text-align:center; }
-
-  #forumLink {
-    margin-top: 40px;
-    font-size: 32px;
-    color: #00ffdd;
-    text-decoration: underline;
-    cursor: pointer;
-    display: none;
-  }
-
-  #muteBtn {
-    margin-top: 20px;
-    font-size: 20px;
-    padding: 8px 16px;
-    cursor: pointer;
-    color: black;
-    background: #00ffdd;
-    border: none;
-    border-radius: 5px;
-  }
-</style>
-</head>
-<body>
-<audio id="tickSound" src="sound/tick.wav" preload="auto" muted></audio>
-
-<div id="timer">
-  <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
-  <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
-  <span class="digit">0</span><span class="digit">0</span>
-</div>
-
-<button id="muteBtn">Unmute</button>
-
-<a id="forumLink" href="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform" target="_blank">
-  Open the Forum
-</a>
-
-<script>
-const timerDigits = document.querySelectorAll(".digit");
-const forumLink = document.getElementById('forumLink');
-const tickSound = document.getElementById('tickSound');
-const muteBtn = document.getElementById('muteBtn');
-
-let isMuted = true;
-
-// German time: October 6th 20:00 local → convert to UTC
 const targetTime = Date.now() + 30 * 1000; 
 let lastSecond = null;
 
@@ -234,6 +109,7 @@ function updateTimer() {
     lastSecond = seconds;
   }
 
+  // Reveal forum link if countdown finished
   if(now >= targetTime){
     forumLink.style.display = 'block';
   }
