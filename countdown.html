@@ -3,56 +3,49 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Countdown</title>
-
-
-
-
+  <title>Countdown (HHH:MM:SS)</title>
   <style>
-  
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      background: black !important;
-      color: #00ffdd !important; 
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      font-family: 'manaspace', monospace !important;
+      background: black;
+      color: #00ffdd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'manaspace', monospace;
     }
-
     #timer {
-      display: flex !important;
-      font-size: 100px;
-      letter-spacing: 10px;
+      display: flex;
+      font-size: 72px;
+      letter-spacing: 6px;
+      align-items: center;
     }
-
     .digit {
-      transition: all 0.3s ease;
-    }
-
-    #form-link {
-      display: none;
-      margin-top: 30px;
+      transition: all 0.25s ease;
+      display: inline-block;
+      width: 0.55ch;
       text-align: center;
     }
-
-    #form-link a {
-      color: #00ffdd;
-      font-size: 24px;
-      text-decoration: underline;
-    }
+    .sep { padding: 0 8px; }
+    #form-link { display: none; margin-top: 30px; text-align: center; }
+    #form-link a { color: #00ffdd; font-size: 18px; text-decoration: underline; }
   </style>
 </head>
 <body>
+  <!-- Format: HHH:MM:SS -->
   <div id="timer">
+    <!-- hours (up to 3 digits) -->
     <span class="digit">0</span>
     <span class="digit">0</span>
-    <span>:</span>
+    <span class="digit">0</span>
+    <span class="sep">:</span>
+    <!-- minutes -->
     <span class="digit">0</span>
     <span class="digit">0</span>
-    <span>:</span>
+    <span class="sep">:</span>
+    <!-- seconds -->
     <span class="digit">0</span>
     <span class="digit">0</span>
   </div>
@@ -62,37 +55,40 @@
   </div>
 
 <script>
-  // ✅ Use proper ISO date format
-  const targetTime = new Date('2025-10-01T23:30:15Z').getTime();
+
+
+  const targetTime = new Date('2025-10-06T23:30:15Z').getTime();
+
   const timerDigits = document.querySelectorAll(".digit");
   const formEl = document.getElementById("form-link");
 
   function updateTimer() {
-    const now = new Date().getTime();
+    const now = Date.now();
     let diff = Math.max(0, targetTime - now);
 
-    let hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
-    let minutes = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-    let seconds = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+    const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(3, "0");
+    diff %= 1000 * 60 * 60;
+    const minutes = String(Math.floor(diff / (1000 * 60))).padStart(2, "0");
+    diff %= 1000 * 60;
+    const seconds = String(Math.floor(diff / 1000)).padStart(2, "0");
 
     const timeStr = hours + minutes + seconds;
 
     timeStr.split("").forEach((num, i) => {
       if (timerDigits[i]) {
-        const el = timerDigits[i];
-        el.textContent = num;
-        el.style.opacity = 0.7 + Math.random() * 0.3;
-        el.style.transform = `translateY(${Math.random() * 4 - 2}px)`;
+        timerDigits[i].textContent = num;
+        timerDigits[i].style.opacity = 0.7 + Math.random() * 0.3;
+        timerDigits[i].style.transform = `translateY(${Math.random() * 4 - 2}px)`;
       }
     });
 
-    if (diff <= 0) {
+    if (+hours === 0 && +minutes === 0 && +seconds === 0) {
       clearInterval(timer);
       formEl.style.display = "block";
     }
   }
 
-  const timer = setInterval(updateTimer, 1000);
+  let timer = setInterval(updateTimer, 1000);
   updateTimer();
 </script>
 </body>
