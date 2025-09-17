@@ -1,110 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Countdown with Clone Effect</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    background: black;
-    font-family: 'manaspace', monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #00ffdd;
-    position: relative;
-  }
-
-  #overlay {
-    position: absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:black;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:36px;
-    cursor:pointer;
-    z-index:3;
-    transition: opacity 1s ease;
-  }
-
-  canvas#bgCanvas {
-    position: absolute;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 2s ease;
-    z-index:0;
-  }
-
-  #timer {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    font-size: 72px;
-    letter-spacing: 6px;
-    opacity: 0;
-    transition: opacity 1s ease;
-  }
-
-  .digit {
-    display: inline-block;
-    width: 0.55ch;
-    text-align: center;
-    position: relative;
-  }
-
-  .sep { padding:0 8px; }
-
-  #form-link {
-    display: none;
-    position: absolute;
-    bottom: 50px;
-    z-index: 2;
-    text-align: center;
-  }
-  #form-link a {
-    color: #00ffdd;
-    font-size: 18px;
-    text-decoration: underline;
-  }
-
-  .digit-clone {
-    position: absolute;
-    color: #00ffdd;
-    pointer-events: none;
-    font-family: 'manaspace', monospace;
-    letter-spacing: 6px;
-  }
-</style>
-</head>
-<body>
-
-<div id="overlay">Are you willing to click?</div>
-
-<canvas id="bgCanvas"></canvas>
-
-<div id="timer">
-  <span class="digit">0</span><span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
-  <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
-  <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
-  <span class="digit">0</span><span class="digit">0</span>
-</div>
-
-<div id="form-link">
-  <a href="https://forms.gle/TerK9komfnjW7GPt6">Open Ultimate Level Builder Awards 1</a>
-</div>
-
-<audio id="jingle" src="sound/countdown.wav" autoplay muted></audio>
-
 <script>
 const targetTime = new Date('2025-10-06T23:30:15Z').getTime();
 const timerDigits = document.querySelectorAll(".digit");
@@ -115,9 +8,9 @@ const ctx = canvas.getContext('2d');
 const jingle = document.getElementById('jingle');
 
 // ------------------ Timer Update ------------------
-function updateTimer(){
+function updateTimer() {
   const now = Date.now();
-  let diff = Math.max(0,targetTime-now);
+  let diff = Math.max(0, targetTime - now);
 
   const days = String(Math.floor(diff / (1000*60*60*24))).padStart(3,'0');
   diff %= (1000*60*60*24);
@@ -132,10 +25,20 @@ function updateTimer(){
   timeStr.split("").forEach((num,i)=>{
     if(timerDigits[i]){
       timerDigits[i].textContent = num;
-      timerDigits[i].style.transform = `translate(${Math.random()*2-1}px, ${Math.random()*2-1}px)`;
     }
   });
 }
+
+// ------------------ Digit Jitter ------------------
+function jitterDigits() {
+  timerDigits.forEach(d=>{
+    const offsetX = (Math.random()*2-1);
+    const offsetY = (Math.random()*2-1);
+    d.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+  });
+  requestAnimationFrame(jitterDigits);
+}
+jitterDigits();
 
 // ------------------ Background Grid ------------------
 let gridOffsetX = 0, gridOffsetY = 0;
@@ -176,14 +79,11 @@ function animateGrid(){
 }
 animateGrid();
 
-// ------------------ Clone Digit Effect ------------------
+// ------------------ Clone Digit Animation ------------------
 function runCloneAnimation(){
-  const initialClones = [];
-  const transitionClones = [];
-  const startTime = Date.now();
+  const clones = [];
 
-  // spawn initial clones
-  timerDigits.forEach(d=>{
+  timerDigits.forEach(d => {
     const rect = d.getBoundingClientRect();
     const clone = d.cloneNode(true);
     clone.classList.add('digit-clone');
@@ -191,88 +91,53 @@ function runCloneAnimation(){
     clone.style.top = rect.top + 'px';
     clone.style.fontSize = window.getComputedStyle(d).fontSize;
     clone.style.opacity = 0.3;
-    clone.style.transform = 'scale(1.2)';
     document.body.appendChild(clone);
-    initialClones.push({el: clone, dx: Math.random()*4-2, dy: Math.random()*4-2});
+
+    clones.push({
+      el: clone,
+      dx: Math.random()*4-2,
+      dy: Math.random()*4-2,
+      start: Date.now()
+    });
   });
 
-  // animate clones
-  const animId = setInterval(()=>{
-    initialClones.forEach(c=>{
-      c.el.style.transform = `translate(${c.dx}px,${c.dy}px) scale(1.2)`;
-    });
-  },50);
-
-  // after 5s, start fade out old clones
-  setTimeout(()=>{
-    initialClones.forEach(c=>c.el.style.transition='opacity 1s ease');
-    initialClones.forEach(c=>c.el.style.opacity=0);
-
-    // spawn transition clones every 0.1s for 1s
-    let spawnCount = 0;
-    const spawnInterval = setInterval(()=>{
-      spawnCount++;
-      timerDigits.forEach(d=>{
-        const rect = d.getBoundingClientRect();
-        const clone = d.cloneNode(true);
-        clone.classList.add('digit-clone');
-        clone.style.left = rect.left+'px';
-        clone.style.top = rect.top+'px';
-        clone.style.fontSize = window.getComputedStyle(d).fontSize;
-        clone.style.opacity = 0.3;
-        clone.style.transform='scaleX(1) scaleY(1)';
-        document.body.appendChild(clone);
-
-        // random behavior
-        const type = Math.random()<0.5?'x':'y';
-        const start = Date.now();
-        function animateTransition(){
-          const t = (Date.now()-start)/1000; // seconds
-          if(t>1){
-            clone.remove();
-            return;
-          }
-          if(type==='x'){
-            clone.style.transform = `scaleX(${1+t*0.2}) scaleY(${1-t*1.0})`;
-          }else{
-            clone.style.transform = `scaleX(${1-t*1.0}) scaleY(${1+t*0.2})`;
-          }
-          requestAnimationFrame(animateTransition);
+  function animateClones() {
+    const now = Date.now();
+    clones.forEach((c,i)=>{
+      const t = (now - c.start)/1000;
+      if(t > 1){
+        c.el.remove();
+        clones[i] = null;
+      } else {
+        const type = Math.random() < 0.5 ? 'x' : 'y';
+        if(type==='x'){
+          c.el.style.transform = `translate(${c.dx}px, ${c.dy}px) scaleX(${1+t*0.2}) scaleY(${1-t*1.0})`;
+        } else {
+          c.el.style.transform = `translate(${c.dx}px, ${c.dy}px) scaleX(${1-t*1.0}) scaleY(${1+t*0.2})`;
         }
-        animateTransition();
-      });
+      }
+    });
+    if(clones.some(c=>c)) requestAnimationFrame(animateClones);
+  }
+  animateClones();
 
-      if(spawnCount>=10) clearInterval(spawnInterval); // 1s total
-    },100);
-
-    // remove old initial clones after fade
-    setTimeout(()=>{
-      initialClones.forEach(c=>c.el.remove());
-      clearInterval(animId);
-    },1000);
-
-  },5000);
-
-  // fade out background at end of 6s
-  setTimeout(()=>{ canvas.style.opacity=0; },6000);
+  // Fade out background at the end of animation
+  setTimeout(()=>{ canvas.style.opacity=0; }, 6000);
 }
 
 // ------------------ Start Sequence ------------------
-overlay.addEventListener('click',()=>{
-  overlay.style.opacity=0;
-  setTimeout(()=>overlay.style.display='none',1000);
+overlay.addEventListener('click', ()=>{
+  overlay.style.opacity = 0;
+  setTimeout(()=>overlay.style.display='none', 1000);
 
-  timerEl.style.opacity=1;
+  timerEl.style.opacity = 1;
 
-  jingle.muted=false;
+  jingle.muted = false;
   jingle.play();
 
-  setInterval(updateTimer,1000);
   updateTimer();
+  setInterval(updateTimer, 1000);
 
-  // trigger clone animation immediately for testing
-  setTimeout(runCloneAnimation,100);
+  setTimeout(runCloneAnimation, 100); // small delay for sync
 });
 </script>
-</body>
-</html>
