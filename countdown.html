@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row; /* horizontal layout */
     color: #00ffdd;
     position: relative;
   }
@@ -42,14 +42,16 @@
     height: 100%;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 2s ease;
+    transition: opacity 1s ease;
     z-index:0;
   }
 
   #timer {
     position: relative;
     z-index: 2;
-    display: flex;
+    display: flex;          
+    flex-wrap: nowrap;       /* prevent vertical wrap */
+    justify-content: center;
     font-size: 72px;
     letter-spacing: 6px;
     opacity: 0;
@@ -104,8 +106,7 @@
   <a href="https://forms.gle/TerK9komfnjW7GPt6">Open Ultimate Level Builder Awards 1</a>
 </div>
 
-<audio id="jingle" src="sound/countdown.wav" autoplay muted></audio>
-
+<audio id="jingle" src="sound/countdown.wav"></audio>
 
 <script>
 const targetTime = new Date('2025-10-06T23:30:15Z').getTime();
@@ -213,6 +214,7 @@ function runCloneAnimation(){
   function animateClones() {
     const now = Date.now();
     clones.forEach((c,i)=>{
+      if(!c) return;
       const t = (now - c.start)/1000;
       if(t > 1){
         c.el.remove();
@@ -230,7 +232,7 @@ function runCloneAnimation(){
   }
   animateClones();
 
-  // Fade out background at the end of animation
+  // Fade out background after 6s
   setTimeout(()=>{ canvas.style.opacity=0; }, 6000);
 }
 
@@ -240,14 +242,18 @@ overlay.addEventListener('click', ()=>{
   setTimeout(()=>overlay.style.display='none', 1000);
 
   timerEl.style.opacity = 1;
+  canvas.style.opacity = 1;
 
-  jingle.muted = false;
-  jingle.play();
+  // Play audio unmuted
+  jingle.play().catch(e=>{
+    console.log("Audio play blocked, click again:", e);
+  });
 
   updateTimer();
   setInterval(updateTimer, 1000);
 
-  setTimeout(runCloneAnimation, 100); // small delay for sync
+  // Run clone animation after DOM layout stabilizes
+  requestAnimationFrame(runCloneAnimation);
 });
 </script>
 </body>
