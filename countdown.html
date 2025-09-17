@@ -181,9 +181,11 @@ function animateGrid(){
   requestAnimationFrame(animateGrid);
 }
 
-// ------------------ Clone Digit Animation ------------------
 function runCloneAnimation(){
   const clones = [];
+  const startTime = Date.now();
+
+  // Spawn clones
   timerDigits.forEach(d => {
     const rect = d.getBoundingClientRect();
     const clone = d.cloneNode(true);
@@ -191,39 +193,55 @@ function runCloneAnimation(){
     clone.style.left = rect.left + 'px';
     clone.style.top = rect.top + 'px';
     clone.style.fontSize = window.getComputedStyle(d).fontSize;
-    clone.style.opacity = 0.3;
+    // Random opacity between 0.25 and 0.75
+    clone.style.opacity = (0.25 + Math.random() * 0.5).toString();
     document.body.appendChild(clone);
 
     clones.push({
       el: clone,
       dx: Math.random()*4-2,
       dy: Math.random()*4-2,
-      start: Date.now()
     });
   });
 
+  canvas.style.opacity = 1; // fade in canvas
+  animateGrid(); // start grid animation
+
   function animateClones() {
     const now = Date.now();
+    const elapsed = (now - startTime) / 1000; // seconds
+
     clones.forEach((c,i)=>{
       if(!c) return;
-      const t = (now - c.start)/1000;
-      if(t > 1){
-        c.el.remove();
-        clones[i] = null;
-      } else {
+
+      // First 6 seconds: skew/scale
+      if(elapsed <= 6){
         const type = Math.random() < 0.5 ? 'x' : 'y';
         if(type==='x'){
-          c.el.style.transform = `translate(${c.dx}px, ${c.dy}px) scaleX(${1+t*0.2}) scaleY(${1-t*1.0})`;
+          c.el.style.transform = `translate(${c.dx}px, ${c.dy}px) scaleX(${1 + elapsed*0.2}) scaleY(${1 - elapsed*1.0})`;
         } else {
-          c.el.style.transform = `translate(${c.dx}px, ${c.dy}px) scaleX(${1-t*1.0}) scaleY(${1+t*0.2})`;
+          c.el.style.transform = `translate(${c.dx}px, ${c.dy}px) scaleX(${1 - elapsed*1.0}) scaleY(${1 + elapsed*0.2})`;
         }
       }
+      // Between 6–12 seconds: fade out
+      else if(elapsed > 6 && elapsed <= 12){
+        const newOpacity = Math.max(0, parseFloat(c.el.style.opacity) * (1 - (elapsed-6)/6));
+        c.el.style.opacity = newOpacity.toString();
+      }
+      // After 12 seconds: remove
+      else{
+        c.el.remove();
+        clones[i] = null;
+      }
     });
-    if(clones.some(c=>c)) requestAnimationFrame(animateClones);
+
+    if(clones.some(c=>c) || elapsed < 12) requestAnimationFrame(animateClones);
   }
+
   animateClones();
-  canvas.style.opacity = 1; // fade in canvas
-  animateGrid(); // start grid
+
+  // Fade out canvas at 12 seconds
+  setTimeout(()=>{ canvas.style.opacity = 0; }, 12000);
 }
 
 // ------------------ Start Sequence ------------------
