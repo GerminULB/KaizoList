@@ -50,7 +50,7 @@
     position: relative;
     z-index: 2;
     display: flex;          
-    flex-wrap: nowrap;       /* horizontal, no wrap */
+    flex-wrap: nowrap;
     justify-content: center;
     font-size: 72px;
     letter-spacing: 6px;
@@ -68,7 +68,6 @@
 
   .digit-clone {
     position: absolute;
-    color: #00ffdd;
     pointer-events: none;
     font-family: 'manaspace', monospace;
     letter-spacing: 6px;
@@ -111,7 +110,8 @@ const ctx = canvas.getContext('2d');
 const jingle = document.getElementById('jingle');
 const preCountdownEl = document.getElementById('preCountdown');
 
-// ------------------ Main Timer ------------------
+// ------------------ Timer Jitter (1 per second) ------------------
+let lastTimer = '';
 function updateTimer() {
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
@@ -130,18 +130,17 @@ function updateTimer() {
       timerDigits[i].textContent = num;
     }
   });
-}
 
-// ------------------ Digit Jitter ------------------
-function jitterDigits() {
-  timerDigits.forEach(d=>{
-    const offsetX = (Math.random()*2-1);
-    const offsetY = (Math.random()*2-1);
-    d.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-  });
-  requestAnimationFrame(jitterDigits);
+  // Jitter only if timer changed
+  if(timeStr !== lastTimer){
+    timerDigits.forEach(d=>{
+      const offsetX = (Math.random()*2-1);
+      const offsetY = (Math.random()*2-1);
+      d.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+    lastTimer = timeStr;
+  }
 }
-jitterDigits();
 
 // ------------------ Grid Canvas ------------------
 let gridOffsetX = 0, gridOffsetY = 0;
@@ -181,11 +180,11 @@ function animateGrid(){
   requestAnimationFrame(animateGrid);
 }
 
+// ------------------ Clone Digit Parallax Drop ------------------
 function runCloneAnimation(){
   const clones = [];
   const startTime = Date.now();
 
-  // Spawn clones
   timerDigits.forEach(d => {
     const rect = d.getBoundingClientRect();
     const clone = d.cloneNode(true);
@@ -193,55 +192,57 @@ function runCloneAnimation(){
     clone.style.left = rect.left + 'px';
     clone.style.top = rect.top + 'px';
     clone.style.fontSize = window.getComputedStyle(d).fontSize;
-    // Random opacity between 0.25 and 0.75
     clone.style.opacity = (0.25 + Math.random() * 0.5).toString();
+    clone.style.color = '#00ffdd';
     document.body.appendChild(clone);
 
     clones.push({
       el: clone,
-      dx: Math.random()*4-2,
-      dy: Math.random()*4-2,
+      dx: Math.random()*2-1,
+      dy: Math.random()*1 + 0.5,
+      baseOpacity: parseFloat(clone.style.opacity),
     });
   });
 
-  canvas.style.opacity = 1; // fade in canvas
-  animateGrid(); // start grid animation
+  canvas.style.opacity = 1;
+  animateGrid();
 
-  function animateClones() {
+  function animateClones(){
     const now = Date.now();
-    const elapsed = (now - startTime) / 1000; // seconds
+    const elapsed = (now - startTime)/1000;
 
     clones.forEach((c,i)=>{
       if(!c) return;
 
-      // First 6 seconds: skew/scale
+      // Parallax drop
+      c.el.style.transform = `translate(${c.dx*elapsed*10}px, ${c.dy*elapsed*20}px)`;
+
+      // Rainbow tint first 6s
       if(elapsed <= 6){
-        const type = Math.random() < 0.5 ? 'x' : 'y';
-        if(type==='x'){
-          c.el.style.transform = `translate(${c.dx}px, ${c.dy}px) scaleX(${1 + elapsed*0.2}) scaleY(${1 - elapsed*1.0})`;
-        } else {
-          c.el.style.transform = `translate(${c.dx}px, ${c.dy}px) scaleX(${1 - elapsed*1.0}) scaleY(${1 + elapsed*0.2})`;
-        }
+        const hue = (elapsed*60) % 360;
+        c.el.style.color = `hsl(${hue},100%,50%)`;
       }
-      // Between 6–12 seconds: fade out
-      else if(elapsed > 6 && elapsed <= 12){
-        const newOpacity = Math.max(0, parseFloat(c.el.style.opacity) * (1 - (elapsed-6)/6));
-        c.el.style.opacity = newOpacity.toString();
+
+      // Fade out 6–10s
+      if(elapsed > 6 && elapsed <= 10){
+        const fade = Math.max(0, c.baseOpacity * (1 - (elapsed-6)/4));
+        c.el.style.opacity = fade.toString();
       }
-      // After 12 seconds: remove
-      else{
+
+      // Remove after 10s
+      if(elapsed > 10){
         c.el.remove();
         clones[i] = null;
       }
     });
 
-    if(clones.some(c=>c) || elapsed < 12) requestAnimationFrame(animateClones);
+    if(clones.some(c=>c) || elapsed < 10) requestAnimationFrame(animateClones);
   }
 
   animateClones();
 
-  // Fade out canvas at 12 seconds
-  setTimeout(()=>{ canvas.style.opacity = 0; }, 12000);
+  setTimeout(()=>{ canvas.style.opacity = 0; }, 10000);
+  jingle.play().catch(e=>console.log("Audio blocked:", e));
 }
 
 // ------------------ Start Sequence ------------------
@@ -263,10 +264,7 @@ overlay.addEventListener('click', ()=>{
     } else {
       clearInterval(preInterval);
       preCountdownEl.textContent = '';
-      // Start audio + clone animation + grid
-      jingle.play().catch(e=>{
-        console.log("Audio blocked:", e);
-      });
+      // Start animation + audio
       runCloneAnimation();
     }
   }, 1000);
