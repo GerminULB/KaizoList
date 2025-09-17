@@ -44,6 +44,7 @@
     background: #00ffdd;
     border: none;
     border-radius: 5px;
+    font-family: 'manaspace', monospace; /* added font */
   }
 </style>
 </head>
@@ -70,15 +71,15 @@ const muteBtn = document.getElementById('muteBtn');
 
 let isMuted = true;
 
-// German time: October 6th 20:00 local → convert to UTC
+// 30-second test countdown
 const targetTime = Date.now() + 30 * 1000; 
 let lastSecond = null;
 
-// Handle mute/unmute
+// Handle mute/unmute toggle
 muteBtn.addEventListener('click', () => {
-  isMuted = false;
-  tickSound.muted = false;
-  muteBtn.style.display = 'none'; // hide button once unmuted
+  isMuted = !isMuted;
+  tickSound.muted = isMuted;
+  muteBtn.textContent = isMuted ? 'Unmute' : 'Mute';
 });
 
 function updateTimer() {
