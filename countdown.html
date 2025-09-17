@@ -103,7 +103,6 @@
 <script>
 const targetTime = new Date('2025-10-06T23:30:15Z').getTime();
 const timerDigits = document.querySelectorAll(".digit");
-const timerEl = document.getElementById('timer');
 const overlay = document.getElementById('overlay');
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
@@ -120,7 +119,7 @@ function updateTimer() {
   diff %= (1000*60*60*24);
   const hours = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
   diff %= (1000*60*60);
-  const minutes = String.floor(diff / (1000*60)).padStart(2,'0');
+  const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0'); // fixed
   diff %= (1000*60);
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
 
@@ -131,6 +130,7 @@ function updateTimer() {
     }
   });
 
+  // Jitter only if timer changed
   if(timeStr !== lastTimer){
     timerDigits.forEach(d=>{
       const offsetX = (Math.random()*2-1);
@@ -179,7 +179,7 @@ function animateGrid(){
   requestAnimationFrame(animateGrid);
 }
 
-// ------------------ Clone Digit Parallax Drop + Bluish Purple Cyan Tint ------------------
+// ------------------ Clone Digit Parallax Drop + Bluish Purple → Cyan Tint ------------------
 function runCloneAnimation(){
   const clones = [];
   const startTime = Date.now();
@@ -212,8 +212,8 @@ function runCloneAnimation(){
     const now = Date.now();
     const elapsed = (now - startTime)/1000;
 
-    // Bluish purple → cyan tint over canvas
-    let alpha = Math.min(0.5, (elapsed/6)*0.5);
+    // Bluish purple → cyan gradient tint
+    const alpha = Math.min(0.5, (elapsed/6)*0.5);
     const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
     gradient.addColorStop(0,'rgba(128,0,255,'+alpha+')'); // bluish purple
     gradient.addColorStop(1,'rgba(0,255,255,'+alpha+')'); // cyan
@@ -236,6 +236,7 @@ function runCloneAnimation(){
       }
     });
 
+    // Fade canvas with clones
     if(elapsed > 12 && elapsed <= 14){
       canvas.style.opacity = Math.max(0, 1 - (elapsed-12)/2);
     } else if(elapsed > 14){
