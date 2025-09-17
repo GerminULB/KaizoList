@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Countdown</title>
+
+
+
+
+  <style>
+  
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black !important;
+      color: #00ffdd !important; 
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      font-family: 'manaspace', monospace !important;
+    }
+
+    #timer {
+      display: flex !important;
+      font-size: 100px;
+      letter-spacing: 10px;
+    }
+
+    .digit {
+      transition: all 0.3s ease;
+    }
+
+    #form-link {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    #form-link a {
+      color: #00ffdd;
+      font-size: 24px;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="timer">
+    <span class="digit">0</span>
+    <span class="digit">0</span>
+    <span>:</span>
+    <span class="digit">0</span>
+    <span class="digit">0</span>
+    <span>:</span>
+    <span class="digit">0</span>
+    <span class="digit">0</span>
+  </div>
+
+  <div id="form-link">
+    <a href="https://forms.gle/TerK9komfnjW7GPt6">Open Ultimate Level Builder Awards 1</a>
+  </div>
+
+  <script>
+
+    const targetTime = new Date('2025-10-1T23:00:00Z').getTime()
+    const timerDigits = document.querySelectorAll(".digit");
+    const formEl = document.getElementById("form-link");
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      let diff = Math.max(0, targetTime - now);
+
+      let hours = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
+      let minutes = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2,'0');
+      let seconds = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2,'0');
+
+      const timeStr = hours + minutes + seconds;
+
+      timeStr.split("").forEach((num,i) => {
+        const el = timerDigits[i];
+        el.textContent = num;
+
+        el.style.opacity = 0.7 + Math.random() * 0.3;
+        el.style.transform = `translateY(${Math.random()*4 - 2}px)`;
+      });
+
+      if(diff <= 0){
+        clearInterval(timer);
+        formEl.style.display = "block";
+      }
+    }
+
+    const timer = setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>
