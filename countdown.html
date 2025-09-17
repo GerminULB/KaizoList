@@ -3,252 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Progressive Countdown</title>
+<title>Countdown with Mystery Hours</title>
 <style>
   html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     width: 100%;
-    overflow: hidden;
-    background: black;
-    font-family: 'manaspace', monospace;
-    color: #00ffdd;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
+    background: black;
+    color: #00ffdd;
+    font-family: 'manaspace', monospace;
   }
 
   #timer {
-    position: relative;
-    z-index: 5;
-    display: flex;
     font-size: 72px;
     letter-spacing: 6px;
   }
 
-  .digit { display:inline-block; width:0.55ch; text-align:center; }
-  .sep { padding:0 8px; }
+  .digit, .sep { display:inline-block; width:auto; text-align:center; }
 
-  canvas { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  #forumLink {
+    margin-top: 40px;
+    font-size: 32px;
+    color: #00ffdd;
+    text-decoration: underline;
+    cursor: pointer;
+    display: none;
+  }
 </style>
 </head>
 <body>
-
-<canvas id="canvas"></canvas>
+<audio id="tickSound" src="tick.mp3" preload="auto"></audio>
 
 <div id="timer">
-  <span class="digit">0</span><span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
   <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
   <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
   <span class="digit">0</span><span class="digit">0</span>
 </div>
 
-<audio id="ambience" src="ambience.mp3"></audio>
+<a id="forumLink" href="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform" target="_blank">
+  Open the Forum
+</a>
 
 <script>
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
 const timerDigits = document.querySelectorAll(".digit");
-const ambience = document.getElementById('ambience');
+const forumLink = document.getElementById('forumLink');
 
-let startTime = Date.now();
-const targetTime = startTime + 2 * 60 * 1000; // 2 minutes from now
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+// Set your target date/time (2 minutes for testing)
+const targetTime = Date.now() + 2*60*1000;
 
-window.addEventListener('resize', ()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-// --- Particle setup ---
-let particles = [];
-function spawnParticles(count) {
-  for(let i=0;i<count;i++){
-    particles.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height,
-      size: 5 + Math.random()*5,
-      dx: (Math.random()*2-1)*0.5,
-      dy: (Math.random()*2-1)*0.5
-    });
-  }
-}
-function updateParticles(progress){
-  if(progress>=0.2 && particles.length<50) spawnParticles(1);
-  ctx.fillStyle='white';
-  particles.forEach(p=>{
-    p.x += p.dx*(1+progress*5);
-    p.y += p.dy*(1+progress*5);
-    if(p.x>canvas.width)p.x=0;
-    if(p.x<0)p.x=canvas.width;
-    if(p.y>canvas.height)p.y=0;
-    if(p.y<0)p.y=canvas.height;
-    ctx.fillRect(p.x,p.y,p.size,p.size);
-  });
-}
-
-// --- Grid ---
-let gridOffsetX1=0, gridOffsetY1=0, gridOffsetX2=0, gridOffsetY2=0;
-function drawGrid(progress){
-  if(progress>=0.4){
-    ctx.strokeStyle='rgba(128,128,128,'+Math.min(0.3,(progress-0.4)*2)+')';
-    ctx.lineWidth=1;
-    for(let x=-50*2;x<canvas.width+50*2;x+=50){
-      ctx.beginPath();
-      ctx.moveTo(x+gridOffsetX1,0);
-      ctx.lineTo(x+gridOffsetX1,canvas.height);
-      ctx.stroke();
-    }
-    for(let y=-50*2;y<canvas.height+50*2;y+=50){
-      ctx.beginPath();
-      ctx.moveTo(0,y+gridOffsetY1);
-      ctx.lineTo(canvas.width,y+gridOffsetY1);
-      ctx.stroke();
-    }
-    gridOffsetX1 += 0.3 + progress*2;
-    gridOffsetY1 += 0.2 + progress*2;
-  }
-  if(progress>=0.6){
-    ctx.strokeStyle='rgba(128,128,128,'+Math.min(0.15,(progress-0.6)*2)+')';
-    for(let x=-50*2;x<canvas.width+50*2;x+=50){
-      ctx.beginPath();
-      ctx.moveTo(x+gridOffsetX2,0);
-      ctx.lineTo(x+gridOffsetX2,canvas.height);
-      ctx.stroke();
-    }
-    for(let y=-50*2;y<canvas.height+50*2;y+=50){
-      ctx.beginPath();
-      ctx.moveTo(0,y+gridOffsetY2);
-      ctx.lineTo(canvas.width,y+gridOffsetY2);
-      ctx.stroke();
-    }
-    gridOffsetX2 -= 0.2 + progress*1.5;
-    gridOffsetY2 -= 0.1 + progress*1.5;
-  }
-}
-
-// --- Clone digits ---
-let clones = [];
-function spawnClone(progress, subtle=false){
-  const d = timerDigits[Math.floor(Math.random()*timerDigits.length)];
-  const rect = d.getBoundingClientRect();
-  const clone = d.cloneNode(true);
-  clone.style.position='absolute';
-  clone.style.left = rect.left+'px';
-  clone.style.top = rect.top+'px';
-  clone.style.opacity = subtle ? (0.1+Math.random()*0.15) : (0.25+Math.random()*0.25);
-  clone.style.color='#00ffdd';
-  document.body.appendChild(clone);
-  clones.push({el:clone, dx:(Math.random()*2-1)*(1+progress*5), dy:0});
-}
-function updateClones(progress){
-  clones.forEach((c,i)=>{
-    c.el.style.transform = `translate(${c.dx}px, ${c.dy}px)`;
-  });
-  if(progress>=0.5 && progress<0.8){
-    if(Date.now()%500<16) timerDigits.forEach(()=>spawnClone(progress,true));
-  }
-}
-
-// --- Timer display ---
-function updateTimer(){
+function updateTimer() {
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
-  const days = String(Math.floor(diff / (1000*60*60*24))).padStart(3,'0');
-  diff %= (1000*60*60*24);
-  const hours = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
+
+  // Calculate hours, minutes, seconds
+  let totalHours = Math.floor(diff / (1000*60*60));
   diff %= (1000*60*60);
   const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
   diff %= (1000*60);
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
-  const timeStr = days + hours + minutes + seconds;
+
+  // Hour twist: ??? if 100 or more
+  let hoursDisplay;
+  if(totalHours < 100){
+    hoursDisplay = String(totalHours).padStart(2,'0');
+  } else {
+    // jitter digits 0-9 randomly
+    hoursDisplay = '' + Math.floor(Math.random()*10) + Math.floor(Math.random()*10);
+  }
+
+  // Build string for display (HH:MM:SS)
+  const timeStr = hoursDisplay + minutes + seconds;
   timeStr.split("").forEach((num,i)=>{
-    if(timerDigits[i]) timerDigits[i].textContent=num;
+    if(timerDigits[i]) timerDigits[i].textContent = num;
   });
+
+  // Show forum link when countdown finishes
+  if(totalHours <= 0 && minutes === "00" && seconds === "00"){
+    forumLink.style.display = 'block';
+  }
 }
 
-// --- Pattern setup ---
-const patterns = [];
-for(let i=0; i<=9; i++){
-  const img = new Image();
-  img.src = `images/pattern/pattern${i}.png`; 
-  patterns.push(img);
-}
 
-let patternIndex = 0;
-let lastPatternChange = 0;
-let patternFill = null;
+let lastSecond = null;
 
-function drawPatterns(progress){
-  if(progress < 0.98) return;
+function updateTimer() {
   const now = Date.now();
-  if(now - lastPatternChange > 200){
-    patternFill = ctx.createPattern(patterns[patternIndex], 'repeat');
-    patternIndex = (patternIndex + 1) % patterns.length;
-    lastPatternChange = now;
-  }
-  if(patternFill){
-    ctx.save();
-    ctx.imageSmoothingEnabled = false; // nearest neighbor
-    ctx.fillStyle = patternFill;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.restore();
-  }
-}
+  let diff = Math.max(0, targetTime - now);
 
-// --- Intense particles ---
-function spawnIntenseParticles(progress){
-  if(progress>=0.95){
-    for(let i=0;i<5;i++){
-      particles.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height,
-        size: 5 + Math.random()*5,
-        dx: (Math.random()*4-2) * progress,
-        dy: (Math.random()*4-2) * progress
-      });
-    }
+  let hoursTotal = Math.floor(diff / (1000*60*60));
+  let hoursDisplay = hoursTotal >= 100 ? '???' : String(hoursTotal).padStart(2,'0');
+
+  diff %= (1000*60*60);
+  const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
+  diff %= (1000*60);
+  const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
+
+  const timeStr = hoursDisplay + minutes + seconds;
+  timerDigits.forEach((d,i)=>{
+    if(timerDigits[i]) d.textContent = timeStr[i];
+  });
+
+  // Play tick only if second changed
+  if(seconds !== lastSecond){
+    tickSound.currentTime = 0;
+    tickSound.play().catch(e=>console.log("Audio blocked:", e));
+    lastSecond = seconds;
   }
 }
 
-// --- Main animation ---
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  updateTimer();
+// Start countdown
+updateTimer();
+setInterval(updateTimer, 1000);
 
-  const now = Date.now();
-  const left = Math.max(0, targetTime - now);
-  const total = targetTime - startTime;
-  let progress = 1 - left / total;
-  if(progress>1) progress=1;
-
-  drawPatterns(progress);
-  spawnIntenseParticles(progress);
-  updateParticles(progress);
-  drawGrid(progress);
-  updateClones(progress);
-
-  if(progress>=0.7 && ambience.paused){
-    ambience.play().catch(e=>console.log("Audio blocked"));
-  }
-
-  if(progress>=1){
-    document.body.style.background='black';
-    clones.forEach(c=>c.el.remove());
-    particles=[];
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    window.open('https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform','_blank');
-    return;
-  }
-
-  requestAnimationFrame(animate);
-}
-
-// --- Start ---
-animate();
 </script>
 </body>
 </html>
