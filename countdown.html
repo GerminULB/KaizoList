@@ -62,8 +62,8 @@
 
 <button id="muteBtn">Unmute</button>
 
-<a id="forumLink" href="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform" target="_blank">
-  Open the Forum
+<a id="forumLink" href="https://forms.gle/TkxFKuawvrdLNRzp8" target="_blank">
+  Open
 </a>
 
 <script>
@@ -74,11 +74,9 @@ const muteBtn = document.getElementById('muteBtn');
 
 let isMuted = true;
 
-// 30-second test countdown
-const targetTime = Date.now() + 30 * 1000; 
+const targetTime = new Date('2025-10-06T18:00:00Z').getTime();
 let lastSecond = null;
 
-// Handle mute/unmute toggle
 muteBtn.addEventListener('click', () => {
   isMuted = !isMuted;
   tickSound.muted = isMuted;
@@ -89,14 +87,14 @@ function updateTimer() {
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
 
-  // Total hours
+
   let totalHours = Math.floor(diff / (1000*60*60));
   diff %= (1000*60*60);
   const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
   diff %= (1000*60);
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
 
-  // Hour twist: ??? if >= 100
+
   let hoursDisplay = totalHours >= 100 ? '??' : String(totalHours).padStart(2,'0');
 
   const timeStr = hoursDisplay + minutes + seconds;
@@ -104,7 +102,7 @@ function updateTimer() {
     if(timerDigits[i]) d.textContent = timeStr[i];
   });
 
-  // Play tick only if second changed and not muted
+
   if(seconds !== lastSecond){
     if(!isMuted){
       tickSound.currentTime = 0;
@@ -113,13 +111,13 @@ function updateTimer() {
     lastSecond = seconds;
   }
 
-  // Reveal forum link if countdown finished
+
   if(now >= targetTime){
     forumLink.style.display = 'block';
   }
 }
 
-// Initial check in case page loads after countdown
+
 updateTimer();
 
 // Update every second
