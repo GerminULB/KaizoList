@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Countdown with Clone Effect</title>
+<title>Countdown with Start Sequence</title>
 <style>
   html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
     overflow: hidden;
     background: black;
     font-family: 'manaspace', monospace;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row; /* horizontal layout */
     color: #00ffdd;
     position: relative;
   }
@@ -50,12 +50,11 @@
     position: relative;
     z-index: 2;
     display: flex;          
-    flex-wrap: nowrap;       /* prevent vertical wrap */
+    flex-wrap: nowrap;       /* horizontal, no wrap */
     justify-content: center;
     font-size: 72px;
     letter-spacing: 6px;
-    opacity: 0;
-    transition: opacity 1s ease;
+    opacity: 1;
   }
 
   .digit {
@@ -67,19 +66,6 @@
 
   .sep { padding:0 8px; }
 
-  #form-link {
-    display: none;
-    position: absolute;
-    bottom: 50px;
-    z-index: 2;
-    text-align: center;
-  }
-  #form-link a {
-    color: #00ffdd;
-    font-size: 18px;
-    text-decoration: underline;
-  }
-
   .digit-clone {
     position: absolute;
     color: #00ffdd;
@@ -87,11 +73,20 @@
     font-family: 'manaspace', monospace;
     letter-spacing: 6px;
   }
+
+  #preCountdown {
+    position: absolute;
+    top: 20px;
+    font-size: 48px;
+    z-index: 4;
+    text-align: center;
+    width: 100%;
+  }
 </style>
 </head>
 <body>
 
-<div id="overlay">Are you willing to click?</div>
+<div id="overlay">Click to Start Countdown</div>
 
 <canvas id="bgCanvas"></canvas>
 
@@ -102,9 +97,7 @@
   <span class="digit">0</span><span class="digit">0</span>
 </div>
 
-<div id="form-link">
-  <a href="https://forms.gle/TerK9komfnjW7GPt6">Open Ultimate Level Builder Awards 1</a>
-</div>
+<div id="preCountdown"></div>
 
 <audio id="jingle" src="sound/countdown.wav"></audio>
 
@@ -116,8 +109,9 @@ const overlay = document.getElementById('overlay');
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 const jingle = document.getElementById('jingle');
+const preCountdownEl = document.getElementById('preCountdown');
 
-// ------------------ Timer Update ------------------
+// ------------------ Main Timer ------------------
 function updateTimer() {
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
@@ -131,7 +125,6 @@ function updateTimer() {
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
 
   const timeStr = days + hours + minutes + seconds;
-
   timeStr.split("").forEach((num,i)=>{
     if(timerDigits[i]){
       timerDigits[i].textContent = num;
@@ -150,7 +143,7 @@ function jitterDigits() {
 }
 jitterDigits();
 
-// ------------------ Background Grid ------------------
+// ------------------ Grid Canvas ------------------
 let gridOffsetX = 0, gridOffsetY = 0;
 const gridSpacing = 50;
 
@@ -187,12 +180,10 @@ function animateGrid(){
   drawGrid();
   requestAnimationFrame(animateGrid);
 }
-animateGrid();
 
 // ------------------ Clone Digit Animation ------------------
 function runCloneAnimation(){
   const clones = [];
-
   timerDigits.forEach(d => {
     const rect = d.getBoundingClientRect();
     const clone = d.cloneNode(true);
@@ -231,9 +222,8 @@ function runCloneAnimation(){
     if(clones.some(c=>c)) requestAnimationFrame(animateClones);
   }
   animateClones();
-
-  // Fade out background after 6s
-  setTimeout(()=>{ canvas.style.opacity=0; }, 6000);
+  canvas.style.opacity = 1; // fade in canvas
+  animateGrid(); // start grid
 }
 
 // ------------------ Start Sequence ------------------
@@ -241,19 +231,27 @@ overlay.addEventListener('click', ()=>{
   overlay.style.opacity = 0;
   setTimeout(()=>overlay.style.display='none', 1000);
 
-  timerEl.style.opacity = 1;
-  canvas.style.opacity = 1;
-
-  // Play audio unmuted
-  jingle.play().catch(e=>{
-    console.log("Audio play blocked, click again:", e);
-  });
-
+  // Main timer updates every second
   updateTimer();
   setInterval(updateTimer, 1000);
 
-  // Run clone animation after DOM layout stabilizes
-  requestAnimationFrame(runCloneAnimation);
+  // 15-second pre-countdown
+  let preCount = 15;
+  preCountdownEl.textContent = preCount;
+  const preInterval = setInterval(()=>{
+    preCount--;
+    if(preCount > 0){
+      preCountdownEl.textContent = preCount;
+    } else {
+      clearInterval(preInterval);
+      preCountdownEl.textContent = '';
+      // Start audio + clone animation + grid
+      jingle.play().catch(e=>{
+        console.log("Audio blocked:", e);
+      });
+      runCloneAnimation();
+    }
+  }, 1000);
 });
 </script>
 </body>
