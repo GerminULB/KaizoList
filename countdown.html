@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Countdown with Grid Effect</title>
+<title>Countdown with Clone Effect</title>
 <style>
   html, body {
     margin: 0;
@@ -19,6 +19,20 @@
     position: relative;
   }
 
+  #overlay {
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:36px;
+    cursor:pointer;
+    z-index:3;
+    transition: opacity 1s ease;
+  }
+
   canvas#bgCanvas {
     position: absolute;
     top:0;
@@ -28,7 +42,7 @@
     pointer-events: none;
     opacity: 0;
     transition: opacity 2s ease;
-    z-index: 0;
+    z-index:0;
   }
 
   #timer {
@@ -37,16 +51,18 @@
     display: flex;
     font-size: 72px;
     letter-spacing: 6px;
+    opacity: 0;
+    transition: opacity 1s ease;
   }
 
   .digit {
     display: inline-block;
     width: 0.55ch;
     text-align: center;
-    transition: transform 0.2s ease, opacity 0.2s ease, filter 0.2s ease;
+    position: relative;
   }
 
-  .sep { padding: 0 8px; }
+  .sep { padding:0 8px; }
 
   #form-link {
     display: none;
@@ -61,50 +77,44 @@
     text-decoration: underline;
   }
 
-  /* Blur overlay for digits */
-  .blurred {
-    filter: blur(4px) brightness(1.2);
+  .digit-clone {
+    position: absolute;
+    color: #00ffdd;
+    pointer-events: none;
+    font-family: 'manaspace', monospace;
+    letter-spacing: 6px;
   }
 </style>
 </head>
 <body>
 
+<div id="overlay">Are you willing to click?</div>
+
 <canvas id="bgCanvas"></canvas>
 
 <div id="timer">
-  <!-- days -->
-  <span class="digit">0</span>
-  <span class="digit">0</span>
-  <span class="digit">0</span>
-  <span class="sep">:</span>
-  <!-- hours -->
-  <span class="digit">0</span>
-  <span class="digit">0</span>
-  <span class="sep">:</span>
-  <!-- minutes -->
-  <span class="digit">0</span>
-  <span class="digit">0</span>
-  <span class="sep">:</span>
-  <!-- seconds -->
-  <span class="digit">0</span>
-  <span class="digit">0</span>
+  <span class="digit">0</span><span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
+  <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
+  <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
+  <span class="digit">0</span><span class="digit">0</span>
 </div>
 
 <div id="form-link">
   <a href="https://forms.gle/TerK9komfnjW7GPt6">Open Ultimate Level Builder Awards 1</a>
 </div>
 
-<audio id="jingle" src="sound/countdown.wav"></audio>
+<audio id="jingle" src="sound/countdown.wav" autoplay muted></audio>
 
 <script>
 const targetTime = new Date('2025-10-06T23:30:15Z').getTime();
 const timerDigits = document.querySelectorAll(".digit");
-const formEl = document.getElementById("form-link");
-const bodyEl = document.body;
+const timerEl = document.getElementById('timer');
+const overlay = document.getElementById('overlay');
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
 const jingle = document.getElementById('jingle');
 
-let timer = null;
-
+// ------------------ Timer Update ------------------
 function updateTimer(){
   const now = Date.now();
   let diff = Math.max(0,targetTime-now);
@@ -122,27 +132,14 @@ function updateTimer(){
   timeStr.split("").forEach((num,i)=>{
     if(timerDigits[i]){
       timerDigits[i].textContent = num;
-      // subtle random movement for alive effect
       timerDigits[i].style.transform = `translate(${Math.random()*2-1}px, ${Math.random()*2-1}px)`;
-      timerDigits[i].style.opacity = 0.7 + Math.random()*0.3;
     }
   });
-
-  if(+days===0 && +hours===0 && +minutes===0 && +seconds===0){
-    clearInterval(timer);
-    formEl.style.display='block';
-  }
 }
 
-timer = setInterval(updateTimer,1000);
-updateTimer();
-
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-
-let gridOffsetX = 0;
-let gridOffsetY = 0;
-const gridSpacing = 50; 
+// ------------------ Background Grid ------------------
+let gridOffsetX = 0, gridOffsetY = 0;
+const gridSpacing = 50;
 
 function resizeCanvas(){
   canvas.width = window.innerWidth;
@@ -153,15 +150,15 @@ resizeCanvas();
 
 function drawGrid(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.strokeStyle = 'rgba(128,128,128,0.3)';
-  ctx.lineWidth = 1;
-  for(let x=-gridSpacing;x<canvas.width+gridSpacing;x+=gridSpacing){
+  ctx.strokeStyle='rgba(128,128,128,0.3)';
+  ctx.lineWidth=1;
+  for(let x=-gridSpacing*2;x<canvas.width+gridSpacing*2;x+=gridSpacing){
     ctx.beginPath();
     ctx.moveTo(x+gridOffsetX,0);
     ctx.lineTo(x+gridOffsetX,canvas.height);
     ctx.stroke();
   }
-  for(let y=-gridSpacing;y<canvas.height+gridSpacing;y+=gridSpacing){
+  for(let y=-gridSpacing*2;y<canvas.height+gridSpacing*2;y+=gridSpacing){
     ctx.beginPath();
     ctx.moveTo(0,y+gridOffsetY);
     ctx.lineTo(canvas.width,y+gridOffsetY);
@@ -179,26 +176,103 @@ function animateGrid(){
 }
 animateGrid();
 
+// ------------------ Clone Digit Effect ------------------
+function runCloneAnimation(){
+  const initialClones = [];
+  const transitionClones = [];
+  const startTime = Date.now();
 
-const localStorageKey = 'oct6GridTriggered';
-if(!localStorage.getItem(localStorageKey)){
+  // spawn initial clones
+  timerDigits.forEach(d=>{
+    const rect = d.getBoundingClientRect();
+    const clone = d.cloneNode(true);
+    clone.classList.add('digit-clone');
+    clone.style.left = rect.left + 'px';
+    clone.style.top = rect.top + 'px';
+    clone.style.fontSize = window.getComputedStyle(d).fontSize;
+    clone.style.opacity = 0.3;
+    clone.style.transform = 'scale(1.2)';
+    document.body.appendChild(clone);
+    initialClones.push({el: clone, dx: Math.random()*4-2, dy: Math.random()*4-2});
+  });
+
+  // animate clones
+  const animId = setInterval(()=>{
+    initialClones.forEach(c=>{
+      c.el.style.transform = `translate(${c.dx}px,${c.dy}px) scale(1.2)`;
+    });
+  },50);
+
+  // after 5s, start fade out old clones
   setTimeout(()=>{
-    canvas.style.opacity=1;
+    initialClones.forEach(c=>c.el.style.transition='opacity 1s ease');
+    initialClones.forEach(c=>c.el.style.opacity=0);
 
-    jingle.play();
+    // spawn transition clones every 0.1s for 1s
+    let spawnCount = 0;
+    const spawnInterval = setInterval(()=>{
+      spawnCount++;
+      timerDigits.forEach(d=>{
+        const rect = d.getBoundingClientRect();
+        const clone = d.cloneNode(true);
+        clone.classList.add('digit-clone');
+        clone.style.left = rect.left+'px';
+        clone.style.top = rect.top+'px';
+        clone.style.fontSize = window.getComputedStyle(d).fontSize;
+        clone.style.opacity = 0.3;
+        clone.style.transform='scaleX(1) scaleY(1)';
+        document.body.appendChild(clone);
 
-    timerDigits.forEach(d=>d.classList.add('blurred'));
+        // random behavior
+        const type = Math.random()<0.5?'x':'y';
+        const start = Date.now();
+        function animateTransition(){
+          const t = (Date.now()-start)/1000; // seconds
+          if(t>1){
+            clone.remove();
+            return;
+          }
+          if(type==='x'){
+            clone.style.transform = `scaleX(${1+t*0.2}) scaleY(${1-t*1.0})`;
+          }else{
+            clone.style.transform = `scaleX(${1-t*1.0}) scaleY(${1+t*0.2})`;
+          }
+          requestAnimationFrame(animateTransition);
+        }
+        animateTransition();
+      });
 
+      if(spawnCount>=10) clearInterval(spawnInterval); // 1s total
+    },100);
 
+    // remove old initial clones after fade
     setTimeout(()=>{
-      canvas.style.opacity=0;
-      timerDigits.forEach(d=>d.classList.remove('blurred'));
-      localStorage.setItem(localStorageKey,'1');
-    },6000);
+      initialClones.forEach(c=>c.el.remove());
+      clearInterval(animId);
+    },1000);
 
-  },100);
+  },5000);
+
+  // fade out background at end of 6s
+  setTimeout(()=>{ canvas.style.opacity=0; },6000);
 }
 
+// ------------------ Start Sequence ------------------
+overlay.addEventListener('click',()=>{
+  overlay.style.opacity=0;
+  setTimeout(()=>overlay.style.display='none',1000);
+
+  timerEl.style.opacity=1;
+
+  jingle.muted=false;
+  jingle.play();
+
+  setInterval(updateTimer,1000);
+  updateTimer();
+
+  // trigger clone animation immediately for testing
+  setTimeout(runCloneAnimation,100);
+});
 </script>
 </body>
 </html>
