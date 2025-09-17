@@ -343,5 +343,8 @@ button, a, .hub-button, .grid-item, .level-summary span, .level-summary strong {
   background-color: #fff299;
 }
 
+body, body * {
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+}
 
 
