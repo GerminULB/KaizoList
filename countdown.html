@@ -183,7 +183,7 @@ function animateGrid(){
 function runCloneAnimation(){
   const clones = [];
   const startTime = Date.now();
-  const numClones = 20;
+  const numClones = 60;
 
   for(let i=0;i<numClones;i++){
     const d = timerDigits[Math.floor(Math.random()*timerDigits.length)];
@@ -200,7 +200,7 @@ function runCloneAnimation(){
     clones.push({
       el: clone,
       dx: Math.random()*2-1,
-      dy: Math.random()*1 + 0.5,
+      dy: 0,
       baseOpacity: parseFloat(clone.style.opacity),
     });
   }
@@ -217,24 +217,32 @@ function runCloneAnimation(){
     const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
     gradient.addColorStop(0,'rgba(128,0,255,'+alpha+')'); // bluish purple
     gradient.addColorStop(1,'rgba(0,255,255,'+alpha+')'); // cyan
+    ctx.globalCompositeOperation = "multiply";
     ctx.fillStyle = gradient;
     ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.globalCompositeOperation = "source-over"; // reset
 
-    clones.forEach((c,i)=>{
-      if(!c) return;
-      c.el.style.transform = `translate(${c.dx*elapsed*10}px, ${c.dy*elapsed*20}px)`;
-
-      // Fade out after 12s
-      if(elapsed > 12 && elapsed <= 14){
-        const fade = Math.max(0, parseFloat(c.el.style.opacity) * (1 - (elapsed-12)/2));
-        c.el.style.opacity = fade.toString();
-      }
-
-      if(elapsed > 14){
-        c.el.remove();
-        clones[i] = null;
-      }
-    });
+  clones.forEach((c,i)=>{
+    if(!c) return;
+    const progress = Math.min(1, elapsed / 14); 
+    const scaleX = 1 - progress * 0.5;     
+  
+    c.el.style.transform = `
+      translate(${c.dx*elapsed*10}px, ${c.dy*elapsed*20}px)
+      scale(${scaleX}, 1)
+    `;
+  
+    // Fade out after 12s
+    if(elapsed > 12 && elapsed <= 14){
+      const fade = Math.max(0, parseFloat(c.el.style.opacity) * (1 - (elapsed-12)/2));
+      c.el.style.opacity = fade.toString();
+    }
+  
+    if(elapsed > 14){
+      c.el.remove();
+      clones[i] = null;
+    }
+  });
 
     // Fade canvas with clones
     if(elapsed > 12 && elapsed <= 14){
@@ -258,18 +266,14 @@ overlay.addEventListener('click', ()=>{
   updateTimer();
   setInterval(updateTimer, 1000);
 
-  let preCount = 15;
-  preCountdownEl.textContent = preCount;
-  const preInterval = setInterval(()=>{
-    preCount--;
-    if(preCount > 0){
-      preCountdownEl.textContent = preCount;
-    } else {
-      clearInterval(preInterval);
-      preCountdownEl.textContent = '';
-      runCloneAnimation();
-    }
-  }, 1000);
+let preCount = 30;
+const preInterval = setInterval(()=>{
+  preCount--;
+  if(preCount <= 0){
+    clearInterval(preInterval);
+    runCloneAnimation();
+  }
+}, 1000);
 });
 </script>
 </body>
