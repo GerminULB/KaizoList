@@ -1,121 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countdown with Grid Effect</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+    font-family: 'manaspace', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #00ffdd;
+    position: relative;
+  }
 
-  
-  // Enable IP anonymization to protect privacy (Why is this not turned on automatically wtf google) ok
-  gtag('config', 'G-7N58SZ0J6W', { 'anonymize_ip': true });
-</script>
+  canvas#bgCanvas {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 2s ease;
+    z-index: 0;
+  }
 
-  
-  <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Challenge List!">
-  <meta name="twitter:description" content="The toughest challenges outside the main Kaizo list.">
-  <meta name="twitter:image" content="https://germenntia.github.io/KaizoList/images/kaizolistlogo.png">
+  #timer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    font-size: 72px;
+    letter-spacing: 6px;
+  }
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Challenge List</title>
-  <link rel="stylesheet" href="style.css" />
-  <meta property="og:title" content="The Challenge List!" />
-  <meta property="og:description" content="The toughest challenges outside the main Kaizo list." />
-  <meta property="og:image" content="images/kaizolistlogo.png" />
-  <meta property="og:url" content="https://germenntia.github.io/KaizoList/ChallengeList.html" />
+  .digit {
+    display: inline-block;
+    width: 0.55ch;
+    text-align: center;
+    transition: transform 0.2s ease, opacity 0.2s ease, filter 0.2s ease;
+  }
+
+  .sep { padding: 0 8px; }
+
+  #form-link {
+    display: none;
+    position: absolute;
+    bottom: 50px;
+    z-index: 2;
+    text-align: center;
+  }
+  #form-link a {
+    color: #00ffdd;
+    font-size: 18px;
+    text-decoration: underline;
+  }
+
+  /* Blur overlay for digits */
+  .blurred {
+    filter: blur(4px) brightness(1.2);
+  }
+</style>
 </head>
 <body>
-<div class="page-banner"></div>
 
-      
-<div class="container">
-  <a href="index.html">
-    <img src="images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo">
-  </a>
-  <h1>The Challenge List</h1>
-  <p class="hub-intro">
-    <a href="https://germenntia.github.io/KaizoList/images/GerminDisturb.png" target="_blank">
-      Scawy Challanges gulp... OwO
-    </a>
-  </p>
-  <nav>
-    <div class="hub-links">
-      <a href="MainList.html" class="hub-button">Main List</a>
-      <a href="ChallengeList.html" class="hub-button">Challenge List</a>
-      <a href="PlayerList.html" class="hub-button">Player Rankings</a>
-    </div>
-  </nav>
+<canvas id="bgCanvas"></canvas>
 
+<div id="timer">
+  <!-- days -->
+  <span class="digit">0</span>
+  <span class="digit">0</span>
+  <span class="digit">0</span>
+  <span class="sep">:</span>
+  <!-- hours -->
+  <span class="digit">0</span>
+  <span class="digit">0</span>
+  <span class="sep">:</span>
+  <!-- minutes -->
+  <span class="digit">0</span>
+  <span class="digit">0</span>
+  <span class="sep">:</span>
+  <!-- seconds -->
+  <span class="digit">0</span>
+  <span class="digit">0</span>
+</div>
 
+<div id="form-link">
+  <a href="https://forms.gle/TerK9komfnjW7GPt6">Open Ultimate Level Builder Awards 1</a>
+</div>
 
-    <!-- Search and filters -->
-  <input type="text" id="search" placeholder="Search challenges..." />
-  <div class="filters">
-    <select id="creator-filter"><option value="">All Creators</option></select>
-    <select id="verifier-filter"><option value="">All Verifiers</option></select>
-    <select id="sort-filter">
-      <option value="rank">Sort by Rank</option>
-      <option value="id-desc">Newest (by ID)</option>
-      <option value="id-asc">Oldest (by ID)</option>
-    </select>
-    <button id="clear-filters">Clear Filters</button>
-  </div>
-    
-    <!-- Total and challenge list -->
-    <div id="total-klp">Total: 0 KLP</div>
-    <div id="level-list"></div>
-  </div>
+<audio id="jingle" src="sound/countdown.wav"></audio>
 
-  
 <script>
-const patterns = [
-  'images/pattern/pattern0.png',
-  'images/pattern/pattern1.png',
-  'images/pattern/pattern2.png',
-  'images/pattern/pattern3.png',
-  'images/pattern/pattern4.png',
-  'images/pattern/pattern5.png',
-  'images/pattern/pattern6.png',
-  'images/pattern/pattern7.png',
-  'images/pattern/pattern8.png',
-  'images/pattern/pattern9.png',
-  'images/pattern/pattern10.png',
-  'images/pattern/pattern11.png',
-  'images/pattern/pattern12.png',
-];
+const targetTime = new Date('2025-10-06T23:30:15Z').getTime();
+const timerDigits = document.querySelectorAll(".digit");
+const formEl = document.getElementById("form-link");
+const bodyEl = document.body;
+const jingle = document.getElementById('jingle');
 
-document.querySelectorAll('.hub-button').forEach(btn => {
-  const idx = Math.floor(Math.random() * patterns.length);
-  btn.style.backgroundImage = `url('${patterns[idx]}')`;
-  btn.style.backgroundRepeat = 'repeat';
-  btn.style.backgroundSize = '32px 32px'; 
-  btn.style.color = '#ffffff';        
-  btn.style.border = '2px solid black';
-  btn.style.imageRendering = 'pixelated';
-  btn.style.textShadow = `
-  1px 1px 0 #000
-`;
-});
+let timer = null;
+
+function updateTimer(){
+  const now = Date.now();
+  let diff = Math.max(0,targetTime-now);
+
+  const days = String(Math.floor(diff / (1000*60*60*24))).padStart(3,'0');
+  diff %= (1000*60*60*24);
+  const hours = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
+  diff %= (1000*60*60);
+  const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
+  diff %= (1000*60);
+  const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
+
+  const timeStr = days + hours + minutes + seconds;
+
+  timeStr.split("").forEach((num,i)=>{
+    if(timerDigits[i]){
+      timerDigits[i].textContent = num;
+      // subtle random movement for alive effect
+      timerDigits[i].style.transform = `translate(${Math.random()*2-1}px, ${Math.random()*2-1}px)`;
+      timerDigits[i].style.opacity = 0.7 + Math.random()*0.3;
+    }
+  });
+
+  if(+days===0 && +hours===0 && +minutes===0 && +seconds===0){
+    clearInterval(timer);
+    formEl.style.display='block';
+  }
+}
+
+timer = setInterval(updateTimer,1000);
+updateTimer();
+
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+
+let gridOffsetX = 0;
+let gridOffsetY = 0;
+const gridSpacing = 50; 
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function drawGrid(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle = 'rgba(128,128,128,0.3)';
+  ctx.lineWidth = 1;
+  for(let x=-gridSpacing;x<canvas.width+gridSpacing;x+=gridSpacing){
+    ctx.beginPath();
+    ctx.moveTo(x+gridOffsetX,0);
+    ctx.lineTo(x+gridOffsetX,canvas.height);
+    ctx.stroke();
+  }
+  for(let y=-gridSpacing;y<canvas.height+gridSpacing;y+=gridSpacing){
+    ctx.beginPath();
+    ctx.moveTo(0,y+gridOffsetY);
+    ctx.lineTo(canvas.width,y+gridOffsetY);
+    ctx.stroke();
+  }
+}
+
+function animateGrid(){
+  gridOffsetX += 0.3;
+  gridOffsetY += 0.2;
+  gridOffsetX %= gridSpacing;
+  gridOffsetY %= gridSpacing;
+  drawGrid();
+  requestAnimationFrame(animateGrid);
+}
+animateGrid();
+
+
+const localStorageKey = 'oct6GridTriggered';
+if(!localStorage.getItem(localStorageKey)){
+  setTimeout(()=>{
+    canvas.style.opacity=1;
+
+    jingle.play();
+
+    timerDigits.forEach(d=>d.classList.add('blurred'));
+
+
+    setTimeout(()=>{
+      canvas.style.opacity=0;
+      timerDigits.forEach(d=>d.classList.remove('blurred'));
+      localStorage.setItem(localStorageKey,'1');
+    },6000);
+
+  },106000);
+}
+
 </script>
-
-
-  
-  <footer class="site-footer">
-  <p>The Kaizo List &copy; 2025 — Version 1.10</p>
-  <p>
-    Game & All assets belong to 
-    <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
-    <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
-  </p>
-</footer>
-
-  <script src="challenges.js"></script>
-  
 </body>
 </html>
-
