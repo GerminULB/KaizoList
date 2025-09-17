@@ -53,8 +53,7 @@
 const timerDigits = document.querySelectorAll(".digit");
 const forumLink = document.getElementById('forumLink');
 
-// Set your target date/time (2 minutes for testing)
-const targetTime = Date.now() + 2*60*1000;
+const targetTime = new Date('2025-10-06T18:00:00Z').getTime()
 
 function updateTimer() {
   const now = Date.now();
