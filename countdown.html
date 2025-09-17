@@ -120,7 +120,7 @@ function updateTimer() {
   diff %= (1000*60*60*24);
   const hours = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
   diff %= (1000*60*60);
-  const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
+  const minutes = String.floor(diff / (1000*60)).padStart(2,'0');
   diff %= (1000*60);
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
 
@@ -131,7 +131,6 @@ function updateTimer() {
     }
   });
 
-  // Jitter only if timer changed
   if(timeStr !== lastTimer){
     timerDigits.forEach(d=>{
       const offsetX = (Math.random()*2-1);
@@ -180,19 +179,21 @@ function animateGrid(){
   requestAnimationFrame(animateGrid);
 }
 
-// ------------------ Clone Digit Parallax Drop ------------------
+// ------------------ Clone Digit Parallax Drop + Bluish Purple Cyan Tint ------------------
 function runCloneAnimation(){
   const clones = [];
   const startTime = Date.now();
+  const numClones = 20;
 
-  timerDigits.forEach(d => {
+  for(let i=0;i<numClones;i++){
+    const d = timerDigits[Math.floor(Math.random()*timerDigits.length)];
     const rect = d.getBoundingClientRect();
     const clone = d.cloneNode(true);
     clone.classList.add('digit-clone');
-    clone.style.left = rect.left + 'px';
-    clone.style.top = rect.top + 'px';
+    clone.style.left = (rect.left + Math.random()*40-20) + 'px';
+    clone.style.top = (rect.top + Math.random()*40-20) + 'px';
     clone.style.fontSize = window.getComputedStyle(d).fontSize;
-    clone.style.opacity = (0.25 + Math.random() * 0.5).toString();
+    clone.style.opacity = (0.25 + Math.random()*0.5).toString();
     clone.style.color = '#00ffdd';
     document.body.appendChild(clone);
 
@@ -202,7 +203,7 @@ function runCloneAnimation(){
       dy: Math.random()*1 + 0.5,
       baseOpacity: parseFloat(clone.style.opacity),
     });
-  });
+  }
 
   canvas.style.opacity = 1;
   animateGrid();
@@ -211,37 +212,40 @@ function runCloneAnimation(){
     const now = Date.now();
     const elapsed = (now - startTime)/1000;
 
+    // Bluish purple → cyan tint over canvas
+    let alpha = Math.min(0.5, (elapsed/6)*0.5);
+    const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+    gradient.addColorStop(0,'rgba(128,0,255,'+alpha+')'); // bluish purple
+    gradient.addColorStop(1,'rgba(0,255,255,'+alpha+')'); // cyan
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
     clones.forEach((c,i)=>{
       if(!c) return;
-
-      // Parallax drop
       c.el.style.transform = `translate(${c.dx*elapsed*10}px, ${c.dy*elapsed*20}px)`;
 
-      // Rainbow tint first 6s
-      if(elapsed <= 6){
-        const hue = (elapsed*60) % 360;
-        c.el.style.color = `hsl(${hue},100%,50%)`;
-      }
-
-      // Fade out 6–10s
-      if(elapsed > 6 && elapsed <= 10){
-        const fade = Math.max(0, c.baseOpacity * (1 - (elapsed-6)/4));
+      // Fade out after 12s
+      if(elapsed > 12 && elapsed <= 14){
+        const fade = Math.max(0, parseFloat(c.el.style.opacity) * (1 - (elapsed-12)/2));
         c.el.style.opacity = fade.toString();
       }
 
-      // Remove after 10s
-      if(elapsed > 10){
+      if(elapsed > 14){
         c.el.remove();
         clones[i] = null;
       }
     });
 
-    if(clones.some(c=>c) || elapsed < 10) requestAnimationFrame(animateClones);
+    if(elapsed > 12 && elapsed <= 14){
+      canvas.style.opacity = Math.max(0, 1 - (elapsed-12)/2);
+    } else if(elapsed > 14){
+      canvas.style.opacity = 0;
+    }
+
+    if(clones.some(c=>c) || elapsed < 14) requestAnimationFrame(animateClones);
   }
 
   animateClones();
-
-  setTimeout(()=>{ canvas.style.opacity = 0; }, 10000);
   jingle.play().catch(e=>console.log("Audio blocked:", e));
 }
 
@@ -250,11 +254,9 @@ overlay.addEventListener('click', ()=>{
   overlay.style.opacity = 0;
   setTimeout(()=>overlay.style.display='none', 1000);
 
-  // Main timer updates every second
   updateTimer();
   setInterval(updateTimer, 1000);
 
-  // 15-second pre-countdown
   let preCount = 15;
   preCountdownEl.textContent = preCount;
   const preInterval = setInterval(()=>{
@@ -264,7 +266,6 @@ overlay.addEventListener('click', ()=>{
     } else {
       clearInterval(preInterval);
       preCountdownEl.textContent = '';
-      // Start animation + audio
       runCloneAnimation();
     }
   }, 1000);
