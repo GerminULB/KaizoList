@@ -82,6 +82,7 @@
 </a>
 
 <script>
+const timerEl = document.getElementById('timer');
 const forumLink = document.getElementById('forumLink');
 const tickSound = document.getElementById('tickSound');
 const muteBtn = document.getElementById('muteBtn');
@@ -89,6 +90,8 @@ const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 const targetTime = new Date('2025-10-06T18:00:00Z').getTime();
 let lastSecond = null;
+let flashDigitIndex = null;
+let isFlashing = false;
 
 muteBtn.addEventListener('click', () => {
   isMuted = !isMuted;
@@ -96,6 +99,7 @@ muteBtn.addEventListener('click', () => {
   muteBtn.textContent = isMuted ? 'Unmute' : 'Mute';
 });
 
+// Update timer every second for minutes/seconds
 function updateTimer() {
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
@@ -106,47 +110,6 @@ function updateTimer() {
   diff %= (1000*60);
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
 
-  let timerHTML = '';
-
-if(totalHours >= 100){
-  const hourStr = String(totalHours).padStart(3, '0'); // ensure 3 digits
-  let displayArr = ['?', '?', '?'];
-
-  // Randomly pick one digit to flash its real number
-  const flashIndex = Math.floor(Math.random() * 3);
-  displayArr[flashIndex] = hourStr[flashIndex];
-
-  // Build timer HTML
-  timerHTML =
-    displayArr.map(d => `<span class="digit">${d}</span>`).join('') +
-    '<span class="sep">:</span>' +
-    minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
-    '<span class="sep">:</span>' +
-    seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
-
-  document.getElementById('timer').innerHTML = timerHTML;
-
-  // Constant jitter for the 3-hour digits
-  const digits = document.querySelectorAll("#timer .digit");
-  for(let i=0; i<3; i++){
-    const x = (Math.random() - 0.5) * 6; // horizontal jitter
-    const y = (Math.random() - 0.5) * 6; // vertical jitter
-    digits[i].style.transform = `translate(${x}px, ${y}px)`;
-  }
-}
- else {
-    // Hours < 100, normal display
-    const hoursDisplay = String(totalHours).padStart(2,'0');
-    timerHTML =
-      hoursDisplay.split('').map(d => `<span class="digit">${d}</span>`).join('') +
-      '<span class="sep">:</span>' +
-      minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
-      '<span class="sep">:</span>' +
-      seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
-
-    document.getElementById('timer').innerHTML = timerHTML;
-  }
-
   // Play tick sound on second change
   if(seconds !== lastSecond){
     if(!isMuted){
@@ -154,15 +117,54 @@ if(totalHours >= 100){
       tickSound.play().catch(e=>console.log("Audio blocked:", e));
     }
     lastSecond = seconds;
+
+    // Decide whether to flash this second (75% chance)
+    if(totalHours >= 100){
+      if(Math.random() < 0.75){
+        flashDigitIndex = Math.floor(Math.random() * 3);
+        isFlashing = true;
+        setTimeout(() => { isFlashing = false; }, 200); // flash duration 200ms
+      } else {
+        flashDigitIndex = null;
+      }
+    }
   }
 
+  // Build hours display
+  let hourStr = String(totalHours).padStart(3,'0');
+  let displayArr = ['?', '?', '?'];
+  if(isFlashing && flashDigitIndex !== null){
+    displayArr[flashDigitIndex] = hourStr[flashDigitIndex];
+  }
+
+  // Build timer HTML
+  timerEl.innerHTML =
+    displayArr.map(d => `<span class="digit">${d}</span>`).join('') +
+    '<span class="sep">:</span>' +
+    minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
+    '<span class="sep">:</span>' +
+    seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
+  
   if(now >= targetTime){
     forumLink.style.display = 'block';
   }
 }
 
+// Continuous jitter for the 3-hour digits using requestAnimationFrame
+function jitterLoop(){
+  const digits = timerEl.querySelectorAll(".digit");
+  for(let i=0; i<3 && digits[i]; i++){
+    const x = (Math.random() - 0.5) * 6; // horizontal jitter
+    const y = (Math.random() - 0.5) * 6; // vertical jitter
+    digits[i].style.transform = `translate(${x}px, ${y}px)`;
+  }
+  requestAnimationFrame(jitterLoop);
+}
+
 updateTimer();
 setInterval(updateTimer, 1000);
+requestAnimationFrame(jitterLoop);
 </script>
+
 </body>
 </html>
