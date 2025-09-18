@@ -1,9 +1,9 @@
 async function loadPlayers() {
   // Fetch all sources
   const [levelsRes, challengesRes, victorsRes] = await Promise.all([
-    fetch('levels.json'),
-    fetch('challenges.json'),
-    fetch('victors.json')
+    fetch('../levels.json'),
+    fetch('../challenges.json'),
+    fetch('../victors.json')
   ]);
 
   const levels = await levelsRes.json();
