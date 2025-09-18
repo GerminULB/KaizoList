@@ -10,7 +10,7 @@
   // Fetch all sources
   const [levelsRes, challengesRes, victorsRes] = await Promise.all([
     fetch('levels.json'),
-    fetch('hallenges.json'),
+    fetch('challenges.json'),
     fetch('victors.json')
   ]);
 
@@ -77,7 +77,7 @@
         cell.className = 'grid-item';
         cell.innerText = `${item.name} (${item.klp} KLP)`;
         cell.addEventListener('click', () => {
-           window.location.href = `/KaizoList/PlayerDetails/?name=${encodeURIComponent(item.name)}`;
+           window.location.href = `/KaizoList/LevelDetails/?name=${encodeURIComponent(item.name)}`;
         });
         container.appendChild(cell);
       });
