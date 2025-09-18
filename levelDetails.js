@@ -56,7 +56,7 @@
       cell.className = 'grid-item clickable';
       cell.innerText = player;
       cell.addEventListener('click', () => {
-        window.location.href = `/KaizoList/PlayerDetails.html?name=${encodeURIComponent(item.name)}`;
+        window.location.href = `/KaizoList/PlayerDetails.html?name=${encodeURIComponent(player)}`;
       });
       victorsContainer.appendChild(cell);
     });
