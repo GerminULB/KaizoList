@@ -7,7 +7,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-    // Enable IP anonymization to protect privacy (Why is this not turned on automatically wtf google) ok
   gtag('config', 'G-7N58SZ0J6W', { 'anonymize_ip': true });
 </script>
   
@@ -15,60 +14,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Countdown.</title>
 <style>
-
-
     @font-face {
-  font-family: 'Manaspace';
-  src: url('fonts/manaspace.ttf') format('truetype');
-}
+      font-family: 'Manaspace';
+      src: url('fonts/manaspace.ttf') format('truetype');
+    }
     
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: black;
-    color: #00ffdd;
-    font-family: 'Manaspace', monospace;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: black;
+      color: #00ffdd;
+      font-family: 'Manaspace', monospace;
+    }
 
+    #timer {
+      font-size: 12vw;      
+      letter-spacing: 1vw;  
+      white-space: nowrap;   
+    }
 
-  }
+    .digit, .sep { display:inline-block; width:auto; text-align:center; }
 
-#timer {
-  font-size: 12vw;      
-  letter-spacing: 1vw;  
-  white-space: nowrap;   
-}
+    #forumLink {
+      margin-top: 40px;
+      font-size: 32px;
+      color: #00ffdd;
+      text-decoration: underline;
+      cursor: pointer;
+      display: none;
+    }
 
-  .digit, .sep { display:inline-block; width:auto; text-align:center; }
-
-  #forumLink {
-    margin-top: 40px;
-    font-size: 32px;
-    color: #00ffdd;
-    text-decoration: underline;
-    cursor: pointer;
-    display: none;
-  }
-
-#muteBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    font-size: 20px;
-    padding: 8px 16px;
-    cursor: pointer;
-    color: black;
-    background: #00ffdd;
-    border: none;
-    border-radius: 5px;
-    font-family: 'manaspace', monospace;
-    z-index: 10;
-}
+    #muteBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 20px;
+      padding: 8px 16px;
+      cursor: pointer;
+      color: black;
+      background: #00ffdd;
+      border: none;
+      border-radius: 5px;
+      font-family: 'manaspace', monospace;
+      z-index: 10;
+    }
 </style>
 </head>
 <body>
@@ -87,13 +82,11 @@
 </a>
 
 <script>
-const timerDigits = document.querySelectorAll(".digit");
 const forumLink = document.getElementById('forumLink');
 const tickSound = document.getElementById('tickSound');
 const muteBtn = document.getElementById('muteBtn');
 
 let isMuted = true;
-
 const targetTime = new Date('2025-10-06T18:00:00Z').getTime();
 let lastSecond = null;
 
@@ -107,22 +100,53 @@ function updateTimer() {
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
 
-
   let totalHours = Math.floor(diff / (1000*60*60));
   diff %= (1000*60*60);
   const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
   diff %= (1000*60);
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
 
+  let timerHTML = '';
 
-  let hoursDisplay = totalHours >= 100 ? '??' : String(totalHours).padStart(2,'0');
+  if(totalHours >= 100){
+    const hourStr = String(totalHours);
+    let displayArr = ['?', '?', '?'];
 
-  const timeStr = hoursDisplay + minutes + seconds;
-  timerDigits.forEach((d,i)=>{
-    if(timerDigits[i]) d.textContent = timeStr[i];
-  });
+    // Randomly pick one of the three digits to flash
+    const flashIndex = Math.floor(Math.random() * 3);
+    displayArr[flashIndex] = hourStr[flashIndex];
 
+    timerHTML =
+      displayArr.map(d => `<span class="digit">${d}</span>`).join('') +
+      '<span class="sep">:</span>' +
+      minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
+      '<span class="sep">:</span>' +
+      seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
 
+    document.getElementById('timer').innerHTML = timerHTML;
+
+    // Revert flash back to '?' after 200ms
+    setTimeout(() => {
+      const digits = document.querySelectorAll("#timer .digit");
+      for(let i=0; i<3; i++){
+        digits[i].textContent = '?';
+      }
+    }, 200);
+
+  } else {
+    // Hours < 100, normal display
+    const hoursDisplay = String(totalHours).padStart(2,'0');
+    timerHTML =
+      hoursDisplay.split('').map(d => `<span class="digit">${d}</span>`).join('') +
+      '<span class="sep">:</span>' +
+      minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
+      '<span class="sep">:</span>' +
+      seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
+
+    document.getElementById('timer').innerHTML = timerHTML;
+  }
+
+  // Play tick sound on second change
   if(seconds !== lastSecond){
     if(!isMuted){
       tickSound.currentTime = 0;
@@ -131,21 +155,13 @@ function updateTimer() {
     lastSecond = seconds;
   }
 
-
   if(now >= targetTime){
     forumLink.style.display = 'block';
   }
 }
 
-
 updateTimer();
-
-// Update every second
 setInterval(updateTimer, 1000);
 </script>
 </body>
 </html>
-
-
-
-where is the part where you remove the ?? thingy temporarily the code block
