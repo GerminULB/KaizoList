@@ -344,8 +344,9 @@ button, a, .hub-button, .grid-item, .level-summary span, .level-summary strong {
 }
 
 body, body * {
-  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.8);
+  text-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.8);
 }
+
 
 
 
