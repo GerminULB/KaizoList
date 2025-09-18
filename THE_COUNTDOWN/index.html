@@ -90,8 +90,6 @@ const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 const targetTime = new Date('2025-10-06T18:00:00Z').getTime();
 let lastSecond = null;
-let flashDigitIndex = null;
-let isFlashing = false;
 
 muteBtn.addEventListener('click', () => {
   isMuted = !isMuted;
@@ -99,12 +97,26 @@ muteBtn.addEventListener('click', () => {
   muteBtn.textContent = isMuted ? 'Unmute' : 'Mute';
 });
 
+// Short flash for hour digits
+function flashHourDigit(hourStr) {
+  if(Math.random() < 0.75){
+    const flashIndex = Math.floor(Math.random() * 3);
+    const digits = timerEl.querySelectorAll(".digit");
+    if(!digits[flashIndex]) return;
+    const original = digits[flashIndex].textContent;
+    digits[flashIndex].textContent = hourStr[flashIndex];
+    setTimeout(() => {
+      digits[flashIndex].textContent = '?';
+    }, 50); // flash duration
+  }
+}
+
 // Update timer every second for minutes/seconds
 function updateTimer() {
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
 
-  let totalHours = Math.floor(diff / (1000*60*60));
+  const totalHours = Math.floor(diff / (1000*60*60));
   diff %= (1000*60*60);
   const minutes = String(Math.floor(diff / (1000*60))).padStart(2,'0');
   diff %= (1000*60);
@@ -118,33 +130,24 @@ function updateTimer() {
     }
     lastSecond = seconds;
 
-    // Decide whether to flash this second (75% chance)
+    // Flash hour digit if >= 100
     if(totalHours >= 100){
-      if(Math.random() < 0.75){
-        flashDigitIndex = Math.floor(Math.random() * 3);
-        isFlashing = true;
-        setTimeout(() => { isFlashing = false; }, 75); // flash duration 200ms
-      } else {
-        flashDigitIndex = null;
-      }
+      const hourStr = String(totalHours).padStart(3,'0');
+      flashHourDigit(hourStr);
     }
   }
 
   // Build hours display
-  let hourStr = String(totalHours).padStart(3,'0');
-  let displayArr = ['?', '?', '?'];
-  if(isFlashing && flashDigitIndex !== null){
-    displayArr[flashDigitIndex] = hourStr[flashDigitIndex];
-  }
-
-  // Build timer HTML
-  timerEl.innerHTML =
-    displayArr.map(d => `<span class="digit">${d}</span>`).join('') +
+  let hourDisplay = totalHours >= 100 ? ['?', '?', '?'] : String(totalHours).padStart(2,'0').split('');
+  let timerHTML =
+    hourDisplay.map(d => `<span class="digit">${d}</span>`).join('') +
     '<span class="sep">:</span>' +
     minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
     '<span class="sep">:</span>' +
     seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
   
+  timerEl.innerHTML = timerHTML;
+
   if(now >= targetTime){
     forumLink.style.display = 'block';
   }
@@ -154,8 +157,8 @@ function updateTimer() {
 function jitterLoop(){
   const digits = timerEl.querySelectorAll(".digit");
   for(let i=0; i<3 && digits[i]; i++){
-    const x = (Math.random() - 0.5) * 6; // horizontal jitter
-    const y = (Math.random() - 0.5) * 6; // vertical jitter
+    const x = (Math.random() - 0.5) * 6;
+    const y = (Math.random() - 0.5) * 6;
     digits[i].style.transform = `translate(${x}px, ${y}px)`;
   }
   requestAnimationFrame(jitterLoop);
@@ -165,6 +168,5 @@ updateTimer();
 setInterval(updateTimer, 1000);
 requestAnimationFrame(jitterLoop);
 </script>
-
 </body>
 </html>
