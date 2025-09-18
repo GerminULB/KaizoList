@@ -77,7 +77,7 @@
         cell.className = 'grid-item';
         cell.innerText = `${item.name} (${item.klp} KLP)`;
         cell.addEventListener('click', () => {
-           window.location.href = `/KaizoList/LevelDetails.html?name=${encodeURIComponent(player)}`;
+           window.location.href = `/KaizoList/LevelDetails.html?name=${encodeURIComponent(item.name)}`;
         });
         container.appendChild(cell);
       });
