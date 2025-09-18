@@ -3,7 +3,7 @@
 
   async function init() {
     try {
-      const res = await fetch('levels.json');
+      const res = await fetch('../levels.json');
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
 
@@ -154,5 +154,6 @@
 
   init();
 })();
+
 
 
