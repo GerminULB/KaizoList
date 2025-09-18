@@ -97,21 +97,20 @@ muteBtn.addEventListener('click', () => {
   muteBtn.textContent = isMuted ? 'Unmute' : 'Mute';
 });
 
-// Short flash for hour digits
-function flashHourDigit(hourStr) {
+let flashDigitIndex = null;
+let flashHourStr = null;
+let flashActive = false;
+
+// Flash function: sets flashActive for 50ms
+function triggerFlash(hourStr) {
   if(Math.random() < 0.75){
-    const flashIndex = Math.floor(Math.random() * 3);
-    const digits = timerEl.querySelectorAll(".digit");
-    if(!digits[flashIndex]) return;
-    const original = digits[flashIndex].textContent;
-    digits[flashIndex].textContent = hourStr[flashIndex];
-    setTimeout(() => {
-      digits[flashIndex].textContent = '?';
-    }, 50); // flash duration
+    flashDigitIndex = Math.floor(Math.random() * 3);
+    flashHourStr = hourStr;
+    flashActive = true;
+    setTimeout(() => { flashActive = false; }, 50);
   }
 }
 
-// Update timer every second for minutes/seconds
 function updateTimer() {
   const now = Date.now();
   let diff = Math.max(0, targetTime - now);
@@ -130,30 +129,38 @@ function updateTimer() {
     }
     lastSecond = seconds;
 
-    // Flash hour digit if >= 100
+    // Trigger flash if >= 100 hours
     if(totalHours >= 100){
       const hourStr = String(totalHours).padStart(3,'0');
-      flashHourDigit(hourStr);
+      triggerFlash(hourStr);
     }
   }
 
-  // Build hours display
-  let hourDisplay = totalHours >= 100 ? ['?', '?', '?'] : String(totalHours).padStart(2,'0').split('');
-  let timerHTML =
+  // Build hours display with flash applied
+  let hourDisplay;
+  if(totalHours >= 100){
+    hourDisplay = ['?', '?', '?'];
+    if(flashActive && flashDigitIndex !== null && flashHourStr){
+      hourDisplay[flashDigitIndex] = flashHourStr[flashDigitIndex];
+    }
+  } else {
+    hourDisplay = String(totalHours).padStart(2,'0').split('');
+  }
+
+  // Build full timer HTML
+  timerEl.innerHTML =
     hourDisplay.map(d => `<span class="digit">${d}</span>`).join('') +
     '<span class="sep">:</span>' +
     minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
     '<span class="sep">:</span>' +
     seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
-  
-  timerEl.innerHTML = timerHTML;
 
   if(now >= targetTime){
     forumLink.style.display = 'block';
   }
 }
 
-// Continuous jitter for the 3-hour digits using requestAnimationFrame
+// Continuous jitter for the hour digits
 function jitterLoop(){
   const digits = timerEl.querySelectorAll(".digit");
   for(let i=0; i<3 && digits[i]; i++){
