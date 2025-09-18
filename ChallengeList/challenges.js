@@ -127,9 +127,9 @@ function loadLevelsFromJSON(levels) {
           <strong>${escapeHtml(lvl.klp)} KLP</strong>
       </div>
     `;
-    div.querySelector('.level-summary').addEventListener('click', () => {
-      window.location.href = `levelDetails.html?name=${encodeURIComponent(lvl.name)}`;
-    });
+  div.querySelector('.level-summary').addEventListener('click', () => {
+    window.location.href = `../LevelDetails.html?name=${encodeURIComponent(lvl.name)}`;
+  });
     container.appendChild(div);
   });
 }
