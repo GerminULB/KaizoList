@@ -108,32 +108,33 @@ function updateTimer() {
 
   let timerHTML = '';
 
-  if(totalHours >= 100){
-    const hourStr = String(totalHours);
-    let displayArr = ['?', '?', '?'];
+if(totalHours >= 100){
+  const hourStr = String(totalHours).padStart(3, '0'); // ensure 3 digits
+  let displayArr = ['?', '?', '?'];
 
-    // Randomly pick one of the three digits to flash
-    const flashIndex = Math.floor(Math.random() * 3);
-    displayArr[flashIndex] = hourStr[flashIndex];
+  // Randomly pick one digit to flash its real number
+  const flashIndex = Math.floor(Math.random() * 3);
+  displayArr[flashIndex] = hourStr[flashIndex];
 
-    timerHTML =
-      displayArr.map(d => `<span class="digit">${d}</span>`).join('') +
-      '<span class="sep">:</span>' +
-      minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
-      '<span class="sep">:</span>' +
-      seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
+  // Build timer HTML
+  timerHTML =
+    displayArr.map(d => `<span class="digit">${d}</span>`).join('') +
+    '<span class="sep">:</span>' +
+    minutes.split('').map(d => `<span class="digit">${d}</span>`).join('') +
+    '<span class="sep">:</span>' +
+    seconds.split('').map(d => `<span class="digit">${d}</span>`).join('');
 
-    document.getElementById('timer').innerHTML = timerHTML;
+  document.getElementById('timer').innerHTML = timerHTML;
 
-    // Revert flash back to '?' after 200ms
-    setTimeout(() => {
-      const digits = document.querySelectorAll("#timer .digit");
-      for(let i=0; i<3; i++){
-        digits[i].textContent = '?';
-      }
-    }, 200);
-
-  } else {
+  // Constant jitter for the 3-hour digits
+  const digits = document.querySelectorAll("#timer .digit");
+  for(let i=0; i<3; i++){
+    const x = (Math.random() - 0.5) * 6; // horizontal jitter
+    const y = (Math.random() - 0.5) * 6; // vertical jitter
+    digits[i].style.transform = `translate(${x}px, ${y}px)`;
+  }
+}
+ else {
     // Hours < 100, normal display
     const hoursDisplay = String(totalHours).padStart(2,'0');
     timerHTML =
