@@ -133,7 +133,7 @@
         </div>
       `;
       div.querySelector('.level-summary').addEventListener('click', () => {
-        window.location.href = `levelDetails.html?name=${encodeURIComponent(lvl.name)}`;
+        window.location.href = `LevelDetails.html?name=${encodeURIComponent(lvl.name)}`;
       });
 
       container.appendChild(div);
@@ -154,6 +154,7 @@
 
   init();
 })();
+
 
 
 
