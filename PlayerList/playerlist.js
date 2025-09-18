@@ -60,7 +60,7 @@ async function loadPlayers() {
 
     // Click opens playerDetails.html in a NOT new tab LMAOOOOO
     div.querySelector('.level-summary').addEventListener('click', () => {
-      window.location.href = `playerDetails.html?name=${encodeURIComponent(player.name)}`;
+      window.location.href = `../PlayerDetails.html?name=${encodeURIComponent(player.name)}`;
     });
 
     container.appendChild(div);
