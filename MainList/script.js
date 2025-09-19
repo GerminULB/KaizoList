@@ -155,6 +155,101 @@
   init();
 })();
 
+(async () => {
+  const historyFiles = [
+    "2025-09-11.json",
+    // add more snapshots here in chronological order
+  ];
+
+  const recentChangesEl = document.getElementById('recent-changes');
+  if (!recentChangesEl) return;
+
+  let previousSnapshot = null;
+  let initialMessage = null;
+
+  // Load snapshots
+  for (const file of historyFiles) {
+    try {
+      const res = await fetch(file);
+      if (!res.ok) continue;
+
+      const snapshot = await res.json();
+      snapshot.sort((a,b)=>b.klp-a.klp);
+
+      snapshot.forEach((lvl, idx) => lvl.rank = idx+1);
+
+      snapshot.forEach(lvl => {
+        if (!lvl.name) return;
+
+        if (!previousSnapshot) {
+          if (lvl.name) initialMessage = `On ${file.match(/\d{4}-\d{2}-\d{2}/)[0]}, "${lvl.name}" was initially added at rank ${lvl.rank} with ${lvl.klp} KLP.`;
+        }
+      });
+
+      previousSnapshot = snapshot.map(lvl => ({name: lvl.name, rank: lvl.rank, klp: lvl.klp}));
+    } catch (err) {
+      console.warn("Could not load snapshot", file, err);
+    }
+  }
+
+  // Load latest levels.json
+  try {
+    const res = await fetch("levels.json");
+    if (!res.ok) throw new Error("Cannot load levels.json");
+    const latest = await res.json();
+    latest.sort((a,b)=>b.klp-a.klp);
+    latest.forEach((lvl, idx)=>lvl.rank = idx+1);
+
+    const prevMap = {};
+    previousSnapshot.forEach(lvl => prevMap[lvl.name] = lvl);
+
+    let changesFound = false;
+
+    latest.forEach(lvl => {
+      const prev = prevMap[lvl.name];
+      if (!prev) return; // newly added? optional: show in sidebar separately
+      const rankChange = lvl.rank - prev.rank;
+      const klpChange = lvl.klp - prev.klp;
+      if(rankChange===0 && klpChange===0) return; // skip no-change levels
+
+      const div = document.createElement("div");
+      div.style.marginBottom = "4px";
+
+      let parts = [];
+      if(rankChange!==0) parts.push(rankChange>0 ? `${rankChange} spots down` : `${-rankChange} spots up`);
+      if(klpChange!==0) parts.push(`${klpChange>0?'+':'')}${klpChange} KLP`);
+
+      div.innerText = `${lvl.name}: ${parts.join(", ")}`;
+
+      // Divider
+      const hr = document.createElement("hr");
+      recentChangesEl.appendChild(div);
+      recentChangesEl.appendChild(hr);
+
+      changesFound = true;
+    });
+
+    // Initial add message at bottom
+    if(initialMessage){
+      const div = document.createElement("div");
+      div.style.marginTop="8px";
+      div.style.fontWeight="bold";
+      div.innerText = initialMessage;
+      recentChangesEl.appendChild(div);
+    }
+
+    if(!changesFound && !initialMessage){
+      recentChangesEl.innerText = "No recent changes.";
+    }
+
+  } catch(err){
+    console.error("Error loading latest levels.json", err);
+    recentChangesEl.innerText = "Error loading recent changes.";
+  }
+
+})();
+
+
 
 
 
