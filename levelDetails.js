@@ -88,8 +88,7 @@
 
   // --- History ---
  const historyFiles = [
-  "2025-09-11.json",
-  // you could add more snapshots here in chronological order
+  "history/2025-09-11.json",
 ];
 
 let previousSnapshot = null;
