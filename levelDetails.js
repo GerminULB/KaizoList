@@ -88,7 +88,7 @@
 
   // --- History ---
   const historyFiles = [
-    // put snapshot json files here if you have them
+      "history/2025-09-19.json"
   ];
 
   let isNew = true;
