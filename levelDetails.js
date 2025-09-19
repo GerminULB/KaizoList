@@ -120,8 +120,8 @@ for (const file of historyFiles) {
       historyEl.appendChild(div);
     } else if (previous) {
       // Compare with previous snapshot
-      const rankChange = snapRank - previous.rank;
-      const klpChange = snapLevel.klp - previous.klp;
+      const rankChange = previous.rank - snapRank;
+      const klpChange = previous.klp - snapLevel.klp;
 
       const div = document.createElement('div');
       div.innerText =
