@@ -107,8 +107,8 @@
 
       if (!snapLevel) continue;
 
-      const rankChange = snapRank - rank;
-      const klpChange = snapLevel.klp - level.klp;
+      const rankChange = rank - snapRank
+      const klpChange = level.klp - snapLevel.klp;
       const date = file.match(/\d{4}-\d{2}-\d{2}/)[0];
 
       const div = document.createElement('div');
