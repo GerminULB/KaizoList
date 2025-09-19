@@ -159,3 +159,4 @@ try {
 } catch (err) {
   console.warn("Could not load latest levels.json", err);
 }
+})();
