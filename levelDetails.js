@@ -1,4 +1,3 @@
-
 (async () => {
   const params = new URLSearchParams(window.location.search);
   const levelName = params.get('name');
@@ -89,7 +88,7 @@
 
   // --- History ---
   const historyFiles = [
-     "2025-09-11.json"
+    "2025-09-11.json"
   ];
 
   let isNew = true;
@@ -108,13 +107,17 @@
 
       if (!snapLevel) continue;
 
-      const rankChange = snapRank - rank;
-      const klpChange = snapLevel.klp - level.klp;
+      // compare against snapshot (old) vs current (new)
+      const rankChange = rank - snapRank;
+      const klpChange = level.klp - snapLevel.klp;
       const date = file.match(/\d{4}-\d{2}-\d{2}/)[0];
 
       const div = document.createElement('div');
-      div.innerText = ${date}: ${rankChange > 0 ? rankChange + ' spots down' :
-        rankChange < 0 ? -rankChange + ' spots up' : 'No rank change'}, ${klpChange > 0 ? '+'+klpChange : klpChange} KLP;
+      div.innerText = `${date}: ${
+        rankChange > 0 ? `${rankChange} spots up` :
+        rankChange < 0 ? `${-rankChange} spots down` :
+        'No rank change'
+      }, ${klpChange >= 0 ? `+${klpChange}` : klpChange} KLP`;
       historyEl.appendChild(div);
     } catch (err) {
       console.warn('Could not load history file', file, err);
@@ -124,7 +127,7 @@
   if (isNew) {
     const div = document.createElement('div');
     const today = new Date().toISOString().split('T')[0];
-    div.innerText = On ${today}, "${level.name}" was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.;
+    div.innerText = `On ${today}, "${level.name}" was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.`;
     historyEl.prepend(div);
   }
 })();
