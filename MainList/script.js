@@ -194,7 +194,7 @@
 
   // Load latest levels.json
   try {
-    const res = await fetch("levels.json");
+    const res = await fetch("history/levels.json");
     if (!res.ok) throw new Error("Cannot load levels.json");
     const latest = await res.json();
     latest.sort((a,b)=>b.klp-a.klp);
@@ -248,6 +248,7 @@
   }
 
 })();
+
 
 
 
