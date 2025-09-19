@@ -87,47 +87,75 @@
   if (victors.length > 0) renderVictorsPage();
 
   // --- History ---
-  const historyFiles = [
-    "2025-09-11.json"
-  ];
+ const historyFiles = [
+  "2025-09-11.json",
+  // you could add more snapshots here in chronological order
+];
 
-  let isNew = true;
+let previousSnapshot = null;
 
-  for (const file of historyFiles) {
-    try {
-      const res = await fetch(file);
-      if (!res.ok) continue;
+// Process snapshots with real dates
+for (const file of historyFiles) {
+  try {
+    const res = await fetch(file);
+    if (!res.ok) continue;
 
-      const snapshot = await res.json();
-      const snapLevel = snapshot.find(l => l.name === levelName);
-      if (snapLevel) isNew = false;
+    const snapshot = await res.json();
+    const snapLevel = snapshot.find(l => l.name === levelName);
+    if (!snapLevel) continue; // skip if level didn't exist yet
 
-      const snapSorted = snapshot.slice().sort((a, b) => b.klp - a.klp);
-      const snapRank = snapSorted.findIndex(l => l.name === levelName) + 1;
+    const snapSorted = snapshot.slice().sort((a, b) => b.klp - a.klp);
+    const snapRank = snapSorted.findIndex(l => l.name === levelName) + 1;
+    const date = file.match(/\d{4}-\d{2}-\d{2}/)[0];
 
-      if (!snapLevel) continue;
+    if (previousSnapshot) {
+      // Compare to previous snapshot
+      const rankChange = snapRank - previousSnapshot.rank;
+      const klpChange = snapLevel.klp - previousSnapshot.klp;
 
-      // compare against snapshot (old) vs current (new)
-      const rankChange = rank - snapRank;
-      const klpChange = level.klp - snapLevel.klp;
-      const date = file.match(/\d{4}-\d{2}-\d{2}/)[0];
-
-      const div = document.createElement('div');
+      const div = document.createElement("div");
       div.innerText = `${date}: ${
-        rankChange > 0 ? `${rankChange} spots up` :
-        rankChange < 0 ? `${-rankChange} spots down` :
+        rankChange > 0 ? `${rankChange} spots down` :
+        rankChange < 0 ? `${-rankChange} spots up` :
         'No rank change'
       }, ${klpChange >= 0 ? `+${klpChange}` : klpChange} KLP`;
       historyEl.appendChild(div);
-    } catch (err) {
-      console.warn('Could not load history file', file, err);
+    } else {
+      // First snapshot = entry
+      const div = document.createElement("div");
+      div.innerText = `On ${date}, "${level.name}" entered the Kaizo List at rank ${snapRank} with ${snapLevel.klp} KLP.`;
+      historyEl.appendChild(div);
+    }
+
+    previousSnapshot = { rank: snapRank, klp: snapLevel.klp };
+
+  } catch (err) {
+    console.warn("Could not load history file", file, err);
+  }
+}
+
+// Finally, compare the latest snapshot → levels.json
+try {
+  const res = await fetch("levels.json");
+  if (res.ok && previousSnapshot) {
+    const snapshot = await res.json();
+    const snapLevel = snapshot.find(l => l.name === levelName);
+    if (snapLevel) {
+      const snapSorted = snapshot.slice().sort((a, b) => b.klp - a.klp);
+      const snapRank = snapSorted.findIndex(l => l.name === levelName) + 1;
+
+      const rankChange = snapRank - previousSnapshot.rank;
+      const klpChange = snapLevel.klp - previousSnapshot.klp;
+
+      const div = document.createElement("div");
+      div.innerText = `Current: ${
+        rankChange > 0 ? `${rankChange} spots down` :
+        rankChange < 0 ? `${-rankChange} spots up` :
+        'No rank change'
+      }, ${klpChange >= 0 ? `+${klpChange}` : klpChange} KLP`;
+      historyEl.appendChild(div);
     }
   }
-
-  if (isNew) {
-    const div = document.createElement('div');
-    const today = new Date().toISOString().split('T')[0];
-    div.innerText = `On ${today}, "${level.name}" was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.`;
-    historyEl.prepend(div);
-  }
-})();
+} catch (err) {
+  console.warn("Could not load latest levels.json", err);
+}
