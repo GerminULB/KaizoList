@@ -86,44 +86,65 @@
 
   if (victors.length > 0) renderVictorsPage();
 
-  // --- History ---
-  const historyFiles = [
-      "history/2025-09-19.json"
-  ];
+// --- History ---
+const historyFiles = [
+  "history/2025-09-19.json"
+];
 
-  let isNew = true;
+// Sort snapshots by date (just in case they're not in order)
+historyFiles.sort();
 
-  for (const file of historyFiles) {
-    try {
-      const res = await fetch(file);
-      if (!res.ok) continue;
+let previous = null; // previous snapshot data for this level
+let firstAppearance = null;
 
-      const snapshot = await res.json();
-      const snapLevel = snapshot.find(l => l.name === levelName);
-      if (snapLevel) isNew = false;
+for (const file of historyFiles) {
+  try {
+    const res = await fetch(file);
+    if (!res.ok) continue;
 
-      const snapSorted = snapshot.slice().sort((a, b) => b.klp - a.klp);
-      const snapRank = snapSorted.findIndex(l => l.name === levelName) + 1;
+    const snapshot = await res.json();
+    const snapLevel = snapshot.find(l => l.name === levelName);
 
-      if (!snapLevel) continue;
+    if (!snapLevel) continue; // level not in this snapshot, skip
 
-      const rankChange = rank - snapRank
-      const klpChange = level.klp - snapLevel.klp;
-      const date = file.match(/\d{4}-\d{2}-\d{2}/)[0];
+    const snapSorted = snapshot.slice().sort((a, b) => b.klp - a.klp);
+    const snapRank = snapSorted.findIndex(l => l.name === levelName) + 1;
+    const date = file.match(/\d{4}-\d{2}-\d{2}/)[0];
+
+    if (!firstAppearance) {
+      // First time the level shows up in history
+      firstAppearance = { date, klp: snapLevel.klp, rank: snapRank };
 
       const div = document.createElement('div');
-      div.innerText = `${date}: ${rankChange > 0 ? rankChange + ' spots down' :
-        rankChange < 0 ? -rankChange + ' spots up' : 'No rank change'}, ${klpChange > 0 ? '+'+klpChange : klpChange} KLP`;
+      div.innerText = `On ${date}, "${level.name}" first appeared on the Kaizo List at rank ${snapRank} with ${snapLevel.klp} KLP.`;
       historyEl.appendChild(div);
-    } catch (err) {
-      console.warn('Could not load history file', file, err);
-    }
-  }
+    } else if (previous) {
+      // Compare with previous snapshot
+      const rankChange = snapRank - previous.rank;
+      const klpChange = snapLevel.klp - previous.klp;
 
-  if (isNew) {
-    const div = document.createElement('div');
-    const today = new Date().toISOString().split('T')[0];
-    div.innerText = `On ${today}, "${level.name}" was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.`;
-    historyEl.prepend(div);
+      const div = document.createElement('div');
+      div.innerText =
+        `${date}: ` +
+        `${rankChange > 0 ? rankChange + ' spots down' :
+          rankChange < 0 ? -rankChange + ' spots up' : 'No rank change'}, ` +
+        `${klpChange >= 0 ? '+' + klpChange : klpChange} KLP`;
+      historyEl.appendChild(div);
+    }
+
+    previous = { rank: snapRank, klp: snapLevel.klp };
+
+  } catch (err) {
+    console.warn('Could not load history file', file, err);
   }
-})();
+}
+
+// If the level never appeared in any snapshot, treat today as its first appearance
+if (!firstAppearance) {
+  const today = new Date().toISOString().split('T')[0];
+  const div = document.createElement('div');
+  div.innerText =
+    `On ${today}, "${level.name}" was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.`;
+  historyEl.appendChild(div);
+}
+
