@@ -143,4 +143,5 @@ if (!firstAppearance) {
   const div = document.createElement('div');
   div.innerText = `On ${today}, "${level.name}" was added to the Kaizo List at rank ${rank} with ${level.klp} KLP.`;
   historyEl.appendChild(div);
+}
 })();
