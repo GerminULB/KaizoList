@@ -1,3 +1,4 @@
+/* ----------------- Fonts ----------------- */
 @font-face {
   font-family: 'Manaspace';
   src: url('fonts/manaspace.ttf') format('truetype');
@@ -18,6 +19,10 @@ body {
   transition: background-color 0.3s ease;
 }
 
+body, body * {
+  text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.5);
+}
+
 /* ----------------- Main container ----------------- */
 .container {
   max-width: 800px;
@@ -33,7 +38,7 @@ body {
   box-shadow: 0 4px 30px rgba(0,0,0,0.3);
 }
 
-/* ----------------- Headers & text ----------------- */
+/* ----------------- Headers & Text ----------------- */
 h1, h2, p {
   color: #f0f0ff;
   transition: color 0.2s ease;
@@ -113,18 +118,16 @@ nav a:hover {
 }
 
 /* ----------------- Filters & search ----------------- */
-/* Search bar */
 input#search {
-  width: calc(100% - 40px); /* respect container padding */
-  max-width: 600px;         /* optional max width */
+  width: calc(100% - 40px);
+  max-width: 600px;
   padding: 10px;
-  margin: 0 auto 20px auto; /* center horizontally */
+  margin: 0 auto 20px auto;
   display: block;
   font-size: 1em;
   border: none;
   border-radius: 4px;
 }
-
 
 input#search:focus {
   outline: none;
@@ -137,8 +140,7 @@ input#search:focus {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .filters select {
@@ -167,7 +169,6 @@ input#search:focus {
   background: #1e1e2e;
   padding: 10px;
   border-radius: 5px;
-  margin-bottom: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   transition: transform 0.15s ease, box-shadow 0.3s ease;
 }
@@ -262,7 +263,7 @@ input#search:focus {
   box-shadow: inset 0 0 12px rgba(0,0,0,0.2);
 }
 
-/* ----------------- Grid Items (victors/verifications) ----------------- */
+/* ----------------- Grid Items ----------------- */
 .grid {
   display: grid;
   gap: 6px;
@@ -290,9 +291,9 @@ input#search:focus {
   color: #1b253e;
 }
 
-/* ----------------- Pagination Buttons ----------------- */
-button {
-  transition: transform 0.15s ease, background-color 0.2s ease;
+/* ----------------- Misc clickable elements ----------------- */
+button, a, .hub-button, .grid-item, .level-summary span, .level-summary strong {
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
   cursor: pointer;
 }
 
@@ -302,16 +303,7 @@ button:hover:not(:disabled) {
   color: #1b253e;
 }
 
-/* ----------------- Misc clickable elements ----------------- */
-button, a, .hub-button, .grid-item, .level-summary span, .level-summary strong {
-  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
-  cursor: pointer;
-}
-
-
-
-/*---------INTROO AND UHHH WAIT WHAAT------------*/
-
+/* ----------------- Intro & Announcement ----------------- */
 .index-intro {
   background: rgba(27,37,62,0.9);
   border-radius: 8px;
@@ -343,12 +335,20 @@ button, a, .hub-button, .grid-item, .level-summary span, .level-summary strong {
   background-color: #fff299;
 }
 
-body, body * {
-  text-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.5);
+/* ----------------- Recent Changes Sidebar ----------------- */
+.level-list-and-changes {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+#level-list {
+  flex: 1 1 60%;
 }
 
 #recent-changes-container {
-  max-height: 400px;       /* scrollable area */
+  flex: 1 1 35%;
+  max-height: 400px;
   overflow-y: auto;
   padding: 10px;
   border: 1px solid #888;
@@ -358,19 +358,38 @@ body, body * {
   box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
 }
 
-.level-list-and-changes {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-#level-list {
-  flex: 1 1 60%;
-}
-#recent-changes-container {
-  flex: 1 1 35%;
+#recent-changes-container h2 {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  color: #ffd966;
+  text-align: left;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
 }
 
+#recent-changes div {
+  padding: 4px 6px;
+  border-radius: 4px;
+  background-color: rgba(255, 217, 102, 0.1);
+  margin-bottom: 2px;
+  font-size: 0.95em;
+}
 
+#recent-changes div:hover {
+  background-color: rgba(255, 217, 102, 0.2);
+}
 
+#recent-changes hr {
+  border: none;
+  border-top: 1px solid rgba(255, 217, 102, 0.3);
+  margin: 2px 0;
+}
 
-
+/* ----------------- Mobile Responsiveness ----------------- */
+@media (max-width: 700px) {
+  .level-list-and-changes {
+    flex-direction: column;
+  }
+  #level-list, #recent-changes-container {
+    flex: 1 1 100%;
+  }
+}
