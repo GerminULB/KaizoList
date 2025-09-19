@@ -1,4 +1,4 @@
-You said:
+
 (async () => {
   const params = new URLSearchParams(window.location.search);
   const levelName = params.get('name');
