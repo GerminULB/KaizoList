@@ -217,7 +217,7 @@
 
       let parts = [];
       if(rankChange!==0) parts.push(rankChange>0 ? `${rankChange} spots down` : `${-rankChange} spots up`);
-      if(klpChange!==0) parts.push(`${klpChange>0?'+':'')}${klpChange} KLP`);
+      if(klpChange !== 0) parts.push(`${klpChange > 0 ? '+' : ''}${klpChange} KLP`);
 
       div.innerText = `${lvl.name}: ${parts.join(", ")}`;
 
@@ -248,6 +248,7 @@
   }
 
 })();
+
 
 
 
