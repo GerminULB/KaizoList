@@ -83,13 +83,9 @@
       });
 
       // Pagination
-      let pagination = container.parentElement.querySelector('.pagination');
-      if (!pagination) {
-        pagination = document.createElement('div');
-        pagination.className = 'pagination';
-        container.parentElement.appendChild(pagination);
-      }
-      pagination.innerHTML = '';
+  const pagination = container.parentElement.querySelector('.pagination');
+  pagination.innerHTML = '';
+
 
       for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement('button');
