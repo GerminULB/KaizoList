@@ -158,7 +158,7 @@
 (async () => {
   const historyFiles = [
     "../history/2025-09-11.json",
-    // add more snapshots here in chronological order
+    "../history/2025-09-20.json",
   ];
 
   const recentChangesEl = document.getElementById('recent-changes');
@@ -248,6 +248,7 @@
   }
 
 })();
+
 
 
 
