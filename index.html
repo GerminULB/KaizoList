@@ -118,6 +118,7 @@ document.querySelectorAll('.hub-button').forEach(btn => {
     "history/2025-09-11.json",
     "history/2025-09-20.json",
     "history/2025-09-21.json",
+    "history/2025-09-28.json",
   ];
 
   const recentChangesEl = document.getElementById('recent-changes');
@@ -166,7 +167,7 @@ document.querySelectorAll('.hub-button').forEach(btn => {
 
     latest.forEach(lvl => {
       const prev = prevMap[lvl.name];
-      if (!prev) return; // newly added? optional: show in sidebar separately
+      if (!prev) return; 
       const rankChange = lvl.rank - prev.rank;
       const klpChange = lvl.klp - prev.klp;
       if(rankChange===0 && klpChange===0) return; // skip no-change levels
