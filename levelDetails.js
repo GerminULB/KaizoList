@@ -91,6 +91,7 @@
   "history/2025-09-11.json",
   "history/2025-09-20.json",
   "history/2025-09-21.json",
+  "history/2025-09-28.json",
 ];
 
 let previousSnapshot = null;
