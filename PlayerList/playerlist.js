@@ -6,6 +6,22 @@ async function loadPlayers() {
     fetch('../victors.json')
   ]);
 
+// Parameters
+const N = 10;        // top 10 clears count
+const alpha = 1.25;  // superlinear exponent
+const beta = 20;     // breadth bonus multiplier
+
+function calculatePlayerScore(levelsCleared) {
+    // levelsCleared = array of {name, klp} objects
+    const klps = levelsCleared.map(l => l.klp).sort((a,b)=>b-a);
+    const topKlps = klps.slice(0, N);
+    const transformed = topKlps.map(k => Math.pow(k, alpha));
+    const sumTop = transformed.reduce((a,b)=>a+b,0);
+    const breadthBonus = beta * Math.log(1 + klps.length);
+    return sumTop + breadthBonus;
+}
+
+  
   const levels = await levelsRes.json();
   const challenges = await challengesRes.json();
   const victors = await victorsRes.json();
@@ -36,9 +52,14 @@ async function loadPlayers() {
   }
 
   // Convert map to array & sort by KLP descending
-  const playerList = Object.entries(playerMap)
-    .map(([name, data]) => ({ name, klp: data.klp, levels: data.levels }))
-    .sort((a, b) => b.klp - a.klp);
+const playerList = Object.entries(playerMap)
+  .map(([name, data]) => ({
+      name,
+      klp: data.klp,
+      levels: data.levels,
+      plp: calculatePlayerScore(data.levels) // NEW: Player List Points
+  }))
+  .sort((a, b) => b.plp - a.plp); // sort by PLP instead of raw KLP
 
   // Render total KLP
   const totalKLP = playerList.reduce((sum, p) => sum + p.klp, 0);
