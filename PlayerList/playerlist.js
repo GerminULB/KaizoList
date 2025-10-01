@@ -6,22 +6,8 @@ async function loadPlayers() {
     fetch('../victors.json')
   ]);
 
-// Parameters
-const N = 10;        // top 10 clears count
-const alpha = 1.25;  // superlinear exponent
-const beta = 20;     // breadth bonus multiplier
 
-function calculatePlayerScore(levelsCleared) {
-    // levelsCleared = array of {name, klp} objects
-    const klps = levelsCleared.map(l => l.klp).sort((a,b)=>b-a);
-    const topKlps = klps.slice(0, N);
-    const transformed = topKlps.map(k => Math.pow(k, alpha));
-    const sumTop = transformed.reduce((a,b)=>a+b,0);
-    const breadthBonus = beta * Math.log(1 + klps.length);
-    return sumTop + breadthBonus;
-}
 
-  
   const levels = await levelsRes.json();
   const challenges = await challengesRes.json();
   const victors = await victorsRes.json();
