@@ -48,6 +48,8 @@
   const totalKLP = playerData.klp;
   const victoryKLP = playerData.levels.filter(l => l.type === 'Victor').reduce((sum, l) => sum + l.klp, 0);
   const verificationKLP = playerData.levels.filter(l => l.type === 'Verification').reduce((sum, l) => sum + l.klp, 0);
+  const plp = calculatePlayerScore(playerData.levels);
+
 
   document.getElementById('player-total-klp').innerText = totalKLP.toLocaleString();
   document.getElementById('player-victory-klp').innerText = victoryKLP.toLocaleString();
