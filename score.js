@@ -1,6 +1,6 @@
 // For the buckos that's looking in the code
 
-const PLP_N = 10;         // top N clears to count
+const PLP_N = 5;         // top N clears to count
 const PLP_ALPHA = 1.25;   // superlinear exponent
 const PLP_BETA = 40;      // breadth bonus multiplier
 
