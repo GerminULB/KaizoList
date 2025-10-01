@@ -50,11 +50,11 @@
   const verificationKLP = playerData.levels.filter(l => l.type === 'Verification').reduce((sum, l) => sum + l.klp, 0);
   const plp = calculatePlayerScore(playerData.levels);
 
-
+  document.getElementById('player-plp').innerText = plp.toFixed(0);
   document.getElementById('player-total-klp').innerText = totalKLP.toLocaleString();
   document.getElementById('player-victory-klp').innerText = victoryKLP.toLocaleString();
   document.getElementById('player-verification-klp').innerText = verificationKLP.toLocaleString();
-
+  
   // --- History (recent KLP additions) ---
   const historyEl = document.getElementById('player-history');
   historyEl.innerHTML = '';
