@@ -2,7 +2,7 @@
 
 const PLP_N = 10;         // top N clears to count
 const PLP_ALPHA = 1.25;   // superlinear exponent
-const PLP_BETA = 20;      // breadth bonus multiplier
+const PLP_BETA = 40;      // breadth bonus multiplier
 
 function calculatePlayerScore(levelsCleared) {
   // levelsCleared = array of { name, klp } objects
