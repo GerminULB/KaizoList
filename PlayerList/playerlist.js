@@ -73,10 +73,10 @@ const playerList = Object.entries(playerMap)
     const div = document.createElement('div');
     div.className = 'level';
     div.innerHTML = `
-      <div class="level-summary">
-        <span>#${index + 1}: ${player.name}</span>
-        <strong>${player.klp} KLP</strong>
-      </div>
+   <div class="level-summary">
+    <span>#${index + 1}: ${player.name}</span>
+    <strong>${player.plp.toFixed(0)} PLP</strong>
+  </div>
     `;
 
     // Click opens playerDetails.html in a NOT new tab LMAOOOOO
