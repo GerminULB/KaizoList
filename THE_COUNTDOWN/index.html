@@ -67,7 +67,7 @@
 </style>
 </head>
 <body>
-<audio id="tickSound" src="../sound/tick.wav" preload="auto" muted></audio>
+<audio id="tickSound" src="../sound/tick.wav" preload="auto"></audio>
 
 <div id="timer">
   <span class="digit">0</span><span class="digit">0</span><span class="sep">:</span>
@@ -87,7 +87,7 @@ const forumLink = document.getElementById('forumLink');
 const tickSound = document.getElementById('tickSound');
 const muteBtn = document.getElementById('muteBtn');
 
-let isMuted = true;
+let isMuted = false;
 const targetTime = new Date('2025-10-06T18:00:00Z').getTime();
 let lastSecond = null;
 
@@ -101,7 +101,7 @@ let flashDigitIndex = null;
 let flashHourStr = null;
 let flashActive = false;
 
-// Flash function: sets flashActive for 50ms
+
 function triggerFlash(hourStr) {
   if(Math.random() < 0.75){
     flashDigitIndex = Math.floor(Math.random() * 3);
@@ -129,14 +129,14 @@ function updateTimer() {
     }
     lastSecond = seconds;
 
-    // Trigger flash if >= 100 hours
+
     if(totalHours >= 100){
       const hourStr = String(totalHours).padStart(3,'0');
       triggerFlash(hourStr);
     }
   }
 
-  // Build hours display with flash applied
+
   let hourDisplay;
   if(totalHours >= 100){
     hourDisplay = ['?', '?', '?'];
@@ -147,7 +147,6 @@ function updateTimer() {
     hourDisplay = String(totalHours).padStart(2,'0').split('');
   }
 
-  // Build full timer HTML
   timerEl.innerHTML =
     hourDisplay.map(d => `<span class="digit">${d}</span>`).join('') +
     '<span class="sep">:</span>' +
@@ -160,7 +159,7 @@ function updateTimer() {
   }
 }
 
-// Continuous jitter for the hour digits
+
 function jitterLoop(){
   const digits = timerEl.querySelectorAll(".digit");
   for(let i=0; i<3 && digits[i]; i++){
