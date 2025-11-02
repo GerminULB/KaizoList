@@ -16,10 +16,10 @@
     margin: 0;
     height: 100vh;
     overflow: hidden;
-    background: #001f3f;
+    background: #000814; /* super dark blue for creepy vibe */
     font-family: 'Manaspace', Arial, sans-serif;
     color: white;
-    cursor: pointer; /* indicate user can click */
+    cursor: pointer;
   }
 
   /* Sprite layer tiling */
@@ -33,6 +33,7 @@
     background-repeat: repeat;
     background-size: 100px 100px;
     z-index: 1;
+    filter: brightness(0.7) blur(0.5px);
   }
 
   /* Text image layer tiling */
@@ -47,8 +48,9 @@
     background-size: contain;
     z-index: 2;
     pointer-events: none;
-    opacity: 0; /* hidden until click */
+    opacity: 0;
     transition: opacity 1s ease-in;
+    filter: brightness(0.6) blur(0.5px);
   }
 
   /* Click prompt */
@@ -59,6 +61,7 @@
     transform: translate(-50%, -50%);
     font-size: 4vw;
     text-align: center;
+    color: #88aaff;
   }
 </style>
 </head>
@@ -66,7 +69,7 @@
 
 <div id="spriteLayer"></div>
 <div id="textLayer"></div>
-<div id="clickPrompt">.</div>
+<div id="clickPrompt">Click to start</div>
 
 <audio id="bgMusic" loop>
   <source src="../sound/forbiddencave.ogg" type="audio/ogg">
@@ -74,48 +77,50 @@
 </audio>
 
 <script>
-  const spriteLayer = document.getElementById('spriteLayer');
-  const textLayer = document.getElementById('textLayer');
-  const clickPrompt = document.getElementById('clickPrompt');
-  const bgMusic = document.getElementById('bgMusic');
+const spriteLayer = document.getElementById('spriteLayer');
+const textLayer = document.getElementById('textLayer');
+const clickPrompt = document.getElementById('clickPrompt');
+const bgMusic = document.getElementById('bgMusic');
 
-  // Separate X/Y speeds for full control
+// Separate X/Y speeds for full control
   let spriteSpeedX = 0.75;  // sprite horizontal speed
   let spriteSpeedY = -0.5; // sprite vertical speed (negative = up)
   let textSpeedX = -0.5;     // text horizontal speed (negative = left)
   let textSpeedY = 0.25;      // text vertical speed (positive = down)
 
-  let spriteX = 0, spriteY = 0;
-  let textX = 0, textY = 0;
-  let started = false;
 
-  function animate() {
-    // Move sprite layer
-    spriteX += spriteSpeedX;
-    spriteY += spriteSpeedY;
-    spriteLayer.style.backgroundPosition = `${spriteX}px ${spriteY}px`;
+let spriteX = 0, spriteY = 0;
+let textX = 0, textY = 0;
+let started = false;
 
-    // Move text layer
-    textX += textSpeedX;
-    textY += textSpeedY;
-    textLayer.style.backgroundPosition = `${textX}px ${textY}px`;
+// Ripple/wave effect
+const waveAmplitude = 4; // pixels
+const waveFrequency = 0.015; // speed of ripple
 
-    requestAnimationFrame(animate);
+function animate() {
+  spriteX += spriteSpeedX;
+  spriteY += spriteSpeedY;
+  textX += textSpeedX;
+  textY += textSpeedY;
+
+  const wave = Math.sin(Date.now() * waveFrequency) * waveAmplitude;
+
+  spriteLayer.style.backgroundPosition = `${spriteX}px ${spriteY + wave}px`;
+  textLayer.style.backgroundPosition = `${textX}px ${textY + wave}px`;
+
+  requestAnimationFrame(animate);
+}
+
+// Start on first click
+window.addEventListener('click', () => {
+  if (!started) {
+    started = true;
+    textLayer.style.opacity = 1;
+    bgMusic.play();
+    clickPrompt.style.display = 'none';
+    animate();
   }
-
-  // Start on first click
-  window.addEventListener('click', () => {
-    if (!started) {
-      started = true;
-
-      textLayer.style.opacity = 1;
-
-      bgMusic.play();
-      clickPrompt.style.display = 'none';
-
-      animate();
-    }
-  }, { once: true });
+}, { once: true });
 </script>
 
 </body>
