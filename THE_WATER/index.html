@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Water is Rising</title>
+<style>
+  @font-face {
+    font-family: 'Manaspace';
+    src: url('fonts/manaspace.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #001f3f; /* deep water background */
+    overflow: hidden;
+    font-family: 'Manaspace', Arial, sans-serif;
+    color: white;
+  }
+
+  #sprite {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: url('images/silverboy_sit_behind.png'); 
+    background-size: cover;
+  }
+
+  #textOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5vw;
+    font-family: 'Manaspace', Arial, sans-serif;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  #textOverlay span {
+    display: inline-block;
+    margin: 0 2vw;
+  }
+</style>
+</head>
+<body>
+
+<div id="sprite"></div>
+
+<div id="textOverlay">
+  <span>THE WATER IS RISING</span>
+  <span>THE WATER IS RISING</span>
+  <span>THE WATER IS RISING</span>
+  <span>THE WATER IS RISING</span>
+</div>
+
+<audio id="bgMusic" autoplay loop>
+  <source src="music/background.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const sprite = document.getElementById('sprite');
+  const text = document.getElementById('textOverlay');
+
+  let posYSprite = 0;
+  let posYText = 0;
+  let directionSprite = 1;
+  let speed = 2;
+  let limit = 150;
+
+  function animate() {
+    // Move main sprite
+    posYSprite += directionSprite * speed;
+    if (posYSprite > limit || posYSprite < -limit) {
+      directionSprite *= -1;
+    }
+    sprite.style.transform = `translateY(${posYSprite}px)`;
+
+    // Move text in opposite direction
+    posYText -= directionSprite * speed;
+    if (posYText > limit || posYText < -limit) {
+      // keep text within same bounds, optional reset
+      posYText = Math.max(Math.min(posYText, limit), -limit);
+    }
+    text.style.transform = `translate(-50%, calc(-50% + ${posYText}px))`;
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+</body>
+</html>
