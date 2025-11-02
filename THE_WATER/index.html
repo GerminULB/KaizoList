@@ -34,44 +34,25 @@
     z-index: 1;
   }
 
-  /* Text layer tiling */
+  /* Text image layer tiling */
   #textLayer {
     position: absolute;
     top: 0;
     left: 0;
     width: 200%;
     height: 200%;
+    background-image: url('../images/the_water_is_rising.png');
+    background-repeat: repeat;
+    background-size: contain;
     z-index: 2;
     pointer-events: none;
-    font-size: 5vw;
-    color: white;
-    display: flex;
-    flex-wrap: wrap;
-    font-family: 'Manaspace', Arial, sans-serif;
-  }
-
-  #textLayer span {
-    flex: 0 0 auto;
-    width: 20%;
-    margin: 1% 0;
-    text-align: center;
   }
 </style>
 </head>
 <body>
 
 <div id="spriteLayer"></div>
-
-<div id="textLayer">
-  <span>THE WATER IS RISING</span>
-  <span>THE WATER IS RISING</span>
-  <span>THE WATER IS RISING</span>
-  <span>THE WATER IS RISING</span>
-  <span>THE WATER IS RISING</span>
-  <span>THE WATER IS RISING</span>
-  <span>THE WATER IS RISING</span>
-  <span>THE WATER IS RISING</span>
-</div>
+<div id="textLayer"></div>
 
 <audio id="bgMusic" autoplay loop>
   <source src="../sound/forbiddencave.ogg" type="audio/ogg">
@@ -83,7 +64,7 @@
 
   let spriteX = 0, spriteY = 0;
   let textX = 0, textY = 0;
-  const speed = 1.5; 
+  const speed = 1.5;
 
   function animate() {
 
@@ -91,10 +72,10 @@
     spriteY -= speed;
     spriteLayer.style.backgroundPosition = `${spriteX}px ${spriteY}px`;
 
-  
+
     textX -= speed;
     textY += speed;
-    textLayer.style.transform = `translate(${textX}px, ${textY}px)`;
+    textLayer.style.backgroundPosition = `${textX}px ${textY}px`;
 
     requestAnimationFrame(animate);
   }
