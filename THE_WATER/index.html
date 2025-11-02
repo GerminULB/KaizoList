@@ -19,6 +19,7 @@
     background: #001f3f;
     font-family: 'Manaspace', Arial, sans-serif;
     color: white;
+    cursor: pointer; /* indicate user can click */
   }
 
   /* Sprite layer tiling */
@@ -46,6 +47,18 @@
     background-size: contain;
     z-index: 2;
     pointer-events: none;
+    opacity: 0; /* hidden until click */
+    transition: opacity 1s ease-in;
+  }
+
+  /* Optional: show a message prompting click */
+  #clickPrompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4vw;
+    text-align: center;
   }
 </style>
 </head>
@@ -53,26 +66,31 @@
 
 <div id="spriteLayer"></div>
 <div id="textLayer"></div>
+<div id="clickPrompt">.</div>
 
-<audio id="bgMusic" autoplay loop>
+<audio id="bgMusic" loop>
   <source src="../sound/forbiddencave.ogg" type="audio/ogg">
+  Your browser does not support the audio element.
 </audio>
 
 <script>
   const spriteLayer = document.getElementById('spriteLayer');
   const textLayer = document.getElementById('textLayer');
+  const clickPrompt = document.getElementById('clickPrompt');
+  const bgMusic = document.getElementById('bgMusic');
 
   let spriteX = 0, spriteY = 0;
   let textX = 0, textY = 0;
   const speed = 1.5;
+  let started = false;
 
   function animate() {
-
+    // Move sprite layer diagonally up-right
     spriteX += speed;
     spriteY -= speed;
     spriteLayer.style.backgroundPosition = `${spriteX}px ${spriteY}px`;
 
-
+    // Move text layer diagonally down-left
     textX -= speed;
     textY += speed;
     textLayer.style.backgroundPosition = `${textX}px ${textY}px`;
@@ -80,7 +98,20 @@
     requestAnimationFrame(animate);
   }
 
-  animate();
+  // Start on first click
+  window.addEventListener('click', () => {
+    if (!started) {
+      started = true;
+      // Show text
+      textLayer.style.opacity = 1;
+      // Play music
+      bgMusic.play();
+      // Remove click prompt
+      clickPrompt.style.display = 'none';
+      // Start animation
+      animate();
+    }
+  }, { once: true });
 </script>
 
 </body>
