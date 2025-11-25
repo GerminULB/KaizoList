@@ -163,6 +163,7 @@
     "../history/2025-09-28.json",
     "../history/2025-10-16.json",
     "../history/2025-10-29.json",
+    "../history/2025-11-26.json",
   ];
 
   const recentChangesEl = document.getElementById('recent-changes');
@@ -252,6 +253,7 @@
   }
 
 })();
+
 
 
 
