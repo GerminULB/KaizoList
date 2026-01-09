@@ -75,22 +75,28 @@
   </div>
 
   
-<script>
+<script type="module">
+import { applyRandomPattern } from './js/utils.js';
+
 const patterns = [
-  '../images/pattern/pattern0.png',
-  '../images/pattern/pattern1.png',
-  '../images/pattern/pattern2.png',
-  '../images/pattern/pattern3.png',
-  '../images/pattern/pattern4.png',
-  '../images/pattern/pattern5.png',
-  '../images/pattern/pattern6.png',
-  '../images/pattern/pattern7.png',
-  '../images/pattern/pattern8.png',
-  '../images/pattern/pattern9.png',
-  '../images/pattern/pattern10.png',
-  '../images/pattern/pattern11.png',
-  '../images/pattern/pattern12.png',
+  'images/pattern/pattern0.png',
+  'images/pattern/pattern1.png',
+  'images/pattern/pattern2.png',
+  'images/pattern/pattern3.png',
+  'images/pattern/pattern4.png',
+  'images/pattern/pattern5.png',
+  'images/pattern/pattern6.png',
+  'images/pattern/pattern7.png',
+  'images/pattern/pattern8.png',
+  'images/pattern/pattern9.png',
+  'images/pattern/pattern10.png',
+  'images/pattern/pattern11.png',
+  'images/pattern/pattern12.png',
 ];
+
+applyRandomPattern('.hub-button', patterns);
+</script>
+;
 
 document.querySelectorAll('.hub-button').forEach(btn => {
   const idx = Math.floor(Math.random() * patterns.length);
@@ -107,7 +113,7 @@ document.querySelectorAll('.hub-button').forEach(btn => {
 </script>
   
   <footer class="site-footer">
-  <p>The Kaizo List &copy; 2025 — Version 1.12</p>
+  <p>The Kaizo List &copy; 2026 — Version 1.2</p>
   <p>
     Game & All assets belong to 
     <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
@@ -115,10 +121,12 @@ document.querySelectorAll('.hub-button').forEach(btn => {
   </p>
 </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
+
 
 </body>
 </html>
+
 
 
 
