@@ -57,7 +57,7 @@ import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
   function populateFilters(levels) {
     const creatorCount = {};
     levels.forEach(lvl => {
-      (lvl.creator || '').split(',').map(s => s.trim()).forEach(c => {
+      splitNames(lvl.creator).forEach(c => {
         if (!c) return;
         creatorCount[c] = (creatorCount[c] || 0) + 1;
       });
@@ -199,7 +199,7 @@ import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
 
   // Load latest levels.json
   try {
-    const res = await fetch("../levels.json");
+    const res = await fetch("../levels.json");  
     if (!res.ok) throw new Error("Cannot load levels.json");
     const latest = await res.json();
     latest.sort((a,b)=>b.klp-a.klp);
@@ -254,8 +254,23 @@ import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
 
 })();
 
+applyRandomPattern('.hub-button', [
+  '../images/pattern/pattern0.png',
+  '../images/pattern/pattern1.png',
+  '../images/pattern/pattern2.png',
+  '../images/pattern/pattern3.png',
+  '../images/pattern/pattern4.png',
+  '../images/pattern/pattern5.png',
+  '../images/pattern/pattern6.png',
+  '../images/pattern/pattern7.png',
+  '../images/pattern/pattern8.png',
+  '../images/pattern/pattern9.png',
+  '../images/pattern/pattern10.png',
+  '../images/pattern/pattern11.png',
+  '../images/pattern/pattern12.png',
+]);
 
-
+renderRecentChanges('recent-changes', undefined, '../levels.json');
 
 
 
