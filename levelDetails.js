@@ -7,12 +7,10 @@ import { fetchJson, rankByKLP, paginateGrid } from './js/utils.js';
 
   const historyEl = document.getElementById('history');
 
-  // Fetch all sources
-  const [levelsRes, challengesRes, victorsRes] = await Promise.all([
-    fetch('levels.json'),
-    fetch('challenges.json'),
-    fetch('victors.json')
-  ]);
+  const levels = await fetchJson('levels.json') || [];
+  const challenges = await fetchJson('challenges.json') || [];
+  const victorsData = await fetchJson('victors.json') || {};
+  const allLevels = [...levels, ...challenges];
 
   const levels = await levelsRes.json();
   const challenges = await challengesRes.json();
