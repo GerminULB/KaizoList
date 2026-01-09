@@ -1,3 +1,5 @@
+import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
+
 async function loadPlayers() {
   // Fetch all sources
   const [levelsRes, challengesRes, victorsRes] = await Promise.all([
@@ -5,8 +7,6 @@ async function loadPlayers() {
     fetch('../challenges.json'),
     fetch('../victors.json')
   ]);
-
-
 
   const levels = await levelsRes.json();
   const challenges = await challengesRes.json();
