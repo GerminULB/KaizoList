@@ -55,36 +55,28 @@
   </div>
 
 
-<script>
+<script type="module">
+import { applyRandomPattern } from './js/utils.js';
+
 const patterns = [
-  '../images/pattern/pattern0.png',
-  '../images/pattern/pattern1.png',
-  '../images/pattern/pattern2.png',
-  '../images/pattern/pattern3.png',
-  '../images/pattern/pattern4.png',
-  '../images/pattern/pattern5.png',
-  '../images/pattern/pattern6.png',
-  '../images/pattern/pattern7.png',
-  '../images/pattern/pattern8.png',
-  '../images/pattern/pattern9.png',
-  '../images/pattern/pattern10.png',
-  '../images/pattern/pattern11.png',
-  '../images/pattern/pattern12.png',
+  'images/pattern/pattern0.png',
+  'images/pattern/pattern1.png',
+  'images/pattern/pattern2.png',
+  'images/pattern/pattern3.png',
+  'images/pattern/pattern4.png',
+  'images/pattern/pattern5.png',
+  'images/pattern/pattern6.png',
+  'images/pattern/pattern7.png',
+  'images/pattern/pattern8.png',
+  'images/pattern/pattern9.png',
+  'images/pattern/pattern10.png',
+  'images/pattern/pattern11.png',
+  'images/pattern/pattern12.png',
 ];
 
-document.querySelectorAll('.hub-button').forEach(btn => {
-  const idx = Math.floor(Math.random() * patterns.length);
-  btn.style.backgroundImage = `url('${patterns[idx]}')`;
-  btn.style.backgroundRepeat = 'repeat';
-  btn.style.backgroundSize = '32px 32px'; 
-  btn.style.color = '#ffffff';        
-  btn.style.border = '2px solid black';
-  btn.style.imageRendering = 'pixelated';
-  btn.style.textShadow = `
-  1px 1px 0 #000
-`;
-});
+applyRandomPattern('.hub-button', patterns);
 </script>
+
 
   <footer class="site-footer">
   <p>The Kaizo List &copy; 2025 — Version 1.12</p>
