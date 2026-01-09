@@ -1,23 +1,22 @@
+import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
+
 (() => {
   let currentLevels = [];
 
   async function init() {
     try {
-      const res = await fetch('../levels.json');
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-
-      currentLevels = data.map((lvl, idx) => ({
-        id: lvl.id ?? (idx + 1),
-        name: lvl.name ?? '',
-        creator: lvl.creator ?? '',
-        verifier: lvl.verifier ?? '',
-        klp: Number(lvl.klp) || 0
-      }));
-
-      currentLevels.sort((a, b) => b.klp - a.klp);
-      currentLevels.forEach((lvl, index) => lvl.rank = index + 1);
-
+      const data = await fetchJson('../levels.json');
+      if (!data) throw new Error("Failed to load levels.json");
+      
+      currentLevels = rankByKLP(
+        data.map((lvl, idx) => ({
+          id: lvl.id ?? (idx + 1),
+          name: lvl.name ?? '',
+          creator: lvl.creator ?? '',
+          verifier: lvl.verifier ?? '',
+          klp: Number(lvl.klp) || 0
+        }))
+      );
       populateFilters(currentLevels);
       renderFilteredLevels();
     } catch (err) {
@@ -254,6 +253,7 @@
   }
 
 })();
+
 
 
 
