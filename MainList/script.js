@@ -1,4 +1,5 @@
-import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
+import { fetchJson, rankByKLP, splitNames, renderRecentChanges } from "../js/utils.js";
+
 
 (() => {
   let currentLevels = [];
@@ -155,6 +156,7 @@ import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
 })();
 
 renderRecentChanges('recent-changes', undefined, '../levels.json');
+
 
 
 
