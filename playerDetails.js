@@ -9,17 +9,10 @@ import { fetchJson, splitNames, applyRandomPattern } from '/js/utils.js';
   if (!playerName) return alert('No player specified');
   document.getElementById('player-name').innerText = playerName;
 
-  // Fetch all sources
-  const [levelsRes, challengesRes, victorsRes] = await Promise.all([
-    fetch('levels.json'),
-    fetch('challenges.json'),
-    fetch('victors.json')
-  ]);
 
-  const levels = await levelsRes.json();
-  const challenges = await challengesRes.json();
-  const victorsData = await victorsRes.json();
-  const allLevels = [...levels, ...challenges];
+const levels = await fetchJson('levels.json');
+const challenges = await fetchJson('challenges.json');
+const victorsData = await fetchJson('victors.json');
 
   // Build player map
   const playerMap = {};
