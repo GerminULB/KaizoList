@@ -21,7 +21,16 @@
 
     <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
       <div style="flex:1; min-width: 280px;" class="panel-9slice">
-        <div id="level-info"></div>
+        <div id="level-info" class="panel-9slice">
+          <h2>Level Info</h2>
+        
+          <p><strong>Creator:</strong> <span id="level-creator">Unknown</span></p>
+          <p><strong>Verifier:</strong> <span id="level-verifier">Unknown</span></p>
+          <p><strong>ID:</strong> <span id="level-id">N/A</span></p>
+          <p><strong>KLP:</strong> <span id="level-klp">0</span></p>
+          <p><strong>Rank:</strong> <span id="level-rank">0</span></p>
+        </div>
+      
         <h2>History</h2>
         <div id="history" class="scrollable panel-9slice"></div>
       </div>
