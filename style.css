@@ -46,7 +46,7 @@ body::after {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(255, 140, 90, 0.04) 100%
+    rgba(255, 140, 90, 0.2) 100%
   );
 
   pointer-events: none;
@@ -360,4 +360,5 @@ p {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
 }
+
 
