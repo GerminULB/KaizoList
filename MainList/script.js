@@ -254,23 +254,8 @@ import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
 
 })();
 
-applyRandomPattern('.hub-button', [
-  '../images/pattern/pattern0.png',
-  '../images/pattern/pattern1.png',
-  '../images/pattern/pattern2.png',
-  '../images/pattern/pattern3.png',
-  '../images/pattern/pattern4.png',
-  '../images/pattern/pattern5.png',
-  '../images/pattern/pattern6.png',
-  '../images/pattern/pattern7.png',
-  '../images/pattern/pattern8.png',
-  '../images/pattern/pattern9.png',
-  '../images/pattern/pattern10.png',
-  '../images/pattern/pattern11.png',
-  '../images/pattern/pattern12.png',
-]);
-
 renderRecentChanges('recent-changes', undefined, '../levels.json');
+
 
 
 
