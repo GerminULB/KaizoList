@@ -154,18 +154,6 @@ import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
   init();
 })();
 
-(async () => {
-  const historyFiles = [
-    "../history/2025-09-11.json",
-    "../history/2025-09-20.json",
-    "../history/2025-09-21.json",
-    "../history/2025-09-28.json",
-    "../history/2025-10-16.json",
-    "../history/2025-10-29.json",
-    "../history/2025-11-26.json",
-    "../history/2026-01-08.json",
-  ];
-
   const recentChangesEl = document.getElementById('recent-changes');
   if (!recentChangesEl) return;
 
@@ -255,6 +243,7 @@ import { fetchJson, rankByKLP, splitNames } from "../js/utils.js";
 })();
 
 renderRecentChanges('recent-changes', undefined, '../levels.json');
+
 
 
 
