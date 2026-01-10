@@ -8,7 +8,7 @@
 body {
   margin: 0;
   padding: 20px;
-  padding-bottom: 360px; /* space for decor */
+  padding-bottom: 360px;
 
   position: relative;
   min-height: 100vh;
@@ -25,32 +25,35 @@ body {
     #ff9b63 80%,
     #ffc38a 100%
   );
+
+  overflow-x: hidden; /* hard safety net */
 }
 
-/* ----------------- Banner texture ----------------- */
+/* ----------------- Banner texture (PRIMARY) ----------------- */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image: url("images/banner.png");
   background-repeat: repeat;
-  opacity: 0.08;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
 }
 
-/* ----------------- Subtle sunset glow ----------------- */
+/* ----------------- VERY subtle ambient glow ----------------- */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
+
   background: radial-gradient(
     ellipse at bottom center,
-    rgba(255, 170, 110, 0.10),
-    rgba(255, 120, 90, 0.05),
-    transparent 72%
+    rgba(255, 170, 110, 0.035),
+    rgba(255, 120, 90, 0.02),
+    transparent 75%
   );
-  mix-blend-mode: screen;
+
   pointer-events: none;
   z-index: 1;
 }
@@ -60,7 +63,7 @@ body, body * {
   text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.55);
 }
 
-/* ----------------- 9-Slice Panel Base ----------------- */
+/* ----------------- 9-Slice Panel Base (RESTORED) ----------------- */
 .panel-9slice {
   position: relative;
 
@@ -124,12 +127,12 @@ h2, p {
   cursor: pointer;
   transition: transform 0.15s ease, filter 0.2s ease;
 }
-.hub-button.panel-9slice:hover {
+.hub-button:hover {
   transform: scale(1.05);
   filter: brightness(1.1);
 }
 
-/* ----------------- Info Boxes, Cards ----------------- */
+/* ----------------- Info Boxes / Cards ----------------- */
 .hub-info,
 .index-intro,
 .level,
@@ -140,33 +143,19 @@ h2, p {
   margin-bottom: 16px;
 }
 
-/* ----------------- Level Summary ----------------- */
-.level-summary {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  font-weight: bold;
-}
-.level-summary:hover {
-  color: #ffcf8a;
-}
-
-/* ----------------- Search & Filters ----------------- */
-input#search {
-  width: calc(100% - 40px);
-  max-width: 600px;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-}
-input#search:focus {
-  outline: none;
-  box-shadow: 0 0 10px rgba(255,185,120,0.8);
-}
-.filters select {
-  background: rgba(35,22,48,0.95);
-  color: #fff;
-  border: 1px solid #6b3a1e;
+/* IMPORTANT: apply panel manually */
+.hub-info,
+.index-intro,
+.level,
+.scrollable,
+#recent-changes-container,
+.grid-item,
+#scroll-top,
+.hub-button,
+.container.panel {
+  border: 16px solid transparent;
+  border-image: url("images/ui/9slice-panel.png") 16 fill repeat;
+  background-color: rgba(40, 28, 55, 0.94);
 }
 
 /* ----------------- Footer ----------------- */
@@ -181,49 +170,46 @@ input#search:focus {
 /* ================= SUNSET DECOR SYSTEM =================== */
 /* ========================================================= */
 
-/* Shared decor base */
 .sunset-decor {
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
 
-  width: 110vw;
+  width: 100%;
   height: 340px;
 
   background-repeat: repeat-x;
-  background-position: left bottom;
+  background-position: center bottom;
   background-size: auto 100%;
 
   pointer-events: none;
   image-rendering: pixelated;
+  overflow: hidden;
 }
 
-/* Back layer – slow parallax */
+/* Back layer */
 .sunset-decor.back {
   background-image: url("images/decor/mountains.png");
-  opacity: 0.35;
+  opacity: 0.3;
   z-index: 2;
-
-  transform: translateY(0);
-  animation: parallax-back 60s linear infinite;
+  animation: parallax-back 80s linear infinite;
 }
 
-/* Front layer – faster parallax */
+/* Front layer */
 .sunset-decor.front {
   background-image: url("images/decor/tree.png");
-  opacity: 0.7;
+  opacity: 0.65;
   z-index: 4;
-
-  filter: blur(0.5px);
-  animation: parallax-front 35s linear infinite;
+  filter: blur(0.4px);
+  animation: parallax-front 45s linear infinite;
 }
 
-/* ----------------- Ground fade mask ----------------- */
+/* Ground fade */
 .sunset-mask {
   position: absolute;
   bottom: 0;
   left: 0;
-
   width: 100%;
   height: 120px;
 
@@ -233,16 +219,15 @@ input#search:focus {
     rgba(40, 28, 55, 0)
   );
 
-  z-index: 6;
   pointer-events: none;
+  z-index: 6;
 }
 
-/* ----------------- Parallax Animations ----------------- */
+/* ----------------- Parallax ----------------- */
 @keyframes parallax-back {
   from { background-position-x: 0; }
   to   { background-position-x: -512px; }
 }
-
 @keyframes parallax-front {
   from { background-position-x: 0; }
   to   { background-position-x: -768px; }
@@ -250,11 +235,6 @@ input#search:focus {
 
 /* ----------------- Mobile ----------------- */
 @media (max-width: 700px) {
-  .hub-links {
-    gap: 10px;
-  }
-
-  .sunset-decor {
-    height: 260px;
-  }
+  .hub-links { gap: 10px; }
+  .sunset-decor { height: 260px; }
 }
