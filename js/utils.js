@@ -1,14 +1,14 @@
 
 // js/utils.js
 export const HISTORY_FILES = [
-  "../history/2025-09-11.json",
-  "../history/2025-09-20.json",
-  "../history/2025-09-21.json",
-  "../history/2025-09-28.json",
-  "../history/2025-10-16.json",
-  "../history/2025-10-29.json",
-  "../history/2025-11-26.json",
-  "../history/2026-01-08.json",
+  "/KaizoList/history/2025-09-11.json",
+  "/KaizoList/history/2025-09-20.json",
+  "/KaizoList/history/2025-09-21.json",
+  "/KaizoList/history/2025-09-28.json",
+  "/KaizoList/history/2025-10-16.json",
+  "/KaizoList/history/2025-10-29.json",
+  "/KaizoList/history/2025-11-26.json",
+  "/KaizoList/history/2026-01-08.json",
 ];
 
 export async function fetchJson(path) {
