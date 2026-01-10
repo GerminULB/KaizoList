@@ -2,9 +2,10 @@ import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
 
 async function loadPlayers() {
 
-  const levels = await levelsRes.json();
-  const challenges = await challengesRes.json();
-  const victors = await victorsRes.json();
+  const levels = await fetchJson('levels.json');
+  const challenges = await fetchJson('challenges.json');
+  const victors = await fetchJson('victors.json');
+
 
   // Merge levels + challenges
   const allLevels = [...levels, ...challenges];
