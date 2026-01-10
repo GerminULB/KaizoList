@@ -5,47 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Player Details</title>
   <link rel="stylesheet" href="style.css">
- <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
-
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
 </head>
 <body>
-  <div class="page-banner"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
 
-  
-  <div class="container">
-    <a href="/KaizoList/PlayerList/">← Back to Player Rankings</a>
-    <h1 id="player-name">Player Name</h1>
+  <div class="container panel-9slice">
+    <a href="/KaizoList/PlayerList/" class="hub-button">← Back to Player Rankings</a>
+    <h1 id="player-name"></h1>
 
-    <div id="player-info">
-      <p><strong>Player List Points:</strong> <span id="player-plp">0</span></p>
-      <p><strong>Total KLP:</strong> <span id="player-total-klp">0</span></p>
-      <p><strong>KLP from Victors:</strong> <span id="player-victory-klp">0</span></p>
-      <p><strong>KLP from Verifications:</strong> <span id="player-verification-klp">0</span></p>
-    </div>
+    <div id="player-info" class="panel-9slice"></div>
 
     <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
-      <!-- Left: Stats + History -->
-<div id="player-left" style="flex:1; min-width:280px;">
-  <h2>Recent KLP Changes</h2>
-  <div id="player-history" class="scrollable"></div>
-</div>
+      <div id="player-left" style="flex:1; min-width:280px;" class="panel-9slice">
+        <h2>Recent KLP Changes</h2>
+        <div id="player-history" class="scrollable panel-9slice"></div>
+      </div>
 
-      <!-- Right: Victors / Verifications -->
-<div id="player-right" style="flex:1; min-width:280px;">
-  <h2>Victors</h2>
-  <div class="grid-wrapper">
-    <div id="player-victors" class="grid"></div>
-    <div class="pagination"></div>
+      <div id="player-right" style="flex:1; min-width:280px;" class="panel-9slice">
+        <h2>Victors</h2>
+        <div id="player-victors" class="grid panel-9slice"></div>
+        <div class="pagination panel-9slice"></div>
+
+        <h2 style="margin-top:20px;">Verifications</h2>
+        <div id="player-verifications" class="grid panel-9slice"></div>
+        <div class="pagination panel-9slice"></div>
+      </div>
+    </div>
   </div>
 
-  <h2 style="margin-top:20px;">Verifications</h2>
-  <div class="grid-wrapper">
-    <div id="player-verifications" class="grid"></div>
-    <div class="pagination"></div>
-  </div>
-</div>
-  </div>
   <script src="score.js"></script>
   <script type="module" src="playerDetails.js"></script>
 </body>
