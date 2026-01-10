@@ -1,94 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  // Enable IP anonymization to protect privacy (Why is this not turned on automatically wtf google)
-  gtag('config', 'G-7N58SZ0J6W', { 'anonymize_ip': true });
-</script>
-  
-  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Kaizo List!">
-  <meta name="twitter:description" content="A curated list of the HARDEST players (😳) in Ultimate Level Builder.">
-  <meta name="twitter:image" content="https://germinulb.github.io/KaizoList/images/kaizolistlogo.png">
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Player Rankings</title>
-
-  <meta property="og:title" content="The Kaizo List!" />
-  <meta property="og:description" content="A curated list of the HARDEST players (😳) in Ultimate Level Builder." />
-  <meta property="og:image" content="../images/kaizolistlogo.png" />
-  <meta property="og:url" content="https://germinulb.github.io/KaizoList/PlayerList.html" />
-
-
+  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div class="page-banner"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
 
-      
-<div class="container">
-  <a href="/KaizoList/">
-    <img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo">
-  </a>
-  <h1>Top Players</h1>
-  <p class="hub-intro">
-      The Players who have conquered the Kaizos...
-  </p>
-  <nav>
-    <div class="hub-links">
+  <div class="container panel-9slice">
+    <a href="/KaizoList/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
+    <h1>Top Players</h1>
+    <p class="hub-intro">The Players who have conquered the Kaizos...</p>
+
+    <nav class="hub-links">
       <a href="/KaizoList/MainList/" class="hub-button">Main List</a>
       <a href="/KaizoList/ChallengeList/" class="hub-button">Challenge List</a>
       <a href="/KaizoList/PlayerList/" class="hub-button">Player Rankings</a>
-    </div>
-  </nav>
+    </nav>
 
-    <div id="player-total-klp">Total: 0 KLP</div>
-    <div id="player-list"></div>
+    <div id="player-total-klp" class="panel-9slice">Total: 0 KLP</div>
+    <div id="player-list" class="panel-9slice"></div>
   </div>
 
+  <footer class="site-footer panel-9slice">
+    <p>The Kaizo List &copy; 2026 — Version 1.2</p>
+    <p>
+      Game & All assets belong to 
+      <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
+      <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
+    </p>
+  </footer>
 
-<script type="module">
-import { applyRandomPattern } from '../js/utils.js';
+  <script type="module">
+    import { applyRandomPattern } from '../js/utils.js';
+    const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
+    applyRandomPattern('.hub-button', patterns);
+  </script>
 
-const patterns = [
-  '../images/pattern/pattern0.png',
-  '../images/pattern/pattern1.png',
-  '../images/pattern/pattern2.png',
-  '../images/pattern/pattern3.png',
-  '../images/pattern/pattern4.png',
-  '../images/pattern/pattern5.png',
-  '../images/pattern/pattern6.png',
-  '../images/pattern/pattern7.png',
-  '../images/pattern/pattern8.png',
-  '../images/pattern/pattern9.png',
-  '../images/pattern/pattern10.png',
-  '../images/pattern/pattern11.png',
-  '../images/pattern/pattern12.png',
-];
-
-applyRandomPattern('.hub-button', patterns);
-</script>
-
-
-  <footer class="site-footer">
-  <p>The Kaizo List &copy; 2025 — Version 1.12</p>
-  <p>
-    Game & All assets belong to 
-    <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
-    <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
-  </p>
-</footer>
-<script src="../score.js"></script>
-<script type="module" src="playerlist.js"></script>
-
-  
+  <script src="../score.js"></script>
+  <script type="module" src="playerlist.js"></script>
 </body>
 </html>
