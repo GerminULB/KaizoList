@@ -1,92 +1,144 @@
-/* ----------------- Fonts ----------------- */
+/* ================= FONT ================= */
 @font-face {
   font-family: 'Manaspace';
   src: url('fonts/manaspace.ttf') format('truetype');
 }
 
-/* ----------------- Body & Background ----------------- */
+/* ================= BODY & BACKGROUND ================= */
 body {
   margin: 0;
   padding: 20px;
-
-  position: relative;
   min-height: 100vh;
+  position: relative;
 
   font-family: 'Manaspace', Arial, sans-serif;
   color: #fff2e0;
   text-align: center;
 
-  /* Base color ONLY – sprite is primary */
-  background-color: #1b1f3a;
+  background: linear-gradient(
+    180deg,
+    #1b1f3a 0%,
+    #5b4b87 30%,
+    #e36b7c 55%,
+    #ff9b63 80%,
+    #ffc38a 100%
+  );
 
   overflow-x: hidden;
 }
 
-/* ----------------- Banner texture (PRIMARY) ----------------- */
+/* repeating banner texture (PRIMARY bg) */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-
   background-image: url("images/banner.png");
   background-repeat: repeat;
-  opacity: 0.14;
-
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
 }
 
-/* ----------------- Subtle bottom tint (SECONDARY) ----------------- */
+/* ultra subtle bottom tint */
 body::after {
   content: "";
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 35vh;
-
+  inset: 0;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(255, 140, 90, 0.04) 100%
+    transparent 85%,
+    rgba(255, 140, 90, 0.035) 100%
   );
-
   pointer-events: none;
   z-index: 1;
 }
 
-/* ----------------- Global pixel shadow ----------------- */
+/* ================= GLOBAL TEXT SHADOW ================= */
 body, body * {
   text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.55);
 }
 
-/* ========================================================= */
-/* =================== 9-SLICE SYSTEM ====================== */
-/* ========================================================= */
+/* ================= BACKGROUND STAGE ================= */
+/* YOU will place sunset decor inside this manually in HTML */
+.background-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
 
-.panel-9slice {
+/* ================= SUNSET DECOR ================= */
+.sunset-decor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 320px;
+
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  background-size: auto 100%;
+
+  image-rendering: pixelated;
+}
+
+.sunset-decor.back {
+  background-image: url("images/decor/mountains.png");
+  opacity: 0.28;
+  z-index: 1;
+}
+
+.sunset-decor.front {
+  background-image: url("images/decor/tree.png");
+  opacity: 0.55;
+  z-index: 2;
+}
+
+.sunset-mask {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 120px;
+
+  background: linear-gradient(
+    to top,
+    rgba(40, 28, 55, 1),
+    rgba(40, 28, 55, 0)
+  );
+
+  z-index: 3;
+}
+
+/* ================= CONTENT LAYER ================= */
+body > *:not(.background-stage) {
   position: relative;
+  z-index: 5;
+}
 
+/* ================= 9-SLICE PANEL ================= */
+.panel-9slice {
   border: 16px solid transparent;
-  border-image-source: url("images/ui/9slice-panel.png");
-  border-image-slice: 16 fill;
-  border-image-repeat: repeat;
+  border-image: url("images/ui/9slice-panel.png") 16 fill repeat;
 
   background-color: rgba(40, 28, 55, 0.94);
   image-rendering: pixelated;
 
   padding: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
 }
 
-/* ----------------- Containers ----------------- */
+/* ================= CONTAINER ================= */
 .container {
   max-width: 820px;
   margin: 0 auto;
   padding: 32px;
 }
 
-/* ----------------- Logos ----------------- */
+/* ================= LOGO ================= */
 img.logo {
   width: 360px;
   margin: 20px auto;
@@ -98,7 +150,7 @@ img.logo:hover {
   transform: scale(1.03) rotate(-1deg);
 }
 
-/* ----------------- Headers & Text ----------------- */
+/* ================= HEADERS ================= */
 h1 {
   color: #fff4dc;
   text-shadow: 2px 2px 0 #3a1f14, 0 0 14px rgba(255,170,110,0.4);
@@ -107,11 +159,12 @@ h2, p {
   color: #f4e9dc;
 }
 
-/* ----------------- Hub intro & navigation ----------------- */
+/* ================= HUB NAV ================= */
 .hub-intro {
   margin-top: 10px;
   font-size: 1.1em;
 }
+
 .hub-links {
   display: flex;
   justify-content: center;
@@ -120,114 +173,79 @@ h2, p {
   flex-wrap: wrap;
 }
 
-/* ----------------- Buttons ----------------- */
+/* ================= CLICKABLE FEEDBACK ================= */
+.hub-button,
+.level,
+.grid-item {
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 0 rgba(0,0,0,0.65),
+    0 6px 12px rgba(0,0,0,0.3);
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
+}
+
+/* hover */
+.hub-button:hover,
+.level:hover,
+.grid-item:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 5px 0 rgba(0,0,0,0.65),
+    0 10px 18px rgba(0,0,0,0.4);
+}
+
+/* press */
+.hub-button:active,
+.level:active,
+.grid-item:active {
+  transform: translateY(2px);
+  filter: brightness(0.95);
+
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.75),
+    0 2px 6px rgba(0,0,0,0.35);
+}
+
+/* keyboard focus */
+.hub-button:focus-visible,
+.level:focus-visible {
+  outline: 2px solid #ffcf8a;
+  outline-offset: 2px;
+}
+
+/* ================= BUTTON BASE ================= */
 .hub-button {
   display: inline-block;
   padding: 10px 18px;
-
   font-weight: bold;
   color: #3a1f14;
-  cursor: pointer;
-
-  transition: transform 0.15s ease, filter 0.2s ease;
-}
-.hub-button:hover {
-  transform: scale(1.05);
-  filter: brightness(1.1);
 }
 
-/* ----------------- Panels using 9-slice ----------------- */
+/* ================= COMMON PANELS ================= */
 .hub-info,
 .index-intro,
 .level,
 .scrollable,
 #recent-changes-container,
 .grid-item,
-#scroll-top,
-.hub-button,
-.container.panel {
+#scroll-top {
   margin-bottom: 16px;
 }
 
-/* IMPORTANT: these must have .panel-9slice in HTML */
-/* No border definitions here – EVER */
-
-/* ----------------- Footer ----------------- */
+/* ================= FOOTER ================= */
 .site-footer {
-  position: relative;
-  z-index: 5;
   margin-top: 40px;
   color: #e6caa8;
 }
 
-/* ========================================================= */
-/* ================= SUNSET DECOR (VISUAL ONLY) ============= */
-/* ========================================================= */
-
-.sunset-decor {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-
-  width: 100vw;
-  height: 320px;
-
-  background-repeat: repeat-x;
-  background-position: left bottom;
-  background-size: auto 100%;
-
-  pointer-events: none;
-  image-rendering: pixelated;
-  overflow: hidden;
-}
-
-/* Back layer */
-.sunset-decor.back {
-  background-image: url("images/decor/mountains.png");
-  opacity: 0.3;
-  z-index: 2;
-  animation: parallax-back 80s linear infinite;
-}
-
-/* Front layer */
-.sunset-decor.front {
-  background-image: url("images/decor/tree.png");
-  opacity: 0.6;
-  filter: blur(0.4px);
-  z-index: 4;
-  animation: parallax-front 45s linear infinite;
-}
-
-/* Ground fade */
-.sunset-mask {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-
-  width: 100vw;
-  height: 120px;
-
-  background: linear-gradient(
-    to top,
-    rgba(40, 28, 55, 1),
-    rgba(40, 28, 55, 0)
-  );
-
-  pointer-events: none;
-  z-index: 6;
-}
-
-/* ----------------- Parallax ----------------- */
-@keyframes parallax-back {
-  from { background-position-x: 0; }
-  to   { background-position-x: -512px; }
-}
-@keyframes parallax-front {
-  from { background-position-x: 0; }
-  to   { background-position-x: -768px; }
-}
-
-/* ----------------- Mobile ----------------- */
+/* ================= MOBILE ================= */
 @media (max-width: 700px) {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
