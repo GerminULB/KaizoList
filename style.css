@@ -1,168 +1,137 @@
-/* ================= FONT ================= */
+/* ----------------- Fonts ----------------- */
 @font-face {
   font-family: 'Manaspace';
   src: url('fonts/manaspace.ttf') format('truetype');
 }
 
-/* ================= BODY & BACKGROUND ================= */
+/* ----------------- Body & Background ----------------- */
 body {
   margin: 0;
   padding: 20px;
-  min-height: 100vh;
+
   position: relative;
+  min-height: 100vh;
 
   font-family: 'Manaspace', Arial, sans-serif;
   color: #fff2e0;
   text-align: center;
 
-  background: linear-gradient(
-    180deg,
-    #1b1f3a 0%,
-    #5b4b87 30%,
-    #e36b7c 55%,
-    #ff9b63 80%,
-    #ffc38a 100%
-  );
+  /* Base color ONLY – sprite is primary */
+  background-color: #1b1f3a;
 
   overflow-x: hidden;
 }
 
-/* repeating banner texture (PRIMARY bg) */
+/* ----------------- Banner texture (PRIMARY) ----------------- */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
+
   background-image: url("images/banner.png");
   background-repeat: repeat;
-  opacity: 0.12;
+  opacity: 0.14;
+
   pointer-events: none;
   z-index: 0;
 }
 
-/* ultra subtle bottom tint */
+/* ----------------- Subtle bottom tint (SECONDARY) ----------------- */
 body::after {
   content: "";
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35vh;
+
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    transparent 85%,
-    rgba(255, 140, 90, 0.035) 100%
+    rgba(255, 140, 90, 0.04) 100%
   );
+
   pointer-events: none;
   z-index: 1;
 }
 
-/* ================= GLOBAL TEXT SHADOW ================= */
-body, body * {
+/* ----------------- Global pixel shadow ----------------- */
+body,
+body * {
   text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.55);
 }
 
-/* ================= BACKGROUND STAGE ================= */
-/* YOU will place sunset decor inside this manually in HTML */
-.background-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-}
+/* ========================================================= */
+/* =================== 9-SLICE SYSTEM ====================== */
+/* ========================================================= */
 
-/* ================= SUNSET DECOR ================= */
-.sunset-decor {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-
-  width: 100%;
-  height: 320px;
-
-  background-repeat: repeat-x;
-  background-position: left bottom;
-  background-size: auto 100%;
-
-  image-rendering: pixelated;
-}
-
-.sunset-decor.back {
-  background-image: url("images/decor/mountains.png");
-  opacity: 0.28;
-  z-index: 1;
-}
-
-.sunset-decor.front {
-  background-image: url("images/decor/tree.png");
-  opacity: 0.55;
-  z-index: 2;
-}
-
-.sunset-mask {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-
-  width: 100%;
-  height: 120px;
-
-  background: linear-gradient(
-    to top,
-    rgba(40, 28, 55, 1),
-    rgba(40, 28, 55, 0)
-  );
-
-  z-index: 3;
-}
-
-/* ================= CONTENT LAYER ================= */
-body > *:not(.background-stage) {
-  position: relative;
-  z-index: 5;
-}
-
-/* ================= 9-SLICE PANEL ================= */
 .panel-9slice {
+  position: relative;
+  z-index: 10;
+
   border: 16px solid transparent;
-  border-image: url("images/ui/9slice-panel.png") 16 fill repeat;
+  border-image-source: url("images/ui/9slice-panel.png");
+  border-image-slice: 16 fill;
+  border-image-repeat: repeat;
 
   background-color: rgba(40, 28, 55, 0.94);
   image-rendering: pixelated;
 
   padding: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-/* ================= CONTAINER ================= */
+/* ----------------- Containers ----------------- */
 .container {
   max-width: 820px;
   margin: 0 auto;
   padding: 32px;
+
+  position: relative;
+  z-index: 10;
 }
 
-/* ================= LOGO ================= */
+/* ----------------- Logos ----------------- */
 img.logo {
   width: 360px;
   margin: 20px auto;
   display: block;
+
   image-rendering: pixelated;
   transition: transform 0.3s ease;
+
+  position: relative;
+  z-index: 10;
 }
+
 img.logo:hover {
   transform: scale(1.03) rotate(-1deg);
 }
 
-/* ================= HEADERS ================= */
+/* ----------------- Headers & Text ----------------- */
 h1 {
   color: #fff4dc;
   text-shadow: 2px 2px 0 #3a1f14, 0 0 14px rgba(255,170,110,0.4);
-}
-h2, p {
-  color: #f4e9dc;
+
+  position: relative;
+  z-index: 10;
 }
 
-/* ================= HUB NAV ================= */
+h2,
+p {
+  color: #f4e9dc;
+
+  position: relative;
+  z-index: 10;
+}
+
+/* ----------------- Hub intro & navigation ----------------- */
 .hub-intro {
   margin-top: 10px;
   font-size: 1.1em;
+
+  position: relative;
+  z-index: 10;
 }
 
 .hub-links {
@@ -171,81 +140,173 @@ h2, p {
   gap: 15px;
   margin-top: 25px;
   flex-wrap: wrap;
+
+  position: relative;
+  z-index: 10;
 }
 
-/* ================= CLICKABLE FEEDBACK ================= */
-.hub-button,
-.level,
-.grid-item {
-  cursor: pointer;
-
-  box-shadow:
-    0 3px 0 rgba(0,0,0,0.65),
-    0 6px 12px rgba(0,0,0,0.3);
-
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    filter 0.12s ease;
-}
-
-/* hover */
-.hub-button:hover,
-.level:hover,
-.grid-item:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.08);
-
-  box-shadow:
-    0 5px 0 rgba(0,0,0,0.65),
-    0 10px 18px rgba(0,0,0,0.4);
-}
-
-/* press */
-.hub-button:active,
-.level:active,
-.grid-item:active {
-  transform: translateY(2px);
-  filter: brightness(0.95);
-
-  box-shadow:
-    0 1px 0 rgba(0,0,0,0.75),
-    0 2px 6px rgba(0,0,0,0.35);
-}
-
-/* keyboard focus */
-.hub-button:focus-visible,
-.level:focus-visible {
-  outline: 2px solid #ffcf8a;
-  outline-offset: 2px;
-}
-
-/* ================= BUTTON BASE ================= */
+/* ----------------- Buttons ----------------- */
 .hub-button {
   display: inline-block;
   padding: 10px 18px;
+
   font-weight: bold;
   color: #3a1f14;
+  cursor: pointer;
+  user-select: none;
+
+  background-color: #f2c27b;
+  border-radius: 2px;
+
+  /* Pixel-style depth */
+  box-shadow:
+    0 4px 0 #9a5b2e,
+    0 6px 10px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease,
+    filter 0.15s ease;
+
+  position: relative;
+  z-index: 10;
 }
 
-/* ================= COMMON PANELS ================= */
+.hub-button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.hub-button:active {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 1px 0 #9a5b2e,
+    0 3px 6px rgba(0,0,0,0.3),
+    inset 0 2px 4px rgba(0,0,0,0.25);
+
+  filter: brightness(0.95);
+}
+
+.hub-button:focus-visible {
+  outline: 2px solid #ffb36a;
+  outline-offset: 3px;
+}
+
+/* ----------------- Panels using 9-slice ----------------- */
 .hub-info,
 .index-intro,
 .level,
 .scrollable,
 #recent-changes-container,
 .grid-item,
-#scroll-top {
+#scroll-top,
+.hub-button,
+.container.panel {
   margin-bottom: 16px;
 }
 
-/* ================= FOOTER ================= */
+/* ----------------- Clickable panels (levels / grid items) ----------------- */
+.level,
+.grid-item {
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease;
+
+  position: relative;
+  z-index: 10;
+}
+
+.level:hover,
+.grid-item:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.level:active,
+.grid-item:active {
+  transform: translateY(2px);
+  filter: brightness(0.95);
+}
+
+/* ----------------- Footer ----------------- */
 .site-footer {
   margin-top: 40px;
   color: #e6caa8;
+
+  position: relative;
+  z-index: 10;
 }
 
-/* ================= MOBILE ================= */
+/* ========================================================= */
+/* ================= SUNSET DECOR (VISUAL ONLY) ============= */
+/* ========================================================= */
+
+.sunset-decor {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 320px;
+
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  background-size: auto 100%;
+
+  pointer-events: none;
+  image-rendering: pixelated;
+  overflow: hidden;
+}
+
+/* Back layer */
+.sunset-decor.back {
+  background-image: url("images/decor/mountains.png");
+  opacity: 0.3;
+  z-index: 2;
+  animation: parallax-back 80s linear infinite;
+}
+
+/* Front layer */
+.sunset-decor.front {
+  background-image: url("images/decor/tree.png");
+  opacity: 0.6;
+  filter: blur(0.4px);
+  z-index: 3;
+  animation: parallax-front 45s linear infinite;
+}
+
+/* Ground fade */
+.sunset-mask {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 120px;
+
+  background: linear-gradient(
+    to top,
+    rgba(40, 28, 55, 1),
+    rgba(40, 28, 55, 0)
+  );
+
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ----------------- Parallax ----------------- */
+@keyframes parallax-back {
+  from { background-position-x: 0; }
+  to   { background-position-x: -512px; }
+}
+
+@keyframes parallax-front {
+  from { background-position-x: 0; }
+  to   { background-position-x: -768px; }
+}
+
+/* ----------------- Mobile ----------------- */
 @media (max-width: 700px) {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
