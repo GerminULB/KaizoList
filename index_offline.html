@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  // Enable IP anonymization to protect privacy (Why is this not turned on automatically wtf google)
-  gtag('config', 'G-7N58SZ0J6W', { 'anonymize_ip': true });
-</script>
-  
-  <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Kaizo List Hub</title>
+  <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Meta for Discord/Twitter preview -->
+  <!-- Social Meta -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Kaizo List Hub">
   <meta name="twitter:description" content="Welcome to the Kaizo List.">
@@ -29,35 +18,36 @@
   <meta property="og:url" content="https://germinulb.github.io/KaizoList/" />
 </head>
 <body>
-<div class="page-banner"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
 
-  
-  <div class="container">
+  <div class="container panel-9slice">
     <img src="images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo">
-   <div class="index-intro">
-  <h1>Welcome to The Kaizo List!</h1>
-  <p>Track the hardest Kaizo levels in Ultimate Level Builder, and see it's best players.</p>
-<div class="update-announcement">
-  <strong>Latest Update (V1.12):</strong> A new owner took over the list named
-  <a href="https://www.youtube.com/@SashaULB" style="color: red; text-decoration: underline;">Sasha Krutoy</a>!
-</div>
-<div id="recent-changes-container" class="scrollable" style="margin-top:20px; text-align:left;">
-  <h2>Recent Changes</h2>
-  <div id="recent-changes"></div>
-</div>
-</div>
+
+    <div class="index-intro panel-9slice">
+      <h1>Welcome to The Kaizo List!</h1>
+      <p>Track the hardest Kaizo levels in Ultimate Level Builder, and see its best players.</p>
+
+      <div class="update-announcement panel-9slice">
+        <strong>Latest Update (V1.12):</strong> A new owner took over the list named
+        <a href="https://www.youtube.com/@SashaULB" style="color:red; text-decoration: underline;">Sasha Krutoy</a>!
+      </div>
+
+      <div id="recent-changes-container" class="scrollable panel-9slice">
+        <h2>Recent Changes</h2>
+        <div id="recent-changes"></div>
+      </div>
+    </div>
+
     <p class="hub-intro">Where would you like to go?</p>
 
-    <!-- Hub navigation buttons -->
-    <nav>
-    <div class="hub-links">
+    <nav class="hub-links">
       <a href="/KaizoList/MainList/" class="hub-button">Main List</a>
       <a href="/KaizoList/ChallengeList/" class="hub-button">Challenge List</a>
       <a href="/KaizoList/PlayerList/" class="hub-button">Player Rankings</a>
-    </div>
     </nav>
-    <!-- Rules / Info -->
-    <div class="hub-info">
+
+    <div class="hub-info panel-9slice">
       <h2>Rules & Community</h2>
       <ul>
         <li>No Secret Ways except intended or verification purposes (video proof required)</li>
@@ -65,48 +55,28 @@
         <li>Verification usually requires video proof</li>
         <li>No cheating</li>
         <li>Challenges: No checkpoints, 1HP, size 1x1–2x1, no sub-world</li>
-          </ul>
-          <p>Join the <a href="https://discord.gg/n9MEzwNXGs" target="_blank">Berneyvonbean Discord server</a>!</p>
-          <p>Join our <a href="https://discord.gg/3un6nh8G9w" target="_blank">Kaizo List Discord server</a> to submit your own records!</p>
-          </div>
+      </ul>
+      <p>Join the <a href="https://discord.gg/n9MEzwNXGs" target="_blank">Berneyvonbean Discord server</a>!</p>
+      <p>Join our <a href="https://discord.gg/3un6nh8G9w" target="_blank">Kaizo List Discord server</a> to submit your own records!</p>
+    </div>
   </div>
 
-  <footer class="site-footer">
-  <p>The Kaizo List &copy; 2026 — Version 1.2</p>
-  <p>
-    Game & All assets belong to 
-    <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
-    <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
-  </p>
-</footer>
+  <footer class="site-footer panel-9slice">
+    <p>The Kaizo List &copy; 2026 — Version 1.2</p>
+    <p>
+      Game & All assets belong to 
+      <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
+      <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
+    </p>
+  </footer>
 
-  <button id="scroll-top" title="Go to top">⬆️</button>
+  <button id="scroll-top" class="hub-button" title="Go to top">⬆️</button>
 
-  
   <script type="module">
-import { applyRandomPattern, renderRecentChanges } from './js/utils.js';
-
-const patterns = [
-  'images/pattern/pattern0.png',
-  'images/pattern/pattern1.png',
-  'images/pattern/pattern2.png',
-  'images/pattern/pattern3.png',
-  'images/pattern/pattern4.png',
-  'images/pattern/pattern5.png',
-  'images/pattern/pattern6.png',
-  'images/pattern/pattern7.png',
-  'images/pattern/pattern8.png',
-  'images/pattern/pattern9.png',
-  'images/pattern/pattern10.png',
-  'images/pattern/pattern11.png',
-  'images/pattern/pattern12.png',
-];
-
-applyRandomPattern('.hub-button', patterns);
-renderRecentChanges('recent-changes');
-</script>
-
-  
+    import { applyRandomPattern, renderRecentChanges } from './js/utils.js';
+    const patterns = Array.from({length:13}, (_,i)=>`images/pattern/pattern${i}.png`);
+    applyRandomPattern('.hub-button', patterns);
+    renderRecentChanges('recent-changes');
+  </script>
 </body>
 </html>
- 
