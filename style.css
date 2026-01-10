@@ -315,6 +315,35 @@ p {
   z-index: 4;
 }
 
+/* ----------------- Recent Changes scrollable ----------------- */
+#recent-changes-container {
+  max-height: 400px; /* adjust to taste */
+  display: flex;
+  flex-direction: column;
+}
+
+#recent-changes {
+  flex: 1;              /* takes remaining space */
+  overflow-y: auto;     /* scroll inside the panel */
+  padding-right: 6px;   /* for scrollbar space */
+}
+
+/* Optional pixel-style scrollbar (WebKit) */
+#recent-changes::-webkit-scrollbar {
+  width: 8px;
+}
+
+#recent-changes::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.2);
+}
+
+#recent-changes::-webkit-scrollbar-thumb {
+  background: #6e4a2f;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+
+
 /* ----------------- Parallax ----------------- */
 @keyframes parallax-back {
   from { background-position-x: 0; }
@@ -331,3 +360,4 @@ p {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
 }
+
