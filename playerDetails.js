@@ -1,3 +1,5 @@
+import { fetchJson, splitNames, applyRandomPattern } from '/js/utils.js';
+
 (async () => {
   const ITEMS_PER_PAGE = 9; // 3x3 grid
 
