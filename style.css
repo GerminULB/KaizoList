@@ -41,22 +41,23 @@ body::before {
   z-index: 0;
 }
 
-/* ----------------- VERY subtle ambient glow ----------------- */
+/* ----------------- Ultra-subtle bottom tint ----------------- */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
 
-  background: radial-gradient(
-    ellipse at bottom center,
-    rgba(255, 170, 110, 0.035),
-    rgba(255, 120, 90, 0.02),
-    transparent 75%
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 85%,
+    rgba(255, 140, 90, 0.035) 100%
   );
 
   pointer-events: none;
   z-index: 1;
 }
+
 
 /* ----------------- Global pixel shadow ----------------- */
 body, body * {
@@ -238,3 +239,4 @@ h2, p {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
 }
+
