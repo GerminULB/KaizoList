@@ -1,158 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  // Enable IP anonymization to protect privacy (Why is this not turned on automatically wtf google)
-  gtag('config', 'G-7N58SZ0J6W', { 'anonymize_ip': true });
-</script>
-  
-  
-  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Kaizo Main List!">
-  <meta name="twitter:description" content="A curated list of the HARDEST Kaizo levels in Ultimate Level Builder.">
-  <meta name="twitter:image" content="https://germinulb.github.io/KaizoList/images/kaizolistlogo.png">
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Main Kaizo List</title>
-  <meta property="og:title" content="The Main Kaizo List!" />
-  <meta property="og:description" content="A curated list of the HARDEST Kaizo levels in Ultimate Level Builder." />
-  <meta property="og:image" content="../images/kaizolistlogo.png" />
-  <meta property="og:url" content="https://germinulb.github.io/KaizoList/MainList.html" />
-
+  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <div class="page-banner"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
 
-    
-<div class="container">
-  <a href="/KaizoList/">
-    <img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo">
-  </a>
-  <h1>The Main List</h1>
-  <p class="hub-intro">
-      The most difficult possible Levels imaginable...
-  </p>
-  <nav>
-    <div class="hub-links">
+  <div class="container panel-9slice">
+    <a href="/KaizoList/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
+    <h1>The Main List</h1>
+    <p class="hub-intro">The most difficult possible Levels imaginable...</p>
+
+    <nav class="hub-links">
       <a href="/KaizoList/MainList/" class="hub-button">Main List</a>
       <a href="/KaizoList/ChallengeList/" class="hub-button">Challenge List</a>
       <a href="/KaizoList/PlayerList/" class="hub-button">Player Rankings</a>
+    </nav>
+
+    <input type="text" id="search" placeholder="Search Levels..." />
+    <div class="filters">
+      <select id="creator-filter"><option value="">All Creators</option></select>
+      <select id="verifier-filter"><option value="">All Verifiers</option></select>
+      <select id="sort-filter">
+        <option value="rank">Sort by Rank</option>
+        <option value="id-desc">Newest (by ID)</option>
+        <option value="id-asc">Oldest (by ID)</option>
+      </select>
+      <button id="clear-filters">Clear Filters</button>
     </div>
-  </nav>
 
+    <div id="total-klp" class="panel-9slice">Total: 0 KLP</div>
+    <div id="level-list" class="panel-9slice"></div>
 
-
-    <!-- Search and filters -->
-  <input type="text" id="search" placeholder="Search Levels..." />
-  <div class="filters">
-    <select id="creator-filter"><option value="">All Creators</option></select>
-    <select id="verifier-filter"><option value="">All Verifiers</option></select>
-    <select id="sort-filter">
-      <option value="rank">Sort by Rank</option>
-      <option value="id-desc">Newest (by ID)</option>
-      <option value="id-asc">Oldest (by ID)</option>
-    </select>
-    <button id="clear-filters">Clear Filters</button>
+    <div id="recent-changes-container" class="scrollable panel-9slice" style="margin-top:20px;">
+      <h2>Recent Changes</h2>
+      <div id="recent-changes"></div>
+    </div>
   </div>
 
-    <!-- Total and level list -->
-    <div id="total-klp">Total: 0 KLP</div>
-    <div id="level-list"></div>
+  <footer class="site-footer panel-9slice">
+    <p>The Kaizo List &copy; 2026 — Version 1.2</p>
+    <p>
+      Game & All assets belong to 
+      <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
+      <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
+    </p>
+  </footer>
 
-<div id="recent-changes-container" class="scrollable" style="margin-top:20px; text-align:left;">
-  <h2>Recent Changes</h2>
-  <div id="recent-changes"></div>
-</div>
-  </div>
-
-  
-<script type="module">
-import { applyRandomPattern } from '../js/utils.js';
-
-const patterns = [
-  '../images/pattern/pattern0.png',
-  '../images/pattern/pattern1.png',
-  '../images/pattern/pattern2.png',
-  '../images/pattern/pattern3.png',
-  '../images/pattern/pattern4.png',
-  '../images/pattern/pattern5.png',
-  '../images/pattern/pattern6.png',
-  '../images/pattern/pattern7.png',
-  '../images/pattern/pattern8.png',
-  '../images/pattern/pattern9.png',
-  '../images/pattern/pattern10.png',
-  '../images/pattern/pattern11.png',
-  '../images/pattern/pattern12.png',
-];
-
-applyRandomPattern('.hub-button', patterns);
-</script>
-
-  <footer class="site-footer">
-  <p>The Kaizo List &copy; 2026 — Version 1.2</p>
-  <p>
-    Game & All assets belong to 
-    <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
-    <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
-  </p>
-</footer>
-
+  <script type="module">
+    import { applyRandomPattern } from '../js/utils.js';
+    const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
+    applyRandomPattern('.hub-button', patterns);
+  </script>
   <script type="module" src="script.js"></script>
-
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
