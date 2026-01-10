@@ -1,4 +1,4 @@
-import { fetchJson, rankByKLP, paginateGrid } from './js/utils.js';
+import { fetchJson, rankByKLP, paginateGrid } from '/js/utils.js';
 
 (async () => {
   const params = new URLSearchParams(window.location.search);
