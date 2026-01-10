@@ -9,7 +9,6 @@ body {
   margin: 0;
   padding: 20px;
 
-
   position: relative;
   min-height: 100vh;
 
@@ -17,16 +16,10 @@ body {
   color: #fff2e0;
   text-align: center;
 
-  background: linear-gradient(
-    180deg,
-    #1b1f3a 0%,
-    #5b4b87 30%,
-    #e36b7c 55%,
-    #ff9b63 80%,
-    #ffc38a 100%
-  );
+  /* Base color ONLY – sprite is primary */
+  background-color: #1b1f3a;
 
-  overflow-x: hidden; /* hard safety net */
+  overflow-x: hidden;
 }
 
 /* ----------------- Banner texture (PRIMARY) ----------------- */
@@ -34,42 +27,50 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
+
   background-image: url("images/banner.png");
   background-repeat: repeat;
-  opacity: 0.12;
+  opacity: 0.14;
+
   pointer-events: none;
   z-index: 0;
 }
 
-/* ----------------- Ultra-subtle bottom tint ----------------- */
+/* ----------------- Subtle bottom tint (SECONDARY) ----------------- */
 body::after {
   content: "";
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35vh;
 
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    transparent 85%,
-    rgba(255, 140, 90, 0.035) 100%
+    rgba(255, 140, 90, 0.04) 100%
   );
 
   pointer-events: none;
   z-index: 1;
 }
 
-
 /* ----------------- Global pixel shadow ----------------- */
 body, body * {
   text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.55);
 }
 
-/* ----------------- 9-Slice Panel Base (RESTORED) ----------------- */
+/* ========================================================= */
+/* =================== 9-SLICE SYSTEM ====================== */
+/* ========================================================= */
+
 .panel-9slice {
   position: relative;
 
   border: 16px solid transparent;
-  border-image: url("images/ui/9slice-panel.png") 16 fill repeat;
+  border-image-source: url("images/ui/9slice-panel.png");
+  border-image-slice: 16 fill;
+  border-image-repeat: repeat;
 
   background-color: rgba(40, 28, 55, 0.94);
   image-rendering: pixelated;
@@ -123,9 +124,11 @@ h2, p {
 .hub-button {
   display: inline-block;
   padding: 10px 18px;
+
   font-weight: bold;
   color: #3a1f14;
   cursor: pointer;
+
   transition: transform 0.15s ease, filter 0.2s ease;
 }
 .hub-button:hover {
@@ -133,18 +136,7 @@ h2, p {
   filter: brightness(1.1);
 }
 
-/* ----------------- Info Boxes / Cards ----------------- */
-.hub-info,
-.index-intro,
-.level,
-.scrollable,
-#recent-changes-container,
-.grid-item,
-#scroll-top {
-  margin-bottom: 16px;
-}
-
-/* IMPORTANT: apply panel manually */
+/* ----------------- Panels using 9-slice ----------------- */
 .hub-info,
 .index-intro,
 .level,
@@ -154,10 +146,11 @@ h2, p {
 #scroll-top,
 .hub-button,
 .container.panel {
-  border: 16px solid transparent;
-  border-image: url("images/ui/9slice-panel.png") 16 fill repeat;
-  background-color: rgba(40, 28, 55, 0.94);
+  margin-bottom: 16px;
 }
+
+/* IMPORTANT: these must have .panel-9slice in HTML */
+/* No border definitions here – EVER */
 
 /* ----------------- Footer ----------------- */
 .site-footer {
@@ -168,20 +161,19 @@ h2, p {
 }
 
 /* ========================================================= */
-/* ================= SUNSET DECOR SYSTEM =================== */
+/* ================= SUNSET DECOR (VISUAL ONLY) ============= */
 /* ========================================================= */
 
 .sunset-decor {
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
 
-  width: 100%;
-  height: 340px;
+  width: 100vw;
+  height: 320px;
 
   background-repeat: repeat-x;
-  background-position: center bottom;
+  background-position: left bottom;
   background-size: auto 100%;
 
   pointer-events: none;
@@ -200,18 +192,19 @@ h2, p {
 /* Front layer */
 .sunset-decor.front {
   background-image: url("images/decor/tree.png");
-  opacity: 0.65;
-  z-index: 4;
+  opacity: 0.6;
   filter: blur(0.4px);
+  z-index: 4;
   animation: parallax-front 45s linear infinite;
 }
 
 /* Ground fade */
 .sunset-mask {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
+
+  width: 100vw;
   height: 120px;
 
   background: linear-gradient(
@@ -239,5 +232,3 @@ h2, p {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
 }
-
-
