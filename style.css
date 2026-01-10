@@ -16,13 +16,11 @@ body {
   color: #fff2e0;
   text-align: center;
 
-  /* Base color ONLY – sprite is primary */
   background-color: #1b1f3a;
-
   overflow-x: hidden;
 }
 
-/* ----------------- Banner texture (PRIMARY) ----------------- */
+/* ----------------- Banner texture ----------------- */
 body::before {
   content: "";
   position: fixed;
@@ -36,7 +34,7 @@ body::before {
   z-index: 0;
 }
 
-/* ----------------- Subtle bottom tint (SECONDARY) ----------------- */
+/* ----------------- Subtle bottom tint ----------------- */
 body::after {
   content: "";
   position: fixed;
@@ -65,9 +63,18 @@ body * {
 /* =================== 9-SLICE SYSTEM ====================== */
 /* ========================================================= */
 
+/* PANEL CONTAINER (content lives here) */
 .panel-9slice {
   position: relative;
   z-index: 10;
+  padding: 16px;
+}
+
+/* DECORATIVE 9-SLICE LAYER */
+.panel-9slice::before {
+  content: "";
+  position: absolute;
+  inset: 0;
 
   border: 16px solid transparent;
   border-image-source: url("images/ui/9slice-panel.png");
@@ -77,8 +84,16 @@ body * {
   background-color: rgba(40, 28, 55, 0.94);
   image-rendering: pixelated;
 
-  padding: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* CONTENT ALWAYS ABOVE THE SLICE */
+.panel-9slice > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ----------------- Containers ----------------- */
@@ -112,26 +127,17 @@ img.logo:hover {
 h1 {
   color: #fff4dc;
   text-shadow: 2px 2px 0 #3a1f14, 0 0 14px rgba(255,170,110,0.4);
-
-  position: relative;
-  z-index: 10;
 }
 
 h2,
 p {
   color: #f4e9dc;
-
-  position: relative;
-  z-index: 10;
 }
 
 /* ----------------- Hub intro & navigation ----------------- */
 .hub-intro {
   margin-top: 10px;
   font-size: 1.1em;
-
-  position: relative;
-  z-index: 10;
 }
 
 .hub-links {
@@ -140,9 +146,6 @@ p {
   gap: 15px;
   margin-top: 25px;
   flex-wrap: wrap;
-
-  position: relative;
-  z-index: 10;
 }
 
 /* ----------------- Buttons ----------------- */
@@ -158,7 +161,6 @@ p {
   background-color: #f2c27b;
   border-radius: 2px;
 
-  /* Pixel-style depth */
   box-shadow:
     0 4px 0 #9a5b2e,
     0 6px 10px rgba(0,0,0,0.35),
@@ -168,9 +170,6 @@ p {
     transform 0.08s ease,
     box-shadow 0.08s ease,
     filter 0.15s ease;
-
-  position: relative;
-  z-index: 10;
 }
 
 .hub-button:hover {
@@ -180,13 +179,12 @@ p {
 
 .hub-button:active {
   transform: translateY(3px);
+  filter: brightness(0.95);
 
   box-shadow:
     0 1px 0 #9a5b2e,
     0 3px 6px rgba(0,0,0,0.3),
     inset 0 2px 4px rgba(0,0,0,0.25);
-
-  filter: brightness(0.95);
 }
 
 .hub-button:focus-visible {
@@ -194,39 +192,61 @@ p {
   outline-offset: 3px;
 }
 
-/* ----------------- Panels using 9-slice ----------------- */
-.hub-info,
-.index-intro,
-.level,
-.scrollable,
-#recent-changes-container,
-.grid-item,
-#scroll-top,
-.hub-button,
-.container.panel {
+/* ----------------- Levels (data generated) ----------------- */
+.level {
   margin-bottom: 16px;
 }
 
-/* ----------------- Clickable panels (levels / grid items) ----------------- */
-.level,
-.grid-item {
+/* SUMMARY (clickable) */
+.level-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 8px 12px;
   cursor: pointer;
-  transition: transform 0.12s ease, filter 0.12s ease;
 
   position: relative;
-  z-index: 10;
 }
 
-.level:hover,
-.grid-item:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.05);
+.level-summary:hover {
+  filter: brightness(1.08);
 }
 
-.level:active,
-.grid-item:active {
-  transform: translateY(2px);
+.level-summary:active {
+  transform: translateY(1px);
   filter: brightness(0.95);
+}
+
+/* SEPARATOR (ALWAYS VISIBLE) */
+.level-summary::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -2px;
+  height: 3px;
+
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0),
+    #6e4a2f 20%,
+    #e6caa8 50%,
+    #6e4a2f 80%,
+    rgba(0,0,0,0)
+  );
+
+  box-shadow: 0 1px 0 rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+/* DETAILS */
+.level-details {
+  padding: 10px 12px;
+  margin-top: 6px;
+
+  background-color: rgba(20, 14, 30, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
 /* ----------------- Footer ----------------- */
@@ -239,7 +259,7 @@ p {
 }
 
 /* ========================================================= */
-/* ================= SUNSET DECOR (VISUAL ONLY) ============= */
+/* ================= SUNSET DECOR ========================== */
 /* ========================================================= */
 
 .sunset-decor {
