@@ -78,7 +78,7 @@ body, body * {
 
   border-style: solid;
   border-width: 16px;
-  border-image-source: url("images/ui/panel_sunset.png"); /* your 9-slice */
+  border-image-source: url("images/9slice-panel.png"); /* your 9-slice */
   border-image-slice: 16;
   border-image-repeat: stretch;
 
@@ -310,3 +310,4 @@ input#search:focus {
     gap: 10px;
   }
 }
+
