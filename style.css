@@ -61,12 +61,12 @@ body, body * {
   position: relative;
   border-style: solid;
   border-width: 16px;
-  border-image-source: url("images/ui/panel_sunset.png");
+  border-image-source: url("images/ui/9slice-panel.png");
   border-image-slice: 16 fill;
   border-image-repeat: stretch;
 
   background-color: rgba(40, 28, 55, 0.94);
-  background-image: url("images/ui/panel_sunset.png");
+  background-image: url("images/9slice-panel.png");
   background-repeat: repeat;
   background-size: cover;
   image-rendering: pixelated;
@@ -230,3 +230,4 @@ input#search:focus {
     gap: 10px;
   }
 }
+
