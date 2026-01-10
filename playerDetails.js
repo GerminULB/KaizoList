@@ -13,7 +13,7 @@ import { fetchJson, splitNames, applyRandomPattern } from '/KaizoList/js/utils.j
 const levels = await fetchJson('levels.json');
 const challenges = await fetchJson('challenges.json');
 const victorsData = await fetchJson('victors.json');
-
+  const allLevels = [...levels, ...challenges];
   // Build player map
   const playerMap = {};
 
