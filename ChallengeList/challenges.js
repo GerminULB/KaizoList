@@ -118,6 +118,28 @@ function loadLevelsFromJSON(levels) {
     return;
   }
 
+  levels.forEach((lvl, idx) => {
+    const div = document.createElement('div');
+    div.className = 'level';
+    div.innerHTML = `
+      <div class="level-summary" role="button" tabindex="0" aria-expanded="false">
+        <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
+        <strong>${escapeHtml(lvl.klp)} KLP</strong>
+      </div>
+      <div class="level-details">
+        <p><strong>Creator:</strong> ${escapeHtml(lvl.creator)}</p>
+        <p><strong>Verifier:</strong> ${escapeHtml(lvl.verifier)}</p>
+        <p><strong>ID:</strong> ${escapeHtml(lvl.id)}</p>
+      </div>
+    `;
+    div.querySelector('.level-summary').addEventListener('click', () => {
+      window.location.href = `../LevelDetails.html?name=${encodeURIComponent(lvl.name)}`;
+    });
+    container.appendChild(div);
+  });
+}
+
+
   levels.forEach(lvl => {
     const div = document.createElement('div');
     div.className = 'level';
