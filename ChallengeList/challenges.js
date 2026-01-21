@@ -155,6 +155,7 @@ function loadLevelsFromJSON(levels) {
     container.appendChild(div);
   });
 }
+ 
   function highlightText(text) {
     const search = (document.getElementById('search')?.value || '').toLowerCase();
     if (!search) return escapeHtml(text || '');
