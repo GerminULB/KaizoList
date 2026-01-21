@@ -126,7 +126,7 @@ img.logo:hover {
 /* ----------------- Headers & Text ----------------- */
 h1 {
   color: #fff4dc;
-  text-shadow: 2px 2px 0 #3a1f14, 0 0 14px rgba(255,170,110,0.4);
+  text-shadow: none;
 }
 
 h2,
@@ -360,6 +360,7 @@ p {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
 }
+
 
 
 
