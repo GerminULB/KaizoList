@@ -56,6 +56,12 @@ body::after {
 body,
 body * {
     text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.55);
+   color: #ffffff !important;
+
+}
+
+h1, h2, p {
+    color: #ffffff !important;
 }
 
 /* ========================================================= */
@@ -153,6 +159,7 @@ p {
 .hub-intro {
     margin-top: 10px;
     font-size: 1.1em;
+    color: #ffffff !important;
 }
 
 .hub-links {
@@ -433,7 +440,7 @@ p {
     border: 2px solid #6c9270;
     border-radius: 2px;
     background-color: #a7e0ad;
-    color: #3a1f14;
+    color: #ffffff !important;
     cursor: pointer;
     box-shadow: 0 3px 0 #9a5b2e, 0 4px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
     transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
@@ -475,4 +482,5 @@ p {
         height: 260px;
     }
 }
+
 
