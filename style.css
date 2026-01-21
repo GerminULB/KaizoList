@@ -215,25 +215,65 @@ p {
   margin-bottom: 16px;
 }
 
-/* SUMMARY (clickable) */
+/* ----------------- Player List Rows as Pixel Buttons ----------------- */
 .level-summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 8px 12px;
-  cursor: pointer;
 
-  position: relative;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+  color: #3a1f14;
+  text-shadow: 1px 1px 0 #000;
+
+  /* Pixel-style button background */
+  background-color: #f2c27b;
+  border-radius: 2px;
+  border: 2px solid #9a5b2e;
+
+  /* Default fallback pattern (JS can randomize) */
+  background-image: url('../images/pattern/pattern0.png');
+  background-repeat: repeat;
+  background-size: 16px 16px;
+
+  /* Shadows for depth */
+  box-shadow:
+    0 3px 0 #9a5b2e,
+    0 4px 6px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease,
+    filter 0.15s ease;
 }
 
 .level-summary:hover {
   filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .level-summary:active {
-  transform: translateY(1px);
+  transform: translateY(2px);
   filter: brightness(0.95);
+  box-shadow:
+    0 1px 0 #9a5b2e,
+    0 2px 4px rgba(0,0,0,0.3),
+    inset 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.level-summary:focus-visible {
+  outline: 2px solid #ffb36a;
+  outline-offset: 2px;
+}
+
+/* Small spacing between rows */
+.level + .level {
+  margin-top: 6px;
+}
+
 }
 
 /* SEPARATOR (ALWAYS VISIBLE) */
@@ -384,6 +424,7 @@ p {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
 }
+
 
 
 
