@@ -40,6 +40,13 @@
       </div>
     </div>
   </div>
+
+    <script type="module">
+  import { applyRandomPattern } from '../js/utils.js';
+  const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
+  applyRandomPattern('.level-summary', patterns);
+</script>
+  
   <script type="module" src="levelDetails.js"></script>
 
 
