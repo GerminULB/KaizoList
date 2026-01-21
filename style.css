@@ -400,6 +400,60 @@ p {
     padding: 6px 8px;
 }
 
+/* ----------------- Search & Filters ----------------- */
+#search {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 25px auto 12px auto; /* vertical spacing from hub buttons */
+    padding: 8px 10px;
+    font-family: 'Manaspace', monospace;
+    font-size: 1em;
+    border: 2px solid #6c9270;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    background-color: #a7e0ad;
+    color: #3a1f14;
+    outline: none;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* consistent spacing between filter elements */
+    flex-wrap: wrap;
+    margin-bottom: 20px; /* spacing below filters before level list */
+}
+
+.filters select,
+.filters button {
+    padding: 6px 10px;
+    font-family: 'Manaspace', monospace;
+    font-size: 0.95em;
+    border: 2px solid #6c9270;
+    border-radius: 2px;
+    background-color: #a7e0ad;
+    color: #3a1f14;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #9a5b2e, 0 4px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+}
+
+.filters select:hover,
+.filters button:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.filters select:active,
+.filters button:active {
+    transform: translateY(2px);
+    filter: brightness(0.95);
+    box-shadow: 0 1px 0 #9a5b2e, 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(0,0,0,0.25);
+}
+
+
+
 /* ----------------- Parallax ----------------- */
 @keyframes parallax-back {
     from { background-position-x: 0; }
@@ -421,3 +475,4 @@ p {
         height: 260px;
     }
 }
+
