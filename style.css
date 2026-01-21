@@ -216,6 +216,7 @@ p {
 }
 
 /* ----------------- Player List Rows as Pixel Buttons ----------------- */
+/* ----------------- Player List Rows as Pixel Buttons ----------------- */
 .level-summary {
   display: flex;
   justify-content: space-between;
@@ -225,18 +226,19 @@ p {
   cursor: pointer;
   user-select: none;
   font-weight: bold;
-  color: #3a1f14;
+  color: #baffc1;
   text-shadow: 1px 1px 0 #000;
 
   /* Pixel-style button background */
-  background-color: #f2c27b;
+  background-color: #a7e0ad;
   border-radius: 2px;
-  border: 2px solid #9a5b2e;
+  border: 2px solid #6c9270;
 
-  /* Default fallback pattern (JS can randomize) */
-  background-image: url('images/pattern/pattern0.png');
+  /* remove background-image from CSS */
+  /* JS will assign the pattern dynamically */
   background-repeat: repeat;
   background-size: 16px 16px;
+}
 
   /* Shadows for depth */
   box-shadow:
@@ -424,6 +426,7 @@ p {
   .hub-links { gap: 10px; }
   .sunset-decor { height: 260px; }
 }
+
 
 
 
