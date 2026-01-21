@@ -1,236 +1,23 @@
-/* ----------------- Fonts ----------------- */
-@font-face {
-  font-family: 'Manaspace';
-  src: url('fonts/manaspace.ttf') format('truetype');
-}
-
-/* ----------------- Body & Background ----------------- */
-body {
-  margin: 0;
-  padding: 20px;
-
-  position: relative;
-  min-height: 100vh;
-
-  font-family: 'Manaspace', Arial, sans-serif;
-  color: #fff2e0;
-  text-align: center;
-
-  background-color: #1b1f3a;
-  overflow-x: hidden;
-}
-
-/* ----------------- Banner texture ----------------- */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-
-  background-image: url("images/banner.png");
-  background-repeat: repeat;
-  opacity: 0.14;
-
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ----------------- Subtle bottom tint ----------------- */
-body::after {
-  content: "";
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 35vh;
-
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(255, 140, 90, 0.5) 100%
-  );
-
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ----------------- Global pixel shadow ----------------- */
-body,
-body * {
-  text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.55);
-}
-
-/* ========================================================= */
-/* =================== 9-SLICE SYSTEM ====================== */
-/* ========================================================= */
-
-/* PANEL CONTAINER (content lives here) */
-.panel-9slice {
-  position: relative;
-  z-index: 10;
-  padding: 16px;
-}
-
-/* DECORATIVE 9-SLICE LAYER */
-.panel-9slice::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  border: 16px solid transparent;
-  border-image-source: url("images/ui/9slice-panel.png");
-  border-image-slice: 16 fill;
-  border-image-repeat: repeat;
-
-  background-color: rgba(40, 28, 55, 0.94);
-  image-rendering: pixelated;
-
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* SUBTLE CENTER SHADOW (tones down brightness) */
-.panel-9slice::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0,0,0,0.0) 0%,
-    rgba(0,0,0,0.08) 55%,
-    rgba(0,0,0,0.18) 100%
-  );
-
-  z-index: 0;
-  pointer-events: none;
-}
-
-
-/* CONTENT ALWAYS ABOVE THE SLICE */
-.panel-9slice > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ----------------- Containers ----------------- */
-.container {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 32px;
-
-  position: relative;
-  z-index: 10;
-}
-
-/* ----------------- Logos ----------------- */
-img.logo {
-  width: 360px;
-  margin: 20px auto;
-  display: block;
-
-  image-rendering: pixelated;
-  transition: transform 0.3s ease;
-
-  position: relative;
-  z-index: 10;
-}
-
-img.logo:hover {
-  transform: scale(1.03) rotate(-1deg);
-}
-
-/* ----------------- Headers & Text ----------------- */
-h1 {
-  color: #fff4dc;
-  text-shadow: none;
-}
-
-h2,
-p {
-  color: #f4e9dc;
-}
-
-/* ----------------- Hub intro & navigation ----------------- */
-.hub-intro {
-  margin-top: 10px;
-  font-size: 1.1em;
-}
-
-.hub-links {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 25px;
-  flex-wrap: wrap;
-}
-
-/* ----------------- Buttons ----------------- */
-.hub-button {
-  display: inline-block;
-  padding: 10px 18px;
-
-  font-weight: bold;
-  color: #3a1f14;
-  cursor: pointer;
-  user-select: none;
-
-  background-color: #f2c27b;
-  border-radius: 2px;
-
-  box-shadow:
-    0 4px 0 #9a5b2e,
-    0 6px 10px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.4);
-
-  transition:
-    transform 0.08s ease,
-    box-shadow 0.08s ease,
-    filter 0.15s ease;
-}
-
-.hub-button:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
-}
-
-.hub-button:active {
-  transform: translateY(3px);
-  filter: brightness(0.95);
-
-  box-shadow:
-    0 1px 0 #9a5b2e,
-    0 3px 6px rgba(0,0,0,0.3),
-    inset 0 2px 4px rgba(0,0,0,0.25);
-}
-
-.hub-button:focus-visible {
-  outline: 2px solid #ffb36a;
-  outline-offset: 3px;
-}
-
 /* ----------------- Levels (data generated) ----------------- */
 .level {
-  margin-bottom: 16px;
+  margin-bottom: 8px; /* slightly more breathing room */
 }
 
-/* ----------------- Player List Rows as Pixel Buttons ----------------- */
 /* ----------------- Player List Rows as Pixel Buttons ----------------- */
 .level-summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: 10px 14px; /* slightly bigger for comfort */
 
   cursor: pointer;
   user-select: none;
   font-weight: bold;
-  color: #baffc1;
+  color: #ffffff;
   text-shadow: 1px 1px 0 #000;
 
   /* Pixel-style button background */
-  background-color: #a7e0ad;
+  background-color: #84bf8a;
   border-radius: 2px;
   border: 2px solid #6c9270;
 
@@ -238,7 +25,6 @@ p {
   /* JS will assign the pattern dynamically */
   background-repeat: repeat;
   background-size: 16px 16px;
-}
 
   /* Shadows for depth */
   box-shadow:
@@ -273,9 +59,7 @@ p {
 
 /* Small spacing between rows */
 .level + .level {
-  margin-top: 6px;
-}
-
+  margin-top: 8px; /* uniform spacing between rows */
 }
 
 /* SEPARATOR (ALWAYS VISIBLE) */
@@ -308,130 +92,3 @@ p {
   background-color: rgba(20, 14, 30, 0.6);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
 }
-
-/* ----------------- Footer ----------------- */
-.site-footer {
-  margin-top: 40px;
-  color: #e6caa8;
-
-  position: relative;
-  z-index: 10;
-}
-
-/* ========================================================= */
-/* ================= SUNSET DECOR ========================== */
-/* ========================================================= */
-
-.sunset-decor {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-
-  width: 100vw;
-  height: 320px;
-
-  background-repeat: repeat-x;
-  background-position: left bottom;
-  background-size: auto 100%;
-
-  pointer-events: none;
-  image-rendering: pixelated;
-  overflow: hidden;
-}
-
-/* Back layer */
-.sunset-decor.back {
-  background-image: url("images/decor/mountains.png");
-  opacity: 0.3;
-  z-index: 2;
-  animation: parallax-back 80s linear infinite;
-}
-
-/* Front layer */
-.sunset-decor.front {
-  background-image: url("images/decor/tree.png");
-  opacity: 0.6;
-  filter: blur(0.4px);
-  z-index: 3;
-  animation: parallax-front 45s linear infinite;
-}
-
-/* Ground fade */
-.sunset-mask {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-
-  width: 100vw;
-  height: 120px;
-
-  background: linear-gradient(
-    to top,
-    rgba(40, 28, 55, 1),
-    rgba(40, 28, 55, 0)
-  );
-
-  pointer-events: none;
-  z-index: 4;
-}
-
-/* ----------------- Recent Changes scrollable ----------------- */
-#recent-changes-container {
-  max-height: 400px; 
-  display: flex;
-  flex-direction: column;
-}
-
-#recent-changes {
-  flex: 1;              
-  overflow-y: auto;   
-  padding-right: 6px;   
-}
-
-/* Optional pixel-style scrollbar (WebKit) */
-#recent-changes::-webkit-scrollbar {
-  width: 8px;
-}
-
-#recent-changes::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.2);
-}
-
-#recent-changes::-webkit-scrollbar-thumb {
-  background: #6e4a2f;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-}
-
-
-#player-history {
-  max-height: 360px;    
-  overflow-y: auto;
-  padding: 6px 8px;       
-}
-
-
-/* ----------------- Parallax ----------------- */
-@keyframes parallax-back {
-  from { background-position-x: 0; }
-  to   { background-position-x: -512px; }
-}
-
-@keyframes parallax-front {
-  from { background-position-x: 0; }
-  to   { background-position-x: -768px; }
-}
-
-/* ----------------- Mobile ----------------- */
-@media (max-width: 700px) {
-  .hub-links { gap: 10px; }
-  .sunset-decor { height: 260px; }
-}
-
-
-
-
-
-
-
-
-
