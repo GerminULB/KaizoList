@@ -39,12 +39,13 @@
     </p>
   </footer>
 
-  <script type="module">
-    import { applyRandomPattern } from '../js/utils.js';
-    const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
-    applyRandomPattern('.hub-button', patterns);
-  </script>
-
+<script type="module">
+  import { applyRandomPattern } from '../js/utils.js';
+  const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
+  applyRandomPattern('.hub-button', patterns);
+  applyRandomPattern('.level-summary', patterns);
+</script>
+  
   <script src="../score.js"></script>
   <script type="module" src="playerlist.js"></script>
 
