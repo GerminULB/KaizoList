@@ -1,9 +1,8 @@
-import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
+import { fetchJson } from '../js/utils.js';
 import { calculatePlayerScore } from '../score.js';
 
 (async function() {
-
-  // --- Fetch all data ---
+  // Fetch all data
   const levels = await fetchJson('../levels.json');
   const challenges = await fetchJson('../challenges.json');
   const victorsData = await fetchJson('../victors.json');
@@ -11,7 +10,7 @@ import { calculatePlayerScore } from '../score.js';
 
   const playerMap = {};
 
-  // --- Add verifiers ---
+  // Add verifiers
   allLevels.forEach(level => {
     if (!level.verifier) return;
     const v = level.verifier;
@@ -20,7 +19,7 @@ import { calculatePlayerScore } from '../score.js';
     playerMap[v].levels.push({ name: level.name, klp: level.klp, type: 'Verification' });
   });
 
-  // --- Add victors ---
+  // Add victors
   Object.entries(victorsData).forEach(([player, levelNames]) => {
     levelNames.forEach(levelName => {
       const level = allLevels.find(l => l.name === levelName);
@@ -31,7 +30,7 @@ import { calculatePlayerScore } from '../score.js';
     });
   });
 
-  // --- Convert to array & compute PLP ---
+  // Convert to array & compute PLP
   let playerList = Object.entries(playerMap).map(([name, data]) => ({
     name,
     klp: data.klp,
@@ -39,35 +38,19 @@ import { calculatePlayerScore } from '../score.js';
     plp: calculatePlayerScore(data.levels)
   }));
 
-  // --- Sort by PLP initially ---
+  // Sort by PLP initially
   playerList.sort((a,b) => b.plp - a.plp);
 
-  // --- Inject filters dynamically ---
-  const container = document.querySelector('.container');
-  const filterHTML = `
-    <div id="player-filters" class="filters" style="margin-bottom:15px;">
-      <input type="text" id="player-search" placeholder="Search Player..." />
-      <select id="point-type">
-        <option value="plp">PLP</option>
-        <option value="klp">KLP</option>
-      </select>
-      <select id="klp-type">
-        <option value="all">All KLP Types</option>
-        <option value="Verification">KLP Verifications</option>
-        <option value="Victor">KLP Victors</option>
-      </select>
-    </div>
-  `;
-  container.insertAdjacentHTML('afterbegin', filterHTML);
-
+  // Reference static elements
   const searchInput = document.getElementById('player-search');
   const pointTypeSelect = document.getElementById('point-type');
   const klpTypeSelect = document.getElementById('klp-type');
+  const listContainer = document.getElementById('player-list');
 
   // Hide KLP type initially if PLP is selected
   klpTypeSelect.style.display = pointTypeSelect.value === 'klp' ? 'inline-block' : 'none';
 
-  // --- Event listeners ---
+  // Event listeners
   searchInput.addEventListener('input', renderPlayers);
   pointTypeSelect.addEventListener('change', () => {
     klpTypeSelect.style.display = pointTypeSelect.value === 'klp' ? 'inline-block' : 'none';
@@ -75,47 +58,36 @@ import { calculatePlayerScore } from '../score.js';
   });
   klpTypeSelect.addEventListener('change', renderPlayers);
 
-  // --- Render total points / filtered players ---
+  // Render function
   function renderPlayers() {
     const search = (searchInput.value || '').toLowerCase();
     const pointType = pointTypeSelect.value;
     const klpType = klpTypeSelect.value;
 
-    // --- Filter by search (player name + level names) ---
-    let filtered = playerList.filter(p => {
-      const nameMatch = p.name.toLowerCase().includes(search);
-      const levelMatch = p.levels.some(l => l.name.toLowerCase().includes(search));
-      return nameMatch || levelMatch;
-    });
+    let filtered = playerList.filter(p => p.name.toLowerCase().includes(search));
 
-    // --- Map display points ---
-    filtered = filtered.map(p => {
-      if(pointType === 'klp') {
-        const klpLevels = klpType === 'all' ? p.levels : p.levels.filter(l => l.type === klpType);
-        return {
-          ...p,
-          displayPoints: klpLevels.reduce((sum,l) => sum + l.klp, 0)
-        };
-      } else {
-        return { ...p, displayPoints: p.plp };
-      }
-    });
+    // Filter by KLP type if applicable
+    if (pointType === 'klp') {
+      filtered = filtered.map(p => {
+        const klpLevels = klpType === 'all'
+          ? p.levels
+          : p.levels.filter(l => l.type === klpType);
+        return { ...p, displayPoints: klpLevels.reduce((sum,l)=>sum+l.klp,0) };
+      });
+    } else {
+      filtered = filtered.map(p => ({ ...p, displayPoints: p.plp }));
+    }
 
-    // --- Sort descending with tiebreaker ---
-    filtered.sort((a,b) => {
-      if(b.displayPoints !== a.displayPoints) return b.displayPoints - a.displayPoints;
-      return a.name.localeCompare(b.name);
-    });
+    // Sort descending by selected metric
+    filtered.sort((a,b) => b.displayPoints - a.displayPoints);
 
-    // --- Update total KLP ---
+    // Update total KLP
     const totalPoints = filtered.reduce((sum,p) => sum + p.displayPoints, 0);
-    document.getElementById('player-total-klp').innerText =
-      pointType === 'klp' ? `Total: ${totalPoints.toLocaleString()} KLP` : `Total: ${totalPoints.toLocaleString()} PLP`;
+    document.getElementById('player-total-klp').innerText = `Total: ${totalPoints.toLocaleString()} ${pointType.toUpperCase()}`;
 
-    // --- Render players ---
-    const listContainer = document.getElementById('player-list');
+    // Render players
     listContainer.innerHTML = '';
-    if(!filtered.length) {
+    if (!filtered.length) {
       listContainer.innerHTML = '<div class="no-results">No players found.</div>';
       return;
     }
@@ -125,9 +97,8 @@ import { calculatePlayerScore } from '../score.js';
       div.className = 'level';
       div.innerHTML = `
         <div class="level-summary" role="button" tabindex="0">
-          <span>#${idx+1}: ${highlightText(p.name, search)}</span>
+          <span>#${idx+1}: ${p.name}</span>
           <strong>${Math.round(p.displayPoints)}</strong>
-          <span class="subtle">(${p.levels.length} levels)</span>
         </div>
       `;
       div.querySelector('.level-summary').addEventListener('click', () => {
@@ -138,17 +109,4 @@ import { calculatePlayerScore } from '../score.js';
   }
 
   renderPlayers();
-
-  // --- Highlight utility ---
-  function highlightText(text, search) {
-    if(!search) return escapeHtml(text || '');
-    const regex = new RegExp(`(${escapeRegExp(search)})`, 'gi');
-    return escapeHtml(text || '').replace(regex, '<mark>$1</mark>');
-  }
-
-  function escapeHtml(str) {
-    return String(str || '').replace(/[&<>"']/g, s => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-  }
-  function escapeRegExp(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
-
 })();
