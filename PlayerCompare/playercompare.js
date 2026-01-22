@@ -1,5 +1,8 @@
 import { fetchJson } from '../js/utils.js';
-import { calculatePlayerScore } from '../score.js';
+import {
+  calculatePlayerScore,
+  calculatePlayerScoreBreakdown
+} from '../score.js';
 
 (async function () {
 
@@ -46,12 +49,14 @@ import { calculatePlayerScore } from '../score.js';
      Player List
   ========================= */
 
-  const players = Object.entries(playerMap).map(([name, data]) => ({
-    name,
-    levels: data.levels,
-    klp: data.levels.reduce((s, l) => s + l.klp, 0),
-    plp: calculatePlayerScore(data.levels)
-  })).sort((a, b) => b.plp - a.plp);
+  const players = Object.entries(playerMap)
+    .map(([name, data]) => ({
+      name,
+      levels: data.levels,
+      klp: data.levels.reduce((s, l) => s + l.klp, 0),
+      plp: calculatePlayerScore(data.levels)
+    }))
+    .sort((a, b) => b.plp - a.plp);
 
   const DUMMY = {
     name: 'Player-Dummy',
@@ -74,23 +79,62 @@ import { calculatePlayerScore } from '../score.js';
     plpChange: document.getElementById('plp-change'),
     totalPlp: document.getElementById('total-plp'),
     rank: document.getElementById('rank-change'),
-    breakdown: document.getElementById('breakdown-table'),
 
-    // Optional future use
     plpPeak: document.getElementById('plp-peak'),
     plpConsistency: document.getElementById('plp-consistency'),
-    plpBreadth: document.getElementById('plp-breadth')
+    plpBreadth: document.getElementById('plp-breadth'),
+
+    breakdown: document.getElementById('breakdown-table')
   };
 
   /* =========================
-     Dropdown Population
+     Animation Helpers
+  ========================= */
+
+  function animateNumber(el, from, to, duration = 500, formatter = v => v) {
+    const start = performance.now();
+
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = t * (2 - t); // easeOutQuad
+      const value = from + (to - from) * eased;
+
+      el.textContent = formatter(value);
+
+      if (t < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  function animateRank(el, from, to, duration = 400) {
+    if (from === to) {
+      el.textContent = `${from} → ${to}`;
+      return;
+    }
+
+    let current = from;
+    const dir = to > from ? 1 : -1;
+    const stepTime = duration / Math.abs(to - from);
+
+    function step() {
+      current += dir;
+      el.textContent = `${from} → ${current}`;
+      if (current !== to) {
+        setTimeout(step, stepTime);
+      }
+    }
+
+    step();
+  }
+
+  /* =========================
+     Dropdown Logic
   ========================= */
 
   function populatePlayers() {
     playerSelect.innerHTML = '';
-
-    const dummyOpt = new Option(DUMMY.name, DUMMY.name);
-    playerSelect.appendChild(dummyOpt);
+    playerSelect.appendChild(new Option(DUMMY.name, DUMMY.name));
 
     players.forEach(p => {
       playerSelect.appendChild(new Option(p.name, p.name));
@@ -111,6 +155,7 @@ import { calculatePlayerScore } from '../score.js';
 
   function updateLevelSelect() {
     const name = playerSelect.value;
+
     const available = getAvailableLevels(name)
       .sort((a, b) => b.klp - a.klp);
 
@@ -126,7 +171,7 @@ import { calculatePlayerScore } from '../score.js';
   }
 
   /* =========================
-     Simulation + UI Update
+     Simulation
   ========================= */
 
   function simulate() {
@@ -146,15 +191,17 @@ import { calculatePlayerScore } from '../score.js';
       { name: level.name, klp: level.klp }
     ];
 
-    const newPLP = calculatePlayerScore(newLevels);
+    const breakdown = calculatePlayerScoreBreakdown(newLevels);
+    const newPLP = breakdown.total;
     const plpDelta = newPLP - basePlayer.plp;
     const totalKLP = newLevels.reduce((s, l) => s + l.klp, 0);
 
     /* ----- Rank ----- */
-    let rankText = '–';
+    let oldRank = '–';
+    let newRank = '–';
 
     if (playerName !== DUMMY.name) {
-      const oldRank = players.findIndex(p => p.name === basePlayer.name) + 1;
+      oldRank = players.findIndex(p => p.name === basePlayer.name) + 1;
 
       const simulated = players
         .map(p => p.name === basePlayer.name
@@ -163,19 +210,37 @@ import { calculatePlayerScore } from '../score.js';
         )
         .sort((a, b) => b.plp - a.plp);
 
-      const newRank = simulated.findIndex(p => p.name === basePlayer.name) + 1;
-      rankText = `${oldRank} → ${newRank}`;
+      newRank = simulated.findIndex(p => p.name === basePlayer.name) + 1;
     }
 
-    /* ----- UI ----- */
+    /* ----- UI Updates ----- */
+
     ui.klpGain.textContent = `+${level.klp.toLocaleString()}`;
     ui.totalKlp.textContent = totalKLP.toLocaleString();
+
+    animateNumber(
+      ui.totalPlp,
+      basePlayer.plp,
+      newPLP,
+      600,
+      v => v.toFixed(2)
+    );
+
     ui.plpChange.textContent =
       `${plpDelta >= 0 ? '+' : '−'}${Math.abs(plpDelta).toFixed(2)}`;
-    ui.totalPlp.textContent = newPLP.toFixed(2);
-    ui.rank.textContent = rankText;
 
-    /* ----- Breakdown ----- */
+    ui.plpPeak.textContent = breakdown.peak.toFixed(2);
+    ui.plpConsistency.textContent = breakdown.consistency.toFixed(2);
+    ui.plpBreadth.textContent = breakdown.breadth.toFixed(2);
+
+    if (playerName !== DUMMY.name) {
+      animateRank(ui.rank, oldRank, newRank);
+    } else {
+      ui.rank.textContent = '–';
+    }
+
+    /* ----- Breakdown Table ----- */
+
     ui.breakdown.innerHTML = `
       <h3>Level Breakdown</h3>
       <table style="width:100%;text-align:left;">
@@ -197,7 +262,7 @@ import { calculatePlayerScore } from '../score.js';
   }
 
   /* =========================
-     Events & Init
+     Init
   ========================= */
 
   playerSelect.addEventListener('change', updateLevelSelect);
