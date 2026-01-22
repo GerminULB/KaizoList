@@ -33,12 +33,12 @@
         <option value="plp">PLP</option>
         <option value="klp">KLP</option>
       </select>
-
       <select id="klp-type-filter">
         <option value="all">All KLP Types</option>
         <option value="Verification">KLP Verifications</option>
         <option value="Victor">KLP Victors</option>
       </select>
+      <button id="clear-filters">Clear Filters</button>
     </div>
 
     <!-- Total points -->
@@ -48,14 +48,6 @@
     <div id="player-list" class="panel-9slice"></div>
   </div>
 
-
-    
-    <div id="player-total-klp" class="panel-9slice">Total: 0 KLP</div>
-    <div id="player-list" class="panel-9slice"></div>
-  </div>
-
-
-  
   <footer class="site-footer panel-9slice">
     <p>The Kaizo List &copy; 2026 — Version 1.2</p>
     <p>
@@ -69,10 +61,8 @@
     import { applyRandomPattern } from '../js/utils.js';
     const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
     applyRandomPattern('.hub-button', patterns);
-    applyRandomPattern('.level-summary', patterns);
   </script>
 
-  <!-- Use the new playerlist.js with search & filter -->
   <script type="module" src="./playerlist.js"></script>
 
 </body>
