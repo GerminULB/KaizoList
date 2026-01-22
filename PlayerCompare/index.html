@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Player Compare Tool</title>
+  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <div class="background-stage">
+    <div class="sunset-decor back"></div>
+    <div class="sunset-decor front"></div>
+    <div class="sunset-mask"></div>
+  </div>
+
+  <div class="container panel-9slice">
+    <a href="/KaizoList/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
+    <h1>Player Compare Tool</h1>
+    <p class="hub-intro">Select any player and level to see how KLP and PLP would change.</p>
+
+    <nav class="hub-links">
+      <a href="/KaizoList/MainList/" class="hub-button">Main List</a>
+      <a href="/KaizoList/ChallengeList/" class="hub-button">Challenge List</a>
+      <a href="/KaizoList/PlayerList/" class="hub-button">Player Rankings</a>
+      <a href="/KaizoList/PlayerCompare.html" class="hub-button">Player Compare</a>
+    </nav>
+
+    <div class="filters">
+      <select id="player-select">
+        <option value="" disabled selected>Select Player</option>
+      </select>
+
+      <select id="level-select">
+        <option value="" disabled selected>Select Level</option>
+      </select>
+    </div>
+
+    <div id="compare-results" class="panel-9slice" style="display:none;">
+      <h2>Simulation Result</h2>
+      <p id="klp-gain"></p>
+      <p id="plp-change"></p>
+      <p id="rank-change"></p>
+      <div id="breakdown-table"></div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer panel-9slice">
+    <p>The Kaizo List &copy; 2026 — Version 1.2</p>
+    <p>
+      Game & All assets belong to 
+      <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
+      <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
+    </p>
+  </footer>
+
+  <script type="module">
+    import { applyRandomPattern } from '../js/utils.js';
+    const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
+    applyRandomPattern('.hub-button', patterns);
+  </script>
+
+  <script type="module" src="./playercompare.js"></script>
+</body>
+</html>
