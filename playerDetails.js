@@ -1,5 +1,5 @@
 import { fetchJson, splitNames, applyRandomPattern } from '/KaizoList/js/utils.js';
-import { calculatePlayerScore } from '/KaizoList/js/score.js';
+import { calculatePlayerScore } from '/KaizoList/score.js';
 
 
 (async () => {
