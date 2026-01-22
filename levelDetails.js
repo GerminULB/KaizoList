@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // --- Parse level name from URL ---
   const params = new URLSearchParams(window.location.search);
   const levelName = params.get('name');
+  const from = params.get('from') || 'main';
   if (!levelName) return alert('No level specified');
 
   // --- Fetch data ---
