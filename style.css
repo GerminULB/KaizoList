@@ -412,7 +412,7 @@ p {
     display: block;
     width: 100%;
     max-width: 400px;
-    margin: 25px auto 12px auto; /* vertical spacing from hub buttons */
+    margin: 25px auto 12px auto;
     padding: 8px 10px;
     font-family: 'Manaspace', monospace;
     font-size: 1em;
@@ -427,9 +427,9 @@ p {
 .filters {
     display: flex;
     justify-content: center;
-    gap: 10px; /* consistent spacing between filter elements */
+    gap: 10px; 
     flex-wrap: wrap;
-    margin-bottom: 20px; /* spacing below filters before level list */
+    margin-bottom: 20px; 
 }
 
 .filters select,
@@ -459,6 +459,22 @@ p {
     box-shadow: 0 1px 0 #366753, 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(0,0,0,0.25);
 }
 
+#player-search {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 25px auto 12px auto;
+    padding: 8px 10px;
+    font-family: 'Manaspace', monospace;
+    font-size: 1em;
+    border: 2px solid #6c9270;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    background-color: #a7e0ad;
+    color: #3a1f14;
+    outline: none;
+}
+
 
 
 /* ----------------- Parallax ----------------- */
@@ -482,6 +498,7 @@ p {
         height: 260px;
     }
 }
+
 
 
 
