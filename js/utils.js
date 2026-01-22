@@ -10,6 +10,7 @@ export const HISTORY_FILES = [
   "/KaizoList/history/2025-11-26.json",
   "/KaizoList/history/2026-01-08.json",
   "/KaizoList/history/2026-23-01.json",
+  "/KaizoList/history/2026-01-23.json",
 ];
 
 export async function fetchJson(path) {
