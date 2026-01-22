@@ -184,7 +184,7 @@ p {
     border-radius: 2px;
 
     box-shadow:
-        0 4px 0 #9a5b2e,
+        0 4px 0 #366753,
         0 6px 10px rgba(0,0,0,0.35),
         inset 0 1px 0 rgba(255,255,255,0.4);
 
@@ -204,7 +204,7 @@ p {
     filter: brightness(0.95);
 
     box-shadow:
-        0 1px 0 #9a5b2e,
+        0 1px 0 #366753,
         0 3px 6px rgba(0,0,0,0.3),
         inset 0 2px 4px rgba(0,0,0,0.25);
 }
@@ -243,7 +243,7 @@ p {
 
     /* Shadows for depth */
     box-shadow:
-        0 3px 0 #9a5b2e,
+        0 3px 0 #366753,
         0 4px 6px rgba(0,0,0,0.25),
         inset 0 1px 0 rgba(255,255,255,0.3);
 
@@ -263,7 +263,7 @@ p {
     filter: brightness(0.95);
 
     box-shadow:
-        0 1px 0 #9a5b2e,
+        0 1px 0 #366753,
         0 2px 4px rgba(0,0,0,0.3),
         inset 0 1px 2px rgba(0,0,0,0.25);
 }
@@ -442,7 +442,7 @@ p {
     background-color: #a7e0ad;
     color: #ffffff !important;
     cursor: pointer;
-    box-shadow: 0 3px 0 #9a5b2e, 0 4px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+    box-shadow: 0 3px 0 #366753, 0 4px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
     transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
 }
 
@@ -456,7 +456,7 @@ p {
 .filters button:active {
     transform: translateY(2px);
     filter: brightness(0.95);
-    box-shadow: 0 1px 0 #9a5b2e, 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(0,0,0,0.25);
+    box-shadow: 0 1px 0 #366753, 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(0,0,0,0.25);
 }
 
 
@@ -482,5 +482,6 @@ p {
         height: 260px;
     }
 }
+
 
 
