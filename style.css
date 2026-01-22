@@ -572,3 +572,14 @@ p {
 }
 
 
+@media (max-width: 700px) {
+    .update-announcement {
+        font-size: 0.9em;        /* slightly smaller text */
+        padding: 10px;           /* smaller padding */
+        max-height: 250px;       /* shorter height for mobile */
+    }
+
+    .update-announcement ul {
+        padding-left: 16px;      /* adjust nested padding */
+    }
+}
