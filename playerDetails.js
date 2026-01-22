@@ -1,4 +1,6 @@
 import { fetchJson, splitNames, applyRandomPattern } from '/KaizoList/js/utils.js';
+import { calculatePlayerScore } from '/KaizoList/js/score.js';
+
 
 (async () => {
   const ITEMS_PER_PAGE = 9; // 3x3 grid
