@@ -108,5 +108,14 @@ import { calculatePlayerScore } from '../score.js';
     });
   }
 
+  document.getElementById('clear-filters').addEventListener('click', () => {
+    searchInput.value = '';
+    pointTypeSelect.value = 'plp';
+    klpTypeSelect.value = 'all';
+    klpTypeSelect.style.display = 'none';
+    renderPlayers();
+});
+
+  
   renderPlayers();
 })();
