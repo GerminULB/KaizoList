@@ -50,14 +50,24 @@ import { calculatePlayerScore } from '../score.js';
   const listContainer = document.getElementById('player-list');
   const totalEl = document.getElementById('player-total-klp');
 
+  // --- Show/hide KLP type filter based on metric ---
+  function updateKLPTypeVisibility() {
+    if (!klpTypeSelect) return;
+    klpTypeSelect.style.display = pointTypeSelect.value === 'klp' ? 'inline-block' : 'none';
+  }
+
   // --- Event listeners ---
   searchInput.addEventListener('input', renderPlayers);
-  pointTypeSelect.addEventListener('change', renderPlayers);
+  pointTypeSelect.addEventListener('change', () => {
+    updateKLPTypeVisibility();
+    renderPlayers();
+  });
   klpTypeSelect.addEventListener('change', renderPlayers);
   if (clearBtn) clearBtn.addEventListener('click', () => {
     searchInput.value = '';
     pointTypeSelect.value = 'plp';
     klpTypeSelect.value = 'all';
+    updateKLPTypeVisibility();
     renderPlayers();
   });
 
@@ -111,7 +121,7 @@ import { calculatePlayerScore } from '../score.js';
       div.className = 'level';
       div.innerHTML = `
         <div class="level-summary" role="button" tabindex="0">
-          <span>#${idx+1}: ${p.name}</span>
+          <span>#${idx+1}: ${highlightText(p.name)}</span>
           <strong>${Math.round(p.displayPoints)} ${pointType.toUpperCase()}</strong>
         </div>
       `;
@@ -122,6 +132,21 @@ import { calculatePlayerScore } from '../score.js';
     });
   }
 
+  // --- Highlight text helper (from MainList) ---
+  function highlightText(text) {
+    const search = (searchInput.value || '').toLowerCase();
+    if (!search) return escapeHtml(text || '');
+    const regex = new RegExp(`(${escapeRegExp(search)})`, 'gi');
+    return escapeHtml(text || '').replace(regex, '<mark>$1</mark>');
+  }
+
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
+  }
+  function escapeRegExp(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  // --- Initial setup ---
+  updateKLPTypeVisibility();
   renderPlayers();
 
 })();
