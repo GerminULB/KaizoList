@@ -62,10 +62,6 @@ import { calculatePlayerScore } from '../score.js';
   // --- Real players only ---
   const REAL_PLAYERS = playerList.filter(p => p.name !== 'Player-Dummy');
 
-  // --- DOM ---
-  const playerSelect = document.getElementById('player-select');
-  const levelSelect = document.getElementById('level-select');
-  const resultsBox = document.getElementById('compare-results');
 
   // --- Populate player select ---
   REAL_PLAYERS
@@ -86,50 +82,6 @@ import { calculatePlayerScore } from '../score.js';
     return allLevels.filter(l => !completed.has(l.name));
   }
 
-  // --- Player change ---
-  playerSelect.addEventListener('change', () => {
-    const name = playerSelect.value;
-    const remaining = getAvailableLevels(name);
-
-    levelSelect.innerHTML =
-      '<option value="" disabled selected>Select Level</option>';
-
-    if (!remaining.length) {
-      const opt = document.createElement('option');
-      opt.disabled = true;
-      opt.textContent = 'No remaining levels';
-      levelSelect.appendChild(opt);
-      levelSelect.disabled = true;
-    } else {
-      levelSelect.disabled = false;
-      remaining.forEach(l => {
-        const opt = document.createElement('option');
-        opt.value = l.name;
-        opt.textContent = l.name;
-        levelSelect.appendChild(opt);
-      });
-    }
-
-    resultsBox.style.display = 'none';
-  });
-
-  // --- Simulation ---
-  levelSelect.addEventListener('change', () => {
-    const playerName = playerSelect.value;
-    const levelName = levelSelect.value;
-    if (!playerName || !levelName) return;
-
-    const player = REAL_PLAYERS.find(p => p.name === playerName);
-    const level = levelByName[levelName];
-
-    // --- New PLP ---
-    const newLevels = [...player.levels, {
-      name: level.name,
-      klp: level.klp
-    }];
-
-    const newPLP = calculatePlayerScore(newLevels);
-    const plpChange = newPLP - player.plp;
 
     // --- Rank BEFORE ---
     const baselineRanks = REAL_PLAYERS
