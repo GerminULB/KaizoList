@@ -26,26 +26,27 @@
       <a href="/KaizoList/PlayerList/" class="hub-button">Player Rankings</a>
     </nav>
 
+    <!-- Search & Filters -->
+    <input type="text" id="player-search" placeholder="Search Player..." />
+    <div class="filters">
+      <select id="metric-filter">
+        <option value="plp">PLP</option>
+        <option value="klp">KLP</option>
+      </select>
 
+      <select id="klp-type-filter">
+        <option value="all">All KLP Types</option>
+        <option value="Verification">KLP Verifications</option>
+        <option value="Victor">KLP Victors</option>
+      </select>
+    </div>
 
-    
-<input type="text" id="player-search" placeholder="Search Player..." />
-    
-<div class="filters">
-  <input type="text" id="player-search" placeholder="Search Player..." />
-  <select id="point-type">
-    <option value="plp">PLP</option>
-    <option value="klp">KLP</option>
-  </select>
+    <!-- Total points -->
+    <div id="player-total-klp" class="panel-9slice">Total: 0</div>
 
-  <select id="klp-type">
-    <option value="all">All KLP Types</option>
-    <option value="Verification">KLP Verifications</option>
-    <option value="Victor">KLP Victors</option>
-  </select>
-
-  <button id="clear-filters">Clear Filters</button>
-</div>
+    <!-- Player list -->
+    <div id="player-list" class="panel-9slice"></div>
+  </div>
 
 
     
