@@ -7,7 +7,7 @@ const PLP_A = 1.0;      // peak weight
 const PLP_B = 0.6;      // consistency weight
 const PLP_C = 20;       // breadth bonus multiplier
 
-function calculatePlayerScore(levelsCleared) {
+export function calculatePlayerScore(levelsCleared) {
   // levelsCleared = array of { name, klp } objects
   if (!levelsCleared || levelsCleared.length === 0) return 0;
 
