@@ -133,7 +133,8 @@ import { fetchJson, rankByKLP, splitNames, renderRecentChanges } from "../js/uti
         </div>
       `;
       div.querySelector('.level-summary').addEventListener('click', () => {
-        window.location.href = `../LevelDetails.html?name=${encodeURIComponent(lvl.name)}`;
+        window.location.href =
+          `/KaizoList/LevelDetails.html?name=${encodeURIComponent(level.name)}&from=main`;
       });
 
       container.appendChild(div);
@@ -156,6 +157,7 @@ import { fetchJson, rankByKLP, splitNames, renderRecentChanges } from "../js/uti
 })();
 
 renderRecentChanges('recent-changes', undefined, '../levels.json');
+
 
 
 
