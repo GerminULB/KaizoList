@@ -108,4 +108,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderPage();
   }
 
+
+  const backBtn = document.getElementById('back-button');
+if (backBtn) {
+  backBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (from === 'challenge') {
+      window.location.href = '/KaizoList/ChallengeList/';
+    } else {
+      window.location.href = '/KaizoList/MainList/';
+    }
+  });
+}
+
+  
 });
