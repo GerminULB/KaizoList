@@ -37,13 +37,48 @@
       </select>
     </div>
 
-    <div id="compare-results" class="panel-9slice" style="display:none;">
-      <h2>Simulation Result</h2>
-      <p id="klp-gain"></p>
-      <p id="plp-change"></p>
-      <p id="rank-change"></p>
-      <div id="breakdown-table"></div>
+<div id="compare-results" class="panel-9slice" style="display:none;">
+  <h2>Simulation Result</h2>
+
+  <div class="stat-grid">
+    <div class="stat">
+      <span class="label">KLP Gain</span>
+      <strong id="klp-gain"></strong>
     </div>
+
+    <div class="stat">
+      <span class="label">Total KLP</span>
+      <strong id="total-klp"></strong>
+    </div>
+
+    <div class="stat">
+      <span class="label">PLP Change</span>
+      <strong id="plp-change"></strong>
+    </div>
+
+    <div class="stat">
+      <span class="label">Total PLP</span>
+      <strong id="total-plp"></strong>
+    </div>
+
+    <div class="stat wide">
+      <span class="label">Rank</span>
+      <strong id="rank-change"></strong>
+    </div>
+  </div>
+
+  <div id="plp-curve" class="panel-9slice">
+    <h3>Total PLP Curve</h3>
+    <ul>
+      <li>Peak Skill: <strong id="plp-peak"></strong></li>
+      <li>Consistency: <strong id="plp-consistency"></strong></li>
+      <li>Breadth Bonus: <strong id="plp-breadth"></strong></li>
+    </ul>
+  </div>
+
+  <div id="breakdown-table"></div>
+</div>
+
 
   </div>
 
