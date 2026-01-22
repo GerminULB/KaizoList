@@ -43,14 +43,7 @@ import { calculatePlayerScore } from '../score.js';
   }));
 
   // --- Dummy player ---
-  const DUMMY = {
-    name: 'Player-Dummy',
-    klp: 0,
-    levels: [],
-    plp: 0
-  };
-
-  // --- Sort players by PLP ---
+  const DUMMY = { name: 'Player-Dummy', levels: [], klp: 0, plp: 0 };
   players.sort((a, b) => b.plp - a.plp);
 
   // --- DOM ---
@@ -58,57 +51,54 @@ import { calculatePlayerScore } from '../score.js';
   const levelSelect = document.getElementById('level-select');
   const resultsBox = document.getElementById('compare-results');
 
-  // Add container for totals
-  const totalContainer = document.createElement('div');
-  totalContainer.id = 'totals-container';
-  totalContainer.style.marginBottom = '1em';
-  resultsBox.prepend(totalContainer);
+  // --- Totals container (always there) ---
+  let totalContainer = document.getElementById('totals-container');
+  if (!totalContainer) {
+    totalContainer = document.createElement('div');
+    totalContainer.id = 'totals-container';
+    totalContainer.style.marginBottom = '1em';
+    resultsBox.prepend(totalContainer);
+  }
 
   // --- Populate player dropdown ---
   playerSelect.innerHTML = '';
   const dummyOpt = document.createElement('option');
   dummyOpt.value = DUMMY.name;
-  dummyOpt.textContent = '#0 Player-Dummy';
+  dummyOpt.textContent = 'Player-Dummy';
   playerSelect.appendChild(dummyOpt);
 
-  players.forEach((p, i) => {
+  players.forEach(p => {
     const opt = document.createElement('option');
     opt.value = p.name;
-    opt.textContent = `#${i + 1} ${p.name}`;
+    opt.textContent = p.name;
     playerSelect.appendChild(opt);
   });
 
   // --- Available levels ---
   function getAvailableLevels(playerName) {
-    const completed = new Set(
-      playerMap[playerName]?.levels.map(l => l.name) || []
-    );
+    if (playerName === DUMMY.name) return allLevels.slice(); // all levels selectable
+    const completed = new Set(playerMap[playerName]?.levels.map(l => l.name) || []);
     return allLevels.filter(l => !completed.has(l.name));
   }
 
   // --- Player change ---
-  playerSelect.addEventListener('change', () => {
+  function updateLevelSelect() {
     const name = playerSelect.value;
-
-    levelSelect.innerHTML =
-      '<option value="" disabled selected>Select Level</option>';
-
-    // Player-Dummy can pick all levels
-    const available = name === DUMMY.name ? allLevels.slice() : getAvailableLevels(name);
-
-    // Sort levels by KLP descending
+    const available = getAvailableLevels(name);
     available.sort((a, b) => b.klp - a.klp);
 
-    available.forEach((l, i) => {
+    levelSelect.innerHTML = '<option value="" disabled selected>Select Level</option>';
+    available.forEach(l => {
       const opt = document.createElement('option');
       opt.value = l.name;
-      opt.textContent = `#${i + 1} ${l.name}`;
+      opt.textContent = l.name;
       levelSelect.appendChild(opt);
     });
-
     levelSelect.disabled = !available.length;
     resultsBox.style.display = 'none';
-  });
+  }
+
+  playerSelect.addEventListener('change', updateLevelSelect);
 
   // --- Simulation ---
   levelSelect.addEventListener('change', () => {
@@ -119,20 +109,16 @@ import { calculatePlayerScore } from '../score.js';
     const player = playerName === DUMMY.name ? DUMMY : players.find(p => p.name === playerName);
     const level = levelByName[levelName];
 
-    // --- New levels array ---
     const newLevels = [...player.levels, { name: level.name, klp: level.klp }];
     const newPLP = calculatePlayerScore(newLevels);
-    const plpChange = newPLP - player.plp;
+    const plpChange = newPLP - (player.plp || 0);
 
-    // --- Rank before ---
+    // --- Rank calculations ---
     const baseRanks = players.slice().sort((a, b) => b.plp - a.plp).map(p => p.name);
     const oldRank = playerName === DUMMY.name ? '–' : baseRanks.indexOf(player.name) + 1;
-
-    // --- Rank after ---
     const simulated = players.map(p =>
       p.name === player.name ? { ...p, plp: newPLP } : p
-    );
-    simulated.sort((a, b) => b.plp - a.plp);
+    ).sort((a, b) => b.plp - a.plp);
     const newRank = playerName === DUMMY.name ? '–' : simulated.findIndex(p => p.name === player.name) + 1;
 
     // --- Totals ---
@@ -170,5 +156,9 @@ import { calculatePlayerScore } from '../score.js';
       </table>
     `;
   });
+
+  // --- Initial setup ---
+  playerSelect.value = DUMMY.name;
+  updateLevelSelect();
 
 })();
