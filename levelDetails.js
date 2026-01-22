@@ -1,4 +1,4 @@
-import { fetchJson } from '/KaizoList/js/utils.js';
+import { fetchJson } from 'KaizoList/js/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const ITEMS_PER_PAGE = 9; // for victors pagination
