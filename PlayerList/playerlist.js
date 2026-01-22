@@ -1,4 +1,6 @@
 import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
+import { calculatePlayerScore } from '../score.js';
+
 
 (async function() {
 
