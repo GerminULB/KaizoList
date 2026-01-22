@@ -233,11 +233,19 @@ import {
     ui.plpConsistency.textContent = breakdown.consistency.toFixed(2);
     ui.plpBreadth.textContent = breakdown.breadth.toFixed(2);
 
-    if (playerName !== DUMMY.name) {
-      animateRank(ui.rank, oldRank, newRank);
-    } else {
-      ui.rank.textContent = '–';
-    }
+  if (playerName !== DUMMY.name) {
+    animateRank(ui.rank, oldRank, newRank);
+  } else {
+    // Dummy player: show projected entry rank only
+    const projected = [...players, { ...DUMMY, plp: newPLP }]
+      .sort((a, b) => b.plp - a.plp);
+  
+    const entryRank =
+      projected.findIndex(p => p.name === DUMMY.name) + 1;
+  
+    ui.rank.textContent = `→ ${entryRank}`;
+  }
+
 
     /* ----- Breakdown Table ----- */
 
