@@ -1,37 +1,49 @@
-import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
+import { fetchJson } from '../js/utils.js';
 import { calculatePlayerScore } from '../score.js';
 
-(async function() {
+(async function () {
 
-  // Fetch all data
+  // --- Fetch data ---
   const levels = await fetchJson('../levels.json');
   const challenges = await fetchJson('../challenges.json');
   const victorsData = await fetchJson('../victors.json');
+
   const allLevels = [...levels, ...challenges];
 
+  // --- Normalize level lookup ---
+  const levelByName = {};
+  allLevels.forEach(l => levelByName[l.name] = l);
+
+  // --- Build player data ---
   const playerMap = {};
 
-  // Add verifiers
+  // Verifiers
   allLevels.forEach(level => {
     if (!level.verifier) return;
     const v = level.verifier;
     if (!playerMap[v]) playerMap[v] = { klp: 0, levels: [] };
     playerMap[v].klp += level.klp;
-    playerMap[v].levels.push({ name: level.name, klp: level.klp, type: 'Verification' });
-  });
-
-  // Add victors
-  Object.entries(victorsData).forEach(([player, levelNames]) => {
-    levelNames.forEach(levelName => {
-      const level = allLevels.find(l => l.name === levelName);
-      if (!level) return;
-      if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
-      playerMap[player].klp += level.klp;
-      playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victor' });
+    playerMap[v].levels.push({
+      name: level.name,
+      klp: level.klp
     });
   });
 
-  // Convert to array & compute PLP
+  // Victors
+  Object.entries(victorsData).forEach(([player, levelNames]) => {
+    levelNames.forEach(name => {
+      const level = levelByName[name];
+      if (!level) return;
+      if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
+      playerMap[player].klp += level.klp;
+      playerMap[player].levels.push({
+        name: level.name,
+        klp: level.klp
+      });
+    });
+  });
+
+  // --- Convert to list ---
   let playerList = Object.entries(playerMap).map(([name, data]) => ({
     name,
     klp: data.klp,
@@ -39,114 +51,139 @@ import { calculatePlayerScore } from '../score.js';
     plp: calculatePlayerScore(data.levels)
   }));
 
-  // Sort by PLP initially
-  playerList.sort((a,b) => b.plp - a.plp);
-
-  // --- DOM elements ---
-  const searchInput = document.getElementById('player-search');
-  const pointTypeSelect = document.getElementById('metric-filter'); // PLP/KLP
-  const klpTypeSelect = document.getElementById('klp-type-filter'); // Verification/Victor/All
-  const clearBtn = document.getElementById('clear-filters');
-  const listContainer = document.getElementById('player-list');
-  const totalEl = document.getElementById('player-total-klp');
-
-  // --- Show/hide KLP type filter based on metric ---
-  function updateKLPTypeVisibility() {
-    if (!klpTypeSelect) return;
-    klpTypeSelect.style.display = pointTypeSelect.value === 'klp' ? 'inline-block' : 'none';
-  }
-
-  // --- Event listeners ---
-  searchInput.addEventListener('input', renderPlayers);
-  pointTypeSelect.addEventListener('change', () => {
-    updateKLPTypeVisibility();
-    renderPlayers();
-  });
-  klpTypeSelect.addEventListener('change', renderPlayers);
-  if (clearBtn) clearBtn.addEventListener('click', () => {
-    searchInput.value = '';
-    pointTypeSelect.value = 'plp';
-    klpTypeSelect.value = 'all';
-    updateKLPTypeVisibility();
-    renderPlayers();
+  // --- Optional dummy (excluded later) ---
+  playerList.push({
+    name: 'Player-Dummy',
+    klp: 0,
+    levels: [],
+    plp: 0
   });
 
-  // --- Render players ---
-  function renderPlayers() {
-    const search = (searchInput.value || '').toLowerCase();
-    const pointType = pointTypeSelect.value;
-    const klpType = klpTypeSelect.value;
+  // --- Real players only ---
+  const REAL_PLAYERS = playerList.filter(p => p.name !== 'Player-Dummy');
 
-    // Filter players by name
-    let filtered = playerList.filter(p => p.name.toLowerCase().includes(search));
+  // --- DOM ---
+  const playerSelect = document.getElementById('player-select');
+  const levelSelect = document.getElementById('level-select');
+  const resultsBox = document.getElementById('compare-results');
 
-    // Compute display points for each player
-    filtered = filtered.map(p => {
-      let displayPoints;
-      if (pointType === 'plp') {
-        displayPoints = p.plp;
-      } else { // KLP
-        let levels = p.levels;
-        if (klpType !== 'all') levels = levels.filter(l => l.type === klpType);
-        displayPoints = levels.reduce((sum,l)=>sum+l.klp,0);
-      }
-      return { ...p, displayPoints };
+  // --- Populate player select ---
+  REAL_PLAYERS
+    .slice()
+    .sort((a, b) => b.plp - a.plp)
+    .forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.name;
+      opt.textContent = p.name;
+      playerSelect.appendChild(opt);
     });
 
-    // Sort descending
-    filtered.sort((a,b) => b.displayPoints - a.displayPoints);
+  // --- Levels not yet completed ---
+  function getAvailableLevels(playerName) {
+    const completed = new Set(
+      playerMap[playerName]?.levels.map(l => l.name) || []
+    );
+    return allLevels.filter(l => !completed.has(l.name));
+  }
 
-    // Update total points (all players)
-    let totalPoints;
-    if (pointType === 'plp') {
-      totalPoints = playerList.reduce((sum,p)=>sum + p.plp, 0);
+  // --- Player change ---
+  playerSelect.addEventListener('change', () => {
+    const name = playerSelect.value;
+    const remaining = getAvailableLevels(name);
+
+    levelSelect.innerHTML =
+      '<option value="" disabled selected>Select Level</option>';
+
+    if (!remaining.length) {
+      const opt = document.createElement('option');
+      opt.disabled = true;
+      opt.textContent = 'No remaining levels';
+      levelSelect.appendChild(opt);
+      levelSelect.disabled = true;
     } else {
-      totalPoints = playerList.reduce((sum,p)=>{
-        let levels = p.levels;
-        if (klpType !== 'all') levels = levels.filter(l => l.type === klpType);
-        return sum + levels.reduce((s,l)=>s+l.klp,0);
-      },0);
-    }
-    totalEl.innerText = `Total: ${totalPoints.toLocaleString()} ${pointType.toUpperCase()}`;
-
-    // Render list
-    listContainer.innerHTML = '';
-    if (!filtered.length) {
-      listContainer.innerHTML = '<div class="no-results">No players found.</div>';
-      return;
-    }
-
-    filtered.forEach((p, idx) => {
-      const div = document.createElement('div');
-      div.className = 'level';
-      div.innerHTML = `
-        <div class="level-summary" role="button" tabindex="0">
-          <span>#${idx+1}: ${highlightText(p.name)}</span>
-          <strong>${Math.round(p.displayPoints)} ${pointType.toUpperCase()}</strong>
-        </div>
-      `;
-      div.querySelector('.level-summary').addEventListener('click', () => {
-        window.location.href = `../PlayerDetails.html?name=${encodeURIComponent(p.name)}`;
+      levelSelect.disabled = false;
+      remaining.forEach(l => {
+        const opt = document.createElement('option');
+        opt.value = l.name;
+        opt.textContent = l.name;
+        levelSelect.appendChild(opt);
       });
-      listContainer.appendChild(div);
-    });
-  }
+    }
 
-  // --- Highlight text helper (from MainList) ---
-  function highlightText(text) {
-    const search = (searchInput.value || '').toLowerCase();
-    if (!search) return escapeHtml(text || '');
-    const regex = new RegExp(`(${escapeRegExp(search)})`, 'gi');
-    return escapeHtml(text || '').replace(regex, '<mark>$1</mark>');
-  }
+    resultsBox.style.display = 'none';
+  });
 
-  function escapeHtml(str) {
-    return String(str || '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
-  }
-  function escapeRegExp(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  // --- Simulation ---
+  levelSelect.addEventListener('change', () => {
+    const playerName = playerSelect.value;
+    const levelName = levelSelect.value;
+    if (!playerName || !levelName) return;
 
-  // --- Initial setup ---
-  updateKLPTypeVisibility();
-  renderPlayers();
+    const player = REAL_PLAYERS.find(p => p.name === playerName);
+    const level = levelByName[levelName];
+
+    // --- New PLP ---
+    const newLevels = [...player.levels, {
+      name: level.name,
+      klp: level.klp
+    }];
+
+    const newPLP = calculatePlayerScore(newLevels);
+    const plpChange = newPLP - player.plp;
+
+    // --- Rank BEFORE ---
+    const baselineRanks = REAL_PLAYERS
+      .slice()
+      .sort((a, b) => b.plp - a.plp)
+      .map(p => p.name);
+
+    const oldRank = baselineRanks.indexOf(player.name) + 1;
+
+    // --- Rank AFTER ---
+    const simulated = REAL_PLAYERS.map(p =>
+      p.name === player.name ? { ...p, plp: newPLP } : p
+    );
+
+    simulated.sort((a, b) => b.plp - a.plp);
+    const newRank = simulated.findIndex(p => p.name === player.name) + 1;
+
+    // --- UX formatting ---
+    const sign = plpChange >= 0 ? '+' : '−';
+    const plpText = `${sign}${Math.abs(plpChange).toFixed(2)} PLP`;
+
+    let arrow = '→';
+    if (newRank < oldRank) arrow = '▲';
+    if (newRank > oldRank) arrow = '▼';
+
+    // --- Update UI ---
+    resultsBox.style.display = 'block';
+    document.getElementById('klp-gain').textContent =
+      `KLP Gain: +${level.klp.toLocaleString()} KLP`;
+    document.getElementById('plp-change').textContent =
+      `PLP Change: ${plpText}`;
+    document.getElementById('rank-change').textContent =
+      `Rank Change: ${arrow} #${oldRank} → #${newRank}`;
+
+    // --- Breakdown ---
+    const rows = newLevels.map(l => {
+      const isNew = l.name === level.name;
+      return `
+        <tr ${isNew ? 'style="font-weight:bold;"' : ''}>
+          <td>${l.name}${isNew ? ' (simulated)' : ''}</td>
+          <td>${l.klp} KLP</td>
+        </tr>
+      `;
+    }).join('');
+
+    document.getElementById('breakdown-table').innerHTML = `
+      <h3>Level Breakdown</h3>
+      <table style="width:100%;text-align:left;">
+        <thead>
+          <tr><th>Level</th><th>KLP</th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  });
 
 })();
