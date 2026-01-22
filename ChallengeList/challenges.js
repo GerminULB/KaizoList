@@ -140,21 +140,6 @@ function loadLevelsFromJSON(levels) {
 }
 
 
-  levels.forEach(lvl => {
-    const div = document.createElement('div');
-    div.className = 'level';
-    div.innerHTML = `
-      <div class="level-summary" role="button" tabindex="0">
-        <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
-          <strong>${escapeHtml(lvl.klp)} KLP</strong>
-      </div>
-    `;
-  div.querySelector('.level-summary').addEventListener('click', () => {
-    window.location.href = `../LevelDetails.html?name=${encodeURIComponent(lvl.name)}`;
-  });
-    container.appendChild(div);
-  });
-}
  
   function highlightText(text) {
     const search = (document.getElementById('search')?.value || '').toLowerCase();
