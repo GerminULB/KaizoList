@@ -1,49 +1,38 @@
-import { fetchJson } from '../js/utils.js';
+import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
 import { calculatePlayerScore } from '../score.js';
 
-(async function () {
 
-  // --- Fetch data ---
+(async function() {
+
+  // Fetch all data
   const levels = await fetchJson('../levels.json');
   const challenges = await fetchJson('../challenges.json');
   const victorsData = await fetchJson('../victors.json');
-
   const allLevels = [...levels, ...challenges];
 
-  // --- Normalize level lookup ---
-  const levelByName = {};
-  allLevels.forEach(l => levelByName[l.name] = l);
-
-  // --- Build player data ---
   const playerMap = {};
 
-  // Verifiers
+  // Add verifiers
   allLevels.forEach(level => {
     if (!level.verifier) return;
     const v = level.verifier;
     if (!playerMap[v]) playerMap[v] = { klp: 0, levels: [] };
     playerMap[v].klp += level.klp;
-    playerMap[v].levels.push({
-      name: level.name,
-      klp: level.klp
-    });
+    playerMap[v].levels.push({ name: level.name, klp: level.klp, type: 'Verification' });
   });
 
-  // Victors
+  // Add victors
   Object.entries(victorsData).forEach(([player, levelNames]) => {
-    levelNames.forEach(name => {
-      const level = levelByName[name];
+    levelNames.forEach(levelName => {
+      const level = allLevels.find(l => l.name === levelName);
       if (!level) return;
       if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
       playerMap[player].klp += level.klp;
-      playerMap[player].levels.push({
-        name: level.name,
-        klp: level.klp
-      });
+      playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victor' });
     });
   });
 
-  // --- Convert to list ---
+  // Convert to array & compute PLP
   let playerList = Object.entries(playerMap).map(([name, data]) => ({
     name,
     klp: data.klp,
@@ -51,91 +40,94 @@ import { calculatePlayerScore } from '../score.js';
     plp: calculatePlayerScore(data.levels)
   }));
 
-  // --- Optional dummy (excluded later) ---
-  playerList.push({
-    name: 'Player-Dummy',
-    klp: 0,
-    levels: [],
-    plp: 0
+  // Sort by PLP initially
+  playerList.sort((a,b) => b.plp - a.plp);
+
+  // --- Inject search & filters dynamically ---
+  const container = document.querySelector('.container');
+  const filterHTML = `
+    <div id="player-filters" class="filters" style="margin-bottom:15px;">
+      <input type="text" id="player-search" placeholder="Search Player..." />
+      <select id="point-type">
+        <option value="plp">PLP</option>
+        <option value="klp">KLP</option>
+      </select>
+      <select id="klp-type">
+        <option value="Verification">KLP Verifications</option>
+        <option value="Victor">KLP Victors</option>
+      </select>
+    </div>
+  `;
+  container.insertAdjacentHTML('afterbegin', filterHTML);
+
+  const searchInput = document.getElementById('player-search');
+  const pointTypeSelect = document.getElementById('point-type');
+  const klpTypeSelect = document.getElementById('klp-type');
+
+  // Hide KLP type initially if PLP is selected
+  klpTypeSelect.style.display = pointTypeSelect.value === 'klp' ? 'inline-block' : 'none';
+
+  // --- Event listeners ---
+  searchInput.addEventListener('input', renderPlayers);
+  pointTypeSelect.addEventListener('change', () => {
+    klpTypeSelect.style.display = pointTypeSelect.value === 'klp' ? 'inline-block' : 'none';
+    renderPlayers();
   });
+  klpTypeSelect.addEventListener('change', renderPlayers);
 
-  // --- Real players only ---
-  const REAL_PLAYERS = playerList.filter(p => p.name !== 'Player-Dummy');
+  // --- Render total KLP / filtered players ---
+  function renderPlayers() {
+    const search = (searchInput.value || '').toLowerCase();
+    const pointType = pointTypeSelect.value;
+    const klpType = klpTypeSelect.value;
 
+    let filtered = playerList.filter(p => p.name.toLowerCase().includes(search));
 
-  // --- Populate player select ---
-  REAL_PLAYERS
-    .slice()
-    .sort((a, b) => b.plp - a.plp)
-    .forEach(p => {
-      const opt = document.createElement('option');
-      opt.value = p.name;
-      opt.textContent = p.name;
-      playerSelect.appendChild(opt);
+    // If KLP is selected, filter by KLP type
+    if (pointType === 'klp') {
+      filtered = filtered.map(p => {
+        const klpLevels = p.levels.filter(l => l.type === klpType);
+        return {
+          ...p,
+          displayPoints: klpLevels.reduce((sum,l)=>sum+l.klp,0)
+        };
+      });
+    } else {
+      filtered = filtered.map(p => ({ ...p, displayPoints: p.plp }));
+    }
+
+    // Sort descending by selected metric
+    filtered.sort((a,b) => b.displayPoints - a.displayPoints);
+
+    // Update total KLP
+    const totalKLP = filtered.reduce((sum,p) => sum + (pointType==='klp'?p.displayPoints:0), 0);
+    document.getElementById('player-total-klp').innerText = pointType === 'klp' ? `Total: ${totalKLP.toLocaleString()} KLP` : `Total: ${totalKLP.toLocaleString()} KLP`;
+
+    // Render players
+    const listContainer = document.getElementById('player-list');
+    listContainer.innerHTML = '';
+    if (!filtered.length) {
+      listContainer.innerHTML = '<div class="no-results">No players found.</div>';
+      return;
+    }
+
+    filtered.forEach((p, idx) => {
+      const div = document.createElement('div');
+      div.className = 'level';
+      div.innerHTML = `
+        <div class="level-summary" role="button" tabindex="0">
+          <span>#${idx+1}: ${p.name}</span>
+          <strong>${Math.round(p.displayPoints)}</strong>
+        </div>
+      `;
+      div.querySelector('.level-summary').addEventListener('click', () => {
+        window.location.href = `../PlayerDetails.html?name=${encodeURIComponent(p.name)}`;
+      });
+      listContainer.appendChild(div);
     });
 
-  // --- Levels not yet completed ---
-  function getAvailableLevels(playerName) {
-    const completed = new Set(
-      playerMap[playerName]?.levels.map(l => l.name) || []
-    );
-    return allLevels.filter(l => !completed.has(l.name));
   }
 
-
-    // --- Rank BEFORE ---
-    const baselineRanks = REAL_PLAYERS
-      .slice()
-      .sort((a, b) => b.plp - a.plp)
-      .map(p => p.name);
-
-    const oldRank = baselineRanks.indexOf(player.name) + 1;
-
-    // --- Rank AFTER ---
-    const simulated = REAL_PLAYERS.map(p =>
-      p.name === player.name ? { ...p, plp: newPLP } : p
-    );
-
-    simulated.sort((a, b) => b.plp - a.plp);
-    const newRank = simulated.findIndex(p => p.name === player.name) + 1;
-
-    // --- UX formatting ---
-    const sign = plpChange >= 0 ? '+' : '−';
-    const plpText = `${sign}${Math.abs(plpChange).toFixed(2)} PLP`;
-
-    let arrow = '→';
-    if (newRank < oldRank) arrow = '▲';
-    if (newRank > oldRank) arrow = '▼';
-
-    // --- Update UI ---
-    resultsBox.style.display = 'block';
-    document.getElementById('klp-gain').textContent =
-      `KLP Gain: +${level.klp.toLocaleString()} KLP`;
-    document.getElementById('plp-change').textContent =
-      `PLP Change: ${plpText}`;
-    document.getElementById('rank-change').textContent =
-      `Rank Change: ${arrow} #${oldRank} → #${newRank}`;
-
-    // --- Breakdown ---
-    const rows = newLevels.map(l => {
-      const isNew = l.name === level.name;
-      return `
-        <tr ${isNew ? 'style="font-weight:bold;"' : ''}>
-          <td>${l.name}${isNew ? ' (simulated)' : ''}</td>
-          <td>${l.klp} KLP</td>
-        </tr>
-      `;
-    }).join('');
-
-    document.getElementById('breakdown-table').innerHTML = `
-      <h3>Level Breakdown</h3>
-      <table style="width:100%;text-align:left;">
-        <thead>
-          <tr><th>Level</th><th>KLP</th></tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    `;
-  });
+  renderPlayers();
 
 })();
