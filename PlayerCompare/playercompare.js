@@ -78,10 +78,7 @@ import { calculatePlayerScore } from '../score.js';
     const completed = new Set(
       playerMap[playerName]?.levels.map(l => l.name) || []
     );
-
-    return allLevels
-      .filter(l => !completed.has(l.name))
-      .sort((a, b) => b.klp - a.klp);
+    return allLevels.filter(l => !completed.has(l.name));
   }
 
   // --- Player change ---
@@ -91,13 +88,10 @@ import { calculatePlayerScore } from '../score.js';
     levelSelect.innerHTML =
       '<option value="" disabled selected>Select Level</option>';
 
-    if (name === DUMMY.name) {
-      levelSelect.disabled = true;
-      resultsBox.style.display = 'none';
-      return;
-    }
+    // Player-Dummy can pick all levels
+    const available = name === DUMMY.name ? allLevels.slice() : getAvailableLevels(name);
 
-    const available = getAvailableLevels(name);
+    available.sort((a, b) => b.klp - a.klp);
 
     available.forEach((l, i) => {
       const opt = document.createElement('option');
@@ -116,7 +110,7 @@ import { calculatePlayerScore } from '../score.js';
     const levelName = levelSelect.value;
     if (!playerName || !levelName) return;
 
-    const player = players.find(p => p.name === playerName);
+    const player = playerName === DUMMY.name ? DUMMY : players.find(p => p.name === playerName);
     const level = levelByName[levelName];
 
     // --- New PLP ---
@@ -130,7 +124,7 @@ import { calculatePlayerScore } from '../score.js';
       .sort((a, b) => b.plp - a.plp)
       .map(p => p.name);
 
-    const oldRank = baseRanks.indexOf(player.name) + 1;
+    const oldRank = playerName === DUMMY.name ? '–' : baseRanks.indexOf(player.name) + 1;
 
     // --- Rank after ---
     const simulated = players.map(p =>
@@ -138,7 +132,7 @@ import { calculatePlayerScore } from '../score.js';
     );
 
     simulated.sort((a, b) => b.plp - a.plp);
-    const newRank = simulated.findIndex(p => p.name === player.name) + 1;
+    const newRank = playerName === DUMMY.name ? '–' : simulated.findIndex(p => p.name === player.name) + 1;
 
     // --- UI ---
     resultsBox.style.display = 'block';
@@ -150,7 +144,7 @@ import { calculatePlayerScore } from '../score.js';
       `PLP Change: ${plpChange >= 0 ? '+' : '−'}${Math.abs(plpChange).toFixed(2)} PLP`;
 
     document.getElementById('rank-change').textContent =
-      `Rank: #${oldRank} → #${newRank}`;
+      `Rank: ${oldRank} → ${newRank}`;
 
     // --- Breakdown ---
     document.getElementById('breakdown-table').innerHTML = `
