@@ -522,6 +522,28 @@ p {
 }
 
 
+/* ----------------- Mobile Overflow Fix ----------------- */
+@media (max-width: 700px) {
+    body {
+        overflow-x: hidden; 
+    }
 
+    .sunset-decor,
+    .sunset-mask {
+        width: 100%;      
+        max-width: 100%;
+        left: 0;
+    }
+
+    .container {
+        padding: 16px;
+    }
+
+
+    .player-container > div,
+    .level-summary {
+        min-width: 0; /* allows shrinking inside flex */
+    }
+}
 
 
