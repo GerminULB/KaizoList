@@ -127,22 +127,6 @@ h1, h2, p {
     z-index: 10;
 }
 
-/* ----------------- Logos ----------------- */
-img.logo {
-    width: 360px;
-    margin: 20px auto;
-    display: block;
-
-    image-rendering: pixelated;
-    transition: transform 0.3s ease;
-
-    position: relative;
-    z-index: 10;
-}
-
-img.logo:hover {
-    transform: scale(1.03) rotate(-1deg);
-}
 
 /* ----------------- Headers & Text ----------------- */
 h1 {
@@ -583,3 +567,26 @@ p {
         padding-left: 16px;      /* adjust nested padding */
     }
 }
+
+
+img.logo {
+    display: block;
+    margin: 20px auto;     
+    width: 360px;          
+    max-width: 80%;       
+    height: auto;           
+    image-rendering: pixelated;
+    transition: transform 0.3s ease, width 0.3s ease;  /* dude99 scaling */
+    position: relative;
+    z-index: 10;
+}
+
+img.logo:hover {
+    transform: scale(1.03) rotate(-6.7deg);
+}
+
+@media (max-width: 500px) {
+    img.logo {
+        width: 240px;       
+}
+
