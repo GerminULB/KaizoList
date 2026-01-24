@@ -134,7 +134,7 @@ function loadLevelsFromJSON(levels) {
     `;
     div.querySelector('.level-summary').addEventListener('click', () => {
       window.location.href =
-  `/KaizoList/LevelDetails.html?name=${encodeURIComponent(level.name)}&from=challenge`;
+  `/KaizoList/LevelDetails.html?name=${encodeURIComponent(lvl.name)}&from=challenge`;
     });
     container.appendChild(div);
   });
