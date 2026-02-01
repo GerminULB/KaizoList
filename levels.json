@@ -269,8 +269,8 @@
     {
         "name":  "Stages from Hell 1",
         "klp":  970,
-        "creator":  "MYSTERYILIAN114",
-        "verifier":  "MYSTERYILIAN114",
+        "creator":  "MysteryIlian114",
+        "verifier":  "MysteryIlian114",
         "id":  "346352"
     },
     {
@@ -346,8 +346,8 @@
     {
         "name":  "The Hell",
         "klp":  710,
-        "creator":  "SEAMUSHROOM245",
-        "verifier":  "SEAMUSHROOM245",
+        "creator":  "SeaMushroom245",
+        "verifier":  "SeaMushroom245",
         "id":  "191982"
     },
     {
@@ -393,6 +393,13 @@
         "id":  "200000 "
     },
     {
+        "name":  "Corps Astronomiques",
+        "klp":  600,
+        "creator":  "065Foxy",
+        "verifier":  "065Foxy",
+        "id":  "719923"
+    },
+    {
         "name":  "Smash Spire",
         "klp":  590,
         "creator":  "Vsulner",
@@ -407,6 +414,13 @@
         "id":  "380308"
     },
     {
+        "name":  "Eon",
+        "klp":  560,
+        "creator":  "Failed Boy",
+        "verifier":  "Failed Boy",
+        "id":  "705092"
+    },
+    {
         "name":  "Claustrophobie",
         "klp":  550,
         "creator":  "065FOXYS",
@@ -419,6 +433,13 @@
         "creator":  "AnDronolis",
         "verifier":  "AnDronolis",
         "id":  "590986"
+    },
+    {
+        "name":  "Hydrothanotos",
+        "klp":  520,
+        "creator":  "Neptunium",
+        "verifier":  "Neptunium",
+        "id":  "364341"
     },
     {
         "name":  "Ablivision",
@@ -447,6 +468,13 @@
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
         "id":  "440423"
+    },
+    {
+        "name":  "I Wanna Be A Boykisser",
+        "klp":  445,
+        "creator":  "Lazy-ULB",
+        "verifier":  "Lanzy-ULB",
+        "id":  "687679"
     },
     {
         "name":  "Circular Fatality",
@@ -531,6 +559,13 @@
         "creator":  "Samuel CM",
         "verifier":  "Samuel CM",
         "id":  "236780"
+    },
+    {
+        "name":  "Saw District",
+        "klp":  200,
+        "creator":  "Failed Boy",
+        "verifier":  "Failed Boy",
+        "id":  "710813"
     },
     {
         "name":  "Cute Travel",
