@@ -406,6 +406,7 @@ p {
     background-color: #a7e0ad;
     color: #3a1f14;
     outline: none;
+    
 }
 
 .filters {
@@ -457,6 +458,7 @@ p {
     background-color: #a7e0ad;
     color: #3a1f14;
     outline: none;
+    box-sizing: border-box;
 }
 
 
@@ -589,4 +591,5 @@ img.logo:hover {
     img.logo {
         width: 240px;       
 }
+
 
