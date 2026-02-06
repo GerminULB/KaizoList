@@ -1,12 +1,9 @@
-// Constants
-const PLP_N = 10;
-const PLP_P = 0.85;
-const PLP_Q = 0.65;
-const PLP_A = 1.0;
-const PLP_B = 0.6;
-const PLP_C = 20;
+//  constants
+const PLP_DECAY = 0.15;  
+const PLP_BASELINE = 5; 
+const PLP_LOG_WEIGHT = 12;
+const PLP_SQRT_WEIGHT = 4;
 
-// Existing function (UNCHANGED)
 export function calculatePlayerScore(levelsCleared) {
   if (!levelsCleared || levelsCleared.length === 0) return 0;
 
@@ -17,16 +14,29 @@ export function calculatePlayerScore(levelsCleared) {
 
   if (klps.length === 0) return 0;
 
+
   const peakScore = PLP_A * Math.pow(klps[0], PLP_P);
-  const topKlps = klps.slice(0, PLP_N);
+
   const consistencyScore =
-    PLP_B * topKlps.reduce((acc, k) => acc + Math.pow(k, PLP_Q), 0);
-  const breadthBonus = PLP_C * Math.log(1 + klps.length);
+    PLP_B *
+    klps.reduce((acc, k, i) => {
+      const baselineBoost =
+        Math.pow(k + PLP_BASELINE, PLP_Q) -
+        Math.pow(PLP_BASELINE, PLP_Q);
+
+      const decay = Math.exp(-PLP_DECAY * i);
+      return acc + baselineBoost * decay;
+    }, 0);
+
+
+  const m = klps.length;
+  const breadthBonus =
+    PLP_LOG_WEIGHT * Math.log(1 + m) +
+    PLP_SQRT_WEIGHT * Math.sqrt(m);
 
   return peakScore + consistencyScore + breadthBonus;
 }
 
-// NEW helper (safe)
 export function calculatePlayerScoreBreakdown(levelsCleared) {
   if (!levelsCleared || levelsCleared.length === 0) {
     return { total: 0, peak: 0, consistency: 0, breadth: 0 };
@@ -42,10 +52,22 @@ export function calculatePlayerScoreBreakdown(levelsCleared) {
   }
 
   const peak = PLP_A * Math.pow(klps[0], PLP_P);
-  const topKlps = klps.slice(0, PLP_N);
+
   const consistency =
-    PLP_B * topKlps.reduce((acc, k) => acc + Math.pow(k, PLP_Q), 0);
-  const breadth = PLP_C * Math.log(1 + klps.length);
+    PLP_B *
+    klps.reduce((acc, k, i) => {
+      const baselineBoost =
+        Math.pow(k + PLP_BASELINE, PLP_Q) -
+        Math.pow(PLP_BASELINE, PLP_Q);
+
+      const decay = Math.exp(-PLP_DECAY * i);
+      return acc + baselineBoost * decay;
+    }, 0);
+
+  const m = klps.length;
+  const breadth =
+    PLP_LOG_WEIGHT * Math.log(1 + m) +
+    PLP_SQRT_WEIGHT * Math.sqrt(m);
 
   return {
     total: peak + consistency + breadth,
@@ -54,3 +76,4 @@ export function calculatePlayerScoreBreakdown(levelsCleared) {
     breadth
   };
 }
+
