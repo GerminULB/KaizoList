@@ -1,8 +1,14 @@
-//  constants
-const PLP_DECAY = 0.15;  
-const PLP_BASELINE = 5; 
-const PLP_LOG_WEIGHT = 12;
-const PLP_SQRT_WEIGHT = 4;
+// ===== legacy tuning constants =====
+const PLP_P = 0.85;
+const PLP_Q = 0.65;
+const PLP_A = 1.0;
+const PLP_B = 0.6;
+
+// ===== new tuning =====
+const PLP_EARLY_BONUS = 0.6;
+const PLP_EARLY_WINDOW = 12;
+const PLP_VOLUME_WEIGHT = 0.06;
+const PLP_RECENT_RATIO = 0.10; // latest 10%
 
 export function calculatePlayerScore(levelsCleared) {
   if (!levelsCleared || levelsCleared.length === 0) return 0;
@@ -14,25 +20,27 @@ export function calculatePlayerScore(levelsCleared) {
 
   if (klps.length === 0) return 0;
 
-
+  // ===== peak =====
   const peakScore = PLP_A * Math.pow(klps[0], PLP_P);
 
+  // ===== consistency =====
   const consistencyScore =
     PLP_B *
     klps.reduce((acc, k, i) => {
-      const baselineBoost =
-        Math.pow(k + PLP_BASELINE, PLP_Q) -
-        Math.pow(PLP_BASELINE, PLP_Q);
-
-      const decay = Math.exp(-PLP_DECAY * i);
-      return acc + baselineBoost * decay;
+      const base = Math.pow(k, PLP_Q);
+      const earlyFactor =
+        i < PLP_EARLY_WINDOW
+          ? 1 + PLP_EARLY_BONUS * (1 - i / PLP_EARLY_WINDOW)
+          : 1;
+      return acc + base * earlyFactor;
     }, 0);
 
+  // ===== recent volume bonus =====
+  const recentCount = Math.max(1, Math.ceil(klps.length * PLP_RECENT_RATIO));
+  const recentKlps = klps.slice(0, recentCount);
+  const recentEffort = recentKlps.reduce((a, b) => a + b, 0);
 
-  const m = klps.length;
-  const breadthBonus =
-    PLP_LOG_WEIGHT * Math.log(1 + m) +
-    PLP_SQRT_WEIGHT * Math.sqrt(m);
+  const breadthBonus = PLP_VOLUME_WEIGHT * Math.sqrt(recentEffort);
 
   return peakScore + consistencyScore + breadthBonus;
 }
@@ -56,18 +64,20 @@ export function calculatePlayerScoreBreakdown(levelsCleared) {
   const consistency =
     PLP_B *
     klps.reduce((acc, k, i) => {
-      const baselineBoost =
-        Math.pow(k + PLP_BASELINE, PLP_Q) -
-        Math.pow(PLP_BASELINE, PLP_Q);
-
-      const decay = Math.exp(-PLP_DECAY * i);
-      return acc + baselineBoost * decay;
+      const base = Math.pow(k, PLP_Q);
+      const earlyFactor =
+        i < PLP_EARLY_WINDOW
+          ? 1 + PLP_EARLY_BONUS * (1 - i / PLP_EARLY_WINDOW)
+          : 1;
+      return acc + base * earlyFactor;
     }, 0);
 
-  const m = klps.length;
-  const breadth =
-    PLP_LOG_WEIGHT * Math.log(1 + m) +
-    PLP_SQRT_WEIGHT * Math.sqrt(m);
+  const recentCount = Math.max(1, Math.ceil(klps.length * PLP_RECENT_RATIO));
+  const recentEffort = klps
+    .slice(0, recentCount)
+    .reduce((a, b) => a + b, 0);
+
+  const breadth = PLP_VOLUME_WEIGHT * Math.sqrt(recentEffort);
 
   return {
     total: peak + consistency + breadth,
@@ -76,4 +86,3 @@ export function calculatePlayerScoreBreakdown(levelsCleared) {
     breadth
   };
 }
-
