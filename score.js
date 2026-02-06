@@ -1,14 +1,13 @@
 // ===== legacy tuning constants =====
-const PLP_P = 0.85;
-const PLP_Q = 0.65;
-const PLP_A = 1.0;
-const PLP_B = 0.6;
+const PLP_P = 0.85; // peak exponent
+const PLP_Q = 0.65; // consistency exponent
+const PLP_A = 1.0;  // peak weight
+const PLP_B = 0.6;  // consistency weight
 
-// ===== new tuning =====
-const PLP_EARLY_BONUS = 0.6;
-const PLP_EARLY_WINDOW = 12;
-const PLP_VOLUME_WEIGHT = 0.06;
-const PLP_RECENT_RATIO = 0.10; // latest 10%
+// ===== new tuning shit buuurp ahhh ahh=====
+const PLP_EARLY_BONUS = 0.6;  
+const PLP_EARLY_WINDOW = 12;   
+const PLP_VOLUME_WEIGHT = 0.035;
 
 export function calculatePlayerScore(levelsCleared) {
   if (!levelsCleared || levelsCleared.length === 0) return 0;
@@ -28,19 +27,18 @@ export function calculatePlayerScore(levelsCleared) {
     PLP_B *
     klps.reduce((acc, k, i) => {
       const base = Math.pow(k, PLP_Q);
+
       const earlyFactor =
         i < PLP_EARLY_WINDOW
           ? 1 + PLP_EARLY_BONUS * (1 - i / PLP_EARLY_WINDOW)
           : 1;
+
       return acc + base * earlyFactor;
     }, 0);
 
-  // ===== recent volume bonus =====
-  const recentCount = Math.max(1, Math.ceil(klps.length * PLP_RECENT_RATIO));
-  const recentKlps = klps.slice(0, recentCount);
-  const recentEffort = recentKlps.reduce((a, b) => a + b, 0);
-
-  const breadthBonus = PLP_VOLUME_WEIGHT * Math.sqrt(recentEffort);
+  // ===== volume =====
+  const totalKlp = klps.reduce((a, b) => a + b, 0);
+  const breadthBonus = PLP_VOLUME_WEIGHT * Math.sqrt(totalKlp);
 
   return peakScore + consistencyScore + breadthBonus;
 }
@@ -72,12 +70,8 @@ export function calculatePlayerScoreBreakdown(levelsCleared) {
       return acc + base * earlyFactor;
     }, 0);
 
-  const recentCount = Math.max(1, Math.ceil(klps.length * PLP_RECENT_RATIO));
-  const recentEffort = klps
-    .slice(0, recentCount)
-    .reduce((a, b) => a + b, 0);
-
-  const breadth = PLP_VOLUME_WEIGHT * Math.sqrt(recentEffort);
+  const totalKlp = klps.reduce((a, b) => a + b, 0);
+  const breadth = PLP_VOLUME_WEIGHT * Math.sqrt(totalKlp);
 
   return {
     total: peak + consistency + breadth,
