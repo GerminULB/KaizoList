@@ -1,10 +1,9 @@
-// ===== legacy tuning constants =====
+
 const PLP_P = 0.85; // peak exponent
 const PLP_Q = 0.65; // consistency exponent
 const PLP_A = 1.0;  // peak weight
 const PLP_B = 0.6;  // consistency weight
 
-// ===== new tuning shit buuurp ahhh ahh=====
 const PLP_EARLY_BONUS = 0.6;  
 const PLP_EARLY_WINDOW = 12;   
 const PLP_VOLUME_WEIGHT = 0.035;
@@ -19,10 +18,8 @@ export function calculatePlayerScore(levelsCleared) {
 
   if (klps.length === 0) return 0;
 
-  // ===== peak =====
   const peakScore = PLP_A * Math.pow(klps[0], PLP_P);
 
-  // ===== consistency =====
   const consistencyScore =
     PLP_B *
     klps.reduce((acc, k, i) => {
@@ -36,7 +33,6 @@ export function calculatePlayerScore(levelsCleared) {
       return acc + base * earlyFactor;
     }, 0);
 
-  // ===== volume =====
   const totalKlp = klps.reduce((a, b) => a + b, 0);
   const breadthBonus = PLP_VOLUME_WEIGHT * Math.sqrt(totalKlp);
 
