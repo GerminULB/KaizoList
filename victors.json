@@ -74,7 +74,8 @@
     "Liquid",
     "The Hell",
     "Moonmarsh Madness",
-    "Hoppi Hopp - MADNESS"
+    "Hoppi Hopp - MADNESS",
+    "Algae"
   ],
   "redstom": [
     "The Final Planet",
@@ -113,7 +114,8 @@
      "Eon",
      "Corps Astronomiques",
      "I Wanna Be A Boykisser",
-     "Hydrothanotos"
+     "Hydrothanotos",
+     "Algae"
      
   ],
   "GameCuboid": [
@@ -181,7 +183,13 @@
      "Tower of Worlds",
      "Ladder Lunatics"
   ],
-   "El Tono": [
+   "Toño": [
       "Blue Circles"
+   ],
+   "Failed Boy": [
+      "Red and Blue"
+   ],
+   "Tatiqol": [
+      "Tower of Worlds   "
    ]
 }
