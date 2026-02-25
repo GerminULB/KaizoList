@@ -1,70 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7N58SZ0J6W');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7N58SZ0J6W');
+  </script>
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Challenge List</title>
+  <title data-i18n="challenge_list_title">Challenge List</title>
   <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
+<div class="settings-menu">
+    <div class="lang-switcher">
+        <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+        <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+    </div>
+    
+    <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+        <span id="theme-icon"></span>
+    </button>
+</div>
+
     <div class="background-stage">
-    <div class="sunset-decor back"></div>
-    <div class="sunset-decor front"></div>
-    <div class="sunset-mask"></div>
-  </div>
-  
+      <div class="sky-layer"></div>
+      <div class="sunset-mask"></div>
+      <div class="sunset-decor back"></div>
+      <div class="sunset-decor front"></div>
+    </div>
 
   <div class="container panel-9slice">
     <a href="/KaizoList/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
-    <h1>The Challenge List</h1>
+    <h1 data-i18n="challenge_list_title">The Challenge List</h1>
     <p class="hub-intro">
-      <a href="https://germinulb.github.io/KaizoList/images/GerminDisturb.png" target="_blank">
+      <a href="https://germinulb.github.io/KaizoList/images/GerminDisturb.png" target="_blank" data-i18n="challenge_list_intro">
         Scawy Challenges gulp... OwO
       </a>
     </p>
 
     <nav class="hub-links">
-      <a href="/KaizoList/MainList/" class="hub-button">Main List</a>
-      <a href="/KaizoList/ChallengeList/" class="hub-button">Challenge List</a>
-      <a href="/KaizoList/PlayerList/" class="hub-button">Player Rankings</a>
-      <a href="/KaizoList/PlayerCompare/" class="hub-button">Player Compare</a>
+      <a href="/KaizoList/MainList/" class="hub-button" data-i18n="nav_main_list">Main List</a>
+      <a href="/KaizoList/ChallengeList/" class="hub-button" data-i18n="nav_challenge_list">Challenge List</a>
+      <a href="/KaizoList/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
+      <a href="/KaizoList/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
     </nav>
 
-    <input type="text" id="search" placeholder="Search challenges..." />
+    <input type="text" id="search" data-i18n-placeholder="search_challenges" placeholder="Search challenges..." />
     <div class="filters">
-      <select id="creator-filter"><option value="">All Creators</option></select>
-      <select id="verifier-filter"><option value="">All Verifiers</option></select>
+      <select id="creator-filter"><option value="" data-i18n="filter_all_creators">All Creators</option></select>
+      <select id="verifier-filter"><option value="" data-i18n="filter_all_verifiers">All Verifiers</option></select>
+      <select id="badge-filter"><option value="" data-i18n="filter_all_badges">All Badges</option></select>
+
       <select id="sort-filter">
-        <option value="rank">Sort by Rank</option>
-        <option value="id-desc">Newest (by ID)</option>
-        <option value="id-asc">Oldest (by ID)</option>
+        <option value="rank" data-i18n="sort_rank">Sort by Rank</option>
+        <option value="id-desc" data-i18n="sort_newest">Newest (by ID)</option>
+        <option value="id-asc" data-i18n="sort_oldest">Oldest (by ID)</option>
       </select>
-      <button id="clear-filters">Clear Filters</button>
+      <button id="clear-filters" data-i18n="clear_filters">Clear Filters</button>
     </div>
 
     <div class="panel-9slice">
-      <div id="total-klp">Total: 0 KLP</div>
+      <div id="total-klp"></div>
     </div>
     
     <div id="level-list" class="panel-9slice"></div>
   </div>
 
   <footer class="site-footer panel-9slice">
-    <p>The Kaizo List &copy; 2026 — Version 1.22</p>
     <p>
-      Game & All assets belong to 
+        <span data-i18n="copyright">The Kaizo List &copy; 2026</span> — 
+        <span data-i18n="version">Version</span> <span id="app-version">1.22</span>
+    </p>
+    <p>
+      <span data-i18n="footer_attribution">Game & All assets belong to</span> 
       <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
       <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
     </p>
@@ -72,12 +86,17 @@
 
 <script type="module">
   import { applyRandomPattern } from '../js/utils.js';
+  // FUCKASS translation
+  import { applyTranslations } from '../js/i18n.js';
+  
   const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
   applyRandomPattern('.hub-button', patterns);
   applyRandomPattern('.level-summary', patterns);
+  
+  applyTranslations();
 </script>
   
-<script src="./challenges.js"></script>
-  
+<script type="module" src="./challenges.js"></script>
+<script type="module" src="../js/version.js"></script>
 </body>
 </html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="creator_details_page_title">Creator Details</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+</head>
+<body>
+
+<div class="settings-menu">
+    <div class="lang-switcher">
+        <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+        <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+    </div>
+    
+    <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+        <span id="theme-icon"></span>
+    </button>
+</div>
+
+    <div class="background-stage">
+      <div class="sky-layer"></div>
+      <div class="sunset-mask"></div>
+      <div class="sunset-decor back"></div>
+      <div class="sunset-decor front"></div>
+    </div>
+    
+  <div class="container panel-9slice">
+    <a href="/KaizoList/MainList/" class="hub-button" data-i18n="nav_back">Back</a>
+
+    
+    <div id="title-row">
+        <h1 id="creator-name">Loading...</h1>
+    </div>
+
+    <div id="creator-info" class="panel-9slice">
+      <h2 data-i18n="architect_stats_title">Architect Stats</h2>
+      <p><strong data-i18n="stat_total_klp_contributed">Total KLP Contributed:</strong> <span id="total-klp">0</span></p>
+      <p><strong data-i18n="stat_published_levels">Published Levels:</strong> <span id="level-count">0</span></p>
+      <p><strong data-i18n="stat_avg_difficulty">Avg. Difficulty:</strong> <span id="avg-klp">0</span> KLP</p>
+    </div>
+
+    <div class="portfolio-container">
+      <div class="panel-9slice">
+        <h2 data-i18n="portfolio_title">Portfolio (Levels & Challenges)</h2>
+        <div id="creator-portfolio" class="grid panel-9slice"></div>
+        <div class="pagination panel-9slice"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { applyTranslations } from './js/i18n.js';
+    import { applyRandomPattern } from './js/utils.js';
+
+    const patterns = Array.from({length:13}, (_,i)=>`./images/pattern/pattern${i}.png`);
+    applyRandomPattern('.hub-button', patterns);
+
+    applyTranslations();
+  </script>
+  <script type="module" src="./creatorDetails.js"></script>
+</body>
+</html>

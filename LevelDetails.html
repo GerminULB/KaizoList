@@ -3,52 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Level Details</title>
+  <title data-i18n="level_details_page_title">Level Details</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
 </head>
 <body>
 
-    <div class="background-stage">
-    <div class="sunset-decor back"></div>
-    <div class="sunset-decor front"></div>
-    <div class="sunset-mask"></div>
-  </div>
-  
-  <div class="container panel-9slice">
-    <a href="#" id="back-button" class="hub-button">← Back</a>
-    <h1 id="level-name"></h1>
+<div class="settings-menu">
+    <div class="lang-switcher">
+        <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+        <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+    </div>
+    
+    <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+        <span id="theme-icon"></span>
+    </button>
+</div>
 
-    <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
-      <div style="flex:1; min-width: 280px;" class="panel-9slice">
-        <div id="level-info" class="panel-9slice">
-          <h2>Level Info</h2>
-        
-          <p><strong>Creator:</strong> <span id="level-creator">Unknown</span></p>
-          <p><strong>Verifier:</strong> <span id="level-verifier">Unknown</span></p>
-          <p><strong>ID:</strong> <span id="level-id">N/A</span></p>
-          <p><strong>KLP:</strong> <span id="level-klp">0</span></p>
-          <p><strong>Rank:</strong> <span id="level-rank">0</span></p>
-        </div>
+<div class="background-stage">
+  <div class="sky-layer"></div>
+  <div class="sunset-mask"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
+</div>
+
+  <div class="container panel-9slice">
+      <a href="#" id="back-button" class="hub-button" data-i18n="nav_back">Back</a>
       
-        <h2>History</h2>
-        <div id="history" class="scrollable panel-9slice"></div>
+      <div id="title-row">
+          <div id="title-left">
+              <h1 id="level-name"></h1>
+          </div>
+                
+          <div id="badges-container-right">
+              <div id="badge-row"></div>
+              <div id="series-badge"></div>
+          </div>
       </div>
-      <div style="flex:1; min-width: 280px;" class="panel-9slice">
-        <h2>Victors</h2>
-        <div id="victors-grid" class="grid panel-9slice"></div>
+
+      <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
+          <div style="flex:1; min-width: 280px;" class="panel-9slice">
+              <div id="level-info" class="panel-9slice">
+                  <h2 data-i18n="level_info_title">Level Info</h2>
+
+                  <p><strong data-i18n="creator">Creator:</strong> <span id="level-creator"></span></p>
+                  <p><strong data-i18n="verifier">Verifier:</strong> <span id="level-verifier"></span></p>
+                  <p><strong data-i18n="id">ID:</strong> <span id="level-id">N/A</span></p>
+                  <p><strong>KLP:</strong> <span id="level-klp">0</span></p>
+                  <p><strong data-i18n="sort_rank">Rank:</strong> <span id="level-rank">0</span></p>
+              </div>
+
+              <h2 data-i18n="history_title">History</h2>
+              <div id="history" class="scrollable panel-9slice"></div>
+          </div>
+          
+          <div style="flex:1; min-width: 280px;" class="panel-9slice">
+              <h2 data-i18n="victors_title">Victors</h2>
+              <div id="victors-grid" class="grid panel-9slice"></div>
+          </div>
       </div>
+  </div>
+
+  <div id="badge-modal" class="badge-modal hidden">
+    <div class="badge-modal-content">
+        <img id="modal-badge-icon" />
+        <h2 id="modal-badge-title"></h2>
+        <p id="modal-badge-description"></p>
+        <button id="close-modal" class="hub-button" style="margin-top: 20px;" data-i18n="close_button">Close</button>
     </div>
   </div>
 
-    <script type="module">
-  import { applyRandomPattern } from './js/utils.js';
-  const patterns = Array.from({length:13}, (_,i)=>`/KaizoList/images/pattern/pattern${i}.png`);
-  applyRandomPattern('.level-summary', patterns);
-</script>
-  
+  <script type="module">
+      import { applyRandomPattern } from './js/utils.js';
+      import { applyTranslations } from './js/i18n.js';
+
+      const patterns = Array.from({ length: 13 }, (_, i) => `/KaizoList/images/pattern/pattern${i}.png`);
+      applyRandomPattern('.hub-button', patterns);
+      
+      applyTranslations();
+  </script>
+
   <script type="module" src="./levelDetails.js"></script>
-
-
 </body>
 </html>

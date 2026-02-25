@@ -3,57 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Player Details</title>
+  <title data-i18n="player_details_page_title">Player Details</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
 </head>
 <body>
 
-  <div class="background-stage">
-    <div class="sunset-decor back"></div>
-    <div class="sunset-decor front"></div>
-    <div class="sunset-mask"></div>
-  </div>
-  
-  <div class="container panel-9slice">
-    <a href="/KaizoList/PlayerList/" class="hub-button">← Back to Player Rankings</a>
-    <h1 id="player-name"></h1>
-
-    <div id="player-info" class="panel-9slice">
-  <h2>Player Stats</h2>
-
-  <p><strong>PLP:</strong> <span id="player-plp">0</span></p>
-  <p><strong>Total KLP:</strong> <span id="player-total-klp">0</span></p>
-  <p><strong>Victory KLP:</strong> <span id="player-victory-klp">0</span></p>
-  <p><strong>Verification KLP:</strong> <span id="player-verification-klp">0</span></p>
+<div class="settings-menu">
+    <div class="lang-switcher">
+        <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+        <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+    </div>
+    
+    <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+        <span id="theme-icon"></span>
+    </button>
 </div>
 
+  
+<div class="background-stage">
+  <div class="sky-layer"></div>
+  <div class="sunset-mask"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
+</div>
+  
+  <div class="container panel-9slice">
+    <a href="/KaizoList/PlayerList/" class="hub-button" data-i18n="nav_back">Back</a>
+
+    
+    <div id="title-row">
+        <div id="title-left">
+            <h1 id="player-name"></h1>
+        </div>
+        
+        <div id="badges-container-right">
+            <div id="badge-row"></div>
+            <div id="series-badge"></div> 
+        </div>
+    </div>
+    <div id="player-info" class="panel-9slice">
+      <h2 data-i18n="player_stats_title">Player Stats</h2>
+      <p><strong>PLP:</strong> <span id="player-plp">0</span></p>
+      <p><strong data-i18n="stat_total_klp">Total KLP:</strong> <span id="player-total-klp">0</span></p>
+      <p><strong data-i18n="stat_victory_klp">Victory KLP:</strong> <span id="player-victory-klp">0</span></p>
+      <p><strong data-i18n="stat_verification_klp">Verification KLP:</strong> <span id="player-verification-klp">0</span></p>
+    </div>
 
     <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
       <div id="player-left" style="flex:1; min-width:280px;" class="panel-9slice">
-        <h2>Recent KLP Changes</h2>
+        <h2 data-i18n="player_klp_changes_title">Recent KLP Changes</h2>
         <div id="player-history" class="scrollable panel-9slice"></div>
       </div>
 
       <div id="player-right" style="flex:1; min-width:280px;" class="panel-9slice">
-        <h2>Victors</h2>
+        <h2 data-i18n="victors_title">Victors</h2>
         <div id="player-victors" class="grid panel-9slice"></div>
 
-        <h2 style="margin-top:20px;">Verifications</h2>
+        <h2 style="margin-top:20px;" data-i18n="verifications_title">Verifications</h2>
         <div id="player-verifications" class="grid panel-9slice"></div>
         <div class="pagination panel-9slice"></div>
       </div>
     </div>
+  </div> 
+
+  <div id="badge-modal" class="badge-modal hidden">
+    <div class="badge-modal-content">
+        <img id="modal-badge-icon" />
+        <h2 id="modal-badge-title"></h2>
+        <p id="modal-badge-description"></p>
+        <button id="close-modal" class="hub-button" style="margin-top: 20px;" data-i18n="close_button">Close</button>
+    </div>
   </div>
 
   <script type="module">
-  import { applyRandomPattern } from './js/utils.js';
-  const patterns = Array.from({length:13}, (_,i)=>`/KaizoList/images/pattern/pattern${i}.png`);
-  applyRandomPattern('.level-summary', patterns);
-</script>
+    import { applyRandomPattern } from './js/utils.js';
+    import { applyTranslations } from './js/i18n.js';
+    
+    const patterns = Array.from({length:13}, (_,i)=>`/KaizoList/images/pattern/pattern${i}.png`);
+    applyRandomPattern('.hub-button', patterns);
 
+    applyTranslations();
+  </script>
   <script type="module" src="./playerDetails.js"></script>
-
-  
 </body>
 </html>

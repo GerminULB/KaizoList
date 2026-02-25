@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7N58SZ0J6W');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7N58SZ0J6W');
+  </script>
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Kaizo List Hub</title>
+  <title data-i18n="hub_page_title">The Kaizo List Hub</title>
   <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Social Meta -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Kaizo List Hub">
   <meta name="twitter:description" content="Welcome to the Kaizo List.">
@@ -29,87 +26,122 @@
 </head>
 <body>
 
-  <div class="background-stage">
-    <div class="sunset-decor back"></div>
-    <div class="sunset-decor front"></div>
-    <div class="sunset-mask"></div>
-  </div>
+<div class="settings-menu">
+    <div class="lang-switcher">
+        <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+        <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+    </div>
+    
+    <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+        <span id="theme-icon"></span>
+    </button>
+</div>
 
+<div class="background-stage">
+  <div class="sky-layer"></div>
+  <div class="sunset-mask"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
+</div>
 
-  
-  <div class="container panel-9slice">
+<div class="container panel-9slice">
     <img src="images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo">
 
     <div class="index-intro panel-9slice">
-      <h1>Welcome to The Kaizo List!</h1>
-      <p>Track the hardest Kaizo levels in Ultimate Level Builder, and see its best players.</p>
+      <h1 data-i18n="hub_welcome_title">Welcome to The Kaizo List!</h1>
+      <p data-i18n="hub_welcome_desc">Track the hardest Kaizo levels in Ultimate Level Builder, and see its best players.</p>
+
+      <p class="hub-intro" data-i18n="hub_nav_prompt">Where would you like to go?</p>
+
+      <nav class="hub-links">
+        <a href="/KaizoList/MainList/" class="hub-button" data-i18n="nav_main_list">Main List</a>
+        <a href="/KaizoList/ChallengeList/" class="hub-button" data-i18n="nav_challenge_list">Challenge List</a>
+        <a href="/KaizoList/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
+        <a href="/KaizoList/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
+      </nav>
 
       <div class="update-announcement panel-9slice">
         <div class="update-content">
-          <p><strong>Hello Guys!</strong> Version 1.2 of the Kaizo List is out! Here are all the new stuff added:</p>
-          <ul>
-            <li>Filters for Players (New KLP & PLP Toggle filter)</li>
-            <li>UI Overhaul (Mountain Theme)</li>
-            <li>QOL Stuff</li>
-            <li>New Feature: Player Compare Tool
-              <ul>
-                <li>You can choose from Players on the Kaizo List (or Player Dummy if you aren't on the Leaderboards) with existing Kaizo levels that hasn't been beaten by the player. It will simulate your rank, PLP and KLP changes if you beat that level.</li>
-              </ul>
-            </li>
-            <li>Lots of bug fixes from previous version</li>
-          </ul>
-          <p>Please let me know if there are any bugs in this version.</p>
+          <p><strong data-i18n="update_header">Hello Guys! Version 1.2 out!</strong></p>
+          <div data-i18n="update_body">
+            Yo
+          </div>
+          <p data-i18n="update_footer">Please let me know if there are any bugs in this version.</p>
         </div>
       </div>
 
-
-    <p class="hub-intro">Where would you like to go?</p>
-
-    <nav class="hub-links">
-      <a href="/KaizoList/MainList/" class="hub-button">Main List</a>
-      <a href="/KaizoList/ChallengeList/" class="hub-button">Challenge List</a>
-      <a href="/KaizoList/PlayerList/" class="hub-button">Player Rankings</a>
-      <a href="/KaizoList/PlayerCompare/" class="hub-button">Player Compare</a>
-    </nav>
-
-    <div class="hub-info panel-9slice">
-      <h2>Rules & Community</h2>
-      <ul>
-        <li>No Secret Ways except intended or verification purposes (video proof required)</li>
-        <li>No external applications (auto-clickers, macros, etc.)</li>
-        <li>Verification usually requires video proof</li>
-        <li>No cheating</li>
-        <li>Challenges: No checkpoints, 1HP, size 1x1–2x1, no sub-world</li>
-      </ul>
-      <p>Join the <a href="https://discord.gg/n9MEzwNXGs" target="_blank">Berneyvonbean Discord server</a>!</p>
-      <p>Join our <a href="https://discord.gg/3un6nh8G9w" target="_blank">Kaizo List Discord server</a> to submit your own records!</p>
-    </div>
-  </div>
-  
-        <div id="recent-changes-container" class="scrollable panel-9slice">
-        <h2>Recent Changes</h2>
-        <div id="recent-changes"></div>
+      <div class="hub-info panel-9slice">
+        <h2 data-i18n="rules_title">Rules & Community</h2>
+        <ul>
+          <li data-i18n="rule_1">No Secret Ways except intended or verification purposes (video proof required)</li>
+          <li data-i18n="rule_2">No external applications (auto-clickers, macros, etc.)</li>
+          <li data-i18n="rule_3">Verification usually requires video proof</li>
+          <li data-i18n="rule_4">No cheating</li>
+          <li data-i18n="rule_5">Challenges: No checkpoints, 1HP, size 1x1–2x1, no sub-world</li>
+        </ul>
+        <p>
+          <span data-i18n="discord_join_berney">Join the</span> 
+          <a href="https://discord.gg/n9MEzwNXGs" target="_blank">Berneyvonbean Discord server</a>!
+        </p>
+        <p>
+          <span data-i18n="discord_join_kaizo">Join our</span> 
+          <a href="https://discord.gg/3un6nh8G9w" target="_blank">Kaizo List Discord server</a> 
+          <span data-i18n="discord_submit_records">to submit your own records!</span>
+        </p>
       </div>
     </div>
+
+    <div id="recent-changes-container" class="scrollable panel-9slice">
+      <h2 data-i18n="recent_changes">Recent Changes</h2>
+      <div id="recent-changes"></div>
+    </div>
+</div>
+
+      <div class="hub-info panel-9slice">
+        <h2 data-i18n="credits_title">Credits</h2>
+        <p><strong>Game by:</strong> <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean</a></p>
+        <p><strong>Maintained by:</strong> 
+            <a href="https://www.youtube.com/@GerminULB">Germin</a> & <a href="https://www.youtube.com/@SashaULB">Sasha Krutoy YT2</a>
+        </p>
+        <p><strong>Spanish Translation:</strong> <a href="https://www.youtube.com/@ocelote6515">Ocelote</a></p>
+        <p><strong>Spanish Font:</strong> Berneyvonbean</p>
+        
+        <hr style="border: 1px dashed rgba(255,255,255,0.2); margin: 15px 0;">
+        
+        <h2 data-i18n="admins_title">List Admins</h2>
+        <div class="admin-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+            <a href="https://www.youtube.com/@AnDronolis" class="hub-button" style="font-size: 0.8em; padding: 5px 10px;">AnDronolis</a>
+            <a href="https://www.youtube.com/@ocelote6515" class="hub-button" style="font-size: 0.8em; padding: 5px 10px;">Ocelote</a>
+            <a href="https://www.youtube.com/@guilhermeredstom115" class="hub-button" style="font-size: 0.8em; padding: 5px 10px;">redstom</a>
+            <a href="https://www.youtube.com/@Saarck1" class="hub-button" style="font-size: 0.8em; padding: 5px 10px;">Saarck</a>
+            <a href="https://www.youtube.com/@SashaULB" class="hub-button" style="font-size: 0.8em; padding: 5px 10px;">Sasha Krutoy YT2</a>
+        </div>
+      </div>
+
     
-  <footer class="site-footer panel-9slice">
-    <p>The Kaizo List &copy; 2026 — Version 1.22</p>
+<footer class="site-footer panel-9slice">
     <p>
-      Game & All assets belong to 
+      <span data-i18n="copyright">The Kaizo List &copy; 2026</span> — 
+      <span data-i18n="version_label">Version</span> <span id="app-version">1.22</span>
+    </p>
+    <p>
+      <span data-i18n="footer_attribution">Game & All assets belong to</span> 
       <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
       <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
     </p>
-  </footer>
+</footer>
 
-
-  <script type="module">
+<script type="module">
     import { applyRandomPattern, renderRecentChanges } from './js/utils.js';
+    import { applyTranslations } from './js/i18n.js';
+
     const patterns = Array.from({length:13}, (_,i)=>`/KaizoList/images/pattern/pattern${i}.png`);
     applyRandomPattern('.hub-button', patterns);
     renderRecentChanges('recent-changes');
-  </script>
+    applyTranslations();
+</script>
 
-  <iframe width="110" height="200" src="https://www.myinstants.com/instant/flapjack-scream-50203/embed/" frameborder="0" scrolling="no"></iframe>
-  
+<script type="module" src="../js/version.js"></script>
+
 </body>
 </html>

@@ -16,13 +16,12 @@
     margin: 0;
     height: 100vh;
     overflow: hidden;
-    background: #000814; /* super dark blue for creepy vibe */
+    background: #000814; 
     font-family: 'Manaspace', Arial, sans-serif;
     color: white;
     cursor: pointer;
   }
 
-  /* Sprite layer tiling */
   #spriteLayer {
     position: absolute;
     top: 0;
@@ -36,7 +35,7 @@
     filter: brightness(0.7) blur(2px);
   }
 
-  /* Text image layer tiling */
+ 
   #textLayer {
     position: absolute;
     top: 0;
@@ -52,7 +51,7 @@
     filter: brightness(0.6) blur(1px);
   }
 
-  /* Click prompt */
+
   #clickPrompt {
     position: absolute;
     top: 50%;
@@ -81,20 +80,20 @@ const textLayer = document.getElementById('textLayer');
 const clickPrompt = document.getElementById('clickPrompt');
 const bgMusic = document.getElementById('bgMusic');
 
-// Separate X/Y speeds for full control
-  let spriteSpeedX = 1;  // sprite horizontal speed
-  let spriteSpeedY = -0.5; // sprite vertical speed (negative = up)
-  let textSpeedX = -1;     // text horizontal speed (negative = left)
-  let textSpeedY = 0.25;      // text vertical speed (positive = down)
+
+  let spriteSpeedX = 1; 
+  let spriteSpeedY = -0.5;
+  let textSpeedX = -1;
+  let textSpeedY = 0.25; 
 
 
 let spriteX = 0, spriteY = 0;
 let textX = 0, textY = 0;
 let started = false;
 
-// Ripple/wave effect
-const waveAmplitude = 4; // pixels
-const waveFrequency = 0.015; // speed of ripple
+
+const waveAmplitude = 4;
+const waveFrequency = 0.015; 
 
 function animate() {
   spriteX += spriteSpeedX;
@@ -110,7 +109,7 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-// Start on first click
+
 window.addEventListener('click', () => {
   if (!started) {
     started = true;

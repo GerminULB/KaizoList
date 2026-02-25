@@ -1,612 +1,1093 @@
-
 [
     {
         "name":  "Road of the Peace",
         "klp":  7160,
         "creator":  "Ocelote, Sasha Krutoy YT2, Germinxvee",
         "verifier":  "Ocelote",
-        "id":  "599628"
+        "id":  "599628",
+        "badges":  [
+                       "popular",
+                       "jetpack",
+                       "magnet",
+                       "spikey",
+                       "ruthless",
+                       "tight",
+                       "timeless"
+                   ]
     },
     {
         "name":  "Distorted Strawberry",
         "klp":  6160,
         "creator":  "redstom",
         "verifier":  "redstom",
-        "id":  "541966"
-    },
-    {
-        "name":  "Only Up",
-        "klp":  5160,
-        "creator":  "06o",
-        "verifier":  "06o",
-        "id":  "585891"
+        "id":  "541966",
+        "badges":  [
+                       "former_top1",
+                       "spikey",
+                       "ruthless",
+                       "checkpointless",
+                       "tight"
+                   ]
     },
     {
         "name":  "Trio Kaizo Infinity",
         "klp":  4160,
         "creator":  "Sasha Krutoy YT2, Germinxvee, redstom",
         "verifier":  "Sasha Krutoy YT2",
-        "id":  "333616"
-    },
-    {
-        "name":  "The Stone Shrine",
-        "klp":  3860,
-        "creator":  "Shawnic",
-        "verifier":  "Ocelote",
-        "id":  "592722"
+        "id":  "333616",
+        "badges":  [
+                       "memory",
+                       "ruthless",
+                       "meme",
+                       "troll",
+                       "approved_germin",
+                       "approved_sasha",
+                       "jetpack",
+                       "magnet"
+                   ]
     },
     {
         "name":  "Towering Tree-tops",
         "klp":  3560,
         "creator":  "Slooperd, redstom",
         "verifier":  "redstom",
-        "id":  "414737"
+        "id":  "414737",
+        "badges":  [
+                       "former_top1",
+                       "former_impossible",
+                       "xxl",
+                       "checkpointless"
+                   ]
     },
     {
         "name":  "Eternal Frozurn Fate",
         "klp":  3260,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "400663"
+        "id":  "400663",
+        "badges":  [
+            "tight",
+            "timeless",
+            "sawy",
+            "spikey",
+            "smol",
+            "ruthless"
+
+                   ]
     },
     {
         "name":  "Tower of True Skill",
         "klp":  2960,
         "creator":  "Zevorcen",
         "verifier":  "zevorcen",
-        "id":  "370605"
+        "id":  "370605",
+        "badges":  [
+                       "xxl",
+                       "checkpointless",
+                       "tower",
+                       "ruthless",
+                       "tight"
+                   ]
     },
     {
-        "name":  "Stilted Fortress",
-        "klp":  2660,
-        "creator":  "Saarck",
-        "verifier":  "Saarck",
-        "id":  "460624"
+        "name":  "Wenebrix",
+        "klp":  2800,
+        "creator":  "Germinxvee",
+        "verifier":  "Germinxvee",
+        "id":  "735589",
+        "badges":  [
+                       "approved_germin",
+                       "jetpack",
+                       "magnet",
+                       "timer",
+                       "tight",
+                       "ruthless",
+                       "checkpointless"
+                   ]
     },
+    {
+    "name": "Stilted Fortress",
+    "klp": 2660,
+    "creator": "Saarck",
+    "verifier": "Saarck",
+    "id": "460624",
+    "badges": [
+        "xxl",
+        "creative",
+        "boss"
+    ]
+},
     {
         "name":  "Liquid",
         "klp":  2360,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "220142"
+        "id":  "220142",
+        "badges":  [
+            "popular",
+            "gimmick",
+            "former_top1"
+                   ]
     },
     {
         "name":  "The Magnetic Void",
         "klp":  2310,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "334421"
-    },
-    {
-        "name":  "Only Blocks",
-        "klp":  2260,
-        "creator":  "06o",
-        "verifier":  "06o",
-        "id":  "574290"
-    },
-    {
-        "name":  "Meow Speedrun",
-        "klp":  2210,
-        "creator":  "redstom",
-        "verifier":  "redstom",
-        "id":  "270324"
+        "id":  "334421",
+        "badges":  [
+            "ruthless",
+            "magnet",
+            "spikey",
+            "checkpointless"
+                   ]
     },
     {
         "name":  "OB - Ghost Dance",
         "klp":  2160,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "553098"
+        "id":  "553098",
+        "badges":  [
+            "gimmick",
+            "approved_sasha"
+
+                   ]
     },
     {
         "name":  "Astropolis",
         "klp":  2130,
         "creator":  "Saarck",
         "verifier":  "Saarck",
-        "id":  "697285"
+        "id":  "697285",
+        "badges":  [
+            "popular",
+            "creative",
+            "boss",
+            "ruthless",
+            "metroidvania",
+            "tight",
+            "xxl",
+            "approved_germin",
+            "approved_sasha",
+            "magnet"
+
+                   ]
     },
     {
         "name":  "Bombas de Ocelote",
         "klp":  2110,
         "creator":  "redstom",
         "verifier":  "redstom",
-        "id":  "249411"
+        "id":  "249411",
+        "badges":  [
+            "timeless",
+            "timer",
+            "tight",
+            "checkpointless"
+
+                   ]
     },
     {
         "name":  "OB - Slimy Road",
         "klp":  2060,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "492817"
+        "id":  "492817",
+        "badges":  [
+            "gimmick",
+            "tight"
+
+                   ]
     },
     {
-        "name":  "Three Rooms To Hell",
-        "klp":  2010,
-        "creator":  "06o",
-        "verifier":  "06o",
-        "id":  "575662"
+        "name":  "Long Clover",
+        "klp":  1890,
+        "creator":  "Lanzy-ULB",
+        "verifier":  "Lanzy-ULB",
+        "id":  "496823",
+        "badges":  [
+            "xxl",
+            "ruthless",
+            "memory",
+            "tight"
+
+                   ]
     },
     {
         "name":  "Lanzimbo",
         "klp":  1960,
         "creator":  "Lanzy-ULB",
         "verifier":  "Ocelote",
-        "id":  "451810"
+        "id":  "451810",
+        "badges":  [
+            "memory",
+            "creative",
+            "gimmick",
+            "remake"
+
+                   ]
     },
     {
         "name":  "OB - Snake Love",
         "klp":  1910,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "492816"
+        "id":  "492816",
+        "badges":  [
+            "gimmick",
+            "tight",
+            "spikey",
+            "creative"
+
+                   ]
+    },
+    {
+        "name":  "Sonic power",
+        "klp":  1900,
+        "creator":  "Ocelote",
+        "verifier":  "Ocelote",
+        "id":  "200000 ",
+        "badges":  [
+            "ancient",
+            "tight",
+            "speed"
+
+                   ]
     },
     {
         "name":  "Ice Frostbite",
         "klp":  1860,
         "creator":  "Germinxvee",
         "verifier":  "Sasha Krutoy YT2",
-        "id":  "371222"
+        "id":  "371222",
+        "badges":  [
+            "smol",
+            "gimmick",
+            "checkpointless",
+            "meme"
+
+                   ]
+    },
+    {
+        "name":  "Algae",
+        "klp":  1850,
+        "creator":  "Failed Boy, Toño",
+        "verifier":  "Toño",
+        "id":  "731119",
+        "badges":  [
+            "gimmick",
+            "approved_germin"
+
+                   ]
     },
     {
         "name":  "Abyssal Horizon",
         "klp":  1810,
         "creator":  "Saarck",
         "verifier":  "Saarck",
-        "id":  "409077"
+        "id":  "409077",
+        "badges":  [
+            "magnet",
+            "tight",
+            "creative"
+
+                   ]
     },
     {
         "name":  "Annikillertor",
         "klp":  1760,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "386739"
+        "id":  "386739",
+        "badges":  [
+            "xxl",
+            "tower",
+            "approved_sasha",
+            "creative",
+            "boss",
+            "popular",
+            "jetpack",
+            "sawy"
+
+                   ]
     },
     {
         "name":  "Cataclysmic Delusion",
         "klp":  1710,
         "creator":  "Raincube",
         "verifier":  "Raincube",
-        "id":  "175812"
-    },
-    {
-        "name":  "Kaizo Unnamed 1",
-        "klp":  1660,
-        "creator":  "Shawnic",
-        "verifier":  "Shawnic",
-        "id":  "621408"
+        "id":  "175812",
+        "badges":  [
+            "memory",
+            "ancient"
+
+                   ]
     },
     {
         "name":  "Kaizo 0",
         "klp":  1610,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "189503"
+        "id":  "189503",
+        "badges":  [
+            "tight",
+            "deco_simple",
+            "xxl",
+            "ancient"
+
+                   ]
     },
     {
         "name":  "Yatagarasu",
         "klp":  1560,
         "creator":  "Lanzy-ULB",
         "verifier":  "Lanzy-ULB",
-        "id":  "516452"
+        "id":  "516452",
+        "badges":  [
+            "darkness",
+            "sawy",
+            "tower",
+            "jetpack"
+
+                   ]
     },
     {
         "name":  "The Last Hope",
         "klp":  1510,
         "creator":  "Lanzy-ULB",
         "verifier":  "Lanzy-ULB",
-        "id":  "532469"
+        "id":  "532469",
+        "badges":  [
+            "tight",
+            "timeless",
+            "creative",
+            "jetpack"
+
+                   ]
     },
     {
-        "name":  "okay not okay",
+        "name":  "Okay Not Okay",
         "klp":  1460,
         "creator":  "Lanzy-ULB",
         "verifier":  "Lanzy-ULB",
-        "id":  "507567"
+        "id":  "507567",
+        "badges":  [
+            "tight",
+            "ruthless",
+            "memory"
+
+                   ]
+    },
+    {
+        "name":  "Meow Speedrun",
+        "klp":  1425,
+        "creator":  "redstom",
+        "verifier":  "redstom",
+        "id":  "270324",
+        "badges":  [
+            "smol",
+            "timeless",
+            "timer",
+            "checkpointless"
+
+                   ]
     },
     {
         "name":  "Dark Travel",
         "klp":  1410,
         "creator":  "Mk Milxky Maker",
         "verifier":  "Mk Milxky Maker",
-        "id":  "308749"
+        "id":  "308749",
+        "badges":  [
+            "jetpack",
+            "spikey",
+            "deco_simple"
+
+                   ]
     },
     {
         "name":  "Catastrophic Misery",
         "klp":  1360,
         "creator":  "Raincube",
         "verifier":  "Ocelote",
-        "id":  "225200"
+        "id":  "225200",
+        "badges":  [
+            "memory"
+
+                   ]
     },
     {
         "name":  "Kaizo Ship",
         "klp":  1310,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "173618"
+        "id":  "173618",
+        "badges":  [
+            "jetpack",
+            "meme",
+            "deco_simple",
+            "ancient" 
+
+                   ]
     },
     {
         "name":  "Mount Pyrlen",
         "klp":  1260,
         "creator":  "Saarck",
         "verifier":  "Saarck",
-        "id":  "424859"
+        "id":  "424859",
+        "badges":  [
+            "creative",
+            "boomerang",
+            "tight",
+            "deco_simple"
+
+                   ]
+    },
+    {
+        "name":  "Titan B18 V2",
+        "klp":  1200,
+        "creator":  "Cat Play",
+        "verifier":  "redstom",
+        "id":  "558222",
+        "badges":  [
+            "tight",
+            "ruthless",
+            "smol"
+
+                   ]
     },
     {
         "name":  "Pyrlen Wastes",
         "klp":  1160,
         "creator":  "Saarck",
         "verifier":  "Saarck",
-        "id":  "437331"
+        "id":  "437331",
+        "badges":  [
+            "xxl",
+            "creative",
+            "boomerang",
+            "tight",
+            "deco_simple"
+
+                   ]
     },
     {
         "name":  "Dunes of the Damned",
         "klp":  1110,
         "creator":  "Saarck",
         "verifier":  "Saarck",
-        "id":  "377166"
+        "id":  "377166",
+        "badges":  [
+            "xxl",
+            "creative",
+            "boss",
+            "tight",
+            "deco_simple"
+
+                   ]
     },
     {
-        "name":  "Kaizo Waifu",
-        "klp":  1060,
-        "creator":  "Shawnic",
-        "verifier":  "Shawnic",
-        "id":  "612816"
-    },
-    {
-        "name":  "Bob is Mad",
-        "klp":  1010,
+        "name":  "VS Fake Ocelote",
+        "klp":  1080,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "178237"
+        "id":  "190259",
+        "badges":  [
+            "boss",
+            "tight",
+            "ruthless",
+            "popular",
+            "ancient"
+                   ]
     },
     {
         "name":  "Cliffside Precision",
         "klp":  990,
         "creator":  "1ts Al3x",
         "verifier":  "1ts Al3x",
-        "id":  "206300"
+        "id":  "206300",
+        "badges":  [
+            "tight",
+            "ruthless",
+            "checkpointless",
+            "sawy",
+            "deco_simple"
+
+                   ]
     },
     {
         "name":  "Stages from Hell 1",
         "klp":  970,
         "creator":  "MysteryIlian114",
         "verifier":  "MysteryIlian114",
-        "id":  "346352"
+        "id":  "346352",
+        "badges":  [
+            "walljump",
+            "tight",
+            "spikey",
+            "sawy",
+            "approved_germin"
+                   ]
     },
     {
         "name":  "Tenebris",
         "klp":  950,
         "creator":  "NoMilk, Germinxvee",
         "verifier":  "Germinxvee",
-        "id":  "454828"
+        "id":  "454828",
+        "badges":  [
+            "smol",
+            "approved_germin",
+            "tight",
+            "jetpack",
+            "checkpointless"
+                   ]
     },
     {
         "name":  "Magnihell",
         "klp":  930,
         "creator":  "Whatwhatw",
         "verifier":  "Whatwhatw",
-        "id":  "336256"
-    },
-    {
-        "name":  "Ice Shardnel",
-        "klp":  910,
-        "creator":  "Germinxvee",
-        "verifier":  "Germinxvee",
-        "id":  "329215"
-    },
-    {
-        "name":  "Castle Shooter",
-        "klp":  890,
-        "creator":  "AnDronolis",
-        "verifier":  "AnDronolis",
-        "id":  "260880"
-    },
-    {
-        "name":  "VS Fake Ocelote",
-        "klp":  870,
-        "creator":  "Ocelote",
-        "verifier":  "Ocelote",
-        "id":  "190259"
-    },
-    {
-        "name":  "Long Clover",
-        "klp":  830,
-        "creator":  "Lanzy-ULB",
-        "verifier":  "Lanzy-ULB",
-        "id":  "496823"
-    },
-    {
-        "name":  "Make Longs Kaizo Jumps",
-        "klp":  810,
-        "creator":  "redstom",
-        "verifier":  "redstom",
-        "id":  "336014"
-    },
-    {
-        "name":  "Magnetic Hard Kaizo",
-        "klp":  790,
-        "creator":  "Samuel CM",
-        "verifier":  "Samuel CM",
-        "id":  "216225"
-    },
-    {
-        "name":  "Kaizo",
-        "klp":  750,
-        "creator":  "Theredman3222",
-        "verifier":  "Theredman3222",
-        "id":  "283739"
-    },
-    {
-        "name":  "Red house",
-        "klp":  730,
-        "creator":  "Wytems",
-        "verifier":  "Wytems",
-        "id":  "164816"
-    },
-    {
-        "name":  "The Hell",
-        "klp":  710,
-        "creator":  "SeaMushroom245",
-        "verifier":  "SeaMushroom245",
-        "id":  "191982"
-    },
-    {
-        "name":  "Moonmarsh Madness",
-        "klp":  690,
-        "creator":  "Vsulner",
-        "verifier":  "Vsulner",
-        "id":  "518231"
-    },
-    {
-        "name":  "Titan B18 V2",
-        "klp":  690,
-        "creator":  "Cat Play",
-        "verifier":  "redstom",
-        "id":  "558222"
-    },
-    {
-        "name":  "Blue Circles",
-        "klp":  670,
-        "creator":  "Mk Milxky Maker",
-        "verifier":  "Mk Milxky Maker",
-        "id":  "301583"
-    },
-    {
-        "name":  "Hoppi Hopp - MADNESS",
-        "klp":  650,
-        "creator":  "Erxk",
-        "verifier":  "Erxk",
-        "id":  "616501"
-    },
-    {
-        "name":  "Red Castle Kaizo",
-        "klp":  630,
-        "creator":  "Ocelote",
-        "verifier":  "Ocelote",
-        "id":  "165924"
-    },
-    {
-        "name":  "Sonic power",
-        "klp":  610,
-        "creator":  "Ocelote",
-        "verifier":  "Ocelote",
-        "id":  "200000 "
-    },
-    {
-        "name":  "Corps Astronomiques",
-        "klp":  600,
-        "creator":  "065Foxys",
-        "verifier":  "065Foxys",
-        "id":  "719923"
-    },
-    {
-        "name":  "Smash Spire",
-        "klp":  590,
-        "creator":  "Vsulner",
-        "verifier":  "Vsulner",
-        "id":  "515064"
-    },
-    {
-        "name":  "The Infected World",
-        "klp":  570,
-        "creator":  "Samuel CM",
-        "verifier":  "Samuel CM",
-        "id":  "380308"
-    },
-    {
-        "name":  "Eon",
-        "klp":  560,
-        "creator":  "Failed Boy",
-        "verifier":  "Failed Boy",
-        "id":  "705092"
-    },
-    {
-        "name":  "Claustrophobie",
-        "klp":  550,
-        "creator":  "065Foxys",
-        "verifier":  "065Foxys",
-        "id":  "656423"
-    },
-    {
-        "name":  "Blue Cave",
-        "klp":  530,
-        "creator":  "AnDronolis",
-        "verifier":  "AnDronolis",
-        "id":  "590986"
-    },
-    {
-        "name":  "Hydrothanotos",
-        "klp":  520,
-        "creator":  "Neptunium",
-        "verifier":  "Neptunium",
-        "id":  "364341"
-    },
-    {
-        "name":  "Ablivision",
-        "klp":  510,
-        "creator":  "Infernal Chaos",
-        "verifier":  "Infernal Chaos",
-        "id":  "185582"
-    },
-    {
-        "name":  "Ladder Lunatics",
-        "klp":  490,
-        "creator":  "Vsulner",
-        "verifier":  "Vsulner",
-        "id":  "518799"
-    },
-    {
-        "name":  "Forest Hell",
-        "klp":  470,
-        "creator":  "Theredman3222",
-        "verifier":  "Theredman3222",
-        "id":  "389000"
-    },
-    {
-        "name":  "Lava Paradise",
-        "klp":  450,
-        "creator":  "Ocelote",
-        "verifier":  "Ocelote",
-        "id":  "440423"
+        "id":  "336256",
+        "badges":  [
+            "magnet",
+            "boss",
+            "sawy",
+            "approved_germin"
+
+                   ]
     },
     {
         "name":  "I Wanna Be A Boykisser",
         "klp":  920,
         "creator":  "Lanzy-ULB",
         "verifier":  "Lanzy-ULB",
-        "id":  "687679"
+        "id":  "687679",
+        "badges":  [
+            "tight",
+            "sawy",
+            "smol",
+            "jetpack"
+
+                   ]
+    },
+    {
+        "name":  "Ice Shardnel",
+        "klp":  910,
+        "creator":  "Germinxvee",
+        "verifier":  "Germinxvee",
+        "id":  "329215",
+        "badges":  [
+            "approved_germin",
+            "smol",
+            "tight",
+            "deco_simple",
+            "checkpointless"
+
+                   ]
     },
     {
         "name":  "Circular Fatality",
-        "klp":  430,
+        "klp":  900,
         "creator":  "Theredman3222",
         "verifier":  "Theredman3222",
-        "id":  "549515"
+        "id":  "549515",
+        "badges":  [
+            "timeless",
+            "timeless",
+            "sawy",
+            "tight",
+            "deco_simple"
+
+                   ]
+    },
+    {
+        "name":  "Bob is Mad",
+        "klp":  850,
+        "creator":  "Ocelote",
+        "verifier":  "Ocelote",
+        "id":  "178237",
+        "badges":  [
+            "former_top1",
+            "ancient",
+            "tight",
+            "popular",
+            "checkpointless"
+
+                   ]
+    },
+    {
+        "name":  "Red house",
+        "klp":  825,
+        "creator":  "Wytems",
+        "verifier":  "Wytems",
+        "id":  "164816",
+        "badges":  [
+            "ancient",
+            "ruthless"
+
+                   ]
+    },
+    {
+        "name":  "Lava Paradise",
+        "klp":  800,
+        "creator":  "Ocelote",
+        "verifier":  "Ocelote",
+        "id":  "440423",
+        "badges":  [
+            "tower",
+            "creative",
+            "tight"
+                   ]
+    },
+    {
+        "name":  "Magnetic Hard Kaizo",
+        "klp":  790,
+        "creator":  "Samuel CM",
+        "verifier":  "Samuel CM",
+        "id":  "216225",
+        "badges":  [
+            "boss",
+            "magnet",
+            "deco_simple"
+                   ]
+    },
+    {
+        "name":  "Kaizo",
+        "klp":  750,
+        "creator":  "Theredman3222",
+        "verifier":  "Theredman3222",
+        "id":  "283739",
+        "badges":  [
+            "sawy",
+            "magnet",
+            "walljump",
+            "timer"
+                   ]
+    },
+    {
+        "name":  "The Hell",
+        "klp":  710,
+        "creator":  "SeaMushroom245",
+        "verifier":  "SeaMushroom245",
+        "id":  "191982",
+        "badges":  [
+            "ancient",
+            "smol",
+            "sawy",
+            "deco_simple"
+
+                   ]
+    },
+    {
+        "name":  "Moonmarsh Madness",
+        "klp":  690,
+        "creator":  "Vsulner",
+        "verifier":  "Vsulner",
+        "id":  "518231",
+        "badges":  [
+            "darkness",
+            "tight"
+
+                   ]
+    },
+    {
+        "name":  "Castle Shooter",
+        "klp":  660,
+        "creator":  "AnDronolis",
+        "verifier":  "AnDronolis",
+        "id":  "260880",
+        "badges":  [
+            "deco_simple",
+            "magnet",
+            "jetpack",
+            "creative",
+            "checkpointless"
+
+                   ]
+    },
+    {
+        "name":  "Hoppi Hopp - Madness",
+        "klp":  650,
+        "creator":  "Erxk",
+        "verifier":  "Erxk",
+        "id":  "616501",
+        "badges":  [
+            "tower",
+            "jetpack",
+            "walljump",
+            "darkness"
+
+                   ]
+    },
+    {
+        "name":  "Red Castle Kaizo",
+        "klp":  630,
+        "creator":  "Ocelote",
+        "verifier":  "Ocelote",
+        "id":  "165924",
+        "badges":  [
+            "popular",
+            "ancient",
+            "timeless",
+            "smol",
+            "timer"
+
+                   ]
+    },
+    {
+        "name":  "Corps Astronomiques",
+        "klp":  600,
+        "creator":  "065Foxys",
+        "verifier":  "065Foxys",
+        "id":  "719923",
+        "badges":  [
+            "creative",
+            "approved_germin"
+
+                   ]
+    },
+    {
+        "name":  "Smash Spire",
+        "klp":  590,
+        "creator":  "Vsulner",
+        "verifier":  "Vsulner",
+        "id":  "515064",
+        "badges":  [
+            "tower",
+            "sawy",
+            "spikey",
+            "deco_simple",
+            "approved_germin"
+                   ]
+    },
+    {
+        "name":  "The Infected World",
+        "klp":  570,
+        "creator":  "Tails",
+        "verifier":  "Samuel CM",
+        "id":  "380308",
+        "badges":  [
+            "timer",
+            "magnet",
+            "tight"
+
+                   ]
+    },
+    {
+        "name":  "Claustrophobie",
+        "klp":  550,
+        "creator":  "065Foxys",
+        "verifier":  "065Foxys",
+        "id":  "656423",
+        "badges":  [
+            "darkness",
+            "magnet"
+
+                   ]
+    },
+    {
+        "name":  "Blue Cave",
+        "klp":  530,
+        "creator":  "AnDronolis",
+        "verifier":  "AnDronolis",
+        "id":  "590986",
+        "badges":  [
+            "tight",
+            "deco_simple"
+
+                   ]
+    },
+    {
+        "name":  "Hydrothanotos",
+        "klp":  520,
+        "creator":  "Neptunium",
+        "verifier":  "Neptunium",
+        "id":  "364341",
+        "badges":  [
+            "darkness",
+            "tight"
+
+                   ]
+    },
+    {
+        "name":  "Ablivision",
+        "klp":  510,
+        "creator":  "Infernal Chaos",
+        "verifier":  "Infernal Chaos",
+        "id":  "185582",
+        "badges":  [
+            "ancient",
+            "tower",
+            "checkpointless",
+            "deco_simple"
+                   ]
+    },
+    {
+        "name":  "Blue Circles",
+        "klp":  500,
+        "creator":  "Mk Milxky Maker",
+        "verifier":  "Mk Milxky Maker",
+        "id":  "301583",
+        "badges":  [
+            "jetpack",
+            "approved_germin",
+            "memory"
+
+
+                   ]
+    },
+    {
+        "name":  "Ladder Lunatics",
+        "klp":  490,
+        "creator":  "Vsulner",
+        "verifier":  "Vsulner",
+        "id":  "518799",
+        "badges":  [
+            "tight",
+            "deco_simple"
+
+                   ]
+    },
+    {
+        "name":  "Forest Hell",
+        "klp":  470,
+        "creator":  "Theredman3222",
+        "verifier":  "Theredman3222",
+        "id":  "389000",
+        "badges":  [
+            "sawy",
+            "magnet",
+            "tight",
+            "deco_simple"
+
+
+                   ]
+    },
+    {
+        "name":  "Cute Travel",
+        "klp":  455,
+        "creator":  "Samunight CM",
+        "verifier":  "Samunight CM",
+        "id":  "267285",
+        "badges":  [
+            "magnet",
+            "tight"
+                   ]
+    },
+    {
+        "name":  "kaizo 56 v2 x redux ex",
+        "klp":  420,
+        "creator":  "Saarck",
+        "verifier":  "Saarck",
+        "id":  "432502",
+        "badges":  [
+            "speed",
+            "deco_simple",
+            "smol"
+                   ]
     },
     {
         "name":  "Magnetic Easy Kaizo",
         "klp":  410,
         "creator":  "Samuel CM",
         "verifier":  "Samuel CM",
-        "id":  "204705"
+        "id":  "204705",
+        "badges":  [
+            "magnet",
+            "boss",
+            "deco_simple"
+
+                   ]
+    },
+    {
+        "name":  "Eon",
+        "klp":  400,
+        "creator":  "Failed Boy",
+        "verifier":  "Failed Boy",
+        "id":  "705092",
+        "badges":  [
+            "xxl",
+            "deco_simple",
+            "approved_germin"
+
+                   ]
+    },
+        {
+        "name":  "Potion Kaizo",
+        "klp":  395,
+        "creator":  "arhonrc65",
+        "verifier":  "arhonrc65",
+        "id":  "544267",
+        "badges":  [
+            "beginner",
+            "creative",
+            "deco_simple",
+            "jetpack",
+            "smol"
+                   ]
     },
     {
         "name":  "Harakiri",
         "klp":  390,
         "creator":  "Mecalo",
         "verifier":  "Mecalo",
-        "id":  "187164"
+        "id":  "187164",
+        "badges":  [
+            "ancient",
+            "spikey",
+            "smol",
+            "deco_simple"
+
+                   ]
     },
     {
         "name":  "The Final Planet",
         "klp":  370,
         "creator":  "Samuel CM",
         "verifier":  "Samuel CM",
-        "id":  "176125"
+        "id":  "176125",
+        "badges":  [
+            "ancient",
+            "jetpack",
+            "boss",
+            "spikey",
+            "deco_simple"
+
+                   ]
+    },
+    {
+        "name":  "Internal Vortex",
+        "klp":  360,
+        "creator":  "Nisshoku",
+        "verifier":  "Nisshoku",
+        "id":  "412883",
+        "badges":  [
+            "magnet",
+            "spikey",
+            "sawy",
+            "deco_simple"
+                   ]
     },
     {
         "name":  "The Hardst",
         "klp":  350,
         "creator":  "Bradley",
         "verifier":  "Bradley",
-        "id":  "197429"
-    },
-    {
-        "name":  "Moonl",
-        "klp":  330,
-        "creator":  "Top1PL",
-        "verifier":  "Top1PL",
-        "id":  "267903"
+        "id":  "197429",
+        "badges":  [
+            "ancient",
+            "tower",
+            "jetpack",
+            "sawy",
+            "smol"
+                   ]
     },
     {
         "name":  "A True Nightmare",
         "klp":  310,
         "creator":  "Itadori",
         "verifier":  "Itadori",
-        "id":  "352091"
-    },
-    {
-        "name":  "Potion Kaizo",
-        "klp":  290,
-        "creator":  "arhonrc65",
-        "verifier":  "arhonrc65",
-        "id":  "544267"
-    },
-    {
-        "name":  "Internal Vortex",
-        "klp":  270,
-        "creator":  "Nisshoku",
-        "verifier":  "Nisshoku",
-        "id":  "412883"
+        "id":  "352091",
+        "badges":  [
+            "jetpack",
+            "magnet",
+            "tight",
+            "deco_simple"
+
+                   ]
     },
     {
         "name":  "Forest Madness",
         "klp":  250,
-        "creator":  "AnDronolis",
+        "crea tor":  "AnDronolis",
         "verifier":  "AnDronolis",
-        "id":  "195256"
+        "id":  "195256",
+        "badges":  [
+            "ancient",
+            "beginner",
+            "smol",
+            "deco_simple",
+            "checkpointless"
+                   ]
+    },
+    {
+        "name":  "Saw District",
+        "klp":  245,
+        "creator":  "Failed Boy",
+        "verifier":  "Failed Boy",
+        "id":  "710813",
+        "badges":  [
+                "sawy",
+                "magnet",
+                "jetpack",
+                "approved_germin"
+                   ]
     },
     {
         "name":  "Spacex Tower",
         "klp":  230,
         "creator":  "Greenystraw69",
         "verifier":  "Greenystraw69",
-        "id":  "576983"
+        "id":  "576983",
+        "badges":  [
+            "spikey",
+            "tower"
+
+                   ]
     },
     {
         "name":  "Dark Moon",
         "klp":  210,
         "creator":  "Samuel CM",
         "verifier":  "Samuel CM",
-        "id":  "236780"
+        "id":  "236780",
+        "badges":  [
+            "magnet",
+            "tight",
+            "spikey",
+            "deco_simple"
+                   ]
     },
-    {
-        "name":  "Saw District",
+        {
+    "name":  "Make Longs Kaizo Jumps",
         "klp":  200,
-        "creator":  "Failed Boy",
-        "verifier":  "Failed Boy",
-        "id":  "710813"
-    },
-    {
-        "name":  "Cute Travel",
-        "klp":  190,
-        "creator":  "Samunight CM",
-        "verifier":  "Samunight CM",
-        "id":  "267285"
-    },
-    {
-        "name":  "Red and Blue",
-        "klp":  170,
-        "creator":  "S78CXZ",
-        "verifier":  "S78CXZ",
-        "id":  "644340"
+        "creator":  "redstom",
+        "verifier":  "redstom",
+        "id":  "336014",
+        "badges":  [
+            "deco_simple",
+            "checkpointless",
+            "tight",
+            "beginner"
+
+                   ]
     },
     {
         "name":  "Tower of Worlds",
-        "klp":  150,
+        "klp":  170,
         "creator":  "Alexsound",
         "verifier":  "Alexsound",
-        "id":  "275665"
+        "id":  "275665",
+        "badges":  [
+                "beginner",
+                "spikey",
+                "deco_simple",
+                "tower"
+                   ]
     },
     {
-        "name":  "Speedrun-40 Seconds",
-        "klp":  130,
-        "creator":  "Psychic",
-        "verifier":  "Psychic",
-        "id":  "270188"
-    },
-    {
-        "name":  "kaizo 56 v2 x redux ex",
-        "klp":  110,
-        "creator":  "Saarck",
-        "verifier":  "Saarck",
-        "id":  "432502"
-    },
-    {
-        "name":  "Cheese burrito 1",
-        "klp":  90,
-        "creator":  "alfajack343",
-        "verifier":  "alfajack343",
-        "id":  "484226"
+        "name":  "Red and Blue",
+        "klp":  150,
+        "creator":  "S78CXZ",
+        "verifier":  "S78CXZ",
+        "id":  "644340",
+        "badges":  [
+                "beginner",
+                "checkpointless",
+                "smol"
+                   ]
     }
 ]

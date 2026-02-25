@@ -122,7 +122,7 @@ function updateTimer() {
   diff %= (1000*60);
   const seconds = String(Math.floor(diff / 1000)).padStart(2,'0');
 
-  // Play tick sound on second change
+  
   if(seconds !== lastSecond){
     if(!isMuted){
       tickSound.currentTime = 0;

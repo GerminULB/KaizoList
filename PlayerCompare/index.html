@@ -1,101 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-7N58SZ0J6W');
 </script>
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Player Compare Tool</title>
+  <title data-i18n="compare_page_title">Player Compare Tool</title>
   <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
-  <div class="background-stage">
-    <div class="sunset-decor back"></div>
-    <div class="sunset-decor front"></div>
-    <div class="sunset-mask"></div>
-  </div>
+<div class="settings-menu">
+    <div class="lang-switcher">
+        <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+        <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+    </div>
+    
+    <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+        <span id="theme-icon"></span>
+    </button>
+</div>
+
+    <div class="background-stage">
+      <div class="sky-layer"></div>
+      <div class="sunset-mask"></div>
+      <div class="sunset-decor back"></div>
+      <div class="sunset-decor front"></div>
+    </div>    
 
   <div class="container panel-9slice">
     <a href="/KaizoList/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
-    <h1>Player Compare Tool</h1>
-    <p class="hub-intro">Select any player and level to see how KLP and PLP would change.</p>
+    <h1 data-i18n="compare_title">Player Compare Tool</h1>
+    <p class="hub-intro" data-i18n="compare_intro">Select any player and level to see how KLP and PLP would change.</p>
 
     <nav class="hub-links">
-      <a href="/KaizoList/MainList/" class="hub-button">Main List</a>
-      <a href="/KaizoList/ChallengeList/" class="hub-button">Challenge List</a>
-      <a href="/KaizoList/PlayerList/" class="hub-button">Player Rankings</a>
-      <a href="/KaizoList/PlayerCompare/" class="hub-button">Player Compare</a>
+      <a href="/KaizoList/MainList/" class="hub-button" data-i18n="nav_main_list">Main List</a>
+      <a href="/KaizoList/ChallengeList/" class="hub-button" data-i18n="nav_challenge_list">Challenge List</a>
+      <a href="/KaizoList/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
+      <a href="/KaizoList/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
     </nav>
 
     <div class="filters">
       <select id="player-select">
-        <option value="" disabled selected>Select Player</option>
+        <option value="" disabled selected data-i18n="select_player">Select Player</option>
       </select>
 
       <select id="level-select">
-        <option value="" disabled selected>Select Level</option>
+        <option value="" disabled selected data-i18n="select_level">Select Level</option>
       </select>
     </div>
 
-<div id="compare-results" class="panel-9slice" style="display:none;">
-  <h2>Simulation Result</h2>
-
-  <div class="stat-grid">
-    <div class="stat">
-      <span class="label">KLP Gain</span>
-      <strong id="klp-gain"></strong>
+<div id="compare-results" style="display:none; margin-top: 30px;">
+    
+    <div class="level-up-header panel-9slice" style="background-color: rgba(20, 14, 30, 0.9);">
+        <h2 style="margin: 0 0 10px 0; color: #f2c27b !important;" data-i18n="sim_complete">Simulation Complete</h2>
+        <div class="main-stats-grid">
+            <div class="stat-block">
+                <span class="stat-label" data-i18n="new_rank">New Rank</span>
+                <strong id="rank-change" class="stat-huge" style="color: #ffb36a;">--</strong>
+            </div>
+            <div class="stat-block">
+                <span class="stat-label" data-i18n="total_plp_label">Total PLP</span>
+                <strong id="total-plp" class="stat-huge" style="color: #baffc1;">0.00</strong>
+                <span id="plp-change" class="stat-delta"></span>
+            </div>
+        </div>
     </div>
 
-    <div class="stat">
-      <span class="label">Total KLP</span>
-      <strong id="total-klp"></strong>
+    <div class="secondary-stats-grid">
+        <div class="panel-9slice mini-panel">
+            <h3 data-i18n="klp_total_label">KLP Total</h3>
+            <strong id="total-klp" class="stat-large">0</strong>
+            <span id="klp-gain" class="stat-delta"></span>
+        </div>
+        
+        <div class="panel-9slice mini-panel curve-panel">
+            <h3 data-i18n="plp_curve_label">PLP Curve</h3>
+            <ul class="curve-list">
+                <li><span data-i18n="peak">Peak</span>: <strong id="plp-peak">0.00</strong></li>
+                <li><span data-i18n="consistency">Consistency</span>: <strong id="plp-consistency">0.00</strong></li>
+                <li><span data-i18n="breadth">Breadth</span>: <strong id="plp-breadth">0.00</strong></li>
+            </ul>
+        </div>
     </div>
 
-    <div class="stat">
-      <span class="label">PLP Change</span>
-      <strong id="plp-change"></strong>
-    </div>
+    <div id="breakdown-table" class="panel-9slice" style="margin-top: 20px;"></div>
 
-    <div class="stat">
-      <span class="label">Total PLP</span>
-      <strong id="total-plp"></strong>
-    </div>
-
-    <div class="stat wide">
-      <span class="label">Rank</span>
-      <strong id="rank-change"></strong>
-    </div>
-  </div>
-
-  <div id="plp-curve" class="panel-9slice">
-    <h3>Total PLP Curve</h3>
-    <ul>
-      <li>Peak Skill: <strong id="plp-peak"></strong></li>
-      <li>Consistency: <strong id="plp-consistency"></strong></li>
-      <li>Breadth Bonus: <strong id="plp-breadth"></strong></li>
-    </ul>
-  </div>
-
-  <div id="breakdown-table"></div>
 </div>
-
 
   </div>
 
   <footer class="site-footer panel-9slice">
-    <p>The Kaizo List &copy; 2026 — Version 1.22</p>
     <p>
-      Game & All assets belong to 
+      <span data-i18n="copyright">The Kaizo List &copy; 2026</span> — 
+      <span data-i18n="version_label">Version</span> <span id="app-version">1.22</span>
+    </p>
+    <p>
+      <span data-i18n="footer_attribution">Game & All assets belong to</span> 
       <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
       <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
     </p>
@@ -103,10 +111,16 @@
 
   <script type="module">
     import { applyRandomPattern } from '../js/utils.js';
+    import { applyTranslations } from '../js/i18n.js';
+    
     const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
     applyRandomPattern('.hub-button', patterns);
+    
+    applyTranslations();
   </script>
 
   <script type="module" src="./playercompare.js"></script>
+  <script type="module" src="../js/version.js"></script>
+
 </body>
 </html>

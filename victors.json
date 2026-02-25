@@ -74,7 +74,9 @@
     "Liquid",
     "The Hell",
     "Moonmarsh Madness",
-    "Hoppi Hopp - MADNESS"
+    "Hoppi Hopp - MADNESS",
+    "Algae",
+     "Towering Tree-tops"
   ],
   "redstom": [
     "The Final Planet",
@@ -113,7 +115,8 @@
      "Eon",
      "Corps Astronomiques",
      "I Wanna Be A Boykisser",
-     "Hydrothanotos"
+     "Hydrothanotos",
+     "Algae"
      
   ],
   "GameCuboid": [
@@ -157,7 +160,13 @@
     "Germinxvee": [
     "Speedrun-40 Seconds",
     "Bob is Mad",
-    "Magnihell"
+    "Magnihell",
+    "Kaizo",
+    "Magnetic Hard Kaizo",
+    "Make Longs Kaizo Jump",
+    "The Hell",
+    "Moonmarsh Madness",
+    "Blue Circles"
   ],
     "NarvaeZ69": [
     "Catastrophic Misery",
@@ -181,7 +190,13 @@
      "Tower of Worlds",
      "Ladder Lunatics"
   ],
-   "El Tono": [
+   "Toño": [
       "Blue Circles"
+   ],
+   "Failed Boy": [
+      "Red and Blue"
+   ],
+   "Tatiqol": [
+      "Tower of Worlds"
    ]
 }
