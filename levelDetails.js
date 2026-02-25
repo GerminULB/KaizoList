@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (backBtn) {
         backBtn.onclick = (e) => {
             e.preventDefault();
-            window.location.href = (from === 'challenge') ? '../ChallengeList/' : '../MainList/';
+            window.location.href = (from === 'challenge') ? './ChallengeList/' : './MainList/';
         };
     }
 
