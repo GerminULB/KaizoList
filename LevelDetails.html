@@ -9,6 +9,15 @@
 </head>
 <body>
 
+  <div id="badge-modal" class="badge-modal hidden">
+    <div class="badge-modal-content">
+        <img id="modal-badge-icon" />
+        <h2 id="modal-badge-title"></h2>
+        <p id="modal-badge-description"></p>
+        <button id="close-modal" class="hub-button" style="margin-top: 20px;" data-i18n="close_button">Close</button>
+    </div>
+  </div>
+
 <div class="settings-menu">
     <div class="lang-switcher">
         <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
@@ -62,15 +71,6 @@
               <div id="victors-grid" class="grid panel-9slice"></div>
           </div>
       </div>
-  </div>
-
-  <div id="badge-modal" class="badge-modal hidden">
-    <div class="badge-modal-content">
-        <img id="modal-badge-icon" />
-        <h2 id="modal-badge-title"></h2>
-        <p id="modal-badge-description"></p>
-        <button id="close-modal" class="hub-button" style="margin-top: 20px;" data-i18n="close_button">Close</button>
-    </div>
   </div>
 
   <script type="module">
