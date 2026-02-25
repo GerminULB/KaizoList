@@ -45,7 +45,8 @@
     "Bombas de Ocelote",
     "The Infected World",
     "The Challenge",
-    "Red and Blue"
+    "Red and Blue",
+    "Yellow and Green"
   ],
   "RomaiQD": [
     "Forest Madness",
@@ -76,7 +77,9 @@
     "Moonmarsh Madness",
     "Hoppi Hopp - MADNESS",
     "Algae",
-     "Towering Tree-tops"
+    "Towering Tree-tops",
+    "Tower of Icy Rage",
+    "Crimson Castle"
   ],
   "redstom": [
     "The Final Planet",
@@ -116,7 +119,11 @@
      "Corps Astronomiques",
      "I Wanna Be A Boykisser",
      "Hydrothanotos",
-     "Algae"
+     "Algae",
+     "Tower of True Skill",
+     "Tenebris",
+     "Castle Shooter",
+     "Eternal Frozurn Fate"
      
   ],
   "GameCuboid": [
@@ -197,6 +204,10 @@
       "Red and Blue"
    ],
    "Tatiqol": [
-      "Tower of Worlds"
+      "Tower of Worlds",
+      "Crimson Castle"
+   ],
+   "Eli": [
+      "Red and Blue"
    ]
 }

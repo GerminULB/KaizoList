@@ -407,6 +407,19 @@
                    ]
     },
     {
+        "name":  "Tower of Icy Rage",
+        "klp":  1360,
+        "creator":  "Therobot0802",
+        "verifier":  "Therobot0802",
+        "id":  "730367",
+        "badges":  [
+            "tower",
+            "deco_simple",
+            "tight"
+
+                   ]
+    },
+    {
         "name":  "Catastrophic Misery",
         "klp":  1360,
         "creator":  "Raincube",
@@ -628,6 +641,19 @@
             "ancient",
             "ruthless"
 
+                   ]
+    },
+    {
+        "name":  "Crimson Castle",
+        "klp":  810,
+        "creator":  "Tatom7",
+        "verifier":  "Tatom7",
+        "id":  "621716",
+        "badges":  [
+            "smol",
+            "tight",
+            "jetpack",
+            "boss"
                    ]
     },
     {
@@ -1049,6 +1075,18 @@
             "tight",
             "spikey",
             "deco_simple"
+                   ]
+    },
+    {
+        "name":  "Yellow and Green",
+        "klp":  210,
+        "creator":  "S78CXZ",
+        "verifier":  "S78CXZ",
+        "id":  "732628",
+        "badges":  [
+                "beginner",
+                "magnet",
+                "smol"
                    ]
     },
         {
