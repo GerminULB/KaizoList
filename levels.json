@@ -13,7 +13,8 @@
                        "ruthless",
                        "tight",
                        "timeless",
-                        "approved_germin"
+                        "approved_germin",
+                        "checkpointless"
                    ]
     },
     {
@@ -31,20 +32,17 @@
                    ]
     },
     {
-        "name":  "Trio Kaizo Infinity",
-        "klp":  4160,
-        "creator":  "Sasha Krutoy YT2, Germinxvee, redstom",
-        "verifier":  "Sasha Krutoy YT2",
-        "id":  "333616",
+        "name":  "Top 1 Level",
+        "klp":  4000,
+        "creator":  "Top1PL",
+        "verifier":  "redstom",
+        "id":  "269139",
         "badges":  [
-                       "memory",
+                       "former_impossible",
+                       "spikey",
                        "ruthless",
-                       "meme",
-                       "troll",
-                       "approved_germin",
-                       "approved_sasha",
-                       "jetpack",
-                       "magnet"
+                       "checkpointless",
+                       "tight"
                    ]
     },
     {
@@ -58,6 +56,23 @@
                        "former_impossible",
                        "xxl",
                        "checkpointless"
+                   ]
+    },
+    {
+        "name":  "Trio Kaizo Infinity",
+        "klp":  3330,
+        "creator":  "Sasha Krutoy YT2, Germinxvee, redstom",
+        "verifier":  "Sasha Krutoy YT2",
+        "id":  "333616",
+        "badges":  [
+                       "memory",
+                       "ruthless",
+                       "meme",
+                       "troll",
+                       "approved_germin",
+                       "approved_sasha",
+                       "jetpack",
+                       "magnet"
                    ]
     },
     {
