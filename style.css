@@ -993,13 +993,13 @@ img.logo:hover {
     display: block;
     width: 100%;
     height: 100%;
-    background-image: url('images/icon/mountain_icon.png');
+    background-image: url('images/icon/space_icon.png');
     background-size: cover;
     image-rendering: pixelated;
 }
 
 body.dark-mode #theme-icon {
-    background-image: url('images/icon/space_icon.png');
+    background-image: url('images/icon/mountain_icon.png');
 }
 
 .lang-switcher button:hover, 
