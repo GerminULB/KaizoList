@@ -261,19 +261,7 @@
                    ]
     },
     {
-        "name":  "Sonic power",
-        "klp":  1900,
-        "creator":  "Ocelote",
-        "verifier":  "Ocelote",
-        "id":  "200000 ",
-        "badges":  [
-            "ancient",
-            "tight",
-            "speed"
-
-                   ]
-    },
-    {
+    
         "name":  "Ice Frostbite",
         "klp":  1860,
         "creator":  "Germinxvee",
@@ -286,7 +274,7 @@
             "meme"
 
                    ]
-    },
+                },  
     {
         "name":  "Algae",
         "klp":  1850,
@@ -636,17 +624,15 @@
                    ]
     },
     {
-        "name":  "Bob is Mad",
+        "name":  "Sonic power",
         "klp":  850,
         "creator":  "Ocelote",
         "verifier":  "Ocelote",
-        "id":  "178237",
+        "id":  "200000 ",
         "badges":  [
-            "former_top1",
             "ancient",
             "tight",
-            "popular",
-            "checkpointless"
+            "speed"
 
                    ]
     },
@@ -688,6 +674,21 @@
                    ]
     },
     {
+        "name":  "Bob is Mad",
+        "klp":  795,
+        "creator":  "Ocelote",
+        "verifier":  "Ocelote",
+        "id":  "178237",
+        "badges":  [
+            "former_top1",
+            "ancient",
+            "tight",
+            "popular",
+            "checkpointless"
+
+                   ]
+    },
+    {
         "name":  "Magnetic Hard Kaizo",
         "klp":  790,
         "creator":  "Samuel CM",
@@ -697,8 +698,8 @@
             "boss",
             "magnet",
             "deco_simple"
-                   ]
-    },
+        ]
+    },                   
     {
         "name":  "Kaizo",
         "klp":  750,

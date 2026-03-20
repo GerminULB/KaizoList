@@ -211,6 +211,38 @@ import { t } from '../js/i18n.js';
     function escapeRegExp(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
     init();
+
+    document.addEventListener('keydown', e => {
+        if (e.shiftKey && e.key === 'E') {
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+
+            const headers = ['Date', 'Level Name', 'Creator', 'Verifier', 'KLP', 'Badges', 'ID'];
+
+            const rows = currentLevels.map(lvl => [
+                dateStr,
+                lvl.name,
+                lvl.creator,
+                lvl.verifier,
+                lvl.klp,
+                (lvl.badges || []).join('; '),
+                lvl.id
+            ]);
+
+            const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+            const filename = `mainlist_snapshot_${dateStr}.csv`;
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            console.log(`Secret CSV export triggered! File: ${filename}`);
+        }
+});
 })();
 
 renderRecentChanges('recent-changes', undefined, '../levels.json');

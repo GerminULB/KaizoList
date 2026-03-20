@@ -157,4 +157,48 @@ import { t } from '../js/i18n.js';
     updateKLPTypeVisibility();
     renderPlayers();
 
+document.addEventListener('keydown', e => {
+    if (e.shiftKey && e.key === 'E') {
+        const now = new Date();
+        const dateStr = now.toISOString().split('T')[0]; 
+
+        const headers = ['Date', 'Name', 'PLP', 'KLP', 'Verifications', 'Victors'];
+
+        const rows = playerList.map(p => {
+            const verifications = p.levels
+                .filter(l => l.type === 'Verification')
+                .map(l => `${l.name}(${l.klp})`)
+                .join('; ');
+
+            const victors = p.levels
+                .filter(l => l.type === 'Victor')
+                .map(l => `${l.name}(${l.klp})`)
+                .join('; ');
+
+            return [
+                dateStr,       
+                p.name,
+                p.plp,
+                p.klp,
+                verifications,
+                victors
+            ];
+        });
+
+        const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+        const filename = `player_data_${dateStr}.csv`;
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        console.log(`Secret CSV export triggered! File: ${filename}`);
+    }
+});
+
 })();

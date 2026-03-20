@@ -130,7 +130,11 @@
      "Trio Kaizo Infinity",
      "Tower of Icy Rage",
      "Dunes of the Damned",
-     "Mount Pyrlen"
+     "Mount Pyrlen",
+     "Yellow and Green",
+     "Lava Paradise",
+     "Crimson Castle",
+     "Potion Kaizo"
      
   ],
   "GameCuboid": [
@@ -221,5 +225,8 @@
    ],
    "Eli": [
       "Red and Blue"
-   ]
+   ],
+  "zevorcen": [
+    "Towering Tree-tops"
+  ]
 }
