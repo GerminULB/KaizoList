@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://germinulb.github.io/KaizoList/sitemap.xml
+
+#wassap epic robuts
