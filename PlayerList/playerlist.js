@@ -1,6 +1,7 @@
 import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
 import { calculatePlayerScore } from '../score.js';
 import { t } from '../js/i18n.js';
+
 (async function() {
 
     // Fetch all data
@@ -10,6 +11,10 @@ import { t } from '../js/i18n.js';
     const allLevels = [...levels, ...challenges];
 
     const playerMap = {};
+
+    const retiredPlayers = new Set([
+        "Ocelote"
+    ]);
 
     // Add verifiers
     allLevels.forEach(level => {
@@ -31,13 +36,15 @@ import { t } from '../js/i18n.js';
         });
     });
 
-    // Convert to array & compute PLP
-    let playerList = Object.entries(playerMap).map(([name, data]) => ({
-        name,
-        klp: data.klp,
-        levels: data.levels,
-        plp: calculatePlayerScore(data.levels)
-    }));
+    // Convert to array & compute PLP, excluding retired players
+    let playerList = Object.entries(playerMap)
+        .filter(([name]) => !retiredPlayers.has(name)) // exclude retired players from leaderboard
+        .map(([name, data]) => ({
+            name,
+            klp: data.klp,
+            levels: data.levels,
+            plp: calculatePlayerScore(data.levels)
+        }));
 
     // Sort by PLP initially
     playerList.sort((a, b) => b.plp - a.plp);
@@ -101,13 +108,11 @@ import { t } from '../js/i18n.js';
             }, 0);
         }
 
-        // --- OVERHAUL: translated total label ---
         const totalLabel = pointType === 'klp' 
             ? t('total_klp', { count: totalPoints.toLocaleString() })
             : t('total_plp', { count: totalPoints.toLocaleString(), defaultValue: `Total: ${totalPoints.toLocaleString()} PLP` });
 
         const suffix = pointType === 'klp' ? 'KLP' : 'PLP';
-        
         totalEl.innerText = totalLabel;
 
         // --- Render list ---
@@ -125,8 +130,6 @@ import { t } from '../js/i18n.js';
             const div = document.createElement('div');
             div.className = 'level';
             
-            const suffix = pointType.toUpperCase();
-
             div.innerHTML = `
                 <div class="level-summary" role="button">
                     <span>#${idx + 1}: ${highlightText(p.name)}</span>
@@ -152,53 +155,52 @@ import { t } from '../js/i18n.js';
     function escapeHtml(str) {
         return String(str || '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
     }
+
     function escapeRegExp(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
     updateKLPTypeVisibility();
     renderPlayers();
 
-document.addEventListener('keydown', e => {
-    if (e.shiftKey && e.key === 'E') {
-        const now = new Date();
-        const dateStr = now.toISOString().split('T')[0]; 
+    // --- Secret CSV export ---
+    document.addEventListener('keydown', e => {
+        if (e.shiftKey && e.key === 'E') {
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0]; 
+            const headers = ['Date', 'Name', 'PLP', 'KLP', 'Verifications', 'Victors'];
 
-        const headers = ['Date', 'Name', 'PLP', 'KLP', 'Verifications', 'Victors'];
+            const rows = playerList.map(p => {
+                const verifications = p.levels
+                    .filter(l => l.type === 'Verification')
+                    .map(l => `${l.name}(${l.klp})`)
+                    .join('; ');
 
-        const rows = playerList.map(p => {
-            const verifications = p.levels
-                .filter(l => l.type === 'Verification')
-                .map(l => `${l.name}(${l.klp})`)
-                .join('; ');
+                const victors = p.levels
+                    .filter(l => l.type === 'Victor')
+                    .map(l => `${l.name}(${l.klp})`)
+                    .join('; ');
 
-            const victors = p.levels
-                .filter(l => l.type === 'Victor')
-                .map(l => `${l.name}(${l.klp})`)
-                .join('; ');
+                return [
+                    dateStr,       
+                    p.name,
+                    p.plp,
+                    p.klp,
+                    verifications,
+                    victors
+                ];
+            });
 
-            return [
-                dateStr,       
-                p.name,
-                p.plp,
-                p.klp,
-                verifications,
-                victors
-            ];
-        });
+            const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+            const filename = `player_data_${dateStr}.csv`;
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
 
-        const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-
-        const filename = `player_data_${dateStr}.csv`;
-
-        const blob = new Blob([csvContent], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        URL.revokeObjectURL(url);
-
-        console.log(`Secret CSV export triggered! File: ${filename}`);
-    }
-});
+            console.log(`Secret CSV export triggered! File: ${filename}`);
+        }
+    });
 
 })();
