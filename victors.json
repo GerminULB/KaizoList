@@ -134,7 +134,9 @@
      "Yellow and Green",
      "Lava Paradise",
      "Crimson Castle",
-     "Potion Kaizo"
+     "Potion Kaizo",
+     "Kaizo 0",
+     "Stair of Madness"
      
   ],
   "GameCuboid": [
@@ -214,14 +216,16 @@
    ],
    "Failed Boy": [
       "Red and Blue",
-      "Algae"
+      "Algae",
+      "Blue Circles"
    ],
    "Tatiqol": [
       "Tower of Worlds",
       "Crimson Castle",
       "Lava Paradise",
       "The Final Planet",
-      "Dark Travel"
+      "Dark Travel",
+      "Stair of Madness"
    ],
    "Eli": [
       "Red and Blue"

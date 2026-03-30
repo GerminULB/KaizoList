@@ -207,6 +207,17 @@
                    ]
     },
     {
+        "name":  "Null and Space",
+        "klp":  2100,
+        "creator":  "Yetistudis",
+        "verifier":  "redstom",
+        "id":  "754319",
+        "badges":  [
+            "deco_simple",
+            "tight"
+                   ]
+    },
+    {
         "name":  "OB - Slimy Road",
         "klp":  2060,
         "creator":  "Ocelote",
@@ -220,7 +231,7 @@
     },
     {
         "name":  "Long Clover",
-        "klp":  1890,
+        "klp":  2000,
         "creator":  "Lanzy-ULB",
         "verifier":  "Lanzy-ULB",
         "id":  "496823",
@@ -624,6 +635,19 @@
                    ]
     },
     {
+        "name":  "Gotinsane",
+        "klp":  880,
+        "creator":  "Xcrick GD",
+        "verifier":  "Xcrick GD",
+        "id":  "155814",
+        "badges":  [
+            "ancient",
+            "tight",
+            "speed",
+            "jetpack"
+                   ]
+    },
+    {
         "name":  "Sonic power",
         "klp":  850,
         "creator":  "Ocelote",
@@ -921,6 +945,18 @@
         "badges":  [
             "magnet",
             "tight"
+                   ]
+    },
+    {
+        "name":  "Stair of Madness",
+        "klp":  430,
+        "creator":  "Failed Boy",
+        "verifier":  "Failed Boy",
+        "id":  "757536",
+        "badges":  [
+            "deco_simple",
+            "gimmick"
+
                    ]
     },
     {

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="The Germeter: A personal 0-100 rating system for Ultimate Level Builder levels." />
+  <title>The Germeter | ULB Level Ratings</title>
+  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
+  <link rel="stylesheet" href="../style.css">
+  
+</head>
+<body>
+
+<div class="settings-menu">
+    <div class="lang-switcher">
+        <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+        <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+    </div>
+    
+    <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+        <span id="theme-icon"></span>
+    </button>
+</div>
+
+<div class="background-stage">
+    <div class="sky-layer"></div>
+    <div class="sunset-mask"></div>
+    <div class="sunset-decor back"></div>
+    <div class="sunset-decor front"></div>
+</div>
+
+<div class="container panel-9slice">
+    <a href="/KaizoList/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
+    
+    <h1>The Germeter</h1>
+    <p class="hub-intro">my personal 0-100 rating of ULB levels, from good levels to bad levels. You are not supposed to find this. How did you find this??? WHO ARE YOU????</p>
+
+    <nav class="hub-links">
+      <a href="/KaizoList/MainList/" class="hub-button">Main List</a>
+    </nav>
+
+    <div class="filters">
+        <input type="text" id="search" placeholder="Search levels or creators..." />
+        
+        <select id="seal-filter">
+            <option value="">All Ratings</option>
+            <option value="gold">Golden Seal (100)</option>
+            <option value="silver">Silver Seal (90-99)</option>
+            <option value="bronze">Bronze Seal (80-89)</option>
+            <option value="recommended">Recommended (70-79)</option>
+        </select>
+        
+        <select id="sort-filter">
+            <option value="rating-desc">Highest Rated</option>
+            <option value="rating-asc">Lowest Rated</option>
+        </select>
+    </div>
+
+    <div id="germeter-list" class="panel-9slice">
+        <div class="loading">Loading the Germeter...</div>
+    </div>
+
+    <div id="recent-changes-container" class="scrollable panel-9slice" style="margin-top:20px;">
+      <h2>Recent Rating Changes</h2>
+      <div id="recent-changes"></div>
+    </div>
+</div>
+
+<footer class="site-footer panel-9slice">
+    <p>The Germeter &copy; 2026 | Bee </p>
+</footer>
+
+<script type="module">
+    import { applyRandomPattern } from '../js/utils.js';
+    import { applyTranslations } from '../js/i18n.js';
+
+    const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
+    applyRandomPattern('.hub-button', patterns);
+    applyRandomPattern('.level-summary', patterns);
+
+    applyTranslations();
+</script>
+
+<script type="module" src="./germeter.js"></script>
+<script type="module" src="../js/version.js"></script>
+
+</body>
+</html>
