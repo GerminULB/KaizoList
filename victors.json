@@ -48,7 +48,10 @@
     "The Infected World",
     "The Challenge",
     "Red and Blue",
-    "Yellow and Green"
+    "Yellow and Green",
+    "Hil",
+    "Kaizo Desert",
+    "Spider Dance"
   ],
   "RomaiQD": [
     "Forest Madness",
@@ -136,7 +139,9 @@
      "Crimson Castle",
      "Potion Kaizo",
      "Kaizo 0",
-     "Stair of Madness"
+     "Stair of Madness",
+     "Space X-Treme Ship",
+     "Expert Mountian"
      
   ],
   "GameCuboid": [
@@ -217,7 +222,8 @@
    "Failed Boy": [
       "Red and Blue",
       "Algae",
-      "Blue Circles"
+      "Blue Circles",
+      "4 Germin Jumps"
    ],
    "Tatiqol": [
       "Tower of Worlds",
@@ -230,7 +236,7 @@
    "Eli": [
       "Red and Blue"
    ],
-  "zevorcen": [
+  "Zevvy (Zevorcen)": [
     "Towering Tree-tops"
   ]
 }

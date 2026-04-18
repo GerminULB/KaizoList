@@ -32,20 +32,6 @@
                    ]
     },
     {
-        "name":  "Conflicted",
-        "klp":  5000,
-        "creator":  "Zevvy (Zevorcen)",
-        "verifier":  "Zevvy (Zevorcen)",
-        "id":  "725738",
-        "badges":  [
-                       "sawy",
-                       "ruthless",
-                       "checkpointless",
-                       "tight",
-                       "smol"
-                   ]
-    },
-    {
         "name":  "Top 1 Level",
         "klp":  4000,
         "creator":  "Top1PL",
@@ -108,8 +94,8 @@
     {
         "name":  "Tower of True Skill",
         "klp":  2960,
-        "creator":  "Zevvy (Zevorcen)",
-        "verifier":  "Zevvy (Zevorcen)",
+        "creator":  "Zevorcen",
+        "verifier":  "zevorcen",
         "id":  "370605",
         "badges":  [
                        "xxl",
@@ -619,19 +605,6 @@
                    ]
     },
     {
-        "name":  "Gotinsane",
-        "klp":  920,
-        "creator":  "Xcrick GD",
-        "verifier":  "Xcrick GD",
-        "id":  "155814",
-        "badges":  [
-            "ancient",
-            "tight",
-            "speed",
-            "jetpack"
-                   ]
-    },
-    {
         "name":  "Ice Shardnel",
         "klp":  910,
         "creator":  "Germinxvee",
@@ -647,44 +620,43 @@
                    ]
     },
     {
-        "name":  "Red Castle Kaizo",
-        "klp":  900,
-        "creator":  "Ocelote",
-        "verifier":  "Ocelote",
-        "id":  "165924",
-        "badges":  [
-            "popular",
-            "ancient",
-            "timeless",
-            "smol",
-            "timer"
-
-                   ]
-    },
-    {
-        "name":  "Expert Mountian",
-        "klp":  890,
-        "creator":  "Jasontheultra",
-        "verifier":  "Jasontheultra",
-        "id":  "737334",
-        "badges":  [
-            "tight",
-            "deco_simple"
-
-                   ]
-    },
-    {
         "name":  "Circular Fatality",
-        "klp":  850,
+        "klp":  900,
         "creator":  "Theredman3222",
         "verifier":  "Theredman3222",
         "id":  "549515",
         "badges":  [
             "timeless",
-
+            "timeless",
             "sawy",
             "tight",
             "deco_simple"
+
+                   ]
+    },
+    {
+        "name":  "Gotinsane",
+        "klp":  880,
+        "creator":  "Xcrick GD",
+        "verifier":  "Xcrick GD",
+        "id":  "155814",
+        "badges":  [
+            "ancient",
+            "tight",
+            "speed",
+            "jetpack"
+                   ]
+    },
+    {
+        "name":  "Sonic power",
+        "klp":  850,
+        "creator":  "Ocelote",
+        "verifier":  "Ocelote",
+        "id":  "200000 ",
+        "badges":  [
+            "ancient",
+            "tight",
+            "speed"
 
                    ]
     },
@@ -821,6 +793,21 @@
                    ]
     },
     {
+        "name":  "Red Castle Kaizo",
+        "klp":  630,
+        "creator":  "Ocelote",
+        "verifier":  "Ocelote",
+        "id":  "165924",
+        "badges":  [
+            "popular",
+            "ancient",
+            "timeless",
+            "smol",
+            "timer"
+
+                   ]
+    },
+    {
         "name":  "Corps Astronomiques",
         "klp":  600,
         "creator":  "065Foxys",
@@ -871,16 +858,15 @@
 
                    ]
     },
-        {
-        "name":  "Space X-Treme Ship",
-        "klp":  520,
-        "creator":  "Black Cotton YT",
-        "verifier":  "Black Cotton YT",
-        "id":  "741605",
+    {
+        "name":  "Blue Cave",
+        "klp":  530,
+        "creator":  "AnDronolis",
+        "verifier":  "AnDronolis",
+        "id":  "590986",
         "badges":  [
-            "magnet",
-            "approved_germin",
-            "jetpack"
+            "tight",
+            "deco_simple"
 
                    ]
     },
@@ -951,17 +937,6 @@
                    ]
     },
     {
-        "name":  "Spider Dance",
-        "klp":  460,
-        "creator":  "Lanzy-ULB",
-        "verifier":  "Lanzy-ULB",
-        "id":  "487319",
-        "badges":  [
-            "sawy",
-            "approved_germin"   
-                   ]
-    },
-    {
         "name":  "Cute Travel",
         "klp":  455,
         "creator":  "Samunight CM",
@@ -973,14 +948,14 @@
                    ]
     },
     {
-        "name":  "Blue Cave",
-        "klp":  450,
-        "creator":  "AnDronolis",
-        "verifier":  "AnDronolis",
-        "id":  "590986",
+        "name":  "Stair of Madness",
+        "klp":  430,
+        "creator":  "Failed Boy",
+        "verifier":  "Failed Boy",
+        "id":  "757536",
         "badges":  [
-            "tight",
-            "deco_simple"
+            "deco_simple",
+            "gimmick"
 
                    ]
     },
@@ -994,18 +969,6 @@
             "speed",
             "deco_simple",
             "smol"
-                   ]
-    },
-    {
-        "name":  "Kaizo Desert",
-        "klp":  415,
-        "creator":  "Dino RPG",
-        "verifier":  "Dino RPG",
-        "id":  "650038",
-        "badges":  [
-            "magnet",
-            "deco_simple",
-            "checkpointless"
                    ]
     },
     {
@@ -1034,18 +997,6 @@
 
                    ]
     },
-    {
-        "name":  "Stair of Madness",
-        "klp":  398,
-        "creator":  "Failed Boy",
-        "verifier":  "Failed Boy",
-        "id":  "757536",
-        "badges":  [
-            "deco_simple",
-            "gimmick"
-
-                   ]
-    },
         {
         "name":  "Potion Kaizo",
         "klp":  395,
@@ -1071,18 +1022,6 @@
             "spikey",
             "smol",
             "deco_simple"
-
-                   ]
-    },
-    {
-        "name":  "Hil",
-        "klp":  380,
-        "creator":  "Tatiqol",
-        "verifier":  "Tatiqol",
-        "id":  "732062",
-        "badges":  [
-            "tower",
-            "smol"
 
                    ]
     },
@@ -1182,19 +1121,6 @@
                    ]
     },
     {
-    "name":  "Make Longs Kaizo Jumps",
-        "klp":  215,
-        "creator":  "redstom",
-        "verifier":  "redstom",
-        "id":  "336014",
-        "badges":  [
-            "deco_simple",
-            "checkpointless",
-            "tight"
-
-                   ]
-    },
-    {
         "name":  "Dark Moon",
         "klp":  210,
         "creator":  "Samuel CM",
@@ -1217,6 +1143,20 @@
                 "beginner",
                 "magnet",
                 "smol"
+                   ]
+    },
+        {
+    "name":  "Make Longs Kaizo Jumps",
+        "klp":  200,
+        "creator":  "redstom",
+        "verifier":  "redstom",
+        "id":  "336014",
+        "badges":  [
+            "deco_simple",
+            "checkpointless",
+            "tight",
+            "beginner"
+
                    ]
     },
     {
