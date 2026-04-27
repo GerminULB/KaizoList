@@ -72,6 +72,7 @@
                        "checkpointless"
                    ]
     },
+
     {
         "name":  "Trio Kaizo Infinity",
         "klp":  3330,
@@ -87,6 +88,22 @@
                        "approved_sasha",
                        "jetpack",
                        "magnet"
+                   ]
+    },
+    {
+        "name":  "It Love Time",
+        "klp":  3200,
+        "creator":  "Ripbasil",
+        "verifier":  "Ripbasil",
+        "id":  "333616",
+        "badges":  [
+                       "memory",
+                       "ruthless",
+                       "approved_germin",
+                       "magnet",
+                       "checkpointless",
+                       "creative",
+                       "timeless"
                    ]
     },
     {
@@ -227,6 +244,7 @@
         "verifier":  "redstom",
         "id":  "754319",
         "badges":  [
+            "former_impossible",
             "deco_simple",
             "tight"
                    ]
@@ -490,6 +508,22 @@
 
                    ]
     },
+    {
+        "name":  "Panic Cavern",
+        "klp":  1210,
+        "creator":  "Failed Boy",
+        "verifier":  "Failed Boy",
+        "id":  "775446",
+        "badges":  [
+            "xxl",
+            "creative",
+            "approved_germin",
+            "tight",
+            "spikey"
+
+                   ]
+    },
+
     {
         "name":  "Titan B18 V2",
         "klp":  1200,
