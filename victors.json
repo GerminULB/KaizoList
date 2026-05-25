@@ -149,7 +149,12 @@
      "Spider Dance",
      "Kaizo",
      "Forest Hell",
-     "Abyssal Horizon"
+     "Abyssal Horizon",
+     "Internal Vortex",
+     "Saw District",
+     "Kaizo Ship",
+     "Yatagarasu",
+     "Stilted Fortress"
      
   ],
   "GameCuboid": [
@@ -199,7 +204,8 @@
     "Make Longs Kaizo Jump",
     "The Hell",
     "Moonmarsh Madness",
-    "Blue Circles"
+    "Blue Circles",
+    "Algae"
   ],
     "NarvaeZ69": [
     "Catastrophic Misery",
@@ -214,7 +220,8 @@
     "Speedrun-40 Seconds",
     "The Challenge",
     "Red and Blue",
-    "The Final Planet"
+    "The Final Planet",
+     "Challenge Fast Quiz"
   ],
   "Abobus228": [
     "Cheese burrito 1",
@@ -227,13 +234,16 @@
      "Hydrothanotos"
   ],
    "Toño": [
-      "Blue Circles"
+      "Blue Circles",
+      "Bob is Mad",
+      "Circular Facality"
    ],
    "Failed Boy": [
       "Red and Blue",
       "Algae",
       "Blue Circles",
-      "4 Germin Jumps"
+      "4 Germin Jumps",
+      "Dark Travel"
    ],
    "Tatiqol": [
       "Tower of Worlds",
@@ -248,5 +258,8 @@
    ],
   "Zevvy (Zevorcen)": [
     "Towering Tree-tops"
-  ]
+  ],
+   "Marisa Kirisame": [
+   "Kaizo 0"
+   ]
 }
