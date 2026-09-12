@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (date) {
                         legacyDateEl.innerText = approximate ? `~${date}` : date;
                         legacyDateEl.title = t('legacy_since_approx_tooltip', {
-                            defaultValue: 'Approximate — based on the earliest saved snapshot where this level already ranked below the cutoff.'
+                            defaultValue: 'Approximate -- based on the earliest saved snapshot where this level already ranked below the cutoff.'
                         });
                         legacyDateRowEl.classList.remove('hidden');
                     } else if (!everSeenInHistory) {

@@ -1076,7 +1076,7 @@ img.logo:hover {
     }
 }
 
-/* ----------------- Player Compare — mobile ----------------- */
+/* ----------------- Player Compare | mobile ----------------- */
 @media (max-width: 700px) {
     .filters select,
     .filters button {
