@@ -173,7 +173,7 @@ export const translations = {
         "hub_welcome_title": "¡Bienvenido a The Kaizo List!",
         "hub_welcome_desc": "Navega los niveles Kaizo más difíciles en Ultimate Level Builder, y mira sus mejores jugadores.",
         "hub_nav_prompt": "¿Donde te gustaría ir?",
-        "update_v12_header": "Version 1.26 is here!",
+        "update_header": "Version 1.26 is here!",
         "update_body": "<ul><li><strong>Legacy List:</strong> The Challenge List has been retired. Levels ranked #81 and below now live in a new <em>Legacy List</em> section within the Main List.</li><li><strong>Rules Page:</strong> A brand new Rules page is now live! It covers all submission requirements, including the new mandatory raw completion recording rule.</li><li><strong>Legacy Players:</strong> Retired players are now excluded from the Player Compare tool.</li><li><strong>Bug Fixes:</strong> Fixed the Victors panel showing empty boxes when a level has no victors yet, fixed a dark mode crash, corrected history snapshot ordering, and cleaned up some visual issues. (HELP ME) </li></ul>",
         "update_footer": "As always, let me know if you spot any bugs. Enjoy!",
         "rules_title": "Rules & Community",
