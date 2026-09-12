@@ -1,16 +1,17 @@
-
 // js/utils.js
 export const HISTORY_FILES = [
-  "/KaizoList/history/2025-09-11.json",
-  "/KaizoList/history/2025-09-20.json",
-  "/KaizoList/history/2025-09-21.json",
-  "/KaizoList/history/2025-09-28.json",
-  "/KaizoList/history/2025-10-16.json",
-  "/KaizoList/history/2025-10-29.json",
-  "/KaizoList/history/2025-11-26.json",
-  "/KaizoList/history/2026-01-08.json",
-  "/KaizoList/history/2026-23-01.json",
-  "/KaizoList/history/2026-01-23.json",
+  "/history/2025-09-11.json",
+  "/history/2025-09-20.json",
+  "/history/2025-09-21.json",
+  "/history/2025-09-28.json",
+  "/history/2025-10-16.json",
+  "/history/2025-10-29.json",
+  "/history/2025-11-26.json",
+  "/history/2026-01-08.json",
+  "/history/2026-01-23.json",
+  "/history/2026-02-01.json",
+  "/history/2026-04-18.json",
+  "/history/2026-09-12.json",
 ];
 
 
@@ -29,6 +30,40 @@ export function rankByKLP(levels = []) {
   return [...levels]
     .sort((a, b) => (b.klp || 0) - (a.klp || 0))
     .map((lvl, i) => ({ ...lvl, rank: i + 1 }));
+}
+
+export async function findLegacyTransition(levelId, legacyRankCutoff = 80, historyFiles = HISTORY_FILES) {
+  const sortedFiles = [...historyFiles].sort(); // "YYYY-MM-DD.json" sorts chronologically as strings
+  let earliestLegacyDate = null;
+  let sawLevel = false;
+
+  for (const file of sortedFiles) {
+    const snapshot = await fetchJson(file);
+    if (!snapshot || !snapshot.length) continue;
+
+    const ranked = rankByKLP(snapshot);
+    const entry = ranked.find(l => String(l.id) === String(levelId));
+    if (!entry) continue; // level didn't exist yet in this snapshot
+
+    sawLevel = true;
+    const date = file.match(/\d{4}-\d{2}-\d{2}/)?.[0] || null;
+
+    if (entry.rank > legacyRankCutoff) {
+      // First snapshot where it's already legacy -- lock this in and stop.
+      earliestLegacyDate = date;
+      break;
+    } else {
+      // Confirmed non-legacy as of this snapshot; any earlier "legacy" find
+      // before this point would be stale, so reset.
+      earliestLegacyDate = null;
+    }
+  }
+
+  return {
+    date: earliestLegacyDate,       // 'YYYY-MM-DD' or null
+    approximate: earliestLegacyDate !== null, // snapshot-bounded, so always approximate
+    everSeenInHistory: sawLevel
+  };
 }
 
 export function splitNames(str = '') {
@@ -181,12 +216,10 @@ export function paginateGrid(items, containerId, opts = {}) {
 
 export function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    n
     const logo = document.querySelector('img.logo');
     if (logo) {
         const isDark = theme === 'dark';
         const currentSrc = logo.getAttribute('src');
-        
         if (isDark && !currentSrc.includes('_dark')) {
             logo.src = currentSrc.replace('.png', '_dark.png');
         } else if (!isDark && currentSrc.includes('_dark')) {

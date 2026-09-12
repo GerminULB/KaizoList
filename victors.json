@@ -51,7 +51,8 @@
     "Yellow and Green",
     "Hil",
     "Kaizo Desert",
-    "Spider Dance"
+    "Spider Dance",
+    "The Hell"
   ],
   "RomaiQD": [
     "Forest Madness",
@@ -149,7 +150,17 @@
      "Spider Dance",
      "Kaizo",
      "Forest Hell",
-     "Abyssal Horizon"
+     "Abyssal Horizon",
+     "Internal Vortex",
+     "Saw District",
+     "A Long Walk To Heaven",
+     "Bobette Its So Happy",
+     "Kaizo Ship",
+     "Yatagarasu",
+     "Stilted Fortress",
+     "The Tower of Saw",
+     "Metalung"
+
      
   ],
   "GameCuboid": [
@@ -171,7 +182,10 @@
     "Catastrophic Misery",
     "Cataclysmic Delusion",
     "Corps Astronomiques",
-    "Eon"
+    "Eon",
+    "Dark Travel",
+    "Kaizo 0",
+    "The Tower of Saw"
   ],
   "Lanzy-ULB": [
     "Lanzimbo",
@@ -227,13 +241,17 @@
      "Hydrothanotos"
   ],
    "Toño": [
-      "Blue Circles"
+      "Blue Circles",
+      "Bob is Mad",
+      "Circular Fatality"
    ],
    "Failed Boy": [
       "Red and Blue",
       "Algae",
       "Blue Circles",
-      "4 Germin Jumps"
+      "4 Germin Jumps",
+      "Dark Travel",
+      "Corps Astronomiques"
    ],
    "Tatiqol": [
       "Tower of Worlds",
@@ -247,6 +265,30 @@
       "Red and Blue"
    ],
   "Zevvy (Zevorcen)": [
-    "Towering Tree-tops"
+    "Towering Tree-tops",
+    "Kaizo 0"
+  ],
+  "Abstractal": [
+    "The Magnetic Void",
+    "Tower of True Skill",
+    "* Crimson Circles *"
+  ],
+  "Alexis": [
+    "Red and Blue",
+    "Tower of Worlds",
+    "Yellow and Green",
+    "Dark Moon",
+    "Spider Dance",
+    "Castle Shooter",
+    "The Hell",
+    "The Challenge",
+    "Saw District",
+    "Corps Astronomiques",
+    "Ladder Lunatics",
+    "The Tower of Saw",
+    "Lava Paradise"
+  ],
+  "Bonnifacio3D": [
+    "Magnetic Hard Kaizo"
   ]
 }

@@ -33,7 +33,11 @@ import { t } from '../js/i18n.js';
         });
     });
 
+    // Players who have retired from the Kaizo List — excluded from comparisons.
+    const LEGACY_PLAYERS = new Set(['ocelote']);
+
     const players = Object.entries(playerMap)
+        .filter(([name]) => !LEGACY_PLAYERS.has(name.toLowerCase()))
         .map(([name, data]) => ({
             name,
             levels: data.levels,

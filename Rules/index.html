@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7N58SZ0J6W');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Rules for the Kaizo List — how to submit completions, what counts as a legitimate run, and community rules." />
+  <title>Rules | The Kaizo List</title>
+  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="settings-menu">
+  <div class="lang-switcher">
+    <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+    <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+  </div>
+  <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+    <span id="theme-icon"></span>
+  </button>
+</div>
+
+<div class="background-stage">
+  <div class="sky-layer"></div>
+  <div class="sunset-mask"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
+</div>
+
+<div class="container panel-9slice">
+  <a href="/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
+
+  <nav class="hub-links">
+    <a href="/MainList/" class="hub-button" data-i18n="nav_main_list">List</a>
+    <a href="/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
+    <a href="/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
+  </nav>
+
+  <div class="rules-page">
+
+    <h1 class="rules-title">Rules for the Kaizo List</h1>
+
+    <!-- ── HOW THE LE EPIC KAIZO LIST LIST LISTA LISTY LISTER LIST WORKS ────────────────────────────────── -->
+    <section class="rules-section panel-9slice">
+      <h2 class="rules-section-title">How KLP, PLP &amp; the List Work</h2>
+
+      <p class="ecosystem-intro">
+        There are two separate point systems on the Kaizo List: <strong>KLP</strong>, which belongs
+        to <em>levels</em>, and <strong>PLP</strong>, which belongs to <em>players</em> and is
+        calculated from the KLP of everything that player has cleared. Here's the short version
+        of how a completion turns into a player's score:
+      </p>
+
+      <div class="ecosystem-flow">
+        <div class="ecosystem-flow-step">A level gets a fixed KLP value</div>
+        <div class="ecosystem-flow-arrow">then</div>
+        <div class="ecosystem-flow-step">Someone verifies it, or a player beats it, and earns that KLP</div>
+        <div class="ecosystem-flow-arrow">then</div>
+        <div class="ecosystem-flow-step">All your KLP feeds the PLP formula</div>
+        <div class="ecosystem-flow-arrow">then</div>
+        <div class="ecosystem-flow-step">PLP ranks you on the Player List</div>
+      </div>
+
+      <div class="term-card">
+        <h3>KLP (Kaizo List Points)</h3>
+        <p>
+          Every level on the List has a single fixed KLP value, representing how difficult it's
+          judged (Not relative to the other levels on the list). There's no automatic formula for this
+          number because it's decided together by the List Admins and the level's verifier and/or
+          playtesters, weighing it against similar existing entries. Higher KLP means a harder level.
+        </p>
+      </div>
+
+      <div class="term-card">
+        <h3>Verification vs. Victors</h3>
+        <p>
+          <strong>Verifying</strong> a level means being the one to beat it first, proving it's
+          legitimately possible. Once a level is verified, either the verifier or the level's
+          creator can get it uploaded to the ULB server and added to the List (this is why
+          verifications require video proof. See the Submitting a Completion rules below).
+        </p>
+        <p>
+          <strong>Victoring</strong> a level means beating it after it's already been verified and
+          added to the List. Every player who does this earns Victory KLP.
+        </p>
+        <p>
+          A level only has one verifier, and that role is locked in once the level is verified.
+          The verifier can't also be counted separately as a victor on that same level.
+          Each level only ever pays out its KLP once per player. Your <strong>Total KLP</strong>
+          (shown on your Player Details page) is your Verification KLP plus your Victory KLP,
+          added together across every different level you've cleared.
+        </p>
+      </div>
+
+      <div class="term-card">
+        <h3>PLP (Player List Points)</h3>
+        <p>
+          PLP is what ranks players against each other on the Player Rankings page. Not to be confused with
+          your KLP total. It's built to reward Kaizo players who both climb <em>high</em> and
+          clear a <em>broad, consistent</em> spread of hard levels, rather than just stacking up
+          volume on easy ones. It's made of three parts added together:
+        </p>
+
+        <div class="formula-box">
+          <p class="formula-eq">PLP = Peak + Consistency + Breadth</p>
+          <ul class="formula-var-list">
+            <li><strong>Peak</strong> is based on your single highest-KLP clear. That clear's KLP
+              is raised to the power of 0.85 (a bit less than the full value, but close to it).</li>
+            <li><strong>Consistency</strong> looks at every clear you have, sorted from hardest to
+              easiest. Each one's KLP is raised to the power of 0.65, then all of those are added
+              up and multiplied by 0.6. Your top 12 hardest clears also get an extra bonus on top
+              of that, worth up to 60% more, which tapers down step by step until it disappears by
+              the 12th one.</li>
+            <li><strong>Breadth</strong> is a small bonus for sheer volume: take the square root of
+              your Total KLP, then multiply it by 0.035.</li>
+          </ul>
+        </div>
+
+        <p>
+          Two consequences worth knowing: because Consistency uses a power less than 1, each
+          individual clear matters a little less than the last one. Which means there are diminishing
+          returns, but every clear still always helps some. And because your top 12 hardest clears
+          get the extra bonus, your hardest dozen completions matter disproportionately more to
+          your PLP than anything you clear after that.
+        </p>
+      </div>
+
+      <div class="worked-example">
+        <h4>Worked example: a player with 3 clears</h4>
+        <p>Say a guy named Sasha Pupoy has verified one 500 KLP level, victored a separate 400 KLP level, and
+          victored one more 200 KLP level.</p>
+        <p>Total KLP: 500 + 400 + 200 = <strong>1,100 KLP</strong></p>
+        <p>Sorted clears for PLP, hardest first: 500, 400, 200.</p>
+        <p>Peak: 500 raised to the power of 0.85 comes out to about 196.8.</p>
+        <p>Consistency: each clear's KLP raised to the power of 0.65, with the early bonus applied
+          (500 gets the biggest bonus since it's climbed first, tapering down for 400 and 200),
+          added up and multiplied by 0.6 - works out to about 128.4.</p>
+        <p>Breadth: the square root of 1,100 total KLP, multiplied by 0.035, comes out to about 1.2.</p>
+        <p class="result-line">PLP: about 196.8 + 128.4 + 1.2 = about 326.4</p>
+      </div>
+
+      <div class="worked-example">
+        <h4>Worked example: a player with 15 clears</h4>
+        <p>KLP values, hardest to easiest: 900, 600, 450, 300, 250, 200, 180, 150, 140, 130, 120,
+          110, 100, 90, 80.</p>
+        <p>Total KLP: <strong>3,800 KLP</strong></p>
+        <p>Peak: about 324.4. Consistency: about 416.5. Breadth: about 2.2.</p>
+        <p class="result-line">PLP: about 743.1</p>
+        <p>Note how much more total PLP this broader, more consistent player earns compared to
+          the 3-clear example above, even though their single hardest clear (900) isn't
+          dramatically higher than 500.</p>
+      </div>
+    </section>
+
+    <!-- ── LEVELS & PLAYERS ─────────────────────────────────── -->
+    <section class="rules-section panel-9slice">
+      <h2 class="rules-section-title">Levels &amp; Players</h2>
+
+      <div class="rule-card">
+        <div class="rule-number">1</div>
+        <div class="rule-body">
+          <p class="rule-text">No secret ways.</p>
+          <p class="rule-note">
+            A <em>secret way</em> is defined as an intentional skip intended by the verifier
+            that dramatically eases specific parts of the level, framing an otherwise illegitimate
+            completion as valid.
+          </p>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-number">2</div>
+        <div class="rule-body">
+          <p class="rule-text">No timmy-levels.</p>
+          <p class="rule-note">
+            Levels must have coherent, kaizo-worthy gameplay. A <em>timmy-level</em> is one with
+            lazy or spammy design. For example, enemies mindlessly spammed everywhere with no
+            intentional design behind them.
+          </p>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-number">3</div>
+        <div class="rule-body">
+          <p class="rule-text">No third-party external applications.</p>
+          <p class="rule-note">
+            This includes auto-clickers, macros, or any software that automates or helps
+            in-game inputs in any way. (Note: This includes any modifications made to the game itself, such as the ANARCHY Mod.)
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── SUBMITTING A COMPLETION ───────────────────────────── -->
+    <section class="rules-section panel-9slice">
+      <h2 class="rules-section-title">Submitting a Completion</h2>
+
+      <div class="rule-card">
+        <div class="rule-number">1</div>
+        <div class="rule-body">
+          <p class="rule-text">Provide a raw completion recording or livestream.</p>
+          <p class="rule-note">
+            You must record or stream your run from start to finish. Edited, spliced footage, 
+            or providing only a screenshot is not accepted.
+          </p>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-number">2</div>
+        <div class="rule-body">
+          <p class="rule-text">Your submission must show the Green Medal.</p>
+          <p class="rule-note">
+            Both your raw completion footage <em>and</em> a screenshot of the level screen must
+            clearly show the Green Medal stamp. Search the level in-game and include a clear
+            shot of the Green Medal on the level screen as part of your submission.
+          </p>
+        </div>
+      </div>
+
+    <div class="rule-card">
+      <div class="rule-number">3</div>
+      <div class="rule-body">
+        <p class="rule-text">
+          Submit your record in the <a href="https://discord.gg/3un6nh8G9w" target="_blank" rel="noopener noreferrer">Discord</a>.
+        </p>
+        <p class="rule-note">
+          Post your evidence in the 
+          <a href="https://discord.com/channels/1291482741317042306/1299626936833933407" target="_blank" rel="noopener noreferrer">
+            <strong>#submit-records</strong>
+          </a> 
+          channel with your raw footage and Green Medal screenshot.
+        </p>
+      </div>
+    </div>
+
+    </section>
+
+    <!-- ── FOOTER NOTE ────────────────────────────────────────── -->
+    <div class="rules-footer panel-9slice">
+      <p>
+        If any rule seems unclear, or you're unsure about something,
+        feel free to reach out directly. New rules may be added as needed.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer panel-9slice">
+  <p>
+    <span data-i18n="copyright">The Kaizo List © 2026</span> —
+    <span data-i18n="version_label">Version</span> <span id="app-version">1.22</span>
+  </p>
+  <p>
+    <span data-i18n="footer_attribution">Game & All assets belong to</span>
+    <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
+    <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
+  </p>
+</footer>
+
+<script type="module">
+  import { applyRandomPattern } from '../js/utils.js';
+  import { applyTranslations } from '../js/i18n.js';
+
+  const patterns = Array.from({length: 13}, (_, i) => `../images/pattern/pattern${i}.png`);
+  applyRandomPattern('.hub-button', patterns);
+
+  applyTranslations();
+</script>
+
+<script type="module" src="../js/version.js"></script>
+
+</body>
+</html>

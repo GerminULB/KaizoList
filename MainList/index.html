@@ -41,17 +41,22 @@
     </div>
 
   <div class="container panel-9slice">
-    <a href="/KaizoList/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
+    <a href="/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
     <h1 data-i18n="main_list_title">The Main List</h1>
     <p class="hub-intro" data-i18n="main_list_intro">The most difficult possible Levels imaginable...</p>
 
     <nav class="hub-links">
-      <a href="/KaizoList/MainList/" class="hub-button" data-i18n="nav_main_list">Main List</a>
-      <a href="/KaizoList/ChallengeList/" class="hub-button" data-i18n="nav_challenge_list">Challenge List</a>
-      <a href="/KaizoList/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
-      <a href="/KaizoList/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
+      <a href="/MainList/" class="hub-button" data-i18n="nav_main_list">List</a>
+      <a href="/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
+      <a href="/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
     </nav>
 
+    <div class="list-tabs" role="tablist">
+      <button type="button" class="list-tab-btn active" id="tab-main" data-tab="main" role="tab" aria-selected="true" data-i18n="tab_main_list">Main List</button>
+      <button type="button" class="list-tab-btn" id="tab-legacy" data-tab="legacy" role="tab" aria-selected="false" data-i18n="tab_legacy_list">Legacy List</button>
+    </div>
+
+    <p id="legacy-note" class="legacy-note hidden" data-i18n="legacy_note">Legacy levels are listed in their original order and don't carry KLP.</p>
 
     <input type="text" id="search" data-i18n-placeholder="search_levels" placeholder="Search Levels..." />
     <div class="filters">

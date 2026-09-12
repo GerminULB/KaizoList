@@ -1,4 +1,4 @@
-import { fetchJson, HISTORY_FILES } from './js/utils.js';
+import { fetchJson, HISTORY_FILES, findLegacyTransition } from './js/utils.js';
 import { BADGES, getSpecialBadgeByRank } from './js/badge.js';
 import { renderBadgeDeck, handleBadgeSkew } from './js/badgeSystem.js';
 import { t } from './js/i18n.js';
@@ -6,21 +6,19 @@ import { t } from './js/i18n.js';
 document.addEventListener('DOMContentLoaded', async () => {
     const ITEMS_PER_PAGE = 9;
 
+    const LEGACY_RANK_CUTOFF = 80; // ranks 1-80 stay in the Main List, 81+ are Legacy
+
     const params = new URLSearchParams(window.location.search);
     const levelName = params.get('name');
-    const from = params.get('from') || 'main';
-    
 
     if (!levelName) return alert(t('error_no_level'));
-
     const [levels, challenges, victorsData] = await Promise.all([
         fetchJson('levels.json'),
         fetchJson('challenges.json'),
         fetchJson('victors.json')
     ]);
 
-    const allLevels = [...levels, ...challenges];
-    const level = allLevels.find(l => l.name === levelName);
+    const level = levels.find(l => l.name === levelName) || (challenges || []).find(l => l.name === levelName);
     
     if (!level) return alert(t('error_level_not_found'));
 
@@ -34,23 +32,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     safeSet('level-id', level.id || 'N/A');
     safeSet('level-klp', level.klp || 0);
 
-    let rankingPile = [];
-    let listLabelKey = "";
-
-    if (from === 'challenge') {
-        rankingPile = [...challenges];
-        listLabelKey = "label_challenge_list";
-    } else {
-        rankingPile = [...levels];
-        listLabelKey = "label_main_list"; 
-    }
-
-    const sortedForRank = rankingPile.sort((a, b) => b.klp - a.klp);
-    const rank = sortedForRank.findIndex(l => l.name === levelName) + 1;
-    
     const rankEl = document.getElementById('level-rank');
-    if (rankEl) {
-        rankEl.innerHTML = `${rank} <span style="font-size: 0.7em; opacity: 0.6; margin-left: 5px;">${t(listLabelKey)}</span>`;
+    const klpRowEl = document.getElementById('level-klp-row');
+    const isOnMainList = levels.some(l => l.name === levelName);
+    let rank = 0;
+
+    if (isOnMainList) {
+        const sortedForRank = [...levels].sort((a, b) => b.klp - a.klp);
+        rank = sortedForRank.findIndex(l => l.name === levelName) + 1;
+        const isLegacy = rank > LEGACY_RANK_CUTOFF;
+
+        if (isLegacy) {
+            if (klpRowEl) klpRowEl.classList.add('hidden');
+            if (rankEl) {
+                rankEl.innerHTML = `${t('legacy_label', { defaultValue: 'Legacy' })} <span style="font-size: 0.7em; opacity: 0.6; margin-left: 5px;">${t('label_legacy_list', { defaultValue: '(Legacy List)' })}</span>`;
+            }
+
+            // Fire-and-forget: scan snapshot history for when this level first
+            // showed up past the legacy cutoff. Doesn't block the rest of the page.
+            const legacyDateRowEl = document.getElementById('level-legacy-date-row');
+            const legacyDateEl = document.getElementById('level-legacy-date');
+            if (legacyDateRowEl && legacyDateEl && level.id) {
+                findLegacyTransition(level.id, LEGACY_RANK_CUTOFF, HISTORY_FILES).then(({ date, approximate, everSeenInHistory }) => {
+                    if (date) {
+                        legacyDateEl.innerText = approximate ? `~${date}` : date;
+                        legacyDateEl.title = t('legacy_since_approx_tooltip', {
+                            defaultValue: 'Approximate — based on the earliest saved snapshot where this level already ranked below the cutoff.'
+                        });
+                        legacyDateRowEl.classList.remove('hidden');
+                    } else if (!everSeenInHistory) {
+                        // Not found in any snapshot -> likely dropped to Legacy after the most recent one
+                        legacyDateEl.innerText = t('legacy_since_recent', { defaultValue: 'Recently' });
+                        legacyDateRowEl.classList.remove('hidden');
+                    }
+                    // If date is null but everSeenInHistory is true, the level was
+                    // confirmed non-legacy in the newest snapshot we have, and only
+                    // dropped afterward -- leave the row hidden rather than guess.
+                }).catch(() => { /* best-effort, no history data is not fatal */ });
+            }
+        } else if (rankEl) {
+            rankEl.innerHTML = `${rank} <span style="font-size: 0.7em; opacity: 0.6; margin-left: 5px;">${t('label_main_list')}</span>`;
+        }
+    } else {
+        rankEl?.closest('p')?.classList.add('hidden');
     }
 
     // badges
@@ -75,9 +99,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const badgeRow = document.getElementById('badge-row');
     const seriesRow = document.getElementById('series-badge');
     
-    const prefix = (from === 'challenge') ? t('prefix_challenge') : t('prefix_kaizo');
     document.title = t('level_page_title', { 
-        prefix: prefix, 
+        prefix: t('prefix_kaizo'), 
         name: level.name, 
         klp: level.klp 
     });
@@ -161,8 +184,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         let currentPage = 1;
         const totalPages = Math.ceil(victors.length / ITEMS_PER_PAGE);
 
+        let pagination = victorsContainer.parentElement.querySelector('.victors-pagination');
+
         const renderPage = () => {
             victorsContainer.innerHTML = '';
+
+            if (victors.length === 0) {
+                victorsContainer.innerHTML = `<div class="empty-state">${t('no_victors_yet', { defaultValue: 'No victors yet.' })}</div>`;
+                if (pagination) pagination.remove();
+                return;
+            }
+
             const pageItems = victors.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
             pageItems.forEach(player => {
@@ -173,14 +205,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 victorsContainer.appendChild(cell);
             });
 
-            let pagination = victorsContainer.parentElement.querySelector('.victors-pagination');
-            if (!pagination) {
-                pagination = document.createElement('div');
-                pagination.className = 'victors-pagination panel-9slice';
-                victorsContainer.parentElement.appendChild(pagination);
-            }
-            pagination.innerHTML = '';
             if (totalPages > 1) {
+                if (!pagination) {
+                    pagination = document.createElement('div');
+                    pagination.className = 'victors-pagination pagination';
+                    victorsContainer.parentElement.appendChild(pagination);
+                }
+                pagination.innerHTML = '';
                 for (let i = 1; i <= totalPages; i++) {
                     const btn = document.createElement('button');
                     btn.innerText = i;
@@ -188,6 +219,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     btn.onclick = () => { currentPage = i; renderPage(); };
                     pagination.appendChild(btn);
                 }
+            } else if (pagination) {
+                pagination.remove();
+                pagination = null;
             }
         };
         renderPage();
@@ -215,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (backBtn) {
         backBtn.onclick = (e) => {
             e.preventDefault();
-            window.location.href = (from === 'challenge') ? './ChallengeList/' : './MainList/';
+            window.location.href = './MainList/';
         };
     }
 

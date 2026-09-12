@@ -32,19 +32,6 @@
         ]
     },
     {
-        "name": "Spikey Clouds",
-        "klp": 1455,
-        "creator": "Yetistudis",
-        "verifier": "redstom",
-        "id": "780196",
-        "badges": [
-            "spikey",
-            "ruthless",
-            "checkpointless",
-            "smol"
-        ]
-    },
-    {
         "name": "Conflicted",
         "klp": 1397,
         "creator": "Zevvy (Zevorcen)",
@@ -70,35 +57,6 @@
             "ruthless",
             "checkpointless",
             "tight"
-        ]
-    },
-    {
-        "name": "Wenebrix",
-        "klp": 996,
-        "creator": "Germinxvee",
-        "verifier": "Germinxvee",
-        "id": "735589",
-        "badges": [
-            "approved_germin",
-            "jetpack",
-            "magnet",
-            "timer",
-            "tight",
-            "ruthless",
-            "checkpointless",
-            "approved_sasha"
-        ]
-    },
-    {
-        "name": "Stilted Fortress",
-        "klp": 995,
-        "creator": "Saarck",
-        "verifier": "Saarck",
-        "id": "460624",
-        "badges": [
-            "xxl",
-            "creative",
-            "boss"
         ]
     },
     {
@@ -132,21 +90,6 @@
         ]
     },
     {
-        "name": "Eternal Frozurn Fate",
-        "klp": 911,
-        "creator": "Ocelote",
-        "verifier": "Ocelote",
-        "id": "400663",
-        "badges": [
-            "tight",
-            "timeless",
-            "sawy",
-            "spikey",
-            "smol",
-            "ruthless"
-        ]
-    },
-    {
         "name": "It Love Time",
         "klp": 894,
         "creator": "Ripbasil",
@@ -163,6 +106,21 @@
         ]
     },
     {
+        "name": "Eternal Frozurn Fate",
+        "klp": 911,
+        "creator": "Ocelote",
+        "verifier": "Ocelote",
+        "id": "400663",
+        "badges": [
+            "tight",
+            "timeless",
+            "sawy",
+            "spikey",
+            "smol",
+            "ruthless"
+        ]
+    },
+    {
         "name": "Tower of True Skill",
         "klp": 827,
         "creator": "Zevvy (Zevorcen)",
@@ -174,6 +132,35 @@
             "tower",
             "ruthless",
             "tight"
+        ]
+    },
+    {
+        "name": "Wenebrix",
+        "klp": 782,
+        "creator": "Germinxvee",
+        "verifier": "Germinxvee",
+        "id": "735589",
+        "badges": [
+            "approved_germin",
+            "jetpack",
+            "magnet",
+            "timer",
+            "tight",
+            "ruthless",
+            "checkpointless",
+            "approved_sasha"
+        ]
+    },
+    {
+        "name": "Stilted Fortress",
+        "klp": 743,
+        "creator": "Saarck",
+        "verifier": "Saarck",
+        "id": "460624",
+        "badges": [
+            "xxl",
+            "creative",
+            "boss"
         ]
     },
     {
@@ -246,19 +233,6 @@
         ]
     },
     {
-        "name": "Bobette Its So Happy",
-        "klp": 588,
-        "creator": "Lanzy-ULB",
-        "verifier": "Lanzy-ULB",
-        "id": "495133",
-        "badges": [
-            "tight",
-            "creative",
-            "spikey",
-            "approved_germin"
-        ]
-    },
-    {
         "name": "Null and Space",
         "klp": 587,
         "creator": "Yetistudis",
@@ -268,30 +242,6 @@
             "former_impossible",
             "deco_simple",
             "tight"
-        ]
-    },
-    {
-        "name": "Nox Challenge",
-        "klp": 584,
-        "creator": "lpopooff1337",
-        "verifier": "redstom",
-        "id": "430141",
-        "badges": [
-            "former_impossible",
-            "deco_simple",
-            "ruthless"
-        ]
-    },
-    {
-        "name": "* Crimson Circle *",
-        "klp": 583,
-        "creator": "Toño",
-        "verifier": "Toño",
-        "id": "791022",
-        "badges": [
-            "tight",
-            "ruthless",
-            "jetpack"
         ]
     },
     {
@@ -332,18 +282,6 @@
         ]
     },
     {
-        "name": "Die Mansion Kaizo",
-        "klp": 534,
-        "creator": "Black Cotton YT",
-        "verifier": "Black Cotton YT",
-        "id": "769651",
-        "badges": [
-            "magnet",
-            "spikey",
-            "approved_germin"
-        ]
-    },
-    {
         "name": "OB - Snake Love",
         "klp": 534,
         "creator": "Ocelote",
@@ -354,19 +292,6 @@
             "tight",
             "spikey",
             "creative"
-        ]
-    },
-    {
-        "name": "Brutal Parkour",
-        "klp": 529,
-        "creator": "MrMaxter, To\u00f1o",
-        "verifier": "To\u00f1o",
-        "id": "878730",
-        "badges": [
-            "ruthless",
-            "ruthless",
-            "ruthless",
-            "approved_germin"
         ]
     },
     {
@@ -434,6 +359,19 @@
         ]
     },
     {
+        "name": "Kaizo 0",
+        "klp": 450,
+        "creator": "Ocelote",
+        "verifier": "Ocelote",
+        "id": "189503",
+        "badges": [
+            "tight",
+            "deco_simple",
+            "xxl",
+            "ancient"
+        ]
+    },
+    {
         "name": "Yatagarasu",
         "klp": 436,
         "creator": "Lanzy-ULB",
@@ -483,19 +421,6 @@
             "timer",
             "checkpointless",
             "former_top1"
-        ]
-    },
-    {
-        "name": "Kaizo 0",
-        "klp": 397,
-        "creator": "Ocelote",
-        "verifier": "Ocelote",
-        "id": "189503",
-        "badges": [
-            "tight",
-            "deco_simple",
-            "xxl",
-            "ancient"
         ]
     },
     {
@@ -612,18 +537,6 @@
             "deco_simple"
         ]
     },
-        {
-        "name": "Garden of Pain",
-        "klp": 309,
-        "creator": "Black Cotton YT",
-        "verifier": "Failed Boy",
-        "id": "811110",
-        "badges": [
-            "approved_germin",
-            "tight",
-            "boss"
-        ]
-    },
     {
         "name": "VS Fake Ocelote",
         "klp": 302,
@@ -666,7 +579,6 @@
             "approved_germin"
         ]
     },
-
     {
         "name": "Tenebris",
         "klp": 265,
@@ -797,17 +709,15 @@
         ]
     },
     {
-        "name": "Matgarzza 2007",
+        "name": "Lava Paradise",
         "klp": 223,
-        "creator": "Lanzy-ULB",
-        "verifier": "Lanzy-ULB",
-        "id": "515482",
+        "creator": "Ocelote",
+        "verifier": "Ocelote",
+        "id": "440423",
         "badges": [
             "tower",
             "creative",
-            "tight",
-            "jetpack",
-            "approved_germin"
+            "tight"
         ]
     },
     {
@@ -900,7 +810,17 @@
             "darkness"
         ]
     },
-
+    {
+        "name": "Corps Astronomiques",
+        "klp": 168,
+        "creator": "065Foxys",
+        "verifier": "065Foxys",
+        "id": "719923",
+        "badges": [
+            "creative",
+            "approved_germin"
+        ]
+    },
     {
         "name": "Smash Spire",
         "klp": 165,
@@ -975,18 +895,6 @@
         ]
     },
     {
-        "name": "Metalung",
-        "klp": 140  ,
-        "creator": "Milaneso-Man",
-        "verifier": "Milaneso-Man",
-        "id": "816117",
-        "badges": [
-            "gimmick",
-            "magnet",
-            "jetpack"
-          ]
-    },
-    {
         "name": "Blue Circles",
         "klp": 140,
         "creator": "Mk Milxky Maker",
@@ -995,23 +903,7 @@
         "badges": [
             "jetpack",
             "approved_germin",
-            "memory",
-            "beginner"
-        ]
-    },
-        {
-        "name": "The Tower of Saw",
-        "klp": 138,
-        "creator": "NOIDE",
-        "verifier": "NOIDE",
-        "id": "830249",
-        "badges": [
-            "tower",
-            "sawy",
-            "gimmick",
-            "creative",
-            "deco_simple",
-            "approved_germin"
+            "memory"
         ]
     },
     {
@@ -1023,17 +915,6 @@
         "badges": [
             "tight",
             "deco_simple"
-        ]
-    },    
-    {
-        "name": "Lava Paradise",
-        "klp": 132,
-        "creator": "Ocelote",
-        "verifier": "Ocelote",
-        "id": "440423",
-        "badges": [
-            "tower",
-            "creative"
         ]
     },
     {
@@ -1057,8 +938,7 @@
         "id": "487319",
         "badges": [
             "sawy",
-            "approved_germin",
-            "beginner"
+            "approved_germin"
         ]
     },
     {
@@ -1085,7 +965,7 @@
     },
     {
         "name": "kaizo 56 v2 x redux ex",
-        "klp": 120,
+        "klp": 117,
         "creator": "Saarck",
         "verifier": "Saarck",
         "id": "432502",
@@ -1095,21 +975,6 @@
             "smol"
         ]
     },
-    {
-        "name": "A Long Walk To Heaven",
-        "klp": 117,
-        "creator": "Nisshoku6667",
-        "verifier": "Nisshoku6667",
-        "id": "590986",
-        "badges": [
-            "creative",
-            "deco_simple",
-            "approved_germin",
-            "xxl",
-            "beginner"
-        ]
-    },
-
     {
         "name": "Kaizo Desert",
         "klp": 116,
@@ -1134,7 +999,6 @@
             "deco_simple"
         ]
     },
-
     {
         "name": "Eon",
         "klp": 112,
@@ -1185,7 +1049,6 @@
             "deco_simple"
         ]
     },
-
     {
         "name": "Hil",
         "klp": 106,
@@ -1195,17 +1058,6 @@
         "badges": [
             "tower",
             "smol"
-        ]
-    },
-    {
-        "name": "Corps Astronomiques",
-        "klp": 105,
-        "creator": "065Foxys",
-        "verifier": "065Foxys",
-        "id": "719923",
-        "badges": [
-            "creative",
-            "approved_germin"
         ]
     },
     {
@@ -1225,8 +1077,8 @@
     {
         "name": "Internal Vortex",
         "klp": 101,
-        "creator": "Nisshoku6667",
-        "verifier": "Nisshoku6667",
+        "creator": "Nisshoku",
+        "verifier": "Nisshoku",
         "id": "412883",
         "badges": [
             "magnet",

@@ -6,7 +6,7 @@
   <title data-i18n="player_details_page_title">Player Details | KaizoList</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
-  <link rel="canonical" href="https://germinulb.github.io/KaizoList/PlayerDetails.html" />
+  <link rel="canonical" href="https://kaizolist.com/PlayerDetails.html" />
 </head>
 <body>
 
@@ -39,7 +39,7 @@
 </div>
   
   <div class="container panel-9slice">
-    <a href="/KaizoList/PlayerList/" class="hub-button" data-i18n="nav_back">Back</a>
+    <a href="/PlayerList/" class="hub-button" data-i18n="nav_back">Back</a>
 
     
     <div id="title-row">
@@ -81,7 +81,7 @@
     import { applyRandomPattern } from './js/utils.js';
     import { applyTranslations } from './js/i18n.js';
     
-    const patterns = Array.from({length:13}, (_,i)=>`/KaizoList/images/pattern/pattern${i}.png`);
+    const patterns = Array.from({length:13}, (_,i)=>`/images/pattern/pattern${i}.png`);
     applyRandomPattern('.hub-button', patterns);
 
     applyTranslations();

@@ -24,11 +24,11 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Kaizo List Hub">
   <meta name="twitter:description" content="Welcome to the Kaizo List.">
-  <meta name="twitter:image" content="https://germinulb.github.io/KaizoList/images/kaizolistlogo.png">
+  <meta name="twitter:image" content="https://kaizolist.com/images/kaizolistlogo.png">
   <meta property="og:title" content="The Kaizo List Hub" />
   <meta property="og:description" content="Welcome to the Kaizo List." />
   <meta property="og:image" content="images/kaizolistlogo.png" />
-  <meta property="og:url" content="https://germinulb.github.io/KaizoList/" />
+  <meta property="og:url" content="https://kaizolist.com/" />
 </head>
 <body>
 
@@ -60,15 +60,14 @@
       <p class="hub-intro" data-i18n="hub_nav_prompt">Where would you like to go?</p>
 
       <nav class="hub-links">
-        <a href="/KaizoList/MainList/" class="hub-button" data-i18n="nav_main_list">Main List</a>
-        <a href="/KaizoList/ChallengeList/" class="hub-button" data-i18n="nav_challenge_list">Challenge List</a>
-        <a href="/KaizoList/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
-        <a href="/KaizoList/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
+        <a href="/MainList/" class="hub-button" data-i18n="nav_main_list">List</a>
+        <a href="/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
+        <a href="/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
       </nav>
 
       <div class="update-announcement panel-9slice">
         <div class="update-content">
-          <p><strong data-i18n="update_header">Hello Guys! Version 1.2 out!</strong></p>
+          <p><strong data-i18n="update_header">Hello Guys! Version 1.26 out!</strong></p>
           <div data-i18n="update_body">
             Yo
           </div>
@@ -78,13 +77,11 @@
 
       <div class="hub-info panel-9slice">
         <h2 data-i18n="rules_title">Rules & Community</h2>
-        <ul>
-          <li data-i18n="rule_1">No Secret Ways except intended or verification purposes (video proof required)</li>
-          <li data-i18n="rule_2">No external applications (auto-clickers, macros, etc.)</li>
-          <li data-i18n="rule_3">Verification usually requires video proof</li>
-          <li data-i18n="rule_4">No cheating</li>
-          <li data-i18n="rule_5">Challenges: No checkpoints, 1HP, size 1x1–2x1, no sub-world</li>
-        </ul>
+        <p data-i18n="rules_redirect_blurb">
+          Every level and completion on the List has to follow a set of rules — and if you're
+          curious how KLP and PLP actually work, that's explained there too.
+        </p>
+        <a href="/Rules/" class="hub-button" data-i18n="nav_rules">Read the Rules</a>
         <p>
           <span data-i18n="discord_join_berney">Join the</span> 
           <a href="https://discord.gg/n9MEzwNXGs" target="_blank">Berneyvonbean Discord server</a>!
@@ -134,20 +131,20 @@
       <span data-i18n="footer_attribution">Game & All assets belong to</span> 
       <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
       <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
-    </p>
+    </p>  
 </footer>
 
 <script type="module">
     import { applyRandomPattern, renderRecentChanges } from './js/utils.js';
     import { applyTranslations } from './js/i18n.js';
 
-    const patterns = Array.from({length:13}, (_,i)=>`/KaizoList/images/pattern/pattern${i}.png`);
+    const patterns = Array.from({length:13}, (_,i)=>`/images/pattern/pattern${i}.png`);
     applyRandomPattern('.hub-button', patterns);
     renderRecentChanges('recent-changes');
     applyTranslations();
 </script>
 
-<script type="module" src="../js/version.js"></script>
+<script type="module" src="./js/version.js"></script>
 
 </body>
 </html>

@@ -6,7 +6,7 @@
   <title data-i18n="level_details_page_title">Level Details | KaizoList</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
-  <link rel="canonical" href="https://germinulb.github.io/KaizoList/LevelDetails.html" />
+  <link rel="canonical" href="https://kaizolist.com/LevelDetails.html" />
 </head>
 <body>
 
@@ -38,8 +38,10 @@
 </div>
 
   <div class="container panel-9slice">
-      <a href="#" id="back-button" class="hub-button" data-i18n="nav_back">Back</a>
-      
+      <div id="level-topbar">
+          <a href="#" id="back-button" class="hub-button" data-i18n="nav_back">Back</a>
+      </div>
+
       <div id="title-row">
           <div id="title-left">
               <h1 id="level-name"></h1>
@@ -51,25 +53,26 @@
           </div>
       </div>
 
-      <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
-          <div style="flex:1; min-width: 280px;" class="panel-9slice">
+      <div class="level-columns">
+          <div class="level-column">
+              <h2 data-i18n="victors_title">Victors</h2>
+              <div id="victors-grid" class="grid panel-9slice"></div>
+          </div>
+
+          <div class="level-column">
               <div id="level-info" class="panel-9slice">
                   <h2 data-i18n="level_info_title">Level Info</h2>
 
                   <p><strong data-i18n="creator">Creator:</strong> <span id="level-creator"></span></p>
                   <p><strong data-i18n="verifier">Verifier:</strong> <span id="level-verifier"></span></p>
                   <p><strong data-i18n="id">ID:</strong> <span id="level-id">N/A</span></p>
-                  <p><strong>KLP:</strong> <span id="level-klp">0</span></p>
+                  <p id="level-klp-row"><strong>KLP:</strong> <span id="level-klp">0</span></p>
                   <p><strong data-i18n="sort_rank">Rank:</strong> <span id="level-rank">0</span></p>
+                  <p id="level-legacy-date-row" class="hidden"><strong data-i18n="legacy_since_label">Moved to Legacy:</strong> <span id="level-legacy-date">N/A</span></p>
               </div>
 
               <h2 data-i18n="history_title">History</h2>
               <div id="history" class="scrollable panel-9slice"></div>
-          </div>
-          
-          <div style="flex:1; min-width: 280px;" class="panel-9slice">
-              <h2 data-i18n="victors_title">Victors</h2>
-              <div id="victors-grid" class="grid panel-9slice"></div>
           </div>
       </div>
   </div>
@@ -78,7 +81,7 @@
       import { applyRandomPattern } from './js/utils.js';
       import { applyTranslations } from './js/i18n.js';
 
-      const patterns = Array.from({ length: 13 }, (_, i) => `/KaizoList/images/pattern/pattern${i}.png`);
+      const patterns = Array.from({ length: 13 }, (_, i) => `/images/pattern/pattern${i}.png`);
       applyRandomPattern('.hub-button', patterns);
       
       applyTranslations();

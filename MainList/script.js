@@ -1,25 +1,45 @@
-import { fetchJson, rankByKLP, splitNames, renderRecentChanges } from "../js/utils.js";
+import { fetchJson, splitNames, renderRecentChanges } from "../js/utils.js";
 import { BADGES } from "../js/badge.js";
 import { t } from '../js/i18n.js';
 
 (() => {
-    let currentLevels = [];
+    const LEGACY_RANK_CUTOFF = 80; // ranks 1-80 stay in the Main List, 81+ are Legacy
+
+    let currentLevels = [];   // everything, in original levels.json order, each tagged with .rank and .isLegacy
+    let mainLevels = [];      // rank 1-80
+    let legacyLevels = [];    // rank 81+, kept in original levels.json order
+    let activeTab = 'main';
 
     async function init() {
         try {
             const data = await fetchJson('../levels.json');
             if (!data) throw new Error("Failed to load levels.json");
-            
-            currentLevels = rankByKLP(
-                data.map((lvl, idx) => ({
-                    id: lvl.id ?? (idx + 1),
-                    name: lvl.name ?? '',
-                    creator: lvl.creator ?? '',
-                    verifier: lvl.verifier ?? '',
-                    klp: Number(lvl.klp) || 0,
-                    badges: lvl.badges || []
-                }))
+
+            const normalized = data.map((lvl, idx) => ({
+                id: lvl.id ?? (idx + 1),
+                name: lvl.name ?? '',
+                creator: lvl.creator ?? '',
+                verifier: lvl.verifier ?? '',
+                klp: Number(lvl.klp) || 0,
+                badges: lvl.badges || []
+            }));
+
+            // Rank is derived from KLP, but we keep the array itself in the
+            // original levels.json order so the Legacy List can display
+            // top-to-bottom-of-file order rather than a KLP re-sort.
+            const rankByName = new Map(
+                [...normalized]
+                    .sort((a, b) => b.klp - a.klp)
+                    .map((lvl, i) => [lvl.name, i + 1])
             );
+
+            currentLevels = normalized.map(lvl => {
+                const rank = rankByName.get(lvl.name);
+                return { ...lvl, rank, isLegacy: rank > LEGACY_RANK_CUTOFF };
+            });
+
+            mainLevels = currentLevels.filter(lvl => !lvl.isLegacy);
+            legacyLevels = currentLevels.filter(lvl => lvl.isLegacy);
 
             populateFilters(currentLevels);
             renderFilteredLevels();
@@ -32,6 +52,31 @@ import { t } from '../js/i18n.js';
         attachListeners();
     }
 
+    function setActiveTab(tab) {
+        activeTab = tab;
+
+        const mainBtn = document.getElementById('tab-main');
+        const legacyBtn = document.getElementById('tab-legacy');
+        const sortFilter = document.getElementById('sort-filter');
+        const legacyNote = document.getElementById('legacy-note');
+
+        if (mainBtn) {
+            mainBtn.classList.toggle('active', tab === 'main');
+            mainBtn.setAttribute('aria-selected', tab === 'main');
+        }
+        if (legacyBtn) {
+            legacyBtn.classList.toggle('active', tab === 'legacy');
+            legacyBtn.setAttribute('aria-selected', tab === 'legacy');
+        }
+        // Legacy List order is fixed (top-to-bottom of levels.json), so the
+        // rank/newest/oldest sort control doesn't apply there.
+        if (sortFilter) sortFilter.closest('.filters')?.classList.toggle('legacy-mode', tab === 'legacy');
+        if (sortFilter) sortFilter.style.display = tab === 'legacy' ? 'none' : '';
+        if (legacyNote) legacyNote.classList.toggle('hidden', tab !== 'legacy');
+
+        renderFilteredLevels();
+    }
+
     function attachListeners() {
         const searchEl = document.getElementById('search');
         if (searchEl) searchEl.addEventListener('input', debounce(renderFilteredLevels, 150));
@@ -41,11 +86,15 @@ import { t } from '../js/i18n.js';
         const badgeFilter = document.getElementById('badge-filter');
         const sortFilter = document.getElementById('sort-filter');
         const clearBtn = document.getElementById('clear-filters');
+        const mainTabBtn = document.getElementById('tab-main');
+        const legacyTabBtn = document.getElementById('tab-legacy');
 
         if (creatorFilter) creatorFilter.addEventListener('change', renderFilteredLevels);
         if (verifierFilter) verifierFilter.addEventListener('change', renderFilteredLevels);
         if (badgeFilter) badgeFilter.addEventListener('change', renderFilteredLevels);
         if (sortFilter) sortFilter.addEventListener('change', renderFilteredLevels);
+        if (mainTabBtn) mainTabBtn.addEventListener('click', () => setActiveTab('main'));
+        if (legacyTabBtn) legacyTabBtn.addEventListener('click', () => setActiveTab('legacy'));
         
         if (clearBtn) {
             clearBtn.addEventListener('click', () => {
@@ -116,7 +165,9 @@ import { t } from '../js/i18n.js';
         const selectedBadge = (document.getElementById('badge-filter')?.value) || '';
         const sortMethod = (document.getElementById('sort-filter')?.value) || 'rank';
 
-        let filtered = currentLevels.filter(lvl => {
+        const sourceLevels = activeTab === 'legacy' ? legacyLevels : mainLevels;
+
+        let filtered = sourceLevels.filter(lvl => {
             const creators = (lvl.creator || '').split(',').map(s => s.trim());
             const creatorMatch = selectedCreator === '' || creators.some(c => c === selectedCreator);
             const verifierMatch = selectedVerifier === '' || (lvl.verifier || '') === selectedVerifier;
@@ -126,19 +177,28 @@ import { t } from '../js/i18n.js';
                    creatorMatch && verifierMatch && badgeMatch;
         });
 
-        if (sortMethod === 'id-asc') filtered.sort((a, b) => +a.id - +b.id);
-        else if (sortMethod === 'id-desc') filtered.sort((a, b) => +b.id - +a.id);
-        else filtered.sort((a, b) => a.rank - b.rank);
+        // The Legacy List always stays in original levels.json order.
+        if (activeTab !== 'legacy') {
+            if (sortMethod === 'id-asc') filtered.sort((a, b) => +a.id - +b.id);
+            else if (sortMethod === 'id-desc') filtered.sort((a, b) => +b.id - +a.id);
+            else filtered.sort((a, b) => a.rank - b.rank);
+        }
 
         loadLevelsFromJSON(filtered);
     }
 
     function loadLevelsFromJSON(levels) {
         const container = document.getElementById('level-list');
-        const total = levels.reduce((sum, lvl) => sum + (Number(lvl.klp) || 0), 0);
         const totalEl = document.getElementById('total-klp');
-        
-        if (totalEl) totalEl.innerText = t('total_klp', { count: total.toLocaleString() });
+
+        if (totalEl) {
+            if (activeTab === 'legacy') {
+                totalEl.innerText = t('total_legacy_count', { count: levels.length.toLocaleString() });
+            } else {
+                const total = levels.reduce((sum, lvl) => sum + (Number(lvl.klp) || 0), 0);
+                totalEl.innerText = t('total_klp', { count: total.toLocaleString() });
+            }
+        }
         
         if (!container) return;
         container.innerHTML = '';
@@ -150,17 +210,21 @@ import { t } from '../js/i18n.js';
         levels.forEach(lvl => {
             const levelLink = document.createElement('a');
             levelLink.className = 'level-link-wrapper';
-            levelLink.href = `/KaizoList/LevelDetails.html?name=${encodeURIComponent(lvl.name)}&from=main`;
+            levelLink.href = `/LevelDetails.html?name=${encodeURIComponent(lvl.name)}`;
             
             const div = document.createElement('div');
             div.className = 'level';
+
+            const scoreMarkup = lvl.isLegacy
+                ? `<strong class="legacy-tag">${t('legacy_label', { defaultValue: 'Legacy' })}</strong>`
+                : `<strong>${escapeHtml(lvl.klp)} KLP</strong>`;
             
             div.innerHTML = `
             <div class="level-summary" role="button">
                 <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
                 <div class="summary-right">
                 <div class="mini-badge-list"></div>
-                <strong>${escapeHtml(lvl.klp)} KLP</strong>
+                ${scoreMarkup}
                 </div>
             </div>
             <div class="level-details">
