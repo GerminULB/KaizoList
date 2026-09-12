@@ -6,7 +6,7 @@ import { t } from './js/i18n.js';
 document.addEventListener('DOMContentLoaded', async () => {
     const ITEMS_PER_PAGE = 9;
 
-    const LEGACY_RANK_CUTOFF = 80; // ranks 1-80 stay in the Main List, 81+ are Legacy
+    const LEGACY_RANK_CUTOFF = 100; // ranks 1-100 stay in the Main List, 101+ are Legacy
 
     const params = new URLSearchParams(window.location.search);
     const levelName = params.get('name');

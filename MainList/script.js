@@ -3,11 +3,11 @@ import { BADGES } from "../js/badge.js";
 import { t } from '../js/i18n.js';
 
 (() => {
-    const LEGACY_RANK_CUTOFF = 80; // ranks 1-80 stay in the Main List, 81+ are Legacy
+    const LEGACY_RANK_CUTOFF = 100; // ranks 1-100 stay in the Main List, 101+ are Legacy
 
     let currentLevels = [];   // everything, in original levels.json order, each tagged with .rank and .isLegacy
-    let mainLevels = [];      // rank 1-80
-    let legacyLevels = [];    // rank 81+, kept in original levels.json order
+    let mainLevels = [];      // rank 1-100
+    let legacyLevels = [];    // rank 101+, kept in original levels.json order
     let activeTab = 'main';
 
     async function init() {
