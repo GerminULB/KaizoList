@@ -283,18 +283,6 @@
         ]
     },
     {
-        "name": "* Crimson Circles *",
-        "klp": 583,
-        "creator": "Toño",
-        "verifier": "Toño",
-        "id": "791022",
-        "badges": [
-            "tight",
-            "ruthless",
-            "jetpack"
-        ]
-    },
-    {
         "name": "OB - Slimy Road",
         "klp": 575,
         "creator": "Ocelote",
@@ -445,6 +433,18 @@
         "badges": [
             "memory",
             "ancient"
+        ]
+    },
+    {
+        "name": "* Crimson Circles *",
+        "klp": 460,
+        "creator": "Toño",
+        "verifier": "Toño",
+        "id": "791022",
+        "badges": [
+            "tight",
+            "ruthless",
+            "jetpack"
         ]
     },
     {
