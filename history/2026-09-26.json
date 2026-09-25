@@ -7,14 +7,14 @@
         "id": "599628",
         "badges": [
             "popular",
+            "ruthless",
+            "checkpointless",
+            "timeless",
             "jetpack",
             "magnet",
-            "spikey",
-            "ruthless",
             "tight",
-            "timeless",
-            "approved_germin",
-            "checkpointless"
+            "spikey",
+            "approved_germin"
         ]
     },
     {
@@ -25,10 +25,10 @@
         "id": "541966",
         "badges": [
             "former_top1",
-            "spikey",
             "ruthless",
             "checkpointless",
-            "tight"
+            "tight",
+            "spikey"
         ]
     },
     {
@@ -38,24 +38,10 @@
         "verifier": "redstom",
         "id": "780196",
         "badges": [
-            "spikey",
             "ruthless",
             "checkpointless",
-            "smol"
-        ]
-    },
-    {
-        "name": "Carnage LDM",
-        "klp": 1405,
-        "creator": "Germinxvee",
-        "verifier": "redstom",
-        "id": "378327",
-        "badges": [
-            "former_impossible",
             "spikey",
-            "sawy",
-            "ruthless",
-            "jetpack"
+            "smol"
         ]
     },
     {
@@ -65,10 +51,10 @@
         "verifier": "Zevvy (Zevorcen)",
         "id": "725738",
         "badges": [
-            "sawy",
             "ruthless",
             "checkpointless",
             "tight",
+            "sawy",
             "smol"
         ]
     },
@@ -80,10 +66,10 @@
         "id": "269139",
         "badges": [
             "former_impossible",
-            "spikey",
             "ruthless",
             "checkpointless",
-            "tight"
+            "tight",
+            "spikey"
         ]
     },
     {
@@ -93,14 +79,14 @@
         "verifier": "Germinxvee",
         "id": "735589",
         "badges": [
-            "approved_germin",
-            "jetpack",
-            "magnet",
-            "timer",
-            "tight",
             "ruthless",
             "checkpointless",
-            "approved_sasha"
+            "timer",
+            "jetpack",
+            "magnet",
+            "tight",
+            "approved_sasha",
+            "approved_germin"
         ]
     },
     {
@@ -111,8 +97,8 @@
         "id": "460624",
         "badges": [
             "xxl",
-            "creative",
-            "boss"
+            "boss",
+            "creative"
         ]
     },
     {
@@ -135,14 +121,14 @@
         "verifier": "Sasha Krutoy YT2",
         "id": "333616",
         "badges": [
-            "memory",
             "ruthless",
-            "meme",
-            "troll",
-            "approved_germin",
-            "approved_sasha",
             "jetpack",
-            "magnet"
+            "magnet",
+            "memory",
+            "troll",
+            "meme",
+            "approved_sasha",
+            "approved_germin"
         ]
     },
     {
@@ -152,12 +138,12 @@
         "verifier": "Ocelote",
         "id": "400663",
         "badges": [
-            "tight",
+            "ruthless",
             "timeless",
-            "sawy",
+            "tight",
             "spikey",
-            "smol",
-            "ruthless"
+            "sawy",
+            "smol"
         ]
     },
     {
@@ -167,13 +153,13 @@
         "verifier": "Ripbasil",
         "id": "333616",
         "badges": [
-            "memory",
             "ruthless",
-            "approved_germin",
-            "magnet",
             "checkpointless",
+            "timeless",
+            "magnet",
+            "memory",
             "creative",
-            "timeless"
+            "approved_germin"
         ]
     },
     {
@@ -183,11 +169,11 @@
         "verifier": "Zevvy (Zevorcen)",
         "id": "370605",
         "badges": [
+            "ruthless",
             "xxl",
             "checkpointless",
-            "tower",
-            "ruthless",
-            "tight"
+            "tight",
+            "tower"
         ]
     },
     {
@@ -197,9 +183,9 @@
         "verifier": "Ocelote",
         "id": "220142",
         "badges": [
+            "former_top1",
             "popular",
-            "gimmick",
-            "former_top1"
+            "gimmick"
         ]
     },
     {
@@ -210,9 +196,9 @@
         "id": "334421",
         "badges": [
             "ruthless",
+            "checkpointless",
             "magnet",
-            "spikey",
-            "checkpointless"
+            "spikey"
         ]
     },
     {
@@ -234,16 +220,16 @@
         "id": "697285",
         "badges": [
             "popular",
-            "creative",
-            "boss",
             "ruthless",
-            "tight",
             "xxl",
-            "approved_germin",
-            "approved_sasha",
+            "boss",
+            "metroidvania",
             "magnet",
+            "tight",
             "darkness",
-            "metroidvania"
+            "creative",
+            "approved_sasha",
+            "approved_germin"
         ]
     },
     {
@@ -253,10 +239,10 @@
         "verifier": "redstom",
         "id": "249411",
         "badges": [
-            "timeless",
+            "checkpointless",
             "timer",
-            "tight",
-            "checkpointless"
+            "timeless",
+            "tight"
         ]
     },
     {
@@ -267,8 +253,8 @@
         "id": "495133",
         "badges": [
             "tight",
-            "creative",
             "spikey",
+            "creative",
             "approved_germin"
         ]
     },
@@ -280,8 +266,8 @@
         "id": "754319",
         "badges": [
             "former_impossible",
-            "deco_simple",
-            "tight"
+            "tight",
+            "deco_simple"
         ]
     },
     {
@@ -292,8 +278,8 @@
         "id": "430141",
         "badges": [
             "former_impossible",
-            "deco_simple",
-            "ruthless"
+            "ruthless",
+            "deco_simple"
         ]
     },
     {
@@ -314,10 +300,10 @@
         "verifier": "Lanzy-ULB",
         "id": "496823",
         "badges": [
-            "xxl",
             "ruthless",
-            "memory",
-            "tight"
+            "xxl",
+            "tight",
+            "memory"
         ]
     },
     {
@@ -327,9 +313,9 @@
         "verifier": "Ocelote",
         "id": "451810",
         "badges": [
+            "gimmick",
             "memory",
             "creative",
-            "gimmick",
             "remake"
         ]
     },
@@ -367,16 +353,15 @@
         "badges": [
             "gimmick",
             "creative",
-            "approved_germin",
-            "approved_sasha"
-        
+            "approved_sasha",
+            "approved_germin"
         ]
     },
     {
         "name": "Brutal Parkour",
         "klp": 529,
-        "creator": "MrMaxter, To\u00f1o",
-        "verifier": "To\u00f1o",
+        "creator": "MrMaxter, Toño",
+        "verifier": "Toño",
         "id": "878730",
         "badges": [
             "ruthless",
@@ -392,17 +377,17 @@
         "verifier": "Sasha Krutoy YT2",
         "id": "371222",
         "badges": [
-            "smol",
-            "gimmick",
             "checkpointless",
+            "gimmick",
+            "smol",
             "meme"
         ]
     },
     {
         "name": "Algae",
         "klp": 517,
-        "creator": "Failed Boy, To\u00f1o",
-        "verifier": "To\u00f1o",
+        "creator": "Failed Boy, Toño",
+        "verifier": "Toño",
         "id": "731119",
         "badges": [
             "gimmick",
@@ -428,14 +413,14 @@
         "verifier": "Ocelote",
         "id": "386739",
         "badges": [
-            "xxl",
-            "tower",
-            "approved_sasha",
-            "creative",
-            "boss",
             "popular",
+            "xxl",
+            "boss",
             "jetpack",
-            "sawy"
+            "sawy",
+            "tower",
+            "creative",
+            "approved_sasha"
         ]
     },
     {
@@ -456,9 +441,9 @@
         "verifier": "Toño",
         "id": "791022",
         "badges": [
-            "tight",
             "ruthless",
-            "jetpack"
+            "jetpack",
+            "tight"
         ]
     },
     {
@@ -468,10 +453,10 @@
         "verifier": "Lanzy-ULB",
         "id": "516452",
         "badges": [
-            "darkness",
+            "jetpack",
             "sawy",
-            "tower",
-            "jetpack"
+            "darkness",
+            "tower"
         ]
     },
     {
@@ -481,10 +466,10 @@
         "verifier": "Lanzy-ULB",
         "id": "532469",
         "badges": [
-            "tight",
             "timeless",
-            "creative",
-            "jetpack"
+            "jetpack",
+            "tight",
+            "creative"
         ]
     },
     {
@@ -494,8 +479,8 @@
         "verifier": "Lanzy-ULB",
         "id": "507567",
         "badges": [
-            "tight",
             "ruthless",
+            "tight",
             "memory"
         ]
     },
@@ -506,11 +491,11 @@
         "verifier": "redstom",
         "id": "270324",
         "badges": [
-            "smol",
-            "timeless",
-            "timer",
+            "former_top1",
             "checkpointless",
-            "former_top1"
+            "timer",
+            "timeless",
+            "smol"
         ]
     },
     {
@@ -520,9 +505,9 @@
         "verifier": "Ocelote",
         "id": "189503",
         "badges": [
+            "xxl",
             "tight",
             "deco_simple",
-            "xxl",
             "ancient"
         ]
     },
@@ -545,9 +530,9 @@
         "verifier": "Therobot0802",
         "id": "730367",
         "badges": [
+            "tight",
             "tower",
-            "deco_simple",
-            "tight"
+            "deco_simple"
         ]
     },
     {
@@ -568,9 +553,9 @@
         "id": "173618",
         "badges": [
             "jetpack",
-            "meme",
             "deco_simple",
-            "ancient"
+            "ancient",
+            "meme"
         ]
     },
     {
@@ -580,9 +565,9 @@
         "verifier": "Saarck",
         "id": "424859",
         "badges": [
-            "creative",
             "boomerang",
             "tight",
+            "creative",
             "deco_simple"
         ]
     },
@@ -594,10 +579,10 @@
         "id": "775446",
         "badges": [
             "xxl",
-            "creative",
-            "approved_germin",
             "tight",
-            "spikey"
+            "spikey",
+            "creative",
+            "approved_germin"
         ]
     },
     {
@@ -607,8 +592,8 @@
         "verifier": "redstom",
         "id": "558222",
         "badges": [
-            "tight",
             "ruthless",
+            "tight",
             "smol"
         ]
     },
@@ -620,9 +605,9 @@
         "id": "437331",
         "badges": [
             "xxl",
-            "creative",
             "boomerang",
             "tight",
+            "creative",
             "deco_simple"
         ]
     },
@@ -634,22 +619,22 @@
         "id": "377166",
         "badges": [
             "xxl",
-            "creative",
             "boss",
             "tight",
+            "creative",
             "deco_simple"
         ]
     },
-        {
+    {
         "name": "Garden of Pain",
         "klp": 309,
         "creator": "Black Cotton YT",
         "verifier": "Failed Boy",
         "id": "811110",
         "badges": [
-            "approved_germin",
+            "boss",
             "tight",
-            "boss"
+            "approved_germin"
         ]
     },
     {
@@ -659,10 +644,10 @@
         "verifier": "Ocelote",
         "id": "190259",
         "badges": [
+            "popular",
+            "ruthless",
             "boss",
             "tight",
-            "ruthless",
-            "popular",
             "ancient"
         ]
     },
@@ -673,9 +658,9 @@
         "verifier": "1ts Al3x",
         "id": "206300",
         "badges": [
-            "tight",
             "ruthless",
             "checkpointless",
+            "tight",
             "sawy",
             "deco_simple"
         ]
@@ -694,7 +679,6 @@
             "approved_germin"
         ]
     },
-
     {
         "name": "Tenebris",
         "klp": 265,
@@ -702,11 +686,11 @@
         "verifier": "Germinxvee",
         "id": "454828",
         "badges": [
-            "smol",
-            "approved_germin",
-            "tight",
+            "checkpointless",
             "jetpack",
-            "checkpointless"
+            "tight",
+            "smol",
+            "approved_germin"
         ]
     },
     {
@@ -716,8 +700,8 @@
         "verifier": "Whatwhatw",
         "id": "336256",
         "badges": [
-            "magnet",
             "boss",
+            "magnet",
             "sawy",
             "approved_germin"
         ]
@@ -729,10 +713,10 @@
         "verifier": "Lanzy-ULB",
         "id": "687679",
         "badges": [
+            "jetpack",
             "tight",
             "sawy",
-            "smol",
-            "jetpack"
+            "smol"
         ]
     },
     {
@@ -742,23 +726,10 @@
         "verifier": "Xcrick GD",
         "id": "155814",
         "badges": [
-            "ancient",
-            "tight",
-            "speed",
-            "jetpack"
-        ]
-    },
-    {
-        "name": "Ton 618 Ultra",
-        "klp": 255,
-        "creator": "Failed Boy",
-        "verifier": "Failed Boy",
-        "id": "908141",
-        "badges": [
-            "approved_germin",
-            "remake",
             "jetpack",
-            "checkpointless"
+            "speed",
+            "tight",
+            "ancient"
         ]
     },
     {
@@ -768,11 +739,11 @@
         "verifier": "Germinxvee",
         "id": "329215",
         "badges": [
-            "approved_germin",
-            "smol",
+            "checkpointless",
             "tight",
+            "smol",
             "deco_simple",
-            "checkpointless"
+            "approved_germin"
         ]
     },
     {
@@ -783,10 +754,10 @@
         "id": "165924",
         "badges": [
             "popular",
-            "ancient",
+            "timer",
             "timeless",
             "smol",
-            "timer"
+            "ancient"
         ]
     },
     {
@@ -808,8 +779,8 @@
         "id": "549515",
         "badges": [
             "timeless",
-            "sawy",
             "tight",
+            "sawy",
             "deco_simple"
         ]
     },
@@ -820,8 +791,8 @@
         "verifier": "Wytems",
         "id": "164816",
         "badges": [
-            "ancient",
-            "ruthless"
+            "ruthless",
+            "ancient"
         ]
     },
     {
@@ -831,10 +802,10 @@
         "verifier": "Tatom7",
         "id": "621716",
         "badges": [
-            "smol",
-            "tight",
+            "boss",
             "jetpack",
-            "boss"
+            "tight",
+            "smol"
         ]
     },
     {
@@ -844,10 +815,10 @@
         "verifier": "Lanzy-ULB",
         "id": "515482",
         "badges": [
+            "jetpack",
+            "tight",
             "tower",
             "creative",
-            "tight",
-            "jetpack",
             "approved_germin"
         ]
     },
@@ -859,10 +830,10 @@
         "id": "178237",
         "badges": [
             "former_top1",
-            "ancient",
-            "tight",
             "popular",
-            "checkpointless"
+            "checkpointless",
+            "tight",
+            "ancient"
         ]
     },
     {
@@ -884,10 +855,10 @@
         "verifier": "Theredman3222",
         "id": "283739",
         "badges": [
-            "sawy",
+            "timer",
             "magnet",
             "walljump",
-            "timer"
+            "sawy"
         ]
     },
     {
@@ -897,10 +868,10 @@
         "verifier": "SeaMushroom245",
         "id": "191982",
         "badges": [
-            "ancient",
-            "smol",
             "sawy",
-            "deco_simple"
+            "smol",
+            "deco_simple",
+            "ancient"
         ]
     },
     {
@@ -910,8 +881,8 @@
         "verifier": "Vsulner",
         "id": "518231",
         "badges": [
-            "darkness",
-            "tight"
+            "tight",
+            "darkness"
         ]
     },
     {
@@ -921,11 +892,11 @@
         "verifier": "AnDronolis",
         "id": "260880",
         "badges": [
-            "deco_simple",
-            "magnet",
+            "checkpointless",
             "jetpack",
+            "magnet",
             "creative",
-            "checkpointless"
+            "deco_simple"
         ]
     },
     {
@@ -935,13 +906,12 @@
         "verifier": "Erxk",
         "id": "616501",
         "badges": [
-            "tower",
             "jetpack",
             "walljump",
-            "darkness"
+            "darkness",
+            "tower"
         ]
     },
-
     {
         "name": "Smash Spire",
         "klp": 165,
@@ -949,9 +919,9 @@
         "verifier": "Vsulner",
         "id": "515064",
         "badges": [
-            "tower",
-            "sawy",
             "spikey",
+            "sawy",
+            "tower",
             "deco_simple",
             "approved_germin"
         ]
@@ -975,8 +945,8 @@
         "verifier": "065Foxys",
         "id": "656423",
         "badges": [
-            "darkness",
-            "magnet"
+            "magnet",
+            "darkness"
         ]
     },
     {
@@ -986,9 +956,9 @@
         "verifier": "Black Cotton YT",
         "id": "741605",
         "badges": [
+            "jetpack",
             "magnet",
-            "approved_germin",
-            "jetpack"
+            "approved_germin"
         ]
     },
     {
@@ -998,8 +968,8 @@
         "verifier": "Neptunium",
         "id": "364341",
         "badges": [
-            "darkness",
-            "tight"
+            "tight",
+            "darkness"
         ]
     },
     {
@@ -1009,23 +979,23 @@
         "verifier": "Infernal Chaos",
         "id": "185582",
         "badges": [
-            "ancient",
-            "tower",
             "checkpointless",
-            "deco_simple"
+            "tower",
+            "deco_simple",
+            "ancient"
         ]
     },
     {
         "name": "Metalung",
-        "klp": 140  ,
+        "klp": 140,
         "creator": "Milaneso-Man",
         "verifier": "Milaneso-Man",
         "id": "816117",
         "badges": [
-            "gimmick",
+            "jetpack",
             "magnet",
-            "jetpack"
-          ]
+            "gimmick"
+        ]
     },
     {
         "name": "Blue Circles",
@@ -1035,21 +1005,21 @@
         "id": "301583",
         "badges": [
             "jetpack",
-            "approved_germin",
             "memory",
-            "beginner"
+            "beginner",
+            "approved_germin"
         ]
     },
-        {
+    {
         "name": "The Tower of Saw",
         "klp": 138,
         "creator": "NOIDE",
         "verifier": "NOIDE",
         "id": "830249",
         "badges": [
-            "tower",
-            "sawy",
             "gimmick",
+            "sawy",
+            "tower",
             "creative",
             "deco_simple",
             "approved_germin"
@@ -1065,7 +1035,7 @@
             "tight",
             "deco_simple"
         ]
-    },    
+    },
     {
         "name": "Lava Paradise",
         "klp": 132,
@@ -1084,9 +1054,9 @@
         "verifier": "Theredman3222",
         "id": "389000",
         "badges": [
-            "sawy",
             "magnet",
             "tight",
+            "sawy",
             "deco_simple"
         ]
     },
@@ -1098,8 +1068,8 @@
         "id": "487319",
         "badges": [
             "sawy",
-            "approved_germin",
-            "beginner"
+            "beginner",
+            "approved_germin"
         ]
     },
     {
@@ -1132,8 +1102,8 @@
         "id": "432502",
         "badges": [
             "speed",
-            "deco_simple",
-            "smol"
+            "smol",
+            "deco_simple"
         ]
     },
     {
@@ -1141,16 +1111,15 @@
         "klp": 117,
         "creator": "Nisshoku6667",
         "verifier": "Nisshoku6667",
-        "id": "415368",
+        "id": "590986",
         "badges": [
+            "xxl",
             "creative",
             "deco_simple",
-            "approved_germin",
-            "xxl",
-            "beginner"
+            "beginner",
+            "approved_germin"
         ]
     },
-
     {
         "name": "Kaizo Desert",
         "klp": 116,
@@ -1158,9 +1127,9 @@
         "verifier": "Dino RPG",
         "id": "650038",
         "badges": [
+            "checkpointless",
             "magnet",
-            "deco_simple",
-            "checkpointless"
+            "deco_simple"
         ]
     },
     {
@@ -1170,12 +1139,11 @@
         "verifier": "Samuel CM",
         "id": "204705",
         "badges": [
-            "magnet",
             "boss",
+            "magnet",
             "deco_simple"
         ]
     },
-
     {
         "name": "Eon",
         "klp": 112,
@@ -1195,8 +1163,8 @@
         "verifier": "Failed Boy",
         "id": "757536",
         "badges": [
-            "deco_simple",
-            "gimmick"
+            "gimmick",
+            "deco_simple"
         ]
     },
     {
@@ -1206,11 +1174,11 @@
         "verifier": "arhonrc65",
         "id": "544267",
         "badges": [
-            "beginner",
+            "jetpack",
+            "smol",
             "creative",
             "deco_simple",
-            "jetpack",
-            "smol"
+            "beginner"
         ]
     },
     {
@@ -1220,25 +1188,12 @@
         "verifier": "Mecalo",
         "id": "187164",
         "badges": [
-            "ancient",
             "spikey",
             "smol",
-            "deco_simple"
+            "deco_simple",
+            "ancient"
         ]
     },
-    {
-        "name": "Glarpy Gray Challenge",
-        "klp": 108,
-        "creator": "Goob-Glarpy",
-        "verifier": "Goob-Glarpy",
-        "id": "875535",
-        "badges": [
-            "smol",
-            "beginner",
-            "timer"
-        ]
-    },
-
     {
         "name": "Hil",
         "klp": 106,
@@ -1268,11 +1223,11 @@
         "verifier": "Samuel CM",
         "id": "176125",
         "badges": [
-            "ancient",
-            "jetpack",
             "boss",
+            "jetpack",
             "spikey",
-            "deco_simple"
+            "deco_simple",
+            "ancient"
         ]
     },
     {
@@ -1295,11 +1250,11 @@
         "verifier": "Bradley",
         "id": "197429",
         "badges": [
-            "ancient",
-            "tower",
             "jetpack",
             "sawy",
-            "smol"
+            "tower",
+            "smol",
+            "ancient"
         ]
     },
     {
@@ -1322,11 +1277,11 @@
         "verifier": "AnDronolis",
         "id": "195256",
         "badges": [
-            "ancient",
-            "beginner",
+            "checkpointless",
             "smol",
             "deco_simple",
-            "checkpointless"
+            "beginner",
+            "ancient"
         ]
     },
     {
@@ -1336,9 +1291,9 @@
         "verifier": "Failed Boy",
         "id": "710813",
         "badges": [
-            "sawy",
-            "magnet",
             "jetpack",
+            "magnet",
+            "sawy",
             "approved_germin"
         ]
     },
