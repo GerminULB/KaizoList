@@ -13,7 +13,8 @@ export const HISTORY_FILES = [
   "/history/2026-04-18.json",
   "/history/2026-09-12.json",
   "/history/2026-09-19.json",
-  "/history/2026-09-26.json"
+  "/history/2026-09-26.json",
+  "/history/2026-10-03.json",
 ];
 
 
