@@ -1,11 +1,30 @@
 [
     {
+        "name": "Lava Saw Genesis",
+        "klp": 2450,
+        "creator": "Leshy, redstom",
+        "verifier": "redstom",
+        "id": "913800",
+        "badges": [
+            "ruthless",
+            "remake",
+            "timeless",
+            "sawy",
+            "tight",
+            "gimmick",
+            "smol",
+            "approved_germin",
+            "checkpointless"
+        ]
+    },
+    {
         "name": "Road of the Peace",
         "klp": 2000,
         "creator": "Ocelote, Sasha Krutoy YT2, Germinxvee",
         "verifier": "Ocelote",
         "id": "599628",
         "badges": [
+            "former_top1",
             "popular",
             "jetpack",
             "magnet",
