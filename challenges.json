@@ -1,8 +1,8 @@
 [
-  {"name": "Coração de fogo","klp":0,"creator":"redstom","verifier":"DEPRECATED","id":"370972"},
-  {"name": "Super Jump","klp":0,"creator":"Top1PL","verifier":"DEPRECATED","id":"269140"},
-  {"name": "4 Germin Jumps", "klp":0, "creator": "DEPRECATED", "verifier": "Germinxvee", "id": "350904"},
-  {"name": "Ultimate Needle", "klp":0, "creator": "DEPRECATED", "verifier": "Ocelote", "id": "406651"},
-  {"name": "Challenge Fast Quiz", "klp":0, "creator": "DEPRECATED", "verifier": "Sasha Krutoy YT2", "id": "344146"},
-  {"name": "The Challenge", "klp":0, "creator": "DEPRECATED", "verifier": "Germinxvee", "id": "343169"}
+  {"name": "Coração de fogo","klp":0,"creator":"DEPRECATED","verifier":"DEPRECATED","id":"370972"},
+  {"name": "Super Jump","klp":0,"creator":"DEPRECATED","verifier":"DEPRECATED","id":"269140"},
+  {"name": "4 Germin Jumps", "klp":0, "creator": "DEPRECATED", "verifier": "DEPRECATED", "id": "350904"},
+  {"name": "Ultimate Needle", "klp":0, "creator": "DEPRECATED", "verifier": "DEPRECATED", "id": "406651"},
+  {"name": "Challenge Fast Quiz", "klp":0, "creator": "DEPRECATED", "verifier": "DEPRECATED", "id": "344146"},
+  {"name": "The Challenge", "klp":0, "creator": "DEPRECATED", "verifier": "DEPRECATED", "id": "343169"}
 ]
