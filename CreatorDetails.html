@@ -42,11 +42,13 @@
 
     
     <div id="title-row">
-        <h1 id="creator-name">Loading...</h1>
+        <div id="title-left" class="board-9slice">
+            <h1 id="creator-name">Loading...</h1>
+        </div>
     </div>
 
+    <h2 class="label-board board-9slice" data-i18n="architect_stats_title">Architect Stats</h2>
     <div id="creator-info" class="panel-9slice">
-      <h2 data-i18n="architect_stats_title">Architect Stats</h2>
       <p><strong data-i18n="stat_total_klp_contributed">Total KLP Contributed:</strong> <span id="total-klp">0</span></p>
       <p><strong data-i18n="stat_published_levels">Published Levels:</strong> <span id="level-count">0</span></p>
       <p><strong data-i18n="stat_avg_difficulty">Avg. Difficulty:</strong> <span id="avg-klp">0</span> KLP</p>
@@ -54,7 +56,7 @@
 
     <div class="portfolio-container">
       <div class="panel-9slice">
-        <h2 data-i18n="portfolio_title">Portfolio (Levels & Challenges)</h2>
+        <h2 class="label-board board-9slice" data-i18n="portfolio_title">Portfolio (Levels & Challenges)</h2>
         <div id="creator-portfolio" class="grid panel-9slice"></div>
         <div class="pagination panel-9slice"></div>
       </div>

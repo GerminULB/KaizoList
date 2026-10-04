@@ -1,12 +1,10 @@
-import { fetchJson, HISTORY_FILES, findLegacyTransition } from './js/utils.js';
+import { fetchJson, loadHistory, rankByKLP, buildLevelTimeline, findLegacyTransition, LEGACY_RANK_CUTOFF, escapeHtml } from './js/utils.js';
 import { BADGES, getSpecialBadgeByRank } from './js/badge.js';
 import { renderBadgeDeck, handleBadgeSkew } from './js/badgeSystem.js';
 import { t } from './js/i18n.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const ITEMS_PER_PAGE = 9;
-
-    const LEGACY_RANK_CUTOFF = 100; // ranks 1-100 stay in the Main List, 101+ are Legacy
 
     const params = new URLSearchParams(window.location.search);
     const levelName = params.get('name');
@@ -52,8 +50,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             // showed up past the legacy cutoff. Doesn't block the rest of the page.
             const legacyDateRowEl = document.getElementById('level-legacy-date-row');
             const legacyDateEl = document.getElementById('level-legacy-date');
-            if (legacyDateRowEl && legacyDateEl && level.id) {
-                findLegacyTransition(level.id, LEGACY_RANK_CUTOFF, HISTORY_FILES).then(({ date, approximate, everSeenInHistory }) => {
+            if (legacyDateRowEl && legacyDateEl) {
+                findLegacyTransition(level.name, LEGACY_RANK_CUTOFF).then(({ date, approximate, everSeenInHistory }) => {
                     if (date) {
                         legacyDateEl.innerText = approximate ? `~${date}` : date;
                         legacyDateEl.title = t('legacy_since_approx_tooltip', {
@@ -110,69 +108,116 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.addEventListener('mousemove', handleBadgeSkew);
 
-    const historyEl = document.getElementById('history');
-    if (historyEl && level) {
-        historyEl.innerHTML = `<div style="opacity:0.6;">${t('history_scanning')}</div>`;
-        
-        let timeline = [];
-        let lastKlp = null;
-        const chronologicalFiles = [...HISTORY_FILES].sort();
+    // History loads in the background so it never holds up the rest of the page.
+    void (async () => {
+        const historyEl = document.getElementById('history');
+        if (historyEl && level) {
+            historyEl.innerHTML = `<div style="opacity:0.6;">${t('history_scanning')}</div>`;
 
-        for (const file of chronologicalFiles) {
-            const snap = await fetchJson(file);
-            if (!snap) continue;
-            
-            const entry = snap.find(l => l.name === level.name);
-            const date = file.match(/\d{4}-\d{2}-\d{2}/)?.[0] || t('unknown_date');
+            const history = await loadHistory();
 
-            if (entry) {
-                const currentKlp = Number(entry.klp) || 0;
-                if (lastKlp === null) {
-                    timeline.push({ type: 'entry', date, klp: currentKlp });
-                } else if (currentKlp !== lastKlp) {
-                    timeline.push({ type: 'klp_change', date, oldKlp: lastKlp, newKlp: currentKlp });
-                }
-                lastKlp = currentKlp;
+            // Live levels.json is the newest "snapshot" so the timeline includes unsaved changes.
+            const liveRanked = rankByKLP(levels.map(l => ({ ...l, badges: Array.isArray(l.badges) ? l.badges : undefined })));
+            const frames = [
+                ...history.map(s => ({ date: s.date, levels: s.levels })),
+                { date: t('live_update'), levels: liveRanked, isLive: true }
+            ];
+
+            const timeline = buildLevelTimeline(frames, level.name).reverse(); // newest first
+            const existingNames = new Set(levels.map(l => l.name));
+            const HISTORY_PREVIEW = 8;
+            const MAX_NAMES = 3;
+
+            const nameList = (names) => {
+                const shown = names.slice(0, MAX_NAMES).map(n => existingNames.has(n)
+                    ? `<a class="change-link" href="LevelDetails.html?name=${encodeURIComponent(n)}">${escapeHtml(n)}</a>`
+                    : `<em>${escapeHtml(n)}</em>`);
+                const rest = names.length - shown.length;
+                return shown.join(', ') + (rest > 0 ? ` ${t('history_more', { count: rest })}` : '');
+            };
+
+            const eventHtml = (event) => {
+                const date = event.isLive ? t(event.type === 'entry' ? 'just_added' : 'live_update') : event.date;
+
+            if (event.type === 'removed') {
+                return `
+                    <span class="timeline-date">${escapeHtml(date)}</span>
+                    <div class="timeline-desc">
+                        <strong>${t('changes_removed_from_list')}</strong>
+                        ${t('changes_was_rank', { rank: event.rank })}
+                    </div>`;
             }
-        }
 
-        const currentLiveKlp = Number(level.klp) || 0;
-        if (lastKlp !== null && currentLiveKlp !== lastKlp) {
-            timeline.push({ type: 'klp_change', date: t('live_update'), oldKlp: lastKlp, newKlp: currentLiveKlp });
-        } else if (lastKlp === null) {
-            timeline.push({ type: 'entry', date: t('just_added'), klp: currentLiveKlp });
-        }
+                if (event.type === 'entry') {
+                    return `
+                        <span class="timeline-date">${escapeHtml(date)}</span>
+                        <div class="timeline-desc">
+                            <strong>${t('history_added_title')}</strong>
+                            ${t('history_added_at', { klp: event.klp })}
+                            <span class="timeline-rank">(#${event.rank})</span>
+                        </div>`;
+                }
 
-        historyEl.innerHTML = '';
-        if (timeline.length === 0) {
-            historyEl.innerHTML = `<div style="opacity:0.6;">${t('history_empty')}</div>`;
-        } else {
-            timeline.reverse().forEach(event => {
-                const div = document.createElement('div');
-                div.className = 'timeline-event';
-                
-                    if (event.type === 'entry') {
-                        div.innerHTML = `
-                            <span class="timeline-date">${event.date}</span>
-                            <div class="timeline-desc">
-                                <strong>${t('history_added_title')}</strong> 
-                                ${t('history_added_at', { klp: event.klp })}
-                            </div>
-                        `;
-                    } else {
-                        div.innerHTML = `
-                            <span class="timeline-date">${event.date}</span>
-                            <div class="timeline-desc">
-                                <strong>${t('history_adjusted_title')}</strong> 
-                                ${event.oldKlp} ➔ ${event.newKlp}
-                            </div>
-                        `;
-                    }
-                historyEl.appendChild(div);
-            });
-        }
-    }
+                const { prev, curr, own, rankDelta, cause } = event;
+                const parts = [];
+                if (curr.klp !== prev.klp) parts.push(`${prev.klp} ➔ ${curr.klp} KLP`);
+                if (rankDelta) {
+                    parts.push(`<span class="timeline-delta">#${prev.rank} ➔ #${curr.rank} (${rankDelta > 0 ? '▲' : '▼'}${Math.abs(rankDelta)})</span>`);
+                }
+                if (own?.leftMain) parts.push(t('changes_left_main'));
+                if (own?.enteredMain) parts.push(t('changes_back_to_main'));
+                const bn = k => escapeHtml((BADGES[k]?.label || k).replace(/ Badge$/, ''));
+                (own?.badgesAdded || []).forEach(k => parts.push(`+${bn(k)}`));
+                (own?.badgesRemoved || []).forEach(k => parts.push(`-${bn(k)}`));
 
+                // own change (KLP / badges / Main<->Legacy) -> "KLP Adjusted", otherwise it only got pushed around
+                const ownChanged = curr.klp !== prev.klp || (own && (own.badgesAdded.length || own.badgesRemoved.length || own.leftMain || own.enteredMain));
+                const title = ownChanged ? t('history_adjusted_title') : t('history_shifted_title');
+
+                const why = [];
+                if (cause) {
+                    if (cause.added.length)   why.push(t('history_cause_added',   { names: nameList(cause.added) }));
+                    if (cause.passed.length)  why.push(t('history_cause_passed',  { names: nameList(cause.passed) }));
+                    if (cause.removed.length) why.push(t('history_cause_removed', { names: nameList(cause.removed) }));
+                    if (cause.dropped.length) why.push(t('history_cause_dropped', { names: nameList(cause.dropped) }));
+                }
+
+                return `
+                    <span class="timeline-date">${escapeHtml(date)}</span>
+                    <div class="timeline-desc">
+                        <strong>${title}</strong>
+                        ${parts.join(' &middot; ')}
+                        ${why.map(w => `<div><small>${w}</small></div>`).join('')}
+                    </div>`;
+            };
+
+            const renderHistory = (showAll) => {
+                historyEl.innerHTML = '';
+                if (timeline.length === 0) {
+                    historyEl.innerHTML = `<div style="opacity:0.6;">${t('history_empty')}</div>`;
+                    return;
+                }
+
+                (showAll ? timeline : timeline.slice(0, HISTORY_PREVIEW)).forEach(event => {
+                    const div = document.createElement('div');
+                    const dir = event.type === 'change' && event.rankDelta ? (event.rankDelta > 0 ? ' is-up' : ' is-down') : '';
+                    div.className = 'timeline-event board-9slice sm' + dir;
+                    div.innerHTML = eventHtml(event);
+                    historyEl.appendChild(div);
+                });
+
+                if (timeline.length > HISTORY_PREVIEW) {
+                    const btn = document.createElement('button');
+                    btn.className = 'hub-button history-toggle';
+                    btn.style.marginTop = '6px';
+                    btn.innerText = showAll ? t('history_show_less') : t('history_show_all', { count: timeline.length });
+                    btn.onclick = () => renderHistory(!showAll);
+                    historyEl.appendChild(btn);
+                }
+            };
+            renderHistory(false);
+        }
+    })().catch(err => console.error('History failed to load:', err));
 
     const victors = Object.entries(victorsData)
         .filter(([player, levelsArr]) => levelsArr.includes(levelName))
@@ -199,7 +244,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             pageItems.forEach(player => {
                 const cell = document.createElement('div');
-                cell.className = 'grid-item clickable';
+                cell.className = 'grid-item clickable board-9slice sm';
                 cell.innerText = player;
                 cell.onclick = () => window.location.href = `PlayerDetails.html?name=${encodeURIComponent(player)}`;
                 victorsContainer.appendChild(cell);

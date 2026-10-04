@@ -5,7 +5,6 @@ import { renderBadgeDeck, handleBadgeSkew } from './js/badgeSystem.js';
 import { t } from './js/i18n.js';
 
 (async () => {
-    const ITEMS_PER_PAGE = 9;
     const params = new URLSearchParams(window.location.search);
     const playerName = params.get('name');
     if (!playerName) return alert(t('error_no_player'));
@@ -76,62 +75,29 @@ import { t } from './js/i18n.js';
     
     document.title = t('player_page_title_full', { name: playerName, plp: plp.toFixed(0) });
 
-    const historyEl = document.getElementById('player-history');
-    if (historyEl) {
-        historyEl.innerHTML = '';
-        const sortedHistory = [...playerData.levels].sort((a, b) => b.klp - a.klp);
-        sortedHistory.forEach(l => {
-            const div = document.createElement('div');
-            const typeLabel = l.type === 'Victor' ? t('type_victor') : t('type_verification');
-            
-            div.innerText = t('player_history_entry', {
-                type: typeLabel,
-                name: l.name,
-                klp: l.klp,
-                defaultValue: `${typeLabel}: ${l.name} (+${l.klp} KLP)`
-            });
-            historyEl.appendChild(div);
+    // Every level is shown (no pagination), highest KLP first.
+    function renderLevelGrid(items, container) {
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (!items.length) {
+            container.innerHTML = `<div class="empty-state">${t('no_levels_yet')}</div>`;
+            return;
+        }
+
+        [...items].sort((a, b) => b.klp - a.klp || a.name.localeCompare(b.name)).forEach(item => {
+            const cell = document.createElement('div');
+            cell.className = 'grid-item clickable board-9slice sm';
+            cell.innerText = `${item.name} (${item.klp} KLP)`;
+            cell.onclick = () => {
+                window.location.href = `LevelDetails.html?name=${encodeURIComponent(item.name)}`;
+            };
+            container.appendChild(cell);
         });
     }
 
-    function renderPaginatedGrid(items, container) {
-        if (!container) return;
-        let currentPage = 1;
-        const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
-        const pagination = container.parentElement.querySelector('.pagination');
-
-        function renderPage() {
-            container.innerHTML = '';
-            const pageItems = items.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
-
-            pageItems.forEach(item => {
-                const cell = document.createElement('div');
-                cell.className = 'grid-item clickable'; 
-                cell.innerText = `${item.name} (${item.klp} KLP)`;
-                cell.onclick = () => {
-                    window.location.href = `LevelDetails.html?name=${encodeURIComponent(item.name)}`;
-                };
-                container.appendChild(cell);
-            });
-
-            if (pagination) {
-                pagination.innerHTML = '';
-                if (totalPages > 1) {
-                    for (let i = 1; i <= totalPages; i++) {
-                        const btn = document.createElement('button');
-                        btn.innerText = i;
-                        if (i === currentPage) btn.disabled = true;
-                        btn.onclick = () => { currentPage = i; renderPage(); };
-                        pagination.appendChild(btn);
-                    }
-                }
-            }
-        }
-        renderPage();
-    }
-
-    renderPaginatedGrid(playerData.levels.filter(l => l.type === 'Victor'), document.getElementById('player-victors'));
-    renderPaginatedGrid(playerData.levels.filter(l => l.type === 'Verification'), document.getElementById('player-verifications'));
+    renderLevelGrid(playerData.levels.filter(l => l.type === 'Victor'), document.getElementById('player-victors'));
+    renderLevelGrid(playerData.levels.filter(l => l.type === 'Verification'), document.getElementById('player-verifications'));
 
     const modal = document.getElementById('badge-modal');
     window.addEventListener('click', (e) => {

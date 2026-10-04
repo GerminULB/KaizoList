@@ -53,36 +53,47 @@
 
     
     <div id="title-row">
-        <div id="title-left">
+        <div id="title-left" class="board-9slice no-frame">
             <h1 id="player-name"></h1>
         </div>
-        
-        <div id="badges-container-right">
+
+        <div id="badges-container-right" class="board-9slice">
             <div id="badge-row"></div>
-            <div id="series-badge"></div> 
+            <div id="series-badge"></div>
         </div>
     </div>
+
+    <h2 class="label-board board-9slice" data-i18n="player_stats_title">Player Stats</h2>
     <div id="player-info" class="panel-9slice">
-      <h2 data-i18n="player_stats_title">Player Stats</h2>
-      <p><strong>PLP:</strong> <span id="player-plp">0</span></p>
-      <p><strong data-i18n="stat_total_klp">Total KLP:</strong> <span id="player-total-klp">0</span></p>
-      <p><strong data-i18n="stat_victory_klp">Victory KLP:</strong> <span id="player-victory-klp">0</span></p>
-      <p><strong data-i18n="stat_verification_klp">Verification KLP:</strong> <span id="player-verification-klp">0</span></p>
+      <div class="stat-boards">
+        <div class="stat-chip board-9slice sm">
+          <span class="stat-chip-label">PLP</span>
+          <span class="stat-chip-value" id="player-plp">0</span>
+        </div>
+        <div class="stat-chip board-9slice sm">
+          <span class="stat-chip-label" data-i18n="stat_total_klp_short">Total KLP</span>
+          <span class="stat-chip-value" id="player-total-klp">0</span>
+        </div>
+        <div class="stat-chip board-9slice sm">
+          <span class="stat-chip-label" data-i18n="stat_victory_klp_short">Victory KLP</span>
+          <span class="stat-chip-value" id="player-victory-klp">0</span>
+        </div>
+        <div class="stat-chip board-9slice sm">
+          <span class="stat-chip-label" data-i18n="stat_verification_klp_short">Verification KLP</span>
+          <span class="stat-chip-value" id="player-verification-klp">0</span>
+        </div>
+      </div>
     </div>
 
-    <div class="player-container" style="display:flex; gap:20px; flex-wrap: wrap; justify-content: center;">
-      <div id="player-left" style="flex:1; min-width:280px;" class="panel-9slice">
-        <h2 data-i18n="player_klp_changes_title">Recent KLP Changes</h2>
-        <div id="player-history" class="scrollable panel-9slice"></div>
+    <div class="player-container">
+      <div id="player-left" class="player-col">
+        <h2 class="label-board board-9slice" data-i18n="verifications_title">Verifications</h2>
+        <div id="player-verifications" class="grid panel-9slice"></div>
       </div>
 
-      <div id="player-right" style="flex:1; min-width:280px;" class="panel-9slice">
-        <h2 data-i18n="victors_title">Victors</h2>
+      <div id="player-right" class="player-col">
+        <h2 class="label-board board-9slice" data-i18n="victors_title">Victors</h2>
         <div id="player-victors" class="grid panel-9slice"></div>
-
-        <h2 style="margin-top:20px;" data-i18n="verifications_title">Verifications</h2>
-        <div id="player-verifications" class="grid panel-9slice"></div>
-        <div class="pagination panel-9slice"></div>
       </div>
     </div>
   </div> 

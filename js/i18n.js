@@ -1,4 +1,5 @@
 import { translations } from './translation.js';
+import './sprites.js';
 
 let currentLang = localStorage.getItem('lang') || 'en';
 
@@ -10,13 +11,22 @@ let currentLang = localStorage.getItem('lang') || 'en';
 export function t(key, variables = {}) {
     if (!translations[currentLang]) currentLang = 'en';
     
-    let text = translations[currentLang][key] || key;
+    // falls back to English, then to the key itself, so a missing translation never shows a raw key
+    let text = translations[currentLang][key] || translations.en?.[key] || key;
 
     Object.keys(variables).forEach(v => {
         text = text.replace(`{${v}}`, variables[v]);
     });
 
     return text;
+}
+
+// Plural-aware t(): uses "<key>_one" when count is 1 (if the current language defines it),
+// otherwise the normal key. Languages without a "_one" key just keep using the base key.
+export function tn(key, count, variables = {}) {
+    if (!translations[currentLang]) currentLang = 'en';
+    const useOne = Number(count) === 1 && translations[currentLang][key + '_one'];
+    return t(useOne ? key + '_one' : key, { count, ...variables });
 }
 
 export function applyTranslations() {
@@ -69,3 +79,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener('DOMContentLoaded', applyTranslations);
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('compare-btn')) return;
+    if (location.pathname.toLowerCase().includes('/playercompare')) return; // already there
+
+    const a = document.createElement('a');
+    a.id = 'compare-btn';
+    a.className = 'hub-button';
+    a.href = '/PlayerCompare/';
+    a.textContent = t('nav_player_compare');
+
+    // same random pattern the other .hub-button elements get (see applyRandomPattern in utils.js)
+    const idx = Math.floor(Math.random() * 13);
+    Object.assign(a.style, {
+        backgroundImage: `url('/images/pattern/pattern${idx}.png')`,
+        backgroundRepeat: 'repeat',
+        backgroundSize: '32px 32px',
+        color: '#ffffff',
+        border: '2px solid black',
+        imageRendering: 'pixelated',
+        textShadow: '1px 1px 0 #000',
+    });
+
+    document.body.appendChild(a);
+});

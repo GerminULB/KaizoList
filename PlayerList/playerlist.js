@@ -1,4 +1,5 @@
 import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
+import { BADGES, getSpecialBadgeByRank } from '../js/badge.js';
 import { calculatePlayerScore } from '../score.js';
 import { t } from '../js/i18n.js';
 
@@ -36,6 +37,18 @@ import { t } from '../js/i18n.js';
         });
     });
 
+    // Level -> rank by KLP, used for each player's special (Top N) badges
+    const rankByLevel = {};
+    [...allLevels].sort((a, b) => b.klp - a.klp).forEach((l, i) => { rankByLevel[l.name] = i + 1; });
+
+    const MAX_ROW_BADGES = 8;
+    function topBadgesFor(playerLevels) {
+        return playerLevels
+            .map(l => ({ key: getSpecialBadgeByRank(rankByLevel[l.name]), rank: rankByLevel[l.name], level: l.name }))
+            .filter(b => b.key && BADGES[b.key])
+            .sort((a, b) => a.rank - b.rank);
+    }
+
     // Convert to array & compute PLP, excluding retired players
     let playerList = Object.entries(playerMap)
         .filter(([name]) => !retiredPlayers.has(name)) // exclude retired players from leaderboard
@@ -43,7 +56,8 @@ import { t } from '../js/i18n.js';
             name,
             klp: data.klp,
             levels: data.levels,
-            plp: calculatePlayerScore(data.levels)
+            plp: calculatePlayerScore(data.levels),
+            badges: topBadgesFor(data.levels)
         }));
 
     // Sort by PLP initially
@@ -97,6 +111,11 @@ import { t } from '../js/i18n.js';
 
         filtered.sort((a, b) => b.displayPoints - a.displayPoints);
 
+        if (clearBtn) {
+            const anyActive = search !== '' || pointType !== 'plp' || klpType !== 'all';
+            clearBtn.style.display = anyActive ? '' : 'none';
+        }
+
         let totalPoints;
         if (pointType === 'plp') {
             totalPoints = playerList.reduce((sum, p) => sum + p.plp, 0);
@@ -132,10 +151,31 @@ import { t } from '../js/i18n.js';
             
             div.innerHTML = `
                 <div class="level-summary" role="button">
-                    <span>#${idx + 1}: ${highlightText(p.name)}</span>
-                    <strong>${Math.round(p.displayPoints)} ${suffix}</strong>
+                    <span class="rank-board board-9slice sm">#${idx + 1}</span>
+                    <span class="name-board board-9slice sm">${highlightText(p.name)}</span>
+                    <div class="summary-right">
+                        <div class="mini-badge-list"></div>
+                        <strong class="score-board board-9slice sm">${Math.round(p.displayPoints)} ${suffix}</strong>
+                    </div>
                 </div>
             `;
+
+            const badgeContainer = div.querySelector('.mini-badge-list');
+            const shown = p.badges.slice(0, MAX_ROW_BADGES);
+            shown.forEach((b, i) => {
+                const img = document.createElement('img');
+                img.src = `../${BADGES[b.key].icon}`;
+                img.className = 'mini-badge';
+                img.title = `${BADGES[b.key].label} - ${b.level}`;
+                if (i > 0) img.style.marginLeft = '-10px';
+                badgeContainer.appendChild(img);
+            });
+            if (p.badges.length > shown.length) {
+                const more = document.createElement('span');
+                more.className = 'mini-badge-more';
+                more.textContent = `+${p.badges.length - shown.length}`;
+                badgeContainer.appendChild(more);
+            }
 
             playerLink.appendChild(div);
             listContainer.appendChild(playerLink);

@@ -41,7 +41,6 @@
   <nav class="hub-links">
     <a href="/MainList/" class="hub-button" data-i18n="nav_main_list">List</a>
     <a href="/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
-    <a href="/PlayerCompare/" class="hub-button" data-i18n="nav_player_compare">Player Compare</a>
   </nav>
 
   <div class="rules-page">
@@ -55,19 +54,8 @@
       <p class="ecosystem-intro">
         There are two separate point systems on the Kaizo List: <strong>KLP</strong>, which belongs
         to <em>levels</em>, and <strong>PLP</strong>, which belongs to <em>players</em> and is
-        calculated from the KLP of everything that player has cleared. Here's the short version
-        of how a completion turns into a player's score:
+        calculated from the KLP of everything that player has cleared.
       </p>
-
-      <div class="ecosystem-flow">
-        <div class="ecosystem-flow-step">A level gets a fixed KLP value</div>
-        <div class="ecosystem-flow-arrow">then</div>
-        <div class="ecosystem-flow-step">Someone verifies it, or a player beats it, and earns that KLP</div>
-        <div class="ecosystem-flow-arrow">then</div>
-        <div class="ecosystem-flow-step">All your KLP feeds the PLP formula</div>
-        <div class="ecosystem-flow-arrow">then</div>
-        <div class="ecosystem-flow-step">PLP ranks you on the Player List</div>
-      </div>
 
       <div class="term-card">
         <h3>KLP (Kaizo List Points)</h3>
@@ -105,15 +93,15 @@
         <p>
           PLP is what ranks players against each other on the Player Rankings page. Not to be confused with
           your KLP total. It's built to reward Kaizo players who both climb <em>high</em> and
-          clear a <em>broad, consistent</em> spread of hard levels, rather than just stacking up
-          volume on easy ones. It's made of three parts added together:
+          clear a <em>broad, consistent</em> spread of hard levels, rather than just farming up
+          a ton on easy ones. It's made of three parts added together:
         </p>
 
         <div class="formula-box">
           <p class="formula-eq">PLP = Peak + Consistency + Breadth</p>
           <ul class="formula-var-list">
             <li><strong>Peak</strong> is based on your single highest-KLP clear. That clear's KLP
-              is raised to the power of 0.85 (a bit less than the full value, but close to it).</li>
+              is raised to the power of 0.85.</li>
             <li><strong>Consistency</strong> looks at every clear you have, sorted from hardest to
               easiest. Each one's KLP is raised to the power of 0.65, then all of those are added
               up and multiplied by 0.6. Your top 12 hardest clears also get an extra bonus on top
@@ -125,11 +113,11 @@
         </div>
 
         <p>
-          Two consequences worth knowing: because Consistency uses a power less than 1, each
+          Two things  worth knowing: because Consistency uses a power less than 1, each
           individual clear matters a little less than the last one. Which means there are diminishing
           returns, but every clear still always helps some. And because your top 12 hardest clears
           get the extra bonus, your hardest dozen completions matter disproportionately more to
-          your PLP than anything you clear after that.
+          your PLP than anything you clear after that. <em>(nerd)</em>
         </p>
       </div>
 
@@ -158,7 +146,7 @@
           <p class="rule-note">
             Levels must have coherent, kaizo-worthy gameplay. A <em>timmy-level</em> is one with
             lazy or spammy design. For example, enemies mindlessly spammed everywhere with no
-            intentional design behind them.
+            actual design behind them.
           </p>
         </div>
       </div>
@@ -168,7 +156,7 @@
         <div class="rule-body">
           <p class="rule-text">No third-party external applications.</p>
           <p class="rule-note">
-            This includes auto-clickers, macros, or any software that automates or helps
+            This includes auto-clickers, macros, or any software that eases or helps
             in-game inputs in any way. (Note: This includes any modifications made to the game itself, such as the ANARCHY Mod.)
           </p>
         </div>
@@ -183,10 +171,11 @@
       <div class="rule-card">
         <div class="rule-number">1</div>
         <div class="rule-body">
-          <p class="rule-text">Provide a raw completion recording or livestream.</p>
+          <p class="rule-text">Provide a recording of you completing the level.</p>
           <p class="rule-note">
-            You must record or stream your run from start to finish. Edited, spliced footage, 
-            or providing only a screenshot is not accepted.
+            The absolute bare minimum is footage of you beating the level, which simply means
+            entering the exit block. A livestream VOD works too. Edited or spliced footage, or
+            providing only a screenshot, is not accepted.
           </p>
         </div>
       </div>
@@ -194,11 +183,12 @@
       <div class="rule-card">
         <div class="rule-number">2</div>
         <div class="rule-body">
-          <p class="rule-text">Your submission must show the Green Medal.</p>
+          <p class="rule-text">Show your completion going through in the same recording.</p>
           <p class="rule-note">
-            Both your raw completion footage <em>and</em> a screenshot of the level screen must
-            clearly show the Green Medal stamp. Search the level in-game and include a clear
-            shot of the Green Medal on the level screen as part of your submission.
+            <strong>Verifiers:</strong> publish the level immediately after entering the exit
+            block, on raw footage.<br>
+            <strong>Victors:</strong> after completing the level, search it up in-game and show it
+            displaying the Green Medal on the level screen.
           </p>
         </div>
       </div>
@@ -210,11 +200,11 @@
           Submit your record in the <a href="https://discord.gg/3un6nh8G9w" target="_blank" rel="noopener noreferrer">Discord</a>.
         </p>
         <p class="rule-note">
-          Post your evidence in the 
+          Post your submission in the 
           <a href="https://discord.com/channels/1291482741317042306/1299626936833933407" target="_blank" rel="noopener noreferrer">
             <strong>#submit-records</strong>
           </a> 
-          channel with your raw footage and Green Medal screenshot.
+          channel with your completion recording.
         </p>
       </div>
     </div>
@@ -231,10 +221,9 @@
             <p><strong>Player ID:</strong> your ID</p>
             <p><strong>Level:</strong> level name</p>
             <p><strong>Level ID:</strong> level ID</p>
-            <p><strong>Raw Completion:</strong> YouTube link or livestream VOD</p>
-            <p><strong>Green Medal Screenshot:</strong> upload directly or via Imgur</p>
+            <p><strong>Completion Recording:</strong> YouTube link or livestream VOD</p>
             <p><strong>KLP Opinion:</strong> how much KLP you think the level deserves</p>
-            <p><strong>Overall Thoughts:</strong> <em>optional, but strongly encouraged. A brief impression of the level goes a long way toward getting your submission accepted faster.</em></p>
+            <p><strong>Overall Thoughts:</strong> <em>optional, but strongly encouraged. A brief description and opinion of the level goes a long way toward getting your submission accepted faster!</em></p>
           </div>
         </div>
       </div>
@@ -256,7 +245,7 @@
     <div class="rules-footer panel-9slice">
       <p>
         If any rule seems unclear, or you're unsure about something,
-        feel free to reach out directly. New rules may be added as needed.
+        feel free to reach out directly (hypergermented on Discord). New rules may be added as needed.
       </p>
     </div>
 
@@ -266,7 +255,7 @@
 <footer class="site-footer panel-9slice">
   <p>
     <span data-i18n="copyright">The Kaizo List © 2026</span> --
-    <span data-i18n="version_label">Version</span> <span id="app-version">1.22</span>
+    <span data-i18n="version_label">Version</span> <span id="app-version">1.261</span>
   </p>
   <p>
     <span data-i18n="footer_attribution">Game & All assets belong to</span>

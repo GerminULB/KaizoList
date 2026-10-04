@@ -52,11 +52,11 @@
       </div>
 
       <div id="title-row">
-          <div id="title-left">
+          <div id="title-left" class="board-9slice">
               <h1 id="level-name"></h1>
           </div>
-                
-          <div id="badges-container-right">
+
+          <div id="badges-container-right" class="board-9slice">
               <div id="badge-row"></div>
               <div id="series-badge"></div>
           </div>
@@ -64,24 +64,24 @@
 
       <div class="level-columns">
           <div class="level-column">
-              <h2 data-i18n="victors_title">Victors</h2>
+              <h2 class="label-board board-9slice" data-i18n="victors_title">Victors</h2>
               <div id="victors-grid" class="grid panel-9slice"></div>
           </div>
 
           <div class="level-column">
+              <h2 class="label-board board-9slice" data-i18n="level_info_title">Level Info</h2>
               <div id="level-info" class="panel-9slice">
-                  <h2 data-i18n="level_info_title">Level Info</h2>
 
                   <p><strong data-i18n="creator">Creator:</strong> <span id="level-creator"></span></p>
                   <p><strong data-i18n="verifier">Verifier:</strong> <span id="level-verifier"></span></p>
                   <p><strong data-i18n="id">ID:</strong> <span id="level-id">N/A</span></p>
                   <p id="level-klp-row"><strong>KLP:</strong> <span id="level-klp">0</span></p>
-                  <p><strong data-i18n="sort_rank">Rank:</strong> <span id="level-rank">0</span></p>
+                  <p><strong data-i18n="rank_label">Rank:</strong> <span id="level-rank">0</span></p>
                   <p id="level-legacy-date-row" class="hidden"><strong data-i18n="legacy_since_label">Moved to Legacy:</strong> <span id="level-legacy-date">N/A</span></p>
               </div>
 
-              <h2 data-i18n="history_title">History</h2>
-              <div id="history" class="scrollable panel-9slice"></div>
+              <h2 class="label-board board-9slice" style="margin-top:24px;" data-i18n="history_title">History</h2>
+              <div id="history" class="panel-9slice"></div>
           </div>
       </div>
   </div>

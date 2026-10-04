@@ -1,7 +1,7 @@
 [
     {
         "name": "Lava Saw Genesis",
-        "klp": 2450,
+        "klp": 2100,
         "creator": "Leshy, redstom",
         "verifier": "redstom",
         "id": "913800",
@@ -26,7 +26,9 @@
         "badges": [
             "former_top1",
             "popular",
+            "remake",
             "jetpack",
+            "boomerang",
             "magnet",
             "spikey",
             "ruthless",
@@ -48,6 +50,21 @@
             "ruthless",
             "checkpointless",
             "tight"
+        ]
+    },
+    {
+        "name": "Conflicted",
+        "klp": 1710,
+        "creator": "Zevvy (Zevorcen)",
+        "verifier": "Zevvy (Zevorcen)",
+        "id": "725738",
+        "badges": [
+            "sawy",
+            "ruthless",
+            "checkpointless",
+            "tight",
+            "smol",
+            "boomerang"
         ]
     },
     {
@@ -74,21 +91,8 @@
             "spikey",
             "sawy",
             "ruthless",
-            "jetpack"
-        ]
-    },
-    {
-        "name": "Conflicted",
-        "klp": 1397,
-        "creator": "Zevvy (Zevorcen)",
-        "verifier": "Zevvy (Zevorcen)",
-        "id": "725738",
-        "badges": [
-            "sawy",
-            "ruthless",
-            "checkpointless",
-            "tight",
-            "smol"
+            "jetpack",
+            "speed"
         ]
     },
     {
@@ -117,6 +121,7 @@
             "magnet",
             "timer",
             "tight",
+            "popular",
             "ruthless",
             "checkpointless",
             "approved_sasha"
@@ -148,6 +153,25 @@
         ]
     },
     {
+        "name": "Astropolis",
+        "klp": 932,
+        "creator": "Saarck",
+        "verifier": "Saarck",
+        "id": "697285",
+        "badges": [
+            "popular",
+            "creative",
+            "boss",
+            "ruthless",
+            "tight",
+            "xxl",
+            "approved_sasha",
+            "magnet",
+            "darkness",
+            "metroidvania"
+        ]
+    },
+    {
         "name": "Trio Kaizo Infinity",
         "klp": 930,
         "creator": "Sasha Krutoy YT2, Germinxvee, redstom",
@@ -176,7 +200,9 @@
             "sawy",
             "spikey",
             "smol",
-            "ruthless"
+            "ruthless",
+            "remake",
+            "checkpointless"
         ]
     },
     {
@@ -184,7 +210,7 @@
         "klp": 894,
         "creator": "Ripbasil",
         "verifier": "Ripbasil",
-        "id": "333616",
+        "id": "728629",
         "badges": [
             "memory",
             "ruthless",
@@ -218,6 +244,7 @@
         "badges": [
             "popular",
             "gimmick",
+            "approved_germin",
             "former_top1"
         ]
     },
@@ -243,26 +270,6 @@
         "badges": [
             "gimmick",
             "approved_sasha"
-        ]
-    },
-    {
-        "name": "Astropolis",
-        "klp": 595,
-        "creator": "Saarck",
-        "verifier": "Saarck",
-        "id": "697285",
-        "badges": [
-            "popular",
-            "creative",
-            "boss",
-            "ruthless",
-            "tight",
-            "xxl",
-            "approved_germin",
-            "approved_sasha",
-            "magnet",
-            "darkness",
-            "metroidvania"
         ]
     },
     {
@@ -1171,31 +1178,6 @@
     },
 
     {
-        "name": "Kaizo Desert",
-        "klp": 116,
-        "creator": "Dino RPG",
-        "verifier": "Dino RPG",
-        "id": "650038",
-        "badges": [
-            "magnet",
-            "deco_simple",
-            "checkpointless"
-        ]
-    },
-    {
-        "name": "Magnetic Easy Kaizo",
-        "klp": 115,
-        "creator": "Samuel CM",
-        "verifier": "Samuel CM",
-        "id": "204705",
-        "badges": [
-            "magnet",
-            "boss",
-            "deco_simple"
-        ]
-    },
-
-    {
         "name": "Eon",
         "klp": 112,
         "creator": "Failed Boy",
@@ -1281,16 +1263,26 @@
         ]
     },
     {
-        "name": "The Final Planet",
-        "klp": 103,
+        "name": "Kaizo Desert",
+        "klp": 116,
+        "creator": "Dino RPG",
+        "verifier": "Dino RPG",
+        "id": "650038",
+        "badges": [
+            "magnet",
+            "deco_simple",
+            "checkpointless"
+        ]
+    },
+    {
+        "name": "Magnetic Easy Kaizo",
+        "klp": 106,
         "creator": "Samuel CM",
         "verifier": "Samuel CM",
-        "id": "176125",
+        "id": "204705",
         "badges": [
-            "ancient",
-            "jetpack",
+            "magnet",
             "boss",
-            "spikey",
             "deco_simple"
         ]
     },
@@ -1319,6 +1311,20 @@
             "jetpack",
             "sawy",
             "smol"
+        ]
+    },
+    {
+        "name": "The Final Planet",
+        "klp": 90,
+        "creator": "Samuel CM",
+        "verifier": "Samuel CM",
+        "id": "176125",
+        "badges": [
+            "ancient",
+            "jetpack",
+            "boss",
+            "spikey",
+            "deco_simple"
         ]
     },
     {

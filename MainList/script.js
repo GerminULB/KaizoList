@@ -57,7 +57,6 @@ import { t } from '../js/i18n.js';
 
         const mainBtn = document.getElementById('tab-main');
         const legacyBtn = document.getElementById('tab-legacy');
-        const sortFilter = document.getElementById('sort-filter');
         const legacyNote = document.getElementById('legacy-note');
 
         if (mainBtn) {
@@ -68,10 +67,6 @@ import { t } from '../js/i18n.js';
             legacyBtn.classList.toggle('active', tab === 'legacy');
             legacyBtn.setAttribute('aria-selected', tab === 'legacy');
         }
-        // Legacy List order is fixed (top-to-bottom of levels.json), so the
-        // rank/newest/oldest sort control doesn't apply there.
-        if (sortFilter) sortFilter.closest('.filters')?.classList.toggle('legacy-mode', tab === 'legacy');
-        if (sortFilter) sortFilter.style.display = tab === 'legacy' ? 'none' : '';
         if (legacyNote) legacyNote.classList.toggle('hidden', tab !== 'legacy');
 
         renderFilteredLevels();
@@ -177,11 +172,16 @@ import { t } from '../js/i18n.js';
                    creatorMatch && verifierMatch && badgeMatch;
         });
 
-        // The Legacy List always stays in original levels.json order.
-        if (activeTab !== 'legacy') {
-            if (sortMethod === 'id-asc') filtered.sort((a, b) => +a.id - +b.id);
-            else if (sortMethod === 'id-desc') filtered.sort((a, b) => +b.id - +a.id);
-            else filtered.sort((a, b) => a.rank - b.rank);
+        if (sortMethod === 'id-asc') filtered.sort((a, b) => +a.id - +b.id);
+        else if (sortMethod === 'id-desc') filtered.sort((a, b) => +b.id - +a.id);
+        else filtered.sort((a, b) => a.rank - b.rank);
+
+        // "Clear Filters" only shows while something is actually filtered or re-sorted.
+        const clearBtn = document.getElementById('clear-filters');
+        if (clearBtn) {
+            const anyActive = search !== '' || selectedCreator !== '' || selectedVerifier !== '' ||
+                              selectedBadge !== '' || sortMethod !== 'rank';
+            clearBtn.style.display = anyActive ? '' : 'none';
         }
 
         loadLevelsFromJSON(filtered);
@@ -221,10 +221,11 @@ import { t } from '../js/i18n.js';
             
             div.innerHTML = `
             <div class="level-summary" role="button">
-                <span>#${lvl.rank}: ${highlightText(lvl.name)}</span>
+                <span class="rank-board board-9slice sm">#${lvl.rank}</span>
+                <span class="name-board board-9slice sm">${highlightText(lvl.name)}</span>
                 <div class="summary-right">
                 <div class="mini-badge-list"></div>
-                ${scoreMarkup}
+                <span class="score-board board-9slice sm">${scoreMarkup}</span>
                 </div>
             </div>
             <div class="level-details">

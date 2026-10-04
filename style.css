@@ -60,6 +60,7 @@ h1, h2, p {
     pointer-events: none;
 }
 
+/* Vignette + sprite frame around the WHOLE panel body (see BOARDS & FRAMES at the bottom) */
 .panel-9slice::after {
     content: "";
     position: absolute;
@@ -68,12 +69,22 @@ h1, h2, p {
     background: radial-gradient(
         ellipse at center,
         rgba(0,0,0,0.0) 0%,
-        rgba(0,0,0,0.08) 55%,
-        rgba(0,0,0,0.18) 100%
+        rgba(0,0,0,0.05) 55%,
+        rgba(0,0,0,0.12) 100%
     );
 
-    z-index: 0;
+    border: 6px solid transparent;
+    border-image: var(--frame-img) 6 / 6px stretch;
+    image-rendering: pixelated;
+
+    z-index: 2;
     pointer-events: none;
+}
+
+.container.panel-9slice::after,
+.site-footer.panel-9slice::after {
+    border-width: 12px;
+    border-image: var(--frame-img) 6 / 12px stretch;
 }
 
 .panel-9slice > * {
@@ -168,6 +179,7 @@ p {
 
 /* ----------------- Player List Rows as Buttons ----------------- */
 .level-summary {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -223,27 +235,6 @@ p {
 
 .level + .level {
     margin-top: 6px;
-}
-
-.level-summary::after {
-    content: "";
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    bottom: -2px;
-    height: 3px;
-
-    background: linear-gradient(
-        to right,
-        rgba(0,0,0,0),
-        #6e4a2f 20%,
-        #e6caa8 50%,
-        #6e4a2f 80%,
-        rgba(0,0,0,0)
-    );
-
-    box-shadow: 0 1px 0 rgba(0,0,0,0.6);
-    pointer-events: none;
 }
 
 .level-details {
@@ -321,8 +312,6 @@ p {
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-    mask-image: linear-gradient(to bottom, black calc(100% - 24px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 24px), transparent 100%);
 }
 
 .no-results,
@@ -641,8 +630,6 @@ p {
     padding-right: 6px;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-    mask-image: linear-gradient(to bottom, black calc(100% - 24px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 24px), transparent 100%);
 }
 
 
@@ -659,9 +646,6 @@ p {
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
-#player-history {
-    padding: 6px 8px;
-}
 /* ----------------- List / Legacy List Tabs ----------------- */
 .list-tabs {
     display: flex;
@@ -825,6 +809,13 @@ p {
 
 
 
+#player-info #player-total-klp {
+  display: inline;
+  width: auto;
+  margin: 0;
+  font-size: 1.5em;
+}
+
 #total-klp {
   display: block;
   width: 100%;
@@ -892,14 +883,7 @@ p {
     .update-announcement {
         font-size: 0.9em;
         padding: 10px;
-        max-height: 250px;   
-        overflow-y: auto; 
-        overflow-x: hidden; 
-        box-sizing: border-box; 
-        overscroll-behavior: contain;
-        -webkit-overflow-scrolling: touch;
-        mask-image: linear-gradient(to bottom, black calc(100% - 24px), transparent 100%);
-        -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 24px), transparent 100%);
+        box-sizing: border-box;
     }
 
     .update-announcement ul {
@@ -1076,7 +1060,7 @@ img.logo:hover {
     }
 }
 
-/* ----------------- Player Compare | mobile ----------------- */
+/* ----------------- Player Compare — mobile ----------------- */
 @media (max-width: 700px) {
     .filters select,
     .filters button {
@@ -1405,7 +1389,7 @@ img.logo:hover {
 .timeline-date { font-size: 0.8em; color: #f2c27b; margin-bottom: 4px; font-weight: bold; }
 .timeline-desc { font-size: 0.95em; color: #fff; }
 .settings-menu {
-    position: absolute;
+    position: fixed;      /* stays in the top-right corner while scrolling */
     top: 10px;
     right: 10px;
     display: flex;
@@ -1512,10 +1496,10 @@ body.dark-mode #search,
 body.dark-mode #player-search,
 body.dark-mode .filters select,
 body.dark-mode .filters button {
-    background-color: #2b3a30; 
-    border-color: #4a634d;
+    background-color: #222222; 
+    border-color: #ffffff;
     color: #ffffff !important;
-    box-shadow: 0 3px 0 #1b261e, 0 4px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+    box-shadow: 0 3px 0 #000000, 0 4px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
 @keyframes parallax-planets {
@@ -1537,4 +1521,264 @@ body.dark-mode .filters button {
     margin: 0;
     font-size: 0.88em;
     color: #c8b89a;
+}
+
+/* --- v1.261: richer Recent Changes / history --- */
+.change-item.is-legacy { border-left-color: #c58bff; }
+.change-item.is-badges { border-left-color: #7bc7f2; }
+.tag-legacy { background: #c58bff; }
+.tag-badges { background: #7bc7f2; }
+.change-link { color: #fff; text-decoration: none; }
+.change-link:hover { text-decoration: underline; }
+.change-sub { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 0.8em; }
+.change-note { padding: 1px 6px; border-radius: 3px; }
+.note-legacy { background: rgba(197, 139, 255, 0.25); color: #e3c8ff; }
+.note-return { background: rgba(186, 255, 193, 0.2); color: #baffc1; }
+.change-badge { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; border-radius: 3px; background: rgba(0,0,0,0.35); }
+.change-badge-icon { width: 16px; height: 16px; image-rendering: pixelated; }
+.badge-added { color: #baffc1; }
+.badge-removed { color: #ffd1d1; }
+.change-rank { font-size: 0.85em; opacity: 0.95; }
+.rank-up { color: #baffc1; font-weight: bold; }
+.rank-down { color: #ff6a6a; font-weight: bold; }
+.rank-flat { opacity: 0.8; }
+.change-footnote { margin-top: 8px; font-size: 0.8em; opacity: 0.65; text-align: center; }
+.timeline-rank { opacity: 0.7; }
+
+/* --- v1.261: Player Compare shortcut (a smaller .hub-button, fixed top-left) --- */
+#compare-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10000;
+    padding: 4px 10px;
+    font-size: 0.7em;
+    text-decoration: none;
+    box-shadow:
+        0 2px 0 #366753,
+        0 3px 5px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+/* =================== BOARDS & FRAMES ======================
+   Sprites are tinted by js/sprites.js, which sets
+   --board-img-light/dark and --frame-img-light/dark on <html>.
+   .board-9slice  = a board (plaque) with its own frame around the whole body
+   .board-9slice.sm = the same at 1x pixel scale, for small blocks (rows, chips)
+   .panel-9slice already gets a frame (see its ::after above).
+============================================================ */
+body {
+    --board-img: var(--board-img-light);
+    --frame-img: var(--frame-img-light);
+}
+body.dark-mode {
+    --board-img: var(--board-img-dark);
+    --frame-img: var(--frame-img-dark);
+}
+
+.board-9slice {
+    --bw: 8px;   /* board edge */
+    --fw: 12px;  /* frame edge */
+    position: relative;
+    box-sizing: border-box;
+    border: var(--bw) solid transparent;
+    border-image: var(--board-img) 4 fill / var(--bw) stretch;
+    image-rendering: pixelated;
+    padding: 6px 12px;
+    background: none;
+    border-radius: 0;
+}
+
+.board-9slice.sm {
+    --bw: 4px;
+    --fw: 6px;
+    padding: 3px 10px;
+}
+
+.board-9slice::after {
+    content: "";
+    position: absolute;
+    inset: calc(var(--bw) * -1);
+    border: var(--fw) solid transparent;
+    border-image: var(--frame-img) 6 / var(--fw) stretch;
+    image-rendering: pixelated;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Board only, no frame around it: Player Details name, and the name on list rows */
+.board-9slice.no-frame::after,
+.level-summary .name-board::after {
+    display: none;
+}
+
+/* Section labels: every label sits on its own framed board */
+.label-board {
+    display: table;
+    margin: 0 auto 14px auto;
+    padding: 6px 22px;
+    font-size: 1.15em;
+    line-height: 1.2;
+    text-align: center;
+}
+
+/* ----- Title row (Level / Player details): name board + badge board ----- */
+#title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: 22px;
+    margin: 8px 0 28px 0;
+}
+
+#title-left.board-9slice {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    padding: 10px 26px;
+    max-width: 100%;
+}
+
+#title-left h1 {
+    margin: 0;
+    font-size: 1.7em;
+    overflow-wrap: anywhere;
+}
+
+#badges-container-right.board-9slice {
+    flex: 1 1 260px;
+    min-width: 0;
+    justify-content: center;
+    padding: 12px 18px;
+}
+
+#badges-container-right:not(:has(.badge-hitbox)) {
+    display: none;
+}
+
+#badges-container-right #badge-row {
+    justify-content: center;
+    margin-top: 0;
+}
+
+@media (max-width: 600px) {
+    #title-row { gap: 18px; }
+    #title-left.board-9slice { justify-content: center; width: 100%; }
+    #badges-container-right.board-9slice { flex-basis: 100%; }
+}
+
+/* ----- Small blocks that now share the board + frame look ----- */
+.grid-item.board-9slice {
+    background: none;
+    color: #f4e9dc;
+    font-size: 0.95em;
+}
+
+.timeline-event.board-9slice,
+.change-item.board-9slice {
+    border-left-width: 4px;
+    border-radius: 0;
+    margin: 0 0 12px 0;
+}
+
+.change-item.board-9slice { padding: 4px 8px; }
+
+.timeline-event.board-9slice { text-align: left; }
+.timeline-event .timeline-desc small { opacity: 0.75; }
+.timeline-event.is-up   .timeline-delta { color: #dbffde !important; }
+.timeline-event.is-down .timeline-delta { color: #ffd0d0 !important; }
+.timeline-n {
+    font-size: 0.8em;
+    margin-right: 8px;
+    color: #f2c27b !important;
+    font-weight: bold;
+}
+
+#history { padding: 12px 14px; }
+
+/* ----- Player Details: stat boards + two columns ----- */
+.stat-boards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    padding: 6px 4px;
+}
+
+.stat-chip {
+    flex: 1 1 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-chip-label {
+    font-size: 0.8em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #e6caa8 !important;
+}
+
+.stat-chip-value {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.player-container {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 26px;
+    align-items: flex-start;
+}
+
+.player-col {
+    flex: 1 1 280px;
+    min-width: 0;
+}
+
+.player-col + .player-col .label-board:not(:first-child) { margin-top: 24px; }
+
+/* ----- Rows (MainList + PlayerList): rank board | name board | badges | score board ----- */
+.level-summary {
+    gap: 10px;
+    padding: 8px 10px;
+}
+
+.level-summary .rank-board {
+    flex: 0 0 auto;
+    min-width: 46px;
+    text-align: center;
+}
+
+.level-summary .name-board {
+    flex: 0 1 auto;
+    min-width: 0;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.level-summary .score-board {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.level-summary .summary-right { gap: 8px; }
+
+.level-summary .mini-badge-list { margin-right: 0; }
+
+@media (max-width: 500px) {
+    .level-summary { flex-wrap: wrap; }
+    .level-summary .name-board { flex-basis: 60%; }
+    .level-summary .mini-badge-list { max-width: 110px; }
+}
+
+.mini-badge-more {
+    margin-left: 6px;
+    font-size: 0.8em;
+    font-weight: bold;
+    white-space: nowrap;
 }
