@@ -287,19 +287,6 @@
         ]
     },
     {
-        "name": "Bombas de Ocelote",
-        "klp": 589,
-        "creator": "redstom",
-        "verifier": "redstom",
-        "id": "249411",
-        "badges": [
-            "timeless",
-            "timer",
-            "tight",
-            "checkpointless"
-        ]
-    },
-    {
         "name": "Bobette Its So Happy",
         "klp": 588,
         "creator": "Lanzy-ULB",
@@ -541,7 +528,7 @@
     },
     {
         "name": "Meow Speedrun",
-        "klp": 398,
+        "klp": 406,
         "creator": "redstom",
         "verifier": "redstom",
         "id": "270324",
@@ -551,6 +538,19 @@
             "timer",
             "checkpointless",
             "former_top1"
+        ]
+    },
+    {
+        "name": "Bombas de Ocelote",
+        "klp": 399,
+        "creator": "redstom",
+        "verifier": "redstom",
+        "id": "249411",
+        "badges": [
+            "timeless",
+            "timer",
+            "tight",
+            "checkpointless"
         ]
     },
     {
