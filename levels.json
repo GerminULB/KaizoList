@@ -1093,17 +1093,6 @@
         ]
     },    
     {
-        "name": "Lava Paradise",
-        "klp": 132,
-        "creator": "Ocelote",
-        "verifier": "Ocelote",
-        "id": "440423",
-        "badges": [
-            "tower",
-            "creative"
-        ]
-    },
-    {
         "name": "Forest Hell",
         "klp": 131,
         "creator": "Theredman3222",
@@ -1341,6 +1330,17 @@
         ]
     },
     {
+        "name": "Lava Paradise",
+        "klp": 80,
+        "creator": "Ocelote",
+        "verifier": "Ocelote",
+        "id": "440423",
+        "badges": [
+            "tower",
+            "creative"
+        ]
+    },
+    {
         "name": "Forest Madness",
         "klp": 70,
         "creator": "AnDronolis",
@@ -1354,6 +1354,7 @@
             "checkpointless"
         ]
     },
+    
     {
         "name": "The Hell",
         "klp": 69,
