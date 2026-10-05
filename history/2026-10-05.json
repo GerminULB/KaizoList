@@ -172,20 +172,6 @@
         ]
     },
     {
-        "name": "Kizero",
-        "klp": 931,
-        "creator": "Bester",
-        "verifier": "redstom",
-        "id": "426777",
-        "badges": [
-            "tight",
-            "timeless",
-            "sawy",
-            "ruthless",
-            "deco_simple"
-        ]
-    },
-    {
         "name": "Trio Kaizo Infinity",
         "klp": 930,
         "creator": "Sasha Krutoy YT2, Germinxvee, redstom",
@@ -797,7 +783,8 @@
         "badges": [
             "approved_germin",
             "remake",
-            "jetpack"
+            "jetpack",
+            "checkpointless"
         ]
     },
     {
@@ -917,17 +904,6 @@
         ]
     },
     {
-        "name": "Claustrophobie",
-        "klp": 215,
-        "creator": "065Foxys",
-        "verifier": "065Foxys",
-        "id": "656423",
-        "badges": [
-            "darkness",
-            "magnet"
-        ]
-    },
-    {
         "name": "Kaizo",
         "klp": 209,
         "creator": "Theredman3222",
@@ -938,6 +914,19 @@
             "magnet",
             "walljump",
             "timer"
+        ]
+    },
+    {
+        "name": "The Hell",
+        "klp": 198,
+        "creator": "SeaMushroom245",
+        "verifier": "SeaMushroom245",
+        "id": "191982",
+        "badges": [
+            "ancient",
+            "smol",
+            "sawy",
+            "deco_simple"
         ]
     },
     {
@@ -1003,6 +992,17 @@
             "timer",
             "magnet",
             "tight"
+        ]
+    },
+    {
+        "name": "Claustrophobie",
+        "klp": 154,
+        "creator": "065Foxys",
+        "verifier": "065Foxys",
+        "id": "656423",
+        "badges": [
+            "darkness",
+            "magnet"
         ]
     },
     {
@@ -1253,7 +1253,7 @@
     },
     {
         "name": "Corps Astronomiques",
-        "klp": 106,
+        "klp": 105,
         "creator": "065Foxys",
         "verifier": "065Foxys",
         "id": "719923",
@@ -1264,7 +1264,7 @@
     },
     {
         "name": "Kaizo Desert",
-        "klp": 105,
+        "klp": 116,
         "creator": "Dino RPG",
         "verifier": "Dino RPG",
         "id": "650038",
@@ -1276,7 +1276,7 @@
     },
     {
         "name": "Magnetic Easy Kaizo",
-        "klp": 104,
+        "klp": 106,
         "creator": "Samuel CM",
         "verifier": "Samuel CM",
         "id": "204705",
@@ -1352,19 +1352,6 @@
             "smol",
             "deco_simple",
             "checkpointless"
-        ]
-    },
-    {
-        "name": "The Hell",
-        "klp": 69,
-        "creator": "SeaMushroom245",
-        "verifier": "SeaMushroom245",
-        "id": "191982",
-        "badges": [
-            "ancient",
-            "smol",
-            "sawy",
-            "deco_simple"
         ]
     },
     {
