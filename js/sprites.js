@@ -35,8 +35,8 @@ function tintToDataUrl(img, hex, base) {
     const [r, g, b] = hexToRgb(hex);
 
     for (let i = 0; i < px.length; i += 4) {
-        if (px[i + 3] === 0) continue;       // keep transparent pixels (rounded corners, frame hole)
-        const k = px[i] / base;              // sprite is grayscale, so R = G = B
+        if (px[i + 3] === 0) continue;
+        const k = px[i] / base;
         px[i]     = Math.min(255, Math.round(r * k));
         px[i + 1] = Math.min(255, Math.round(g * k));
         px[i + 2] = Math.min(255, Math.round(b * k));
@@ -56,7 +56,7 @@ export async function initSprites() {
             }
         }));
     } catch (err) {
-        // If anything fails the boards/frames are simply invisible; the page still works.
+        // If anything fails the boards/frames are simply invisible; the page still works. phew.
         console.warn('Sprite tinting failed:', err);
     }
 }
