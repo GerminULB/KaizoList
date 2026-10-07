@@ -23,24 +23,6 @@
   </url>
 
   <url>
-    <loc>https://kaizolist.com/KaizoList/LevelDetails.html</loc>
-    <lastmod>2026-03-10</lastmod>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://kaizolist.com/KaizoList/PlayerDetails.html</loc>
-    <lastmod>2026-03-10</lastmod>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://kaizolist.com/KaizoList/CreatorDetails.html</loc>
-    <lastmod>2026-03-10</lastmod>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
     <loc>https://kaizolist.com/KaizoList/Rules/</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
