@@ -56,7 +56,7 @@ exports.discordAuth = onRequest({ secrets: [DISCORD_CLIENT_SECRET], cors: SITES,
         const discordUid = String(user.id);
         const discordName = String(user.username || '').slice(0, 60);
 
-        // accounts made before Discord sign-in (like the owner's) are linked by hand in discordLinks
+        // accounts made before Discord sign-in (like the owner's) are linked by hand in discordLinks haha lol
         const db = getFirestore();
         const linkRef = db.doc(`discordLinks/${discordUid}`);
         const link = await linkRef.get();
@@ -86,7 +86,7 @@ const TITLE = 'KAIZO LIST';
 const ICON = `${N.SITE}/images/app/icon-192.png`;
 const BADGE = `${N.SITE}/images/app/badge-96.png`;
 const DAILY_CAP = 6;
-// must match where your Firestore database lives (Firestore > Database shows the location)
+
 const TRIGGER_REGION = 'europe-west3';
 
 async function push(uid, type, vars, link, extra = {}) {
