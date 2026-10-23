@@ -84,6 +84,7 @@ exports.discordAuth = onRequest({ secrets: [DISCORD_CLIENT_SECRET], cors: SITES,
 
 const TITLE = 'KAIZO LIST';
 const ICON = `${N.SITE}/images/app/icon-192.png`;
+const BADGE = `${N.SITE}/images/app/badge-96.png`;
 const DAILY_CAP = 6;
 // must match where your Firestore database lives (Firestore > Database shows the location)
 const TRIGGER_REGION = 'europe-west3';
@@ -103,7 +104,7 @@ async function push(uid, type, vars, link, extra = {}) {
         await getMessaging().send({
             token: s.token,
             notification: { title: TITLE, body },
-            webpush: { notification: { icon: ICON }, fcmOptions: { link: link || N.SITE } },
+            webpush: { notification: { icon: ICON, badge: BADGE }, fcmOptions: { link: link || N.SITE } },
         });
     } catch (err) {
         if (['messaging/registration-token-not-registered', 'messaging/invalid-registration-token', 'messaging/invalid-argument'].includes(err.code)) await ref.delete();

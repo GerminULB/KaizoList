@@ -2239,7 +2239,8 @@ body.dark-mode .hat-tab { color: #eeeeee !important; }
 }
 body.comments-open .comments-drawer { transform: none; visibility: visible; }
 .comments-drawer > h2 { margin: 0 50px 10px 0; align-self: flex-start; }
-.comments-drawer > .panel-9slice { flex: 1; overflow-y: auto; margin: 0; }
+.comments-drawer > .panel-9slice { flex: 1; min-height: 0; margin: 0; overflow: hidden; display: flex; flex-direction: column; }
+.comments-drawer > .panel-9slice > .comments-list { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .comments-drawer .comments-close { position: absolute; top: 12px; right: 12px; }
 
 .comments-tab {
@@ -2357,3 +2358,4 @@ html.kl-egg-lock, html.kl-egg-lock body { overflow: hidden; }
 .kl-void-lines p { margin: 0; }
 .kl-void-lines p.kl-void-end { margin-top: 24px; font-size: 32px; }
 @media (prefers-reduced-motion: reduce) { .kl-red-engulf, .account-overlay.egg .account-window { transition: none; } }
+.account-btn.loading { opacity: .6; cursor: progress; }

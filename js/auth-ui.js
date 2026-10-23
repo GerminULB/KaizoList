@@ -6,13 +6,16 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
 const ROOT = '/';
 const OWNER_DISCORD = 'hypergermented';
 let state = { user: null };
+let ready = false;
+const LAST_NAME = 'kl_last_name';
+const lastName = () => { try { return localStorage.getItem(LAST_NAME) || ''; } catch { return ''; } };
 
 function mountButton() {
     const menu = document.querySelector('.settings-menu');
     if (!menu || document.getElementById('account-box')) return;
     const box = document.createElement('div');
     box.id = 'account-box';
-    box.innerHTML = `<button type="button" id="account-btn" class="account-btn">${esc(t('account_sign_in'))}</button>
+    box.innerHTML = `<button type="button" id="account-btn" class="account-btn loading" aria-busy="true">${esc(lastName() || '...')}</button>
         <div id="account-menu" class="account-menu panel-9slice hidden"></div>`;
     menu.appendChild(box);
     document.getElementById('account-btn').addEventListener('click', onButton);
@@ -24,7 +27,9 @@ const closeMenu = () => document.getElementById('account-menu')?.classList.add('
 function drawButton() {
     const btn = document.getElementById('account-btn');
     if (!btn) return;
-    btn.classList.remove('needs-attention');
+    btn.classList.remove('needs-attention', 'loading');
+    btn.removeAttribute('aria-busy');
+    try { if (state.player) localStorage.setItem(LAST_NAME, state.player.username); else localStorage.removeItem(LAST_NAME); } catch { }
     if (!state.user) btn.textContent = t('account_sign_in');
     else if (state.player) btn.textContent = state.player.username;
     else if (state.claim?.status === 'pending') btn.textContent = t('account_claim_pending_short');
@@ -32,6 +37,7 @@ function drawButton() {
 }
 
 async function onButton() {
+    if (!ready) return;
     if (!state.user) {
         signIn();
         return;
@@ -384,6 +390,7 @@ function start() {
     try { if (localStorage.getItem('kl_push_on')) import('./push.js').catch(() => { }); } catch { }
     watchAccount((s) => {
         state = s;
+        ready = true;
         drawButton();
         const asked = sessionStorage.getItem('kl_name_asked');
         if (s.user && !s.player && (!asked || s.claim?.status === 'rejected')) {
