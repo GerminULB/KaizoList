@@ -14,7 +14,7 @@ initializeApp();
 const DISCORD_CLIENT_ID = '1560332678409232385';
 const DISCORD_CLIENT_SECRET = defineSecret('DISCORD_CLIENT_SECRET');
 
-const MIN_ACCOUNT_DAYS = 7;
+const MIN_ACCOUNT_DAYS = 1;
 const discordCreated = (id) => Number((BigInt(id) >> 22n) + 1420070400000n);
 
 const SITES = [/^https:\/\/(www\.)?kaizolist\.com$/, /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/];
@@ -64,15 +64,15 @@ exports.discordAuth = onRequest({ secrets: [DISCORD_CLIENT_SECRET], cors: SITES,
         if ((await db.doc(`bans/${uid}`).get()).exists) {
             return res.status(403).json({ error: 'This account is banned from the Kaizo List.' });
         }
-        if (!link.exists) {
-            const days = (Date.now() - discordCreated(discordUid)) / 86400000;
-            if (days < MIN_ACCOUNT_DAYS) {
-                const wait = Math.max(1, Math.ceil(MIN_ACCOUNT_DAYS - days));
-                return res.status(403).json({ error: `Your Discord account is too new to sign in here yet. Try again in ${wait} day${wait === 1 ? '' : 's'}.` });
+            if (!link.exists) {
+                const days = (Date.now() - discordCreated(discordUid)) / 86400000;
+                if (days < MIN_ACCOUNT_DAYS && !(await db.doc(`earlyAccess/${discordUid}`).get()).exists) {
+                    const from = new Date(discordCreated(discordUid) + MIN_ACCOUNT_DAYS * 86400000)
+                        .toLocaleDateString('en-GB', { day: 'numeric', month: 'long', timeZone: 'Europe/Berlin' });
+                    return res.status(403).json({ error: `Your Discord account is too new to sign in here yet (this keeps spam accounts out). You can sign in from ${from}.` });
+                }
+                await linkRef.set({ uid });
             }
-            await linkRef.set({ uid });
-        }
-
         await db.doc(`accounts/${uid}`).set({ discordUid, discordName, lastSignIn: FieldValue.serverTimestamp() }, { merge: true });
         const token = await getAuth().createCustomToken(uid, { discordUid, discordName });
         res.json({ token });
