@@ -236,6 +236,7 @@ $('purgeBtn').onclick = async () => {
     const tg = banTarget();
     if (!tg) return say('banStatus', 'Type a player name or account ID first.', 'bad');
     if (tg.error) return say('banStatus', tg.error, 'bad');
+    if (tg.role && tg.role !== 'player' && me.role !== 'owner') return say('banStatus', `${tg.name} is on the team. Only the owner can delete a team member's comments.`, 'bad');
     $('purgeBtn').disabled = true;
     try {
         const n = await purgeComments(tg.uid, tg.name);
