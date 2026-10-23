@@ -1,12 +1,27 @@
-const SPRITES = {
-    board: { src: '/images/ui/board_9slice.png', base: 223 },
-    frame: { src: '/images/ui/frame_9slice.png', base: 223 },
-};
+const BUTTON = { light: '#a7d8ac', dark: '#4a4a4a' };
 
-const TINTS = {
-    light: { board: '#81b885', frame: '#71b688' },
-    dark:  { board: '#161616', frame: '#646464' },
+const SPRITES = {
+    board: { src: '/images/ui/board_9slice.png', base: 223, light: '#81b885', dark: '#161616' },
+    frame: { src: '/images/ui/frame_9slice.png', base: 223, light: '#71b688', dark: '#646464' },
+
+    'textbox':      { src: '/images/ui/textbox_9slice.png',  base: 173, light: '#b9e6bd', dark: '#3a3a3a' },
+    'dropdown':     { src: '/images/ui/dropdown_9slice.png', base: 170, ...BUTTON },
+    'slider-back':  { src: '/images/ui/slider_back.png',     base: 85,  light: '#4f7d56', dark: '#232323' },
+    'slider-front': { src: '/images/ui/slider_front.png',    base: 170, ...BUTTON },
+    'radio-off':    { src: '/images/ui/radio_off.png',       base: 170, ...BUTTON },
+
+    'ico-back':    { src: '/images/icon/back.png',    base: 170, ...BUTTON, glyph: true },
+    'ico-close':   { src: '/images/icon/close.png',   base: 170, ...BUTTON, glyph: true },
+    'ico-delete':  { src: '/images/icon/delete.png',  base: 170, ...BUTTON, glyph: true },
+    'ico-edit':    { src: '/images/icon/edit.png',    base: 170, ...BUTTON, glyph: true },
+    'ico-profile': { src: '/images/icon/profile.png', base: 170, ...BUTTON, glyph: true },
+    'ico-revert':  { src: '/images/icon/revert.png',  base: 170, ...BUTTON, glyph: true },
+
+    'ico-lock':     { src: '/images/icon/lock.png',     base: 85, light: '#3a3a3a', dark: '#e2e2e2' },
+    'ico-dropdown': { src: '/images/icon/dropdown.png', base: 64, light: '#2f2f2f', dark: '#e2e2e2' },
+    'ico-search':   { src: '/images/icon/search.png',   base: 64, light: '#3d5a40', dark: '#e2e2e2' },
 };
+const GLYPH_DARK = [228, 228, 228];
 
 function hexToRgb(hex) {
     const n = parseInt(hex.replace('#', ''), 16);
@@ -22,21 +37,29 @@ function loadImage(src) {
     });
 }
 
-function tintToDataUrl(img, hex, base) {
+function tintToDataUrl(img, hex, base, glyph) {
     const canvas = document.createElement('canvas');
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
+    const w = canvas.width = img.naturalWidth;
+    const h = canvas.height = img.naturalHeight;
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(img, 0, 0);
 
-    const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = ctx.getImageData(0, 0, w, h);
     const px = data.data;
+    const src = new Uint8ClampedArray(px);
     const [r, g, b] = hexToRgb(hex);
+    const opaque = (x, y) => x >= 0 && y >= 0 && x < w && y < h && src[(y * w + x) * 4 + 3] > 0;
 
-    for (let i = 0; i < px.length; i += 4) {
-        if (px[i + 3] === 0) continue;
-        const k = px[i] / base;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        const i = (y * w + x) * 4;
+        if (src[i + 3] === 0) continue;
+        if (glyph && src[i] < base * 0.65 && x >= 3 && y >= 3 && x < w - 3 && y < h - 3
+            && [-1, 0, 1].every(dx => [-1, 0, 1].every(dy => opaque(x + dx, y + dy)))) {
+            [px[i], px[i + 1], px[i + 2]] = GLYPH_DARK;
+            continue;
+        }
+        const k = src[i] / base;
         px[i]     = Math.min(255, Math.round(r * k));
         px[i + 1] = Math.min(255, Math.round(g * k));
         px[i + 2] = Math.min(255, Math.round(b * k));
@@ -48,17 +71,15 @@ function tintToDataUrl(img, hex, base) {
 
 export async function initSprites() {
     const root = document.documentElement;
-    try {
-        await Promise.all(Object.entries(SPRITES).map(async ([name, { src, base }]) => {
-            const img = await loadImage(src);
-            for (const theme of ['light', 'dark']) {
-                root.style.setProperty(`--${name}-img-${theme}`, `url("${tintToDataUrl(img, TINTS[theme][name], base)}")`);
-            }
-        }));
-    } catch (err) {
-        // If anything fails the boards/frames are simply invisible; the page still works. phew.
-        console.warn('Sprite tinting failed:', err);
-    }
+    await Promise.all(Object.entries(SPRITES).map(async ([name, s]) => {
+        try {
+            const img = await loadImage(s.src);
+            root.style.setProperty(`--${name}-img-light`, `url("${tintToDataUrl(img, s.light, s.base, false)}")`);
+            root.style.setProperty(`--${name}-img-dark`, `url("${tintToDataUrl(img, s.dark, s.base, s.glyph)}")`);
+        } catch (err) {
+            console.warn('Sprite tinting failed:', err);
+        }
+    }));
 }
 
 initSprites();

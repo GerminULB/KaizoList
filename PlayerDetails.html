@@ -6,6 +6,9 @@
   <title data-i18n="player_details_page_title">Player Details | KaizoList</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/images/app/icon-192.png">
+  <meta name="theme-color" content="#161616">
   <link rel="canonical" href="https://kaizolist.com/PlayerDetails.html" />
 
   <!-- Google tag (gtag.js) -->
@@ -40,7 +43,6 @@
     </button>
 </div>
 
-  
 <div class="background-stage">
   <div class="sky-layer"></div>
   <div class="sunset-mask"></div>
@@ -49,20 +51,30 @@
 </div>
   
   <div class="container panel-9slice">
-    <a href="/PlayerList/" class="hub-button" data-i18n="nav_back">Back</a>
+    <a href="/PlayerList/" id="back-button" class="hub-button" data-i18n="nav_back">Back</a>
 
-    
     <div id="title-row">
-        <div id="title-left" class="board-9slice no-frame">
-            <h1 id="player-name"></h1>
-        </div>
-
-        <div id="badges-container-right" class="board-9slice">
-            <div id="badge-row"></div>
-            <div id="series-badge"></div>
+        <div id="title-left" class="board-9slice no-frame profile-head">
+            <div id="player-carbo" class="player-carbo board-9slice sm"></div>
+            <div class="profile-head-right">
+                <div class="player-name-wrap">
+                    <h1 id="player-name" class="kl-framed"></h1>
+                    <button type="button" id="change-hat" class="kl-iconbtn kl-big hidden" title="Change hat"><img src="images/icon/hats.png" alt="Change hat"></button>
+                </div>
+                <div id="badges-container-right" class="profile-badges">
+                    <div id="badge-row"></div>
+                    <div id="series-badge"></div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <p id="player-retired" class="profile-retired hidden" data-i18n="profile_retired">Retired: not on the leaderboards anymore.</p>
+    <div id="player-empty" class="panel-9slice empty-state hidden" data-i18n="profile_empty">No levels yet.</div>
+
+    <div id="player-loading" class="kl-loading-block"><span class="kl-loading"></span></div>
+
+    <div id="player-stats-block" class="hidden">
     <h2 class="label-board board-9slice" data-i18n="player_stats_title">Player Stats</h2>
     <div id="player-info" class="panel-9slice">
       <div class="stat-boards">
@@ -85,7 +97,33 @@
       </div>
     </div>
 
-    <div class="player-container">
+    </div>
+
+    <div id="player-architect-block" class="hidden">
+      <h2 class="label-board board-9slice" data-i18n="architect_stats_title">Architect Stats</h2>
+      <div class="panel-9slice">
+        <div class="stat-boards">
+          <div class="stat-chip board-9slice sm">
+            <span class="stat-chip-label" data-i18n="stat_published_levels_short">Levels</span>
+            <span class="stat-chip-value" id="creator-level-count">0</span>
+          </div>
+          <div class="stat-chip board-9slice sm">
+            <span class="stat-chip-label" data-i18n="stat_total_klp_contributed_short">KLP Contributed</span>
+            <span class="stat-chip-value" id="creator-total-klp">0</span>
+          </div>
+          <div class="stat-chip board-9slice sm">
+            <span class="stat-chip-label" data-i18n="stat_avg_difficulty_short">Avg. KLP</span>
+            <span class="stat-chip-value" id="creator-avg-klp">0</span>
+          </div>
+          <div class="stat-chip board-9slice sm">
+            <span class="stat-chip-label" data-i18n="stat_avg_enjoyment_short">Avg. Enjoyment</span>
+            <span class="stat-chip-value" id="creator-avg-enjoy">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-container hidden" id="player-levels-block">
       <div id="player-left" class="player-col">
         <h2 class="label-board board-9slice" data-i18n="verifications_title">Verifications</h2>
         <div id="player-verifications" class="grid panel-9slice"></div>
@@ -96,6 +134,16 @@
         <div id="player-victors" class="grid panel-9slice"></div>
       </div>
     </div>
+
+    <div id="player-created-block" class="hidden">
+      <h2 class="label-board board-9slice" data-i18n="profile_created_title">Created Levels</h2>
+      <div id="player-created" class="grid panel-9slice"></div>
+    </div>
+
+    <section id="player-comments-section" class="comments-section hidden">
+      <h2 class="label-board board-9slice"><span data-i18n="comments_title">Comments</span> <span class="comments-count"></span></h2>
+      <div id="player-comments" class="panel-9slice"></div>
+    </section>
   </div> 
 
   <script type="module">

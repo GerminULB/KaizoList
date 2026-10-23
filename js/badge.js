@@ -207,6 +207,36 @@ export const BADGES = {
         icon: "images/badges/18_germin_approved.png",
         type: "regular"
     },
+    approved_saarck: {
+        label: "Saarck Approved Badge",
+        description: "Saarck likes this level.",
+        icon: "images/badges/34_saarck_approved.png",
+        type: "regular"
+    },
+    approved_andronolis: {
+        label: "AnDronolis Approved Badge",
+        description: "AnDronolis likes this level.",
+        icon: "images/badges/35_andronolis_approved.png",
+        type: "regular"
+    },
+    approved_ocelote: {
+        label: "Ocelote Approved Badge",
+        description: "Ocelote likes this level.",
+        icon: "images/badges/36_ocelote_approved.png",
+        type: "regular"
+    },
+    approved_tono: {
+        label: "Toño Approved Badge",
+        description: "Toño likes this level.",
+        icon: "images/badges/37_tono_approved.png",
+        type: "regular"
+    },
+    approved_redstom: {
+        label: "redstom Approved Badge",
+        description: "redstom likes this level.",
+        icon: "images/badges/38_redstom_approved.png",
+        type: "regular"
+    },
 
 	series_OB: {
 		label: "Ocelote's Basement Series Badge",

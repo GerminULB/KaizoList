@@ -18,6 +18,9 @@
   <meta name="keywords" content="Ultimate Level Builder, Ultimate Level Builder / Maker, KaizoList, GerminULB, ULB, Kaizo Rankings, Level Maker, Kaizo Level, Kaizo ULB, Level Builder ULB, Main List, Ultimate Level Builder Main List, Ultimate Level Builder Kaizo Main List"> 
   <title data-i18n="main_list_page_title">Main Kaizo List | The Main Kaizo List where the hardest are ranked</title>
   <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/images/app/icon-192.png">
+  <meta name="theme-color" content="#161616">
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -55,9 +58,9 @@
       <button type="button" class="list-tab-btn" id="tab-legacy" data-tab="legacy" role="tab" aria-selected="false" data-i18n="tab_legacy_list">Legacy List</button>
     </div>
 
-    <p id="legacy-note" class="legacy-note hidden" data-i18n="legacy_note">Legacy levels are listed in their original order and don't carry KLP.</p>
+    <p id="legacy-note" class="legacy-note hidden"><span id="legacy-egg" class="legacy-egg" role="button" tabindex="0" data-i18n="legacy_note">Legacy levels don't carry KLP.</span></p>
 
-    <input type="text" id="search" data-i18n-placeholder="search_levels" placeholder="Search Levels..." />
+    <div class="search-wrap"><input type="text" id="search" data-i18n-placeholder="search_levels" placeholder="Search Levels..." /></div>
     <div class="filters">
       <select id="creator-filter"><option value="" data-i18n="filter_all_creators">All Creators</option></select>
       <select id="verifier-filter"><option value="" data-i18n="filter_all_verifiers">All Verifiers</option></select>
@@ -67,6 +70,7 @@
         <option value="rank" data-i18n="sort_rank">Sort by Rank</option>
         <option value="id-desc" data-i18n="sort_newest">Newest (by ID)</option>
         <option value="id-asc" data-i18n="sort_oldest">Oldest (by ID)</option>
+        <option value="enjoy" data-i18n="sort_enjoyment">Most Enjoyed</option>
       </select>
       <button id="clear-filters" data-i18n="clear_filters">Clear Filters</button>
     </div>
@@ -74,7 +78,7 @@
     <div class="panel-9slice">
       <div id="total-klp"></div>
     </div>
-    <div id="level-list" class="panel-9slice"></div>
+    <div id="level-list" class="panel-9slice"><div class="kl-loading-block"><span class="kl-loading"></span></div></div>
 
     <div id="recent-changes-container" class="scrollable panel-9slice" style="margin-top:20px;">
       <h2 class="label-board board-9slice" data-i18n="recent_changes">Recent Changes</h2>
@@ -85,7 +89,7 @@
   <footer class="site-footer panel-9slice">
     <p>
       <span data-i18n="copyright">The Kaizo List &copy; 2026</span> --
-      <span data-i18n="version_label">Version</span> <span id="app-version">1.261</span>
+      <span data-i18n="version_label">Version</span> <span id="app-version">1.3</span>
     </p>
     <p>
       <span data-i18n="footer_attribution">Game & All assets belong to</span> 

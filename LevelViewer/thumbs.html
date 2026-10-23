@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Thumbnail maker</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 16px; background: #111; color: #e8e8e8; font: 14px/1.5 system-ui, sans-serif; }
+        main { max-width: 900px; margin: 0 auto; }
+        h1 { font-size: 20px; margin: 0 0 4px; }
+        p { color: #aaa; margin: 4px 0 12px; }
+        code { background: #222; padding: 1px 5px; border-radius: 3px; }
+        .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+        button, .filebtn { background: #2c2c2c; color: inherit; border: 1px solid #444; border-radius: 4px; padding: 6px 12px; font: inherit; cursor: pointer; }
+        button:hover:not(:disabled), .filebtn:hover { background: #3a3a3a; }
+        button:disabled { opacity: .4; cursor: default; }
+        #save:not(:disabled) { background: #2f5f3a; border-color: #4a8a57; }
+        .filebtn input { display: none; }
+        label.check { color: #aaa; display: flex; gap: 4px; align-items: center; }
+        #count, #status { color: #8a8; }
+        #log { list-style: none; padding: 0; margin: 12px 0; max-height: 160px; overflow: auto; font-size: 12px; }
+        #log .bad { color: #e7a; }
+        #log .ok { color: #aaa; }
+        #previews { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+        #previews img { width: 100%; image-rendering: pixelated; border: 1px solid #333; display: block; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>Thumbnail maker</h1>
+    <p>Makes the Main List pictures. Put everything in the zip (the PNGs and <code>list.json</code>) into the site's <code>thumbs/</code> folder.</p>
+    <p><span id="status">Loading sprites…</span></p>
+
+    <div class="row">
+        <button id="fromSite" disabled>Every level in levels/</button>
+        <label class="filebtn">…or pick .ulb files<input type="file" id="files" accept=".ulb" multiple></label>
+        <label class="check"><input type="checkbox" id="links" checked> door lines</label>
+    </div>
+    <p>Picked files are named after the file: <code>913800.ulb</code> becomes <code>913800.png</code>.</p>
+
+    <div class="row">
+        <button id="save" disabled>Download thumbs.zip</button>
+        <button id="clear">Clear</button>
+        <span id="count"></span>
+    </div>
+
+    <ul id="log"></ul>
+    <div id="previews"></div>
+</main>
+<script type="module" src="thumbs.js"></script>
+</body>
+</html>

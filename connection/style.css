@@ -1,0 +1,165 @@
+@font-face {
+  font-family: 'Manaspace';
+  src: url('fonts/manaspace.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Manaspace', Arial, sans-serif;
+  background: #1b253e;
+  color: #f0f0ff;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+img.logo {
+  width: 360px;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  image-rendering: pixelated;
+}
+
+
+/* Hub / Page intro text */
+.hub-intro {
+  margin-top: 10px;
+  font-size: 1.1em;
+}
+
+/* Hub navigation buttons */
+.hub-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.hub-button {
+  color: #1b253e; 
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: filter 0.3s;
+
+  /* Fallback background color */
+  background-color: #ffd966;
+
+  /* Repeat pattern */
+  background-repeat: repeat;
+  background-size: 16px 16px;
+}
+.hub-button:hover {
+  filter: brightness(1.2);
+}
+
+/* Info box */
+.hub-info {
+  background: #1e1e2e;
+  color: #f0f0ff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 30px;
+}
+
+/* Nav links for list pages */
+nav {
+  margin-bottom: 15px;
+}
+nav a {
+  color: #ccc;
+  text-decoration: none;
+  margin: 0 5px;
+}
+nav a.active,
+nav a:hover {
+  color: #fff;
+}
+
+/* Filters / search bar */
+input#search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.filters select {
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 1em;
+  background: #1e1e2e;
+  color: #f0f0f0;
+  border: 1px solid #444;
+}
+
+/* Level and Player list items */
+#level-list, #player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.level {
+  background: #1e1e2e;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.level-summary {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.level-summary:hover {
+  color: #ffd966;
+}
+
+.level-details {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #ccc;
+  display: none;
+}
+
+.site-footer {
+  margin-top: 40px;
+  padding-top: 15px;
+  border-top: 1px solid #444;
+  color: #aaa;
+  font-size: 0.9em;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.site-footer a {
+  color: #ffd966;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+
+

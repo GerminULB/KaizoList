@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Panel | KaizoList</title>
+    <link rel="icon" type="image/png" href="../images/kaizolistlogo.png">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* ---------- Admin Panel: built on the site's own look (style.css) ---------- */
+        .admin.container { max-width: 1040px; text-align: left; }
+        .admin .logo { display: block; margin: 0 auto 4px auto; }
+        .admin h1 { text-align: center; margin: 0 0 6px 0; }
+        .admin .subtitle { text-align: center; opacity: .8; margin: 0 0 18px 0; }
+        .admin p { line-height: 1.5; }
+        .admin .muted { opacity: .7; font-size: .9em; }
+
+        /* account bar */
+        .acct { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-bottom: 8px; }
+        .acct .hub-button { padding: 6px 14px; }
+        #roleNote { text-align: center; margin: 6px 0 0 0; }
+        #roleNote code { word-break: break-all; }
+
+        /* tabs (same look as the Main List / Legacy List tabs) */
+        .admin .list-tabs { margin: 18px 0 18px 0; }
+        .tab-page { display: none; }
+        .tab-page.on { display: block; }
+
+        /* inputs: the site's green search-box look */
+        .admin input:not([type=checkbox]), .admin select {
+            font-family: 'Manaspace', monospace; font-size: .95em;
+            padding: 7px 10px; border: 2px solid #6c9270; border-radius: 2px;
+            background-color: #a7e0ad; outline: none; box-sizing: border-box;
+        }
+        .admin input::placeholder { color: rgba(58, 31, 20, .65) !important; text-shadow: none; }
+        .admin input:focus { border-color: #f2c27b; }
+        .admin input:disabled { opacity: .55; }
+        .admin label.field { display: block; font-size: .85em; opacity: .85; margin: 10px 0 4px; }
+        .admin label.field + input { width: 100%; }
+
+        /* buttons: hub-button for main actions, small green ones for row actions */
+        .admin .hub-button { border: none; font-family: 'Manaspace', monospace; font-size: .95em; }
+        .admin .hub-button:disabled { opacity: .45; cursor: default; transform: none; }
+        .admin .hub-button.danger { background-color: #e07a72; box-shadow: 0 4px 0 #7a2f2a, 0 6px 10px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.4); }
+        .admin button.small {
+            font-family: 'Manaspace', monospace; font-size: .8em; padding: 3px 9px; cursor: pointer;
+            border: 2px solid #6c9270; border-radius: 2px; background-color: #a7e0ad;
+        }
+        .admin button.small:hover { filter: brightness(1.1); }
+        .admin button.small.danger { background-color: #e07a72; border-color: #9a4a44; padding: 0 7px; }
+
+        .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0; }
+        .ok { color: #b8f5a8 !important; } .bad { color: #ffb0b8 !important; } .warn { color: #ffe08a !important; }
+        .hidden { display: none !important; }
+
+        /* submission cards */
+        .sub-card { border-left: 3px solid #f2c27b; background: rgba(167, 224, 173, .12); padding: 10px 12px; margin: 10px 0; }
+        .sub-card.verification { border-left-color: #8ab4ff; }
+        .sub-card .sub-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; }
+        .sub-card .sub-title { font-size: 1.05em; }
+        .sub-card .tag { font-size: .75em; padding: 1px 6px; border: 1px solid currentColor; margin-left: 6px; opacity: .85; }
+        .sub-card .sub-thoughts { margin: 6px 0; padding: 6px 8px; background: rgba(0,0,0,.18); font-size: .88em; white-space: pre-wrap; }
+        .sub-card .row input { min-width: 0; }
+
+        /* the snapshot card */
+        .snap-card { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+        .snap-card .big { font-size: 1.15em; }
+        .banner { border: 2px dashed #f2c27b; padding: 8px 12px; margin: 10px 0; }
+
+        /* levels table */
+        .tablebox { max-height: 460px; overflow: auto; margin-top: 10px; }
+        .admin table { width: 100%; border-collapse: separate; border-spacing: 0 4px; font-size: .9em; }
+        .admin th { text-align: left; opacity: .75; font-weight: normal; padding: 2px 8px; position: sticky; top: 0; background: rgba(40, 28, 55, .97); z-index: 3; }
+        .admin td { padding: 6px 8px; background: rgba(167, 224, 173, .12); }
+        .admin tr td:first-child { border-left: 3px solid #6c9270; }
+        .admin tbody tr:hover td { background: rgba(167, 224, 173, .24); }
+        .admin td.num { text-align: right; white-space: nowrap; }
+        .admin code { background: rgba(0,0,0,.3); padding: 1px 5px; font-size: .9em; }
+
+        /* level form */
+        .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0 16px; }
+        .badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 4px; margin-top: 6px; }
+        .badges label { display: flex; align-items: center; gap: 8px; padding: 4px 6px; cursor: pointer; font-size: .85em; border: 2px solid transparent; }
+        .badges label:hover { background: rgba(167, 224, 173, .15); }
+        .badges label:has(input:checked) { background: rgba(242, 194, 123, .22); border-color: #f2c27b; }
+        .badges input { display: none; }
+        .badges img { width: 26px; height: 26px; image-rendering: pixelated; }
+
+        /* victors */
+        .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+        .chip { display: flex; gap: 8px; align-items: center; padding: 4px 6px 4px 10px; font-size: .85em; background: rgba(167, 224, 173, .15); border: 2px solid #6c9270; }
+        .chip small { opacity: .7; }
+
+        /* dashboard */
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 18px; }
+        .stat { text-align: center; padding: 12px 8px; }
+        .stat-v { font-size: 1.5em; }
+        .stat-k { font-size: .8em; opacity: .8; margin-top: 2px; }
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+        .toplist { list-style: none; padding: 0; margin: 10px 0 0 0; }
+        .toplist li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 10px; margin-bottom: 4px; background: rgba(167, 224, 173, .12); border-left: 3px solid #6c9270; }
+        .tablebox.short { max-height: 300px; }
+        .admin td.nowrap { white-space: nowrap; }
+        /* a ListAdmin only sees the tabs they can use */
+        body[data-role="listadmin"] .owner-only { display: none !important; }
+        body[data-role="owner"] .listadmin-only { display: none !important; }
+        .help-new:empty { display: none; }
+        button img { pointer-events: none; }
+        .btn-icon { height: 1em; width: auto; vertical-align: -0.1em; margin-right: 6px; image-rendering: pixelated; }
+        .req-badge-mine { margin-top: 12px; padding: 8px 10px; border: 2px dashed #6c9270; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .req-badge-mine img, .req-inline img { width: 22px; height: 22px; image-rendering: pixelated; vertical-align: middle; }
+        .place-line { font-size: .85em; margin-top: 4px; color: #b8860b; min-height: 1em; }
+
+        @media (max-width: 600px) {
+            .admin.container { padding: 20px 14px; }
+            .admin th:nth-child(4), .admin td:nth-child(4) { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-stage">
+        <div class="sky-layer"></div>
+        <div class="sunset-mask"></div>
+        <div class="sunset-decor back"></div>
+        <div class="sunset-decor front"></div>
+    </div>
+
+<div class="admin container panel-9slice">
+    <a href="/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List" class="logo"></a>
+    <h1>Admin Panel</h1>
+    <p class="subtitle">Run the list from here.</p>
+
+    <div class="acct">
+        <span id="who">Not signed in.</span>
+        <button id="signIn" class="hub-button">Sign in with Discord</button>
+        <button id="signOut" class="hub-button hidden">Sign out</button>
+    </div>
+    <p id="roleNote"></p>
+
+    <div id="tools" class="hidden">
+        <div class="list-tabs" role="tablist">
+            <button type="button" class="list-tab-btn active" data-tab="dash">Dashboard</button>
+            <button type="button" class="list-tab-btn" data-tab="subs">Submissions</button>
+            <button type="button" class="list-tab-btn" data-tab="reqs">Requests</button>
+            <button type="button" class="list-tab-btn owner-only" data-tab="snap">Snapshot</button>
+            <button type="button" class="list-tab-btn owner-only" data-tab="levels">Levels</button>
+            <button type="button" class="list-tab-btn" data-tab="victors">Victors</button>
+            <button type="button" class="list-tab-btn owner-only" data-tab="claims">Claims</button>
+            <button type="button" class="list-tab-btn owner-only" data-tab="team">Team</button>
+            <button type="button" class="list-tab-btn" data-tab="log">Change Log</button>
+        </div>
+
+        <section class="tab-page on" data-page="dash">
+            <p class="muted help-new" data-help="dash_intro"></p>
+            <div id="stats" class="stats"></div>
+            <div class="dash-grid">
+                <div class="panel-9slice">
+                    <div class="big">Top 5</div>
+                    <ol id="dashTop" class="toplist"></ol>
+                </div>
+                <div class="panel-9slice owner-only">
+                    <div class="big">Exports</div>
+                    <p class="muted" data-help="dash_exports">Spreadsheet files of the list as it is now.</p>
+                    <div class="row">
+                        <button id="csvLevels" class="hub-button">Levels CSV</button>
+                        <button id="csvPlayers" class="hub-button">Players CSV</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-9slice" style="margin-top:18px">
+                <div class="big">Raid tools</div>
+                <p class="muted" data-help="raid_intro">For when people think they are trying to be funny. </p>
+                <div class="row">
+                    <span id="lockState"></span>
+                    <button id="lockToggle" class="hub-button">Pause comments</button>
+                </div>
+                <div class="row">
+                    <input id="banName" list="playerNames" placeholder="Player name or account ID" style="flex:1; min-width:200px">
+                    <input id="banReason" maxlength="200" placeholder="Reason (only the team sees this)" style="flex:2; min-width:200px">
+                </div>
+                <div class="row">
+                    <label><input type="checkbox" id="banPurge" checked> Also delete all their comments</label>
+                </div>
+                <div class="row">
+                    <button id="banBtn" class="hub-button danger">Ban</button>
+                    <button id="purgeBtn" class="hub-button">Only delete all their comments</button>
+                </div>
+                <p id="banStatus"></p>
+                <div class="tablebox short">
+                    <table><thead><tr><th>Banned</th><th>Reason</th><th>By</th><th>When</th><th></th></tr></thead>
+                    <tbody id="banRows"></tbody></table>
+                </div>
+            </div>
+            <div class="panel-9slice" style="margin-top:18px">
+                <div class="big">Recent activity</div>
+                <div class="tablebox short">
+                    <table><thead><tr><th>When</th><th>Who</th><th>What</th><th>On</th><th>Details</th></tr></thead>
+                    <tbody id="dashLog"></tbody></table>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="snap">
+            <h2 class="label-board board-9slice">History Snapshot</h2>
+            <div class="panel-9slice">
+                <div class="snap-card">
+                    <div>
+                        <div class="big">Save the list as it is right now</div>
+                        <p class="muted" data-help="snap_intro">Do this <b>before</b> changing anything, like moving levels.json into history/.
+                           Saving twice on one day replaces that day's snapshot.</p>
+                    </div>
+                    <button id="saveSnap" class="hub-button">Save today's snapshot</button>
+                </div>
+                <div id="snapBanner" class="banner hidden">No snapshot saved today yet. Save one before you change anything.</div>
+                <p id="snapStatus"></p>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="subs">
+            <h2 class="label-board board-9slice">Submissions</h2>
+            <div class="panel-9slice">
+                <p class="muted" data-help="subs_intro">Records sent from the Submit page. Watch the video, then decide.
+                   <b>Victories</b>: any ListAdmin (or me) can accept or turn them down, your own too. Accepting is final.
+                   <b>Verifications</b> (new levels) are my call.
+                   Every decision goes in the Change Log.</p>
+                <div class="row" style="margin-top:0">
+                    <label><input type="checkbox" id="subsMineToo" checked> Show my own submissions</label>
+                </div>
+                <div id="subsWaiting"></div>
+            </div>
+            <div class="panel-9slice" style="margin-top:18px">
+                <div class="big">Decided</div>
+                <div class="tablebox">
+                    <table><thead><tr><th>When</th><th>Player</th><th>Level</th><th>Result</th><th>By</th><th>KLP opinions</th></tr></thead>
+                    <tbody id="subsDone"></tbody></table>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="reqs">
+            <h2 class="label-board board-9slice">Requests</h2>
+
+            <div class="panel-9slice owner-only">
+                <p class="muted" data-help="reqs_owner">KLP and badge changes ListAdmins asked for. Approving changes the level right away and goes in the Change Log.</p>
+                <p id="reqSnapHint" class="warn hidden">Today's snapshot isn't saved yet: save it first (Snapshot tab) so History shows the change.</p>
+                <div id="reqWaiting"></div>
+            </div>
+
+            <div class="panel-9slice listadmin-only">
+                <p class="muted" data-help="reqs_admin">Ask me to change a level's KLP or badges. I get the final say; you'll see the result below.
+                   Your own approval badge is yours to put on or take off, no request needed.</p>
+                <div class="row">
+                    <input id="reqLevel" list="levelNames" placeholder="Level name..." style="flex:1; min-width:220px">
+                </div>
+                <div id="reqLevelBox" class="hidden">
+                    <p id="reqLevelInfo"></p>
+                    <div class="big" style="margin-top:12px">KLP</div>
+                    <div class="row">
+                        <input id="reqKlp" type="number" min="0" max="10000" placeholder="New KLP" style="width:140px">
+                        <input id="reqKlpReason" maxlength="300" placeholder="Why?" style="flex:1; min-width:200px">
+                        <button id="reqKlpSend" class="hub-button">Request KLP change</button>
+                    </div>
+                    <div id="reqKlpPlace" class="place-line"></div>
+                    <div class="big" style="margin-top:12px">Badges</div>
+                    <div id="reqBadges" class="badges"></div>
+                    <div class="row">
+                        <input id="reqBadgeReason" maxlength="300" placeholder="Why? (for the badges you ticked or unticked)" style="flex:1; min-width:200px">
+                        <button id="reqBadgeSend" class="hub-button">Request badge changes</button>
+                    </div>
+                    <div id="reqMyBadge"></div>
+                    <p id="reqStatus"></p>
+                </div>
+            </div>
+
+            <div class="panel-9slice" style="margin-top:18px">
+                <div class="big" id="reqDoneTitle">Decided</div>
+                <div class="tablebox">
+                    <table><thead><tr><th>When</th><th>By</th><th>Level</th><th>Change</th><th>Result</th></tr></thead>
+                    <tbody id="reqDone"></tbody></table>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="levels">
+            <h2 class="label-board board-9slice">Levels</h2>
+            <p class="muted help-new" data-help="levels_intro"></p>
+
+            <div id="levelForm" class="panel-9slice hidden" style="margin-bottom:18px">
+                <div class="big" id="formTitle">Edit level</div>
+                <div class="grid2">
+                    <div><label class="field">Name</label><input id="f_name"></div>
+                    <div><label class="field">Level ID (from the game)</label><input id="f_id"></div>
+                    <div><label class="field">KLP</label><input id="f_klp" type="number"><div id="f_place" class="place-line"></div><div id="f_opinions" class="muted" style="font-size:.8em;margin-top:4px"></div></div>
+                    <div><label class="field">Creator(s), comma separated</label><input id="f_creator"></div>
+                    <div><label class="field">Verifier</label><input id="f_verifier" list="playerNames"></div>
+                </div>
+                <label class="field">Badges <span class="muted">(click to toggle)</span></label>
+                <div id="f_badges" class="badges"></div>
+                <div class="row" style="margin-top:16px">
+                    <button id="saveLevel" class="hub-button">Save</button>
+                    <button id="cancelLevel" class="hub-button">Cancel</button>
+                    <span style="flex:1"></span>
+                    <button id="deleteLevel" class="hub-button danger">Remove from the list</button>
+                </div>
+                <p id="levelStatus"></p>
+            </div>
+
+            <div class="panel-9slice">
+                <div class="row" style="margin-top:0">
+                    <input id="levelSearch" placeholder="Search by name or ID…" style="flex:1; min-width:180px">
+                    <button id="addLevel" class="hub-button">+ Add a level</button>
+                </div>
+                <div class="tablebox">
+                    <table>
+                        <thead><tr><th>#</th><th>Level</th><th class="num">KLP</th><th>Verifier</th><th>ID</th><th></th></tr></thead>
+                        <tbody id="levelRows"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="victors">
+            <h2 class="label-board board-9slice">Victors</h2>
+            <div class="panel-9slice">
+                <p class="muted" data-help="victors_intro">Pick a player, or type a new name, to see and change the levels they beat.
+                   Verifications follow the Verifier field on the Levels tab.</p>
+                <div class="row">
+                    <input id="playerPick" list="playerNames" placeholder="Player name…" style="flex:1; min-width:200px">
+                    <button id="openPlayer" class="hub-button">Open</button>
+                </div>
+                <p id="playerStatus"></p>
+                <div id="playerPanel" class="hidden">
+                    <div class="big" id="playerTitle"></div>
+                    <div id="beatenChips" class="chips"></div>
+                    <div class="row">
+                        <input id="levelPick" list="levelNames" placeholder="Add a level they beat…" style="flex:1; min-width:220px">
+                        <button id="addVictory" class="hub-button">Add</button>
+                    </div>
+                    <p id="oldNote" class="muted"></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="claims">
+            <h2 class="label-board board-9slice">Claims</h2>
+            <div class="panel-9slice">
+                <p class="muted" data-help="claims_intro">People who signed in and said a record on the list is theirs. Each one got a code: they screenshot it and DM it to you.
+                   Approve when the code in their screenshot matches and it came from the Discord account they named. Approving moves the record (all their levels) onto their account.</p>
+                <div class="tablebox">
+                    <table><thead><tr><th>Record</th><th>Discord (checked)</th><th>Code</th><th>Account ID</th><th>Sent</th><th></th></tr></thead>
+                    <tbody id="claimRows"></tbody></table>
+                </div>
+                <div class="big" style="margin-top:16px">Decided</div>
+                <ul id="claimDone" class="muted"></ul>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="team">
+            <h2 class="label-board board-9slice">Team</h2>
+            <p class="muted help-new" data-help="team_intro"></p>
+            <div class="panel-9slice">
+                <table><thead><tr><th>Name</th><th>Role</th><th>Account ID</th><th>Approval badge</th><th></th></tr></thead>
+                <tbody id="teamRows"></tbody></table>
+                <div class="big" style="margin-top:18px">Add a ListAdmin</div>
+                <p class="muted" data-help="team_addadmin">Ask them to sign in to this page once: it shows them their account ID. Paste it here with their player name: if they already have a record on the list, it moves onto their account.
+                   ListAdmins will be able to accept submissions (Phase 3) and request KLP or badge changes (Phase 5).</p>
+                <div class="row">
+                    <input id="adminUid" placeholder="Account ID" style="flex:2; min-width:220px">
+                    <input id="adminName" list="playerNames" placeholder="Player name" style="flex:1; min-width:160px">
+                    <button id="addAdmin" class="hub-button">Make ListAdmin</button>
+                </div>
+                <div class="big" style="margin-top:18px">Retired players</div>
+                <p class="muted" data-help="team_retired">Retired players keep their levels but are left off the Player List and Player Compare.</p>
+                <p class="muted">Currently retired: <span id="retiredList"></span></p>
+                <div class="row">
+                    <input id="retiredPick" list="playerNames" placeholder="Player name…" style="flex:1; min-width:200px">
+                    <button id="toggleRetired" class="hub-button">Retire / un-retire</button>
+                </div>
+                <p id="teamStatus"></p>
+                <div class="big" style="margin-top:18px">Fix an account</div>
+                <p class="muted" data-help="team_fix"><b>Unlink</b>: a claim went to the wrong person (or was a test), or someone with levels asked to delete their account. Their levels go back to an
+                   unclaimed old record that the right person can claim again; their sign-in loses the name.<br>
+                   <b>Delete account</b>: for a new account with no levels (a test, or someone who took a name that isn't theirs).
+                   The name becomes free again; if it's a creator's name it gets reserved for them again.</p>
+                <div class="row">
+                    <input id="fixPick" list="playerNames" placeholder="Player name…" style="flex:1; min-width:200px">
+                    <button id="unlinkAccount" class="hub-button">Unlink</button>
+                    <button id="deleteAccount" class="hub-button danger">Delete account</button>
+                </div>
+                <p id="deleteRequests" class="ok"></p>
+                <p id="fixStatus"></p>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="log">
+            <h2 class="label-board board-9slice">Change Log</h2>
+            <div class="panel-9slice">
+                <p class="muted" data-help="log_intro">Every change made on this page, newest first: who did it, when, and what changed.</p>
+                <input id="logSearch" placeholder="Search the log (a name, a level, a badge…)" style="width:100%">
+                <div class="tablebox">
+                    <table><thead><tr><th>When</th><th>Who</th><th>What</th><th>On</th><th>Details</th></tr></thead>
+                    <tbody id="logRows"></tbody></table>
+                </div>
+            </div>
+        </section>
+
+        <datalist id="playerNames"></datalist>
+        <datalist id="levelNames"></datalist>
+    </div>
+</div>
+
+<script type="module">
+    // tabs
+    document.querySelectorAll('.list-tab-btn').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('.list-tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+        document.querySelectorAll('.tab-page').forEach(p => p.classList.toggle('on', p.dataset.page === btn.dataset.tab));
+    }));
+    // the site's random button patterns
+    import { applyRandomPattern } from '../js/utils.js';
+    applyRandomPattern('.hub-button:not(.danger)', Array.from({ length: 13 }, (_, i) => `../images/pattern/pattern${i}.png`));
+</script>
+<script type="module" src="admin.js"></script>
+</body>
+</html>

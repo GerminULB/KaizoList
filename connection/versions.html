@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Kaizo List</title>
+<link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  html, body { height: 100%; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  #logo { width: min(720px, calc(100% - 32px)); image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<img id="logo" alt="Kaizo List" src="/images/kaizolistlogoV1_wide.png">
+<script>
+const LOGOS = ['V1', 'V2', 'V3', 'V4', ''].map(v => `/images/kaizolistlogo${v}_wide.png`);
+LOGOS.forEach(src => { new Image().src = src; });
+const img = document.getElementById('logo');
+let last = 0;
+setInterval(() => {
+  let i;
+  do { i = Math.floor(Math.random() * LOGOS.length); } while (i === last);
+  last = i;
+  img.src = LOGOS[i];
+}, 450);
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+{
+ "0": {
+  "name": "Castle",
+  "color": [94, 94, 94],
+  "layers": [
+   {"image": "dark_castle_3_148.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "dark_castle_1_copy_95.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 15.625},
+   {"image": "dark_castle_4_141.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125}
+  ]
+ },
+ "1": {
+  "name": "Forest",
+  "color": [0, 140, 200],
+  "layers": [
+   {"image": "image_1_25.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "image_1_25.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "image_1_25.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "image_2_106.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125}
+  ]
+ },
+ "2": {
+  "name": "Black",
+  "color": [0, 0, 0],
+  "layers": []
+ },
+ "3": {
+  "name": "Deep Woods",
+  "color": [103, 46, 22],
+  "layers": [
+   {"image": "image_3_117.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "image_3_117.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "image_4_98.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125}
+  ]
+ },
+ "4": {
+  "name": "Dark Castle",
+  "color": [125, 18, 18],
+  "layers": [
+   {"image": "fire_castle_3_140.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "fire_castle_1_copy_100.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 15.625},
+   {"image": "fire_castle_4_108.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125}
+  ]
+ },
+ "5": {
+  "name": "Clouds",
+  "color": [123, 224, 224],
+  "layers": [
+   {"image": "sky_2_103.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_2_103.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_2_103.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125}
+  ]
+ },
+ "6": {
+  "name": "Desert",
+  "color": [86, 6, 190],
+  "layers": [
+   {"image": "sky_69.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_69.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_69.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_2_copy_87.png", "y0": 0, "y1": 7.8125, "tileW": 15.625, "tileH": 7.8125}
+  ]
+ },
+ "7": {
+  "name": "Cave",
+  "color": [39, 48, 123],
+  "layers": [
+   {"image": "cave_bottom_144.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "cave_mid_2_131.png", "y0": 7.8125, "y1": 242.1875, "tileW": 15.625, "tileH": 15.625},
+   {"image": "cave_mid_2_copy_2_145.png", "y0": 242.1875, "y1": 250, "tileW": 15.625, "tileH": 7.8125}
+  ]
+ },
+ "8": {
+  "name": "Snowy",
+  "color": [190, 190, 190],
+  "layers": [
+   {"image": "sky_104.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_104.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_104.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "trees_75.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125}
+  ]
+ },
+ "9": {
+  "name": "Ocean",
+  "color": [0, 40, 212],
+  "layers": [
+   {"image": "sky_73.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_73.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_73.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "bottom_146.png", "y0": 0, "y1": 7.8125, "tileW": 15.625, "tileH": 7.8125},
+   {"image": "mid_133.png", "y0": 7.8125, "y1": 242.1875, "tileW": 15.625, "tileH": 15.625}
+  ]
+ },
+ "10": {
+  "name": "Volcano",
+  "color": [204, 27, 0],
+  "layers": [
+   {"image": "bottom_back_f_127.png", "y0": 0, "y1": 7.8125, "tileW": 15.625, "tileH": 7.8125},
+   {"image": "sky_back_f_88.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_back_f_88.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "bottom_f_136.png", "y0": 0, "y1": 7.8125, "tileW": 15.625, "tileH": 7.8125},
+   {"image": "sky_f_125.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125, "cutout": true},
+   {"image": "sky_f_125.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125, "cutout": true}
+  ]
+ },
+ "11": {
+  "name": "City",
+  "color": [58, 0, 94],
+  "layers": [
+   {"image": "bottom_back_f_142.png", "y0": 0, "y1": 7.8125, "tileW": 15.625, "tileH": 7.8125},
+   {"image": "sky_back_f_97.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_back_f_97.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "canvas_b_155.png", "y0": 0, "y1": 7.8125, "tileW": 31.25, "tileH": 7.8125},
+   {"image": "canvas_130.png", "y0": 7.8125, "y1": 15.625, "tileW": 31.25, "tileH": 7.8125}
+  ]
+ },
+ "12": {
+  "name": "Space",
+  "color": [0, 0, 0],
+  "layers": [
+   {"image": "sky_back_f_152.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_back_f_152.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_back_f_152.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "sky_f_105.png", "y0": 7.8125, "y1": 242.1875, "tileW": 62.5, "tileH": 62.5, "cutout": true}
+  ]
+ },
+ "13": {
+  "name": "Mansion",
+  "color": [0, 47, 65],
+  "layers": [
+   {"image": "bottom_r_72.png", "y0": 0, "y1": 7.8125, "tileW": 15.625, "tileH": 7.8125},
+   {"image": "r_128.png", "y0": 7.8125, "y1": 242.1875, "tileW": 15.625, "tileH": 15.625},
+   {"image": "bottom_r_72.png", "y0": 242.1875, "y1": 250, "tileW": 15.625, "tileH": 7.8125},
+   {"image": "front_101.png", "y0": 0, "y1": 7.8125, "tileW": 7.8125, "tileH": 7.8125},
+   {"image": "front_101.png", "y0": 7.8125, "y1": 242.1875, "tileW": 7.8125, "tileH": 7.8125, "cutout": true},
+   {"image": "front_101.png", "y0": 242.1875, "y1": 250, "tileW": 7.8125, "tileH": 7.8125, "cutout": true}
+  ]
+ },
+ "14": {
+  "name": "Mountains",
+  "color": [41, 161, 155],
+  "layers": [
+   {"image": "sunrise_77.png", "y0": 0, "y1": 7.8125, "tileW": 15.625, "tileH": 7.8125},
+   {"image": "sky_134.png", "y0": 7.8125, "y1": 242.1875, "tileW": 3.90625, "tileH": 3.90625},
+   {"image": "sky_134.png", "y0": 242.1875, "y1": 250, "tileW": 3.90625, "tileH": 3.90625},
+   {"image": "mountaintrees_81.png", "y0": 0, "y1": 7.8125, "tileW": 31.25, "tileH": 7.8125}
+  ]
+ },
+ "15": {
+  "name": "Factory",
+  "color": [141, 70, 10],
+  "layers": [
+   {"image": "back_121.png", "y0": 0, "y1": 7.8125, "tileW": 3.90625, "tileH": 3.90625},
+   {"image": "back_121.png", "y0": 7.8125, "y1": 242.1875, "tileW": 3.90625, "tileH": 3.90625},
+   {"image": "back_121.png", "y0": 242.1875, "y1": 250, "tileW": 3.90625, "tileH": 3.90625},
+   {"image": "front_ends_118.png", "y0": 0, "y1": 7.8125, "tileW": 15.625, "tileH": 7.8125},
+   {"image": "front_135.png", "y0": 7.8125, "y1": 242.1875, "tileW": 31.25, "tileH": 31.25},
+   {"image": "front_ends_118.png", "y0": 242.1875, "y1": 250, "tileW": 15.625, "tileH": 7.8125}
+  ]
+ }
+}

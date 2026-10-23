@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULB Level Viewer (test page)</title>
+    <style>
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; }
+        body {
+            display: flex; flex-direction: column;
+            background: #111; color: #e8e8e8;
+            font: 14px/1.4 system-ui, sans-serif;
+        }
+        header, footer { padding: 8px 12px; background: #1c1c1c; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        header { border-bottom: 1px solid #333; }
+        footer { border-top: 1px solid #333; font-size: 12px; color: #aaa; display: block; }
+        #title { font-weight: 600; margin-right: auto; }
+        #hash { color: #8a8; font-size: 12px; }
+        button, .filebtn {
+            background: #2c2c2c; color: inherit; border: 1px solid #444; border-radius: 4px;
+            padding: 5px 10px; font: inherit; cursor: pointer;
+        }
+        button:hover, .filebtn:hover { background: #3a3a3a; }
+        button:disabled { opacity: .4; cursor: default; }
+        .filebtn input { display: none; }
+        label.check { display: flex; gap: 4px; align-items: center; font-size: 12px; color: #aaa; }
+        #view { flex: 1; width: 100%; min-height: 0; display: block; cursor: grab; touch-action: none; image-rendering: pixelated; }
+        #view:active { cursor: grabbing; }
+        body:not(.loaded) .needs-level { display: none; }
+        #missing { color: #e7a; }
+    </style>
+</head>
+<body>
+    <header>
+        <span id="title">Loading sprites…</span>
+        <span id="hash"></span>
+        <label class="filebtn">Open .ulb<input type="file" id="file" accept=".ulb"></label>
+        <span class="needs-level">
+            <button id="mainBtn">Main</button>
+            <button id="subBtn">Sub</button>
+            <button id="startBtn">Go to start</button>
+            <button id="fitBtn">Fit</button>
+            <button id="zoomOut" aria-label="Zoom out">−</button>
+            <button id="zoomIn" aria-label="Zoom in">+</button>
+            <button id="saveThumb">Save thumbnail</button>
+            <button id="saveFull">Save full PNG</button>
+        </span>
+        <label class="check needs-level"><input type="checkbox" id="showUnknown" checked> mark unknown IDs</label>
+        <label class="check needs-level"><input type="checkbox" id="showArt" checked> background art</label>
+        <label class="check needs-level"><input type="checkbox" id="showLinks" checked> door lines</label>
+        <label class="check needs-level"><input type="checkbox" id="layoutMode"> layout mode (hide background layer + decoration)</label>
+    </header>
+    <canvas id="view"></canvas>
+    <footer class="needs-level">
+        <div id="stats"></div>
+        <div id="missing"></div>
+    </footer>
+    <script type="module" src="viewer.js"></script>
+</body>
+</html>

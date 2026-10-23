@@ -1,13 +1,11 @@
-import { fetchJson } from '../js/utils.js';
+import { loadLevels, loadPlayers } from '../js/data.js';
 import { calculatePlayerScore, calculatePlayerScoreBreakdown } from '../score.js';
 import { t } from '../js/i18n.js';
 
 (async function () {
-    const levels = await fetchJson('../levels.json') || [];
-    const challenges = await fetchJson('../challenges.json') || [];
-    const victorsData = await fetchJson('../victors.json') || {};
-
-    const allLevels = [...levels, ...challenges];
+    const [allLevels, playerDocs] = await Promise.all([loadLevels(), loadPlayers()]);
+    document.getElementById('compare-loading')?.remove();
+    const levelById = new Map(allLevels.map(l => [String(l.id), l]));
     const levelByName = Object.fromEntries(allLevels.map(l => [l.name, l]));
 
     const playerMap = {};
@@ -18,26 +16,19 @@ import { t } from '../js/i18n.js';
         if (!playerMap[name]) playerMap[name] = { levels: [] };
     }
 
-    allLevels.forEach(lvl => {
-        if (lvl.verifier) {
-            initPlayer(lvl.verifier);
-            playerMap[lvl.verifier].levels.push({ name: lvl.name, klp: lvl.klp });
-        }
-    });
-
-    Object.entries(victorsData).forEach(([player, levelNames]) => {
-        initPlayer(player);
-        levelNames.forEach(lvlName => {
-            const lvl = levelByName[lvlName];
-            if (lvl) playerMap[player].levels.push({ name: lvl.name, klp: lvl.klp });
+    [...playerDocs].filter(p => p.username && (p.verifiedLevels.length || p.beatenLevels.length))
+        .sort((a, b) => a.username.localeCompare(b.username)).forEach(p => {
+        initPlayer(p.username);
+        [...p.verifiedLevels, ...p.beatenLevels].forEach(id => {
+            const lvl = levelById.get(String(id));
+            if (lvl) playerMap[p.username].levels.push({ name: lvl.name, klp: lvl.klp });
         });
     });
 
-    // Players who have retired from the Kaizo List excluded from comparisons.
-    const LEGACY_PLAYERS = new Set(['ocelote']);
+    const retired = new Set(playerDocs.filter(p => p.retired).map(p => p.username));
 
     const players = Object.entries(playerMap)
-        .filter(([name]) => !LEGACY_PLAYERS.has(name.toLowerCase()))
+        .filter(([name]) => !retired.has(name))
         .map(([name, data]) => ({
             name,
             levels: data.levels,
@@ -177,7 +168,6 @@ import { t } from '../js/i18n.js';
 
         resultsBox.style.display = 'block';
     }
-
 
     playerSelect.addEventListener('change', updateLevelSelect);
     levelSelect.addEventListener('change', simulate);

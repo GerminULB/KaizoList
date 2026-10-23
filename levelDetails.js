@@ -2,24 +2,21 @@ import { fetchJson, loadHistory, rankByKLP, buildLevelTimeline, findLegacyTransi
 import { BADGES, getSpecialBadgeByRank } from './js/badge.js';
 import { renderBadgeDeck, handleBadgeSkew } from './js/badgeSystem.js';
 import { t } from './js/i18n.js';
+import { mountViewer } from './LevelViewer/embed.js';
+import { loadLevels, loadPlayers } from './js/data.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const ITEMS_PER_PAGE = 9;
 
     const params = new URLSearchParams(window.location.search);
-    const levelName = params.get('name');
+    const wantedId = params.get('id');
+    if (!params.get('name') && !wantedId) return alert(t('error_no_level'));
 
-    if (!levelName) return alert(t('error_no_level'));
-    const [levels, challenges, victorsData] = await Promise.all([
-        fetchJson('levels.json'),
-        fetchJson('challenges.json'),
-        fetchJson('victors.json')
-    ]);
+    const [levels, players] = await Promise.all([loadLevels(), loadPlayers()]);
 
-    const level = levels.find(l => l.name === levelName) || (challenges || []).find(l => l.name === levelName);
-    
+    const level = wantedId ? levels.find(l => String(l.id) === wantedId) : levels.find(l => l.name === params.get('name'));
     if (!level) return alert(t('error_level_not_found'));
-
+    const levelName = level.name;
 
     const safeSet = (id, value) => {
         const el = document.getElementById(id);
@@ -27,6 +24,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     safeSet('level-name', level.name);
+
+    if (level.id) {
+        const layoutSection = document.getElementById('level-layout-section');
+        const layoutBox = document.getElementById('level-layout');
+        mountViewer(layoutBox, `levels/${encodeURIComponent(level.id)}.ulb`, {
+            labels: {
+                main: t('layout_main'), sub: t('layout_sub'), start: t('layout_start'), fit: t('layout_fit'),
+                zoomIn: t('layout_zoom_in'), zoomOut: t('layout_zoom_out'), fullscreen: t('layout_fullscreen'),
+                doorLines: t('layout_door_lines'), hint: t('layout_hint'),
+                layoutMode: t('layout_mode'),
+            },
+        }).then(ok => { if (ok) layoutSection.classList.remove('hidden'); });
+    }
+    import('./js/enjoyment.js').then(m => m.mountEnjoyment(level, players)).catch(err => console.error(err));
+    import('./js/comments.js').then(m => { m.mountComments(document.getElementById('level-comments'), 'level', level.id, level.name);
+        m.mountCommentDrawer(document.getElementById('level-comments-section')); })
+        .catch(err => console.error(err));
     safeSet('level-id', level.id || 'N/A');
     safeSet('level-klp', level.klp || 0);
 
@@ -66,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // If date is null but everSeenInHistory is true, the level was
                     // confirmed non-legacy in the newest snapshot we have, and only
                     // dropped afterward -- leave the row hidden rather than guess.
-                }).catch(() => { /* best-effort, no history data is not fatal */ });
+                }).catch(() => { /* best-effort, no history data is not fatal lol */ });
             }
         } else if (rankEl) {
             rankEl.innerHTML = `${rank} <span style="font-size: 0.7em; opacity: 0.6; margin-left: 5px;">${t('label_main_list')}</span>`;
@@ -112,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     void (async () => {
         const historyEl = document.getElementById('history');
         if (historyEl && level) {
-            historyEl.innerHTML = `<div style="opacity:0.6;">${t('history_scanning')}</div>`;
+            historyEl.innerHTML = `<div class="kl-loading-block"><span class="kl-loading"></span></div>`;
 
             const history = await loadHistory();
 
@@ -162,7 +176,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const parts = [];
                 if (curr.klp !== prev.klp) parts.push(`${prev.klp} ➔ ${curr.klp} KLP`);
                 if (rankDelta) {
-                    parts.push(`<span class="timeline-delta">#${prev.rank} ➔ #${curr.rank} (${rankDelta > 0 ? '▲' : '▼'}${Math.abs(rankDelta)})</span>`);
+                    parts.push(`<span class="timeline-delta">#${prev.rank} ➔ #${curr.rank} (${rankDelta > 0 ? '<img class="kl-rank" src="/images/icon/rank_up.png" alt="up">' : '<img class="kl-rank" src="/images/icon/rank_down.png" alt="down">'}${Math.abs(rankDelta)})</span>`);
                 }
                 if (own?.leftMain) parts.push(t('changes_left_main'));
                 if (own?.enteredMain) parts.push(t('changes_back_to_main'));
@@ -219,10 +233,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     })().catch(err => console.error('History failed to load:', err));
 
-    const victors = Object.entries(victorsData)
-        .filter(([player, levelsArr]) => levelsArr.includes(levelName))
-        .map(([player]) => player)
-        .filter(player => player !== level.verifier);
+    const victors = players
+        .filter(p => p.beatenLevels.map(String).includes(String(level.id)))
+        .map(p => p.username)
+        .filter(player => player !== level.verifier)
+        .sort((a, b) => a.localeCompare(b));
 
     const victorsContainer = document.getElementById('victors-grid');
     if (victorsContainer) {
@@ -272,14 +287,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderPage();
     }
 
-    const setupLink = (id, rawValue, isCreator = false) => {
+    const setupLink = (id, rawValue) => {
         const el = document.getElementById(id);
         if (!el || !rawValue) return;
         const names = rawValue.split(',').map(n => n.trim());
         el.innerHTML = '';
         names.forEach((name, i) => {
             const link = document.createElement('a');
-            link.href = isCreator ? `CreatorDetails.html?name=${encodeURIComponent(name)}` : `PlayerDetails.html?name=${encodeURIComponent(name)}`;
+            link.href = `PlayerDetails.html?name=${encodeURIComponent(name)}`;
             link.innerText = name;
             link.className = 'dynamic-link';
             el.appendChild(link);
@@ -287,14 +302,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    setupLink('level-creator', level.creator, true);
-    setupLink('level-verifier', level.verifier, false);
+    setupLink('level-creator', level.creator);
+    setupLink('level-verifier', level.verifier);
 
     const backBtn = document.getElementById('back-button');
     if (backBtn) {
         backBtn.onclick = (e) => {
             e.preventDefault();
-            window.location.href = './MainList/';
+            const fromSite = document.referrer && new URL(document.referrer).origin === location.origin;
+            if (fromSite && history.length > 1) history.back();
+            else window.location.href = '/MainList/';
         };
     }
 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Kaizo List</title>
+<link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+<style>
+  @font-face { font-family: 'Manaspace'; src: url('/fonts/manaspace.ttf') format('truetype'); }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #000814; color: white; font-family: 'Manaspace', Arial, sans-serif; cursor: pointer; }
+  #spriteLayer, #textLayer { position: absolute; top: 0; left: 0; background-repeat: repeat; opacity: 0; }
+  #spriteLayer { width: 200%; height: 200%; background-image: url('/images/silverboy_sit_behind.png'); background-size: 100px 100px; filter: brightness(0.4) blur(2px); transition: opacity 4s ease-in; }
+  #textLayer { width: 120%; height: 120%; background-image: url('/images/the_water_is_rising.png'); filter: brightness(0.35) blur(1px); pointer-events: none; transition: opacity 6s ease-in; }
+  body.on #spriteLayer, body.on #textLayer { opacity: 1; }
+  #prompt { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4vw; color: #88aaff; }
+  body.on #prompt { display: none; }
+  #note { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(560px, calc(100% - 32px)); max-height: calc(100% - 32px); overflow-y: auto; box-sizing: border-box; padding: 24px; background: rgba(0, 8, 20, 0.88); border: 2px solid #1b2a4a; line-height: 1.6; white-space: pre-line; opacity: 0; transition: opacity 3s ease 1.5s; z-index: 3; }
+  body.on { cursor: default; }
+  body.on #note { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="spriteLayer"></div>
+<div id="textLayer"></div>
+<div id="prompt">.</div>
+<div id="note">The night gets darker by the hour. The moonlight catches my glance, a beautiful sight to behold. As beautiful as you were that day, now it flickers into my head. The moonlight fades in, and we are surrounded by them. I'd submit to the light, I'd surrender myself. The kind of light I could never reach. In my own night, I'm surrounded by the dark. I'm scared, what does it have in store for me?</div>
+<script>
+const sprite = document.getElementById('spriteLayer'), text = document.getElementById('textLayer');
+let sx = 0, sy = 0, tx = 0, ty = 0, started = false;
+function animate() {
+  sx += 1; sy -= 0.5; tx -= 1; ty += 0.25;
+  const wave = Math.sin(Date.now() * 0.015) * 4;
+  sprite.style.backgroundPosition = `${sx}px ${sy + wave}px`;
+  text.style.backgroundPosition = `${tx}px ${ty + wave}px`;
+  requestAnimationFrame(animate);
+}
+function start() {
+  if (started) return;
+  started = true;
+  document.body.classList.add('on');
+  try {
+    const a = new Audio('/sound/egg/trashambient.mp3');
+    a.loop = true;
+    a.volume = 0;
+    a.play().catch(() => {});
+    const t0 = performance.now();
+    const fade = (now) => { a.volume = Math.max(0, Math.min(0.7, (now - t0) / 4000 * 0.7)); if (a.volume < 0.7) requestAnimationFrame(fade); };
+    requestAnimationFrame(fade);
+  } catch {}
+  animate();
+}
+document.addEventListener('click', start);
+document.addEventListener('keydown', start);
+document.addEventListener('touchend', start);
+</script>
+</body>
+</html>

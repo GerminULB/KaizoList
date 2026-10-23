@@ -1,7 +1,7 @@
 [
     {
         "name": "Road of the Peace",
-        "klp": 2000,
+        "klp": 7160,
         "creator": "Ocelote, Sasha Krutoy YT2, Germinxvee",
         "verifier": "Ocelote",
         "id": "599628",
@@ -19,7 +19,7 @@
     },
     {
         "name": "Distorted Strawberry",
-        "klp": 1721,
+        "klp": 6160,
         "creator": "redstom",
         "verifier": "redstom",
         "id": "541966",
@@ -33,7 +33,7 @@
     },
     {
         "name": "Conflicted",
-        "klp": 1397,
+        "klp": 5000,
         "creator": "Zevvy (Zevorcen)",
         "verifier": "Zevvy (Zevorcen)",
         "id": "725738",
@@ -47,7 +47,7 @@
     },
     {
         "name": "Top 1 Level",
-        "klp": 1117,
+        "klp": 4000,
         "creator": "Top1PL",
         "verifier": "redstom",
         "id": "269139",
@@ -61,7 +61,7 @@
     },
     {
         "name": "Towering Tree-tops",
-        "klp": 994,
+        "klp": 3560,
         "creator": "Slooperd, redstom",
         "verifier": "redstom",
         "id": "414737",
@@ -74,7 +74,7 @@
     },
     {
         "name": "Trio Kaizo Infinity",
-        "klp": 930,
+        "klp": 3330,
         "creator": "Sasha Krutoy YT2, Germinxvee, redstom",
         "verifier": "Sasha Krutoy YT2",
         "id": "333616",
@@ -91,10 +91,10 @@
     },
     {
         "name": "It Love Time",
-        "klp": 894,
+        "klp": 3200,
         "creator": "Ripbasil",
         "verifier": "Ripbasil",
-        "id": "728629",
+        "id": "333616",
         "badges": [
             "memory",
             "ruthless",
@@ -107,7 +107,7 @@
     },
     {
         "name": "Eternal Frozurn Fate",
-        "klp": 911,
+        "klp": 3260,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "400663",
@@ -122,7 +122,7 @@
     },
     {
         "name": "Tower of True Skill",
-        "klp": 827,
+        "klp": 2960,
         "creator": "Zevvy (Zevorcen)",
         "verifier": "Zevvy (Zevorcen)",
         "id": "370605",
@@ -136,7 +136,7 @@
     },
     {
         "name": "Wenebrix",
-        "klp": 782,
+        "klp": 2800,
         "creator": "Germinxvee",
         "verifier": "Germinxvee",
         "id": "735589",
@@ -153,7 +153,7 @@
     },
     {
         "name": "Stilted Fortress",
-        "klp": 743,
+        "klp": 2660,
         "creator": "Saarck",
         "verifier": "Saarck",
         "id": "460624",
@@ -165,7 +165,7 @@
     },
     {
         "name": "Liquid",
-        "klp": 659,
+        "klp": 2360,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "220142",
@@ -177,7 +177,7 @@
     },
     {
         "name": "The Magnetic Void",
-        "klp": 645,
+        "klp": 2310,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "334421",
@@ -190,7 +190,7 @@
     },
     {
         "name": "OB - Ghost Dance",
-        "klp": 603,
+        "klp": 2160,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "553098",
@@ -201,7 +201,7 @@
     },
     {
         "name": "Astropolis",
-        "klp": 595,
+        "klp": 2130,
         "creator": "Saarck",
         "verifier": "Saarck",
         "id": "697285",
@@ -221,7 +221,7 @@
     },
     {
         "name": "Bombas de Ocelote",
-        "klp": 589,
+        "klp": 2110,
         "creator": "redstom",
         "verifier": "redstom",
         "id": "249411",
@@ -234,7 +234,7 @@
     },
     {
         "name": "Null and Space",
-        "klp": 587,
+        "klp": 2100,
         "creator": "Yetistudis",
         "verifier": "redstom",
         "id": "754319",
@@ -246,7 +246,7 @@
     },
     {
         "name": "OB - Slimy Road",
-        "klp": 575,
+        "klp": 2060,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "492817",
@@ -257,7 +257,7 @@
     },
     {
         "name": "Long Clover",
-        "klp": 559,
+        "klp": 2000,
         "creator": "Lanzy-ULB",
         "verifier": "Lanzy-ULB",
         "id": "496823",
@@ -270,7 +270,7 @@
     },
     {
         "name": "Lanzimbo",
-        "klp": 547,
+        "klp": 1960,
         "creator": "Lanzy-ULB",
         "verifier": "Ocelote",
         "id": "451810",
@@ -283,7 +283,7 @@
     },
     {
         "name": "OB - Snake Love",
-        "klp": 534,
+        "klp": 1910,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "492816",
@@ -296,7 +296,7 @@
     },
     {
         "name": "Ice Frostbite",
-        "klp": 520,
+        "klp": 1860,
         "creator": "Germinxvee",
         "verifier": "Sasha Krutoy YT2",
         "id": "371222",
@@ -309,9 +309,9 @@
     },
     {
         "name": "Algae",
-        "klp": 517,
-        "creator": "Failed Boy, To\u00f1o",
-        "verifier": "To\u00f1o",
+        "klp": 1850,
+        "creator": "Failed Boy, Toño",
+        "verifier": "Toño",
         "id": "731119",
         "badges": [
             "gimmick",
@@ -320,7 +320,7 @@
     },
     {
         "name": "Abyssal Horizon",
-        "klp": 506,
+        "klp": 1810,
         "creator": "Saarck",
         "verifier": "Saarck",
         "id": "409077",
@@ -332,7 +332,7 @@
     },
     {
         "name": "Annikillertor",
-        "klp": 492,
+        "klp": 1760,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "386739",
@@ -349,7 +349,7 @@
     },
     {
         "name": "Cataclysmic Delusion",
-        "klp": 478,
+        "klp": 1710,
         "creator": "Raincube",
         "verifier": "Raincube",
         "id": "175812",
@@ -360,7 +360,7 @@
     },
     {
         "name": "Kaizo 0",
-        "klp": 450,
+        "klp": 1610,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "189503",
@@ -373,7 +373,7 @@
     },
     {
         "name": "Yatagarasu",
-        "klp": 436,
+        "klp": 1560,
         "creator": "Lanzy-ULB",
         "verifier": "Lanzy-ULB",
         "id": "516452",
@@ -386,7 +386,7 @@
     },
     {
         "name": "The Last Hope",
-        "klp": 422,
+        "klp": 1510,
         "creator": "Lanzy-ULB",
         "verifier": "Lanzy-ULB",
         "id": "532469",
@@ -399,7 +399,7 @@
     },
     {
         "name": "Okay Not Okay",
-        "klp": 408,
+        "klp": 1460,
         "creator": "Lanzy-ULB",
         "verifier": "Lanzy-ULB",
         "id": "507567",
@@ -411,7 +411,7 @@
     },
     {
         "name": "Meow Speedrun",
-        "klp": 398,
+        "klp": 1425,
         "creator": "redstom",
         "verifier": "redstom",
         "id": "270324",
@@ -425,7 +425,7 @@
     },
     {
         "name": "Dark Travel",
-        "klp": 394,
+        "klp": 1410,
         "creator": "Mk Milxky Maker",
         "verifier": "Mk Milxky Maker",
         "id": "308749",
@@ -437,7 +437,7 @@
     },
     {
         "name": "Tower of Icy Rage",
-        "klp": 380,
+        "klp": 1360,
         "creator": "Therobot0802",
         "verifier": "Therobot0802",
         "id": "730367",
@@ -449,7 +449,7 @@
     },
     {
         "name": "Catastrophic Misery",
-        "klp": 380,
+        "klp": 1360,
         "creator": "Raincube",
         "verifier": "Ocelote",
         "id": "225200",
@@ -459,7 +459,7 @@
     },
     {
         "name": "Kaizo Ship",
-        "klp": 366,
+        "klp": 1310,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "173618",
@@ -472,7 +472,7 @@
     },
     {
         "name": "Mount Pyrlen",
-        "klp": 352,
+        "klp": 1260,
         "creator": "Saarck",
         "verifier": "Saarck",
         "id": "424859",
@@ -485,7 +485,7 @@
     },
     {
         "name": "Panic Cavern",
-        "klp": 338,
+        "klp": 1210,
         "creator": "Failed Boy",
         "verifier": "Failed Boy",
         "id": "775446",
@@ -499,7 +499,7 @@
     },
     {
         "name": "Titan B18 V2",
-        "klp": 335,
+        "klp": 1200,
         "creator": "Cat Play",
         "verifier": "redstom",
         "id": "558222",
@@ -511,7 +511,7 @@
     },
     {
         "name": "Pyrlen Wastes",
-        "klp": 324,
+        "klp": 1160,
         "creator": "Saarck",
         "verifier": "Saarck",
         "id": "437331",
@@ -525,7 +525,7 @@
     },
     {
         "name": "Dunes of the Damned",
-        "klp": 310,
+        "klp": 1110,
         "creator": "Saarck",
         "verifier": "Saarck",
         "id": "377166",
@@ -539,7 +539,7 @@
     },
     {
         "name": "VS Fake Ocelote",
-        "klp": 302,
+        "klp": 1080,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "190259",
@@ -553,7 +553,7 @@
     },
     {
         "name": "Cliffside Precision",
-        "klp": 277,
+        "klp": 990,
         "creator": "1ts Al3x",
         "verifier": "1ts Al3x",
         "id": "206300",
@@ -567,7 +567,7 @@
     },
     {
         "name": "Stages from Hell 1",
-        "klp": 271,
+        "klp": 970,
         "creator": "MysteryIlian114",
         "verifier": "MysteryIlian114",
         "id": "346352",
@@ -581,7 +581,7 @@
     },
     {
         "name": "Tenebris",
-        "klp": 265,
+        "klp": 950,
         "creator": "NoMilk, Germinxvee",
         "verifier": "Germinxvee",
         "id": "454828",
@@ -595,7 +595,7 @@
     },
     {
         "name": "Magnihell",
-        "klp": 260,
+        "klp": 930,
         "creator": "Whatwhatw",
         "verifier": "Whatwhatw",
         "id": "336256",
@@ -608,7 +608,7 @@
     },
     {
         "name": "I Wanna Be A Boykisser",
-        "klp": 257,
+        "klp": 920,
         "creator": "Lanzy-ULB",
         "verifier": "Lanzy-ULB",
         "id": "687679",
@@ -621,7 +621,7 @@
     },
     {
         "name": "Gotinsane",
-        "klp": 257,
+        "klp": 920,
         "creator": "Xcrick GD",
         "verifier": "Xcrick GD",
         "id": "155814",
@@ -634,7 +634,7 @@
     },
     {
         "name": "Ice Shardnel",
-        "klp": 254,
+        "klp": 910,
         "creator": "Germinxvee",
         "verifier": "Germinxvee",
         "id": "329215",
@@ -648,7 +648,7 @@
     },
     {
         "name": "Red Castle Kaizo",
-        "klp": 251,
+        "klp": 900,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "165924",
@@ -662,7 +662,7 @@
     },
     {
         "name": "Expert Mountian",
-        "klp": 249,
+        "klp": 890,
         "creator": "Jasontheultra",
         "verifier": "Jasontheultra",
         "id": "737334",
@@ -673,7 +673,7 @@
     },
     {
         "name": "Circular Fatality",
-        "klp": 237,
+        "klp": 850,
         "creator": "Theredman3222",
         "verifier": "Theredman3222",
         "id": "549515",
@@ -686,7 +686,7 @@
     },
     {
         "name": "Red house",
-        "klp": 230,
+        "klp": 825,
         "creator": "Wytems",
         "verifier": "Wytems",
         "id": "164816",
@@ -697,7 +697,7 @@
     },
     {
         "name": "Crimson Castle",
-        "klp": 226,
+        "klp": 810,
         "creator": "Tatom7",
         "verifier": "Tatom7",
         "id": "621716",
@@ -710,7 +710,7 @@
     },
     {
         "name": "Lava Paradise",
-        "klp": 223,
+        "klp": 800,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "440423",
@@ -722,7 +722,7 @@
     },
     {
         "name": "Bob is Mad",
-        "klp": 222,
+        "klp": 795,
         "creator": "Ocelote",
         "verifier": "Ocelote",
         "id": "178237",
@@ -736,7 +736,7 @@
     },
     {
         "name": "Magnetic Hard Kaizo",
-        "klp": 221,
+        "klp": 790,
         "creator": "Samuel CM",
         "verifier": "Samuel CM",
         "id": "216225",
@@ -748,7 +748,7 @@
     },
     {
         "name": "Kaizo",
-        "klp": 209,
+        "klp": 750,
         "creator": "Theredman3222",
         "verifier": "Theredman3222",
         "id": "283739",
@@ -761,7 +761,7 @@
     },
     {
         "name": "The Hell",
-        "klp": 198,
+        "klp": 710,
         "creator": "SeaMushroom245",
         "verifier": "SeaMushroom245",
         "id": "191982",
@@ -774,7 +774,7 @@
     },
     {
         "name": "Moonmarsh Madness",
-        "klp": 193,
+        "klp": 690,
         "creator": "Vsulner",
         "verifier": "Vsulner",
         "id": "518231",
@@ -785,7 +785,7 @@
     },
     {
         "name": "Castle Shooter",
-        "klp": 184,
+        "klp": 660,
         "creator": "AnDronolis",
         "verifier": "AnDronolis",
         "id": "260880",
@@ -799,7 +799,7 @@
     },
     {
         "name": "Hoppi Hopp - Madness",
-        "klp": 182,
+        "klp": 650,
         "creator": "Erxk",
         "verifier": "Erxk",
         "id": "616501",
@@ -812,7 +812,7 @@
     },
     {
         "name": "Corps Astronomiques",
-        "klp": 168,
+        "klp": 600,
         "creator": "065Foxys",
         "verifier": "065Foxys",
         "id": "719923",
@@ -823,7 +823,7 @@
     },
     {
         "name": "Smash Spire",
-        "klp": 165,
+        "klp": 590,
         "creator": "Vsulner",
         "verifier": "Vsulner",
         "id": "515064",
@@ -837,7 +837,7 @@
     },
     {
         "name": "The Infected World",
-        "klp": 159,
+        "klp": 570,
         "creator": "Tails",
         "verifier": "Samuel CM",
         "id": "380308",
@@ -849,7 +849,7 @@
     },
     {
         "name": "Claustrophobie",
-        "klp": 154,
+        "klp": 550,
         "creator": "065Foxys",
         "verifier": "065Foxys",
         "id": "656423",
@@ -860,7 +860,7 @@
     },
     {
         "name": "Space X-Treme Ship",
-        "klp": 145,
+        "klp": 520,
         "creator": "Black Cotton YT",
         "verifier": "Black Cotton YT",
         "id": "741605",
@@ -872,7 +872,7 @@
     },
     {
         "name": "Hydrothanotos",
-        "klp": 145,
+        "klp": 520,
         "creator": "Neptunium",
         "verifier": "Neptunium",
         "id": "364341",
@@ -883,7 +883,7 @@
     },
     {
         "name": "Ablivision",
-        "klp": 142,
+        "klp": 510,
         "creator": "Infernal Chaos",
         "verifier": "Infernal Chaos",
         "id": "185582",
@@ -896,7 +896,7 @@
     },
     {
         "name": "Blue Circles",
-        "klp": 140,
+        "klp": 500,
         "creator": "Mk Milxky Maker",
         "verifier": "Mk Milxky Maker",
         "id": "301583",
@@ -908,7 +908,7 @@
     },
     {
         "name": "Ladder Lunatics",
-        "klp": 137,
+        "klp": 490,
         "creator": "Vsulner",
         "verifier": "Vsulner",
         "id": "518799",
@@ -919,7 +919,7 @@
     },
     {
         "name": "Forest Hell",
-        "klp": 131,
+        "klp": 470,
         "creator": "Theredman3222",
         "verifier": "Theredman3222",
         "id": "389000",
@@ -932,7 +932,7 @@
     },
     {
         "name": "Spider Dance",
-        "klp": 128,
+        "klp": 460,
         "creator": "Lanzy-ULB",
         "verifier": "Lanzy-ULB",
         "id": "487319",
@@ -943,7 +943,7 @@
     },
     {
         "name": "Cute Travel",
-        "klp": 127,
+        "klp": 455,
         "creator": "Samunight CM",
         "verifier": "Samunight CM",
         "id": "267285",
@@ -954,7 +954,7 @@
     },
     {
         "name": "Blue Cave",
-        "klp": 126,
+        "klp": 450,
         "creator": "AnDronolis",
         "verifier": "AnDronolis",
         "id": "590986",
@@ -965,7 +965,7 @@
     },
     {
         "name": "kaizo 56 v2 x redux ex",
-        "klp": 117,
+        "klp": 420,
         "creator": "Saarck",
         "verifier": "Saarck",
         "id": "432502",
@@ -977,7 +977,7 @@
     },
     {
         "name": "Kaizo Desert",
-        "klp": 116,
+        "klp": 415,
         "creator": "Dino RPG",
         "verifier": "Dino RPG",
         "id": "650038",
@@ -989,7 +989,7 @@
     },
     {
         "name": "Magnetic Easy Kaizo",
-        "klp": 115,
+        "klp": 410,
         "creator": "Samuel CM",
         "verifier": "Samuel CM",
         "id": "204705",
@@ -1001,7 +1001,7 @@
     },
     {
         "name": "Eon",
-        "klp": 112,
+        "klp": 400,
         "creator": "Failed Boy",
         "verifier": "Failed Boy",
         "id": "705092",
@@ -1013,7 +1013,7 @@
     },
     {
         "name": "Stair of Madness",
-        "klp": 111,
+        "klp": 398,
         "creator": "Failed Boy",
         "verifier": "Failed Boy",
         "id": "757536",
@@ -1024,7 +1024,7 @@
     },
     {
         "name": "Potion Kaizo",
-        "klp": 110,
+        "klp": 395,
         "creator": "arhonrc65",
         "verifier": "arhonrc65",
         "id": "544267",
@@ -1038,7 +1038,7 @@
     },
     {
         "name": "Harakiri",
-        "klp": 109,
+        "klp": 390,
         "creator": "Mecalo",
         "verifier": "Mecalo",
         "id": "187164",
@@ -1051,7 +1051,7 @@
     },
     {
         "name": "Hil",
-        "klp": 106,
+        "klp": 380,
         "creator": "Tatiqol",
         "verifier": "Tatiqol",
         "id": "732062",
@@ -1062,7 +1062,7 @@
     },
     {
         "name": "The Final Planet",
-        "klp": 103,
+        "klp": 370,
         "creator": "Samuel CM",
         "verifier": "Samuel CM",
         "id": "176125",
@@ -1076,7 +1076,7 @@
     },
     {
         "name": "Internal Vortex",
-        "klp": 101,
+        "klp": 360,
         "creator": "Nisshoku",
         "verifier": "Nisshoku",
         "id": "412883",
@@ -1089,7 +1089,7 @@
     },
     {
         "name": "The Hardst",
-        "klp": 98,
+        "klp": 350,
         "creator": "Bradley",
         "verifier": "Bradley",
         "id": "197429",
@@ -1103,7 +1103,7 @@
     },
     {
         "name": "A True Nightmare",
-        "klp": 87,
+        "klp": 310,
         "creator": "Itadori",
         "verifier": "Itadori",
         "id": "352091",
@@ -1116,8 +1116,8 @@
     },
     {
         "name": "Forest Madness",
-        "klp": 70,
-        "creator": "AnDronolis",
+        "klp": 250,
+        "creator": "",
         "verifier": "AnDronolis",
         "id": "195256",
         "badges": [
@@ -1130,7 +1130,7 @@
     },
     {
         "name": "Saw District",
-        "klp": 68,
+        "klp": 245,
         "creator": "Failed Boy",
         "verifier": "Failed Boy",
         "id": "710813",
@@ -1143,7 +1143,7 @@
     },
     {
         "name": "Spacex Tower",
-        "klp": 64,
+        "klp": 230,
         "creator": "Greenystraw69",
         "verifier": "Greenystraw69",
         "id": "576983",
@@ -1154,7 +1154,7 @@
     },
     {
         "name": "Make Longs Kaizo Jumps",
-        "klp": 60,
+        "klp": 215,
         "creator": "redstom",
         "verifier": "redstom",
         "id": "336014",
@@ -1166,7 +1166,7 @@
     },
     {
         "name": "Dark Moon",
-        "klp": 59,
+        "klp": 210,
         "creator": "Samuel CM",
         "verifier": "Samuel CM",
         "id": "236780",
@@ -1179,7 +1179,7 @@
     },
     {
         "name": "Yellow and Green",
-        "klp": 59,
+        "klp": 210,
         "creator": "S78CXZ",
         "verifier": "S78CXZ",
         "id": "732428",
@@ -1191,7 +1191,7 @@
     },
     {
         "name": "Tower of Worlds",
-        "klp": 47,
+        "klp": 170,
         "creator": "Alexsound",
         "verifier": "Alexsound",
         "id": "275665",
@@ -1204,7 +1204,7 @@
     },
     {
         "name": "Red and Blue",
-        "klp": 42,
+        "klp": 150,
         "creator": "S78CXZ",
         "verifier": "S78CXZ",
         "id": "644340",

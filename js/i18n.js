@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateThemeIcon(isDark);
 });
 
-
 document.addEventListener('DOMContentLoaded', applyTranslations);
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -104,3 +103,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.body.appendChild(a);
 });
+
+import('./auth-ui.js').catch(err => console.warn('Account button unavailable:', err));

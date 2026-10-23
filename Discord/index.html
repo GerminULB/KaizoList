@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex" />
+  <title data-i18n="discord_page_title">Signing in | The Kaizo List</title>
+  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="background-stage">
+  <div class="sky-layer"></div>
+  <div class="sunset-mask"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
+</div>
+
+<div class="container panel-9slice">
+  <a href="/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
+  <p id="discord-status" class="submit-center"><span class="kl-loading"></span> <span data-i18n="discord_signing_in">Signing you in with Discord...</span></p>
+  <div id="discord-error" class="submit-box panel-9slice hidden">
+    <p id="discord-error-text"></p>
+    <a id="discord-back" href="/" class="hub-button" data-i18n="discord_go_back">Go back</a>
+  </div>
+</div>
+
+<script type="module">
+  import { applyTranslations, t } from '../js/i18n.js';
+  import { finishDiscordSignIn } from '../js/discord.js';
+
+  applyTranslations();
+  try {
+    location.replace(await finishDiscordSignIn());
+  } catch (err) {
+    document.getElementById('discord-status').classList.add('hidden');
+    document.getElementById('discord-error').classList.remove('hidden');
+    document.getElementById('discord-error-text').textContent =
+      err.message === 'cancelled' ? t('discord_cancelled')
+      : err.message === 'state' ? t('discord_expired')
+      : t('discord_failed', { reason: err.message });
+    document.getElementById('discord-back').href = err.back || '/';
+  }
+</script>
+
+</body>
+</html>

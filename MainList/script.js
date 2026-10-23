@@ -1,6 +1,7 @@
 import { fetchJson, splitNames, renderRecentChanges } from "../js/utils.js";
 import { BADGES } from "../js/badge.js";
 import { t } from '../js/i18n.js';
+import { loadLevels } from '../js/data.js';
 
 (() => {
     const LEGACY_RANK_CUTOFF = 100; // ranks 1-100 stay in the Main List, 101+ are Legacy
@@ -9,11 +10,23 @@ import { t } from '../js/i18n.js';
     let mainLevels = [];      // rank 1-100
     let legacyLevels = [];    // rank 101+, kept in original levels.json order
     let activeTab = 'main';
+    let thumbIds = new Set();
+    let enjoyment = null;
+
+    async function loadEnjoyment() {
+        if (enjoyment) return enjoyment;
+        const [{ loadEnjoyment: load }, { loadPlayers }] = await Promise.all([import('../js/enjoyment.js'), import('../js/data.js')]);
+        enjoyment = await load(currentLevels.map(l => l.id), await loadPlayers()).catch(() => new Map());
+        return enjoyment;
+    }
+    const enjoyOf = (lvl) => enjoyment?.get(String(lvl.id))?.avg;
 
     async function init() {
+        thumbIds = new Set(((await fetchJson('../thumbs/list.json').catch(() => null)) || []).map(String));
+
         try {
-            const data = await fetchJson('../levels.json');
-            if (!data) throw new Error("Failed to load levels.json");
+            const data = await loadLevels();
+            if (!data || !data.length) throw new Error("Failed to load the levels");
 
             const normalized = data.map((lvl, idx) => ({
                 id: lvl.id ?? (idx + 1),
@@ -50,6 +63,13 @@ import { t } from '../js/i18n.js';
         }
 
         attachListeners();
+    }
+
+    const egg = document.getElementById('legacy-egg');
+    if (egg) {
+        const open = (e) => import('../js/auth-ui.js').then(m => m.openPushEgg(e.clientX || innerWidth / 2, e.clientY || innerHeight / 2));
+        egg.addEventListener('click', open);
+        egg.addEventListener('keydown', (e) => { if (e.key === 'Enter') open(e); });
     }
 
     function setActiveTab(tab) {
@@ -172,7 +192,13 @@ import { t } from '../js/i18n.js';
                    creatorMatch && verifierMatch && badgeMatch;
         });
 
-        if (sortMethod === 'id-asc') filtered.sort((a, b) => +a.id - +b.id);
+        if (sortMethod === 'enjoy' && !enjoyment) {
+            loadEnjoyment().then(renderFilteredLevels);
+            document.getElementById('level-list').innerHTML = '<p class="submit-center"><span class="kl-loading"></span></p>';
+            return;
+        }
+        if (sortMethod === 'enjoy') filtered.sort((a, b) => ((enjoyOf(b) ?? -1) - (enjoyOf(a) ?? -1)) || (a.rank - b.rank));
+        else if (sortMethod === 'id-asc') filtered.sort((a, b) => +a.id - +b.id);
         else if (sortMethod === 'id-desc') filtered.sort((a, b) => +b.id - +a.id);
         else filtered.sort((a, b) => a.rank - b.rank);
 
@@ -184,10 +210,10 @@ import { t } from '../js/i18n.js';
             clearBtn.style.display = anyActive ? '' : 'none';
         }
 
-        loadLevelsFromJSON(filtered);
+        loadLevelsFromJSON(filtered, sortMethod === 'enjoy');
     }
 
-    function loadLevelsFromJSON(levels) {
+    function loadLevelsFromJSON(levels, showEnjoy = false) {
         const container = document.getElementById('level-list');
         const totalEl = document.getElementById('total-klp');
 
@@ -215,7 +241,10 @@ import { t } from '../js/i18n.js';
             const div = document.createElement('div');
             div.className = 'level';
 
-            const scoreMarkup = lvl.isLegacy
+            const enjoy = enjoyOf(lvl);
+            const scoreMarkup = showEnjoy
+                ? `<strong><img class="kl-score-ico" src="/images/icon/enjoyment.png" alt="">${enjoy == null ? '-' : (Math.round(enjoy * 10) / 10).toFixed(1)}</strong>`
+                : lvl.isLegacy
                 ? `<strong class="legacy-tag">${t('legacy_label', { defaultValue: 'Legacy' })}</strong>`
                 : `<strong>${escapeHtml(lvl.klp)} KLP</strong>`;
             
@@ -229,21 +258,34 @@ import { t } from '../js/i18n.js';
                 </div>
             </div>
             <div class="level-details">
-                <p><strong>${t('creator')}:</strong> ${escapeHtml(lvl.creator)}</p>
-                <p><strong>${t('verifier')}:</strong> ${escapeHtml(lvl.verifier)}</p>
-                <p><strong>${t('id')}:</strong> ${escapeHtml(lvl.id)}</p>
+                <p><img class="kl-info-ico" src="/images/icon/creator.png" width="32" height="32" alt=""><strong>${t('creator')}:</strong> ${escapeHtml(lvl.creator)}</p>
+                <p><img class="kl-info-ico" src="/images/icon/victor.png" width="24" height="28" alt=""><strong>${t('verifier')}:</strong> ${escapeHtml(lvl.verifier)}</p>
+                <p><img class="kl-info-ico" src="/images/icon/id.png" width="22" height="26" alt=""><strong>${t('id')}:</strong> ${escapeHtml(lvl.id)}</p>
             </div>
             `;
+
+            if (lvl.id && thumbIds.has(String(lvl.id))) {
+                const details = div.querySelector('.level-details');
+                const thumb = document.createElement('img');
+                thumb.className = 'level-thumb';
+                thumb.alt = '';
+                thumb.loading = 'lazy';
+                thumb.decoding = 'async';
+                thumb.onload = () => details.classList.add('has-thumb');
+                thumb.onerror = () => thumb.remove();
+                thumb.src = `../thumbs/${encodeURIComponent(lvl.id)}.png`;
+                details.prepend(thumb);
+            }
 
             const badgeContainer = div.querySelector('.mini-badge-list');
             const badges = lvl.badges || [];
             const priorityOrder = Object.keys(BADGES);
             badges.sort((a, b) => priorityOrder.indexOf(a) - priorityOrder.indexOf(b));
 
-            let overlap = -10;
+            let overlap = -22;
             if (badges.length > 10) {
-                overlap = Math.min(-10, -5 - (badges.length * 0.6)); 
-                if (badges.length > 25) overlap = -25; 
+                overlap = Math.min(-22, -17 - (badges.length * 0.6));
+                if (badges.length > 25) overlap = -34;
             }
 
             badges.forEach((key, index) => {
@@ -277,37 +319,6 @@ import { t } from '../js/i18n.js';
 
     init();
 
-    document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.key === 'E') {
-            const now = new Date();
-            const dateStr = now.toISOString().split('T')[0];
-
-            const headers = ['Date', 'Level Name', 'Creator', 'Verifier', 'KLP', 'Badges', 'ID'];
-
-            const rows = currentLevels.map(lvl => [
-                dateStr,
-                lvl.name,
-                lvl.creator,
-                lvl.verifier,
-                lvl.klp,
-                (lvl.badges || []).join('; '),
-                lvl.id
-            ]);
-
-            const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-            const filename = `mainlist_snapshot_${dateStr}.csv`;
-
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
-
-            console.log(`Secret CSV export triggered! File: ${filename}`);
-        }
-});
 })();
 
-renderRecentChanges('recent-changes', undefined, '../levels.json');
+loadLevels().then(levels => renderRecentChanges('recent-changes', undefined, levels));

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Kaizo List</title>
+<link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  html, body { height: 100%; margin: 0; overflow: hidden; }
+  body { cursor: pointer; user-select: none; -webkit-user-select: none; }
+  #glow { position: fixed; inset: -20%; opacity: 0; pointer-events: none; --glow: #001547; background: radial-gradient(circle at 50% 55%, var(--glow) 0%, transparent 60%); }
+  #dim { position: fixed; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+  #stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }  
+  #flash { position: fixed; inset: 0; background: #2f3549; opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="dim"></div>
+<div id="glow"></div>
+<canvas id="stage"></canvas>
+<div id="flash"></div>
+<script>
+const SONG = '/sound/egg/sakupenhell.mp3';
+const IMAGE = '/images/icecream.png';
+const BPM = 164;
+const OFFSET = 0;
+const DROP1 = 64, DROP1B = 96, DROP2 = 128, CALM = 192, INTENSE = 208, CALMDRUMS = 224, INTENSE2 = 240, STORM = 256, FINAL = 320, BREATHE = 384, FINAL2 = 512;
+const DRIFT = 1200;
+
+const BEAT = 60 / BPM;
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const M = calm ? 0.3 : 1;
+const $ = (id) => document.getElementById(id);
+const stage = $('stage'), dim = $('dim'), flash = $('flash'), glow = $('glow');
+const hash = (n) => (Math.imul(n | 0, 2654435761) >>> 0) / 4294967296;
+const fr = (x) => ((x % 1) + 1) % 1;
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const back = (x) => { x = clamp(x); const c = 1.70158 + 1; return 1 + c * Math.pow(x - 1, 3) + 1.70158 * Math.pow(x - 1, 2); };
+const hop = (f) => f < 0.5 ? Math.sin(Math.PI * f * 2) : 0;
+const land = (f) => Math.exp(-f * 8);
+
+const POOL = 16;
+const creams = Array.from({ length: POOL }, () => ({ x: innerWidth / 2, y: innerHeight / 2, size: 0, flip: 1, op: 0 }));
+const sprite = new Image();
+let ASPECT = 1.4;
+sprite.onload = () => { if (sprite.naturalWidth) ASPECT = sprite.naturalHeight / sprite.naturalWidth; };
+sprite.src = IMAGE;
+const ctx = stage.getContext('2d');
+let dpr = 1;
+function fit() {
+  dpr = Math.min(2, window.devicePixelRatio || 1);
+  stage.width = Math.round(innerWidth * dpr);
+  stage.height = Math.round(innerHeight * dpr);
+}
+fit();
+window.addEventListener('resize', fit);
+
+const W = () => innerWidth, H = () => innerHeight, V = () => Math.min(innerWidth, innerHeight);
+function grid(n, cols, size, gap = 1.4) {
+  const rows = Math.ceil(n / cols), step = size * gap;
+  return Array.from({ length: n }, (_, i) => {
+    const c = i % cols, r = Math.floor(i / cols);
+    return { x: W() / 2 + (c - (cols - 1) / 2) * step, y: H() / 2 + (r - (rows - 1) / 2) * step + size / 2, c, r, i };
+  });
+}
+function ring(n, R, size, turn = 0) {
+  return Array.from({ length: n }, (_, i) => {
+    const a = (i / n + turn) * Math.PI * 2 - Math.PI / 2;
+    return { x: W() / 2 + Math.cos(a) * R, y: H() / 2 + Math.sin(a) * R + size / 2, c: i % 4, r: Math.floor(i / 4), i };
+  });
+}
+const MOVES = [
+  (o, b, f, g) => { o.dy = -hop(f) * 0.5; },
+  (o, b, f, g) => { o.rot = ((o.c + o.r + Math.floor(b)) % 2 ? 22 : -22) * back(f * 3); o.dy = -hop(fr(b * 2)) * 0.2; },
+  (o, b, f, g) => { o.rot = ease(g / 2) * 360; o.dy = -Math.sin(Math.PI * g / 2) * 0.35; },
+  (o, b, f, g) => { o.dy = -hop(fr(b - o.c * 0.2)) * 0.55; o.skew = Math.sin(Math.PI * fr(b - o.c * 0.2)) * 15; },
+  (o, b, f, g) => { const l = land(f); o.sx = 1 + 0.45 * l; o.sy = 1 - 0.5 * l; o.skew = (Math.floor(b) % 2 ? 20 : -20) * l; },
+  (o, b, f, g) => { o.flipT = Math.cos(Math.PI * ease(g / 2)); o.dy = -hop(f) * 0.25; },
+  (o, b, f, g) => { o.dy = -hop(f) * (o.r % 2 === Math.floor(b) % 2 ? 0.7 : 0.05); },
+  (o, b, f, g) => { o.skew = Math.sin(Math.PI * g) * 28; o.rot = Math.sin(Math.PI * g) * -8; },
+  (o, b, f, g) => { o.rot = Math.sin((g / 2) * Math.PI * 2 + o.i * 0.4) * 30; o.dy = -hop(fr(b * 2)) * 0.15; },
+  (o, b, f, g) => { const p = back(f * 2.5); o.sx = o.sy = 0.6 + p * 0.6; o.dy = -hop(f) * 0.3; },
+];
+function dance(b) {
+  const f = fr(b), beat = Math.floor(b), bar = Math.floor(b / 4);
+  const out = [];
+  const put = (p, size, o = {}) => out.push(Object.assign({ x: p.x, y: p.y, c: p.c || 0, r: p.r || 0, i: p.i || out.length, size, dy: 0, rot: 0, sx: 1, sy: 1, skew: 0, flipT: 1, hue: 0, op: 1 }, o));
+  const fx = { dim: 0, flash: 0, shake: 0, glow: 0.35, glowHue: 220, cam: { s: 1, x: 0, y: 0 } };
+
+  if (b < DROP1) {
+    const size = V() * 0.22, n = clamp(1 + Math.floor(Math.max(0, b) / 16), 1, 4), crouch = b >= DROP1 - 4;
+    grid(n, n, size).forEach((p, i) => put(p, size, crouch
+      ? { sx: 1.18, sy: 0.8, skew: Math.sin(b * Math.PI * 4) * 6 }
+      : { dy: -hop(f) * 0.12, sx: 1 + land(f) * 0.08, sy: 1 - land(f) * 0.06, skew: (beat % 2 ? 6 : -6) * land(f),
+          op: i === n - 1 && n < 4 ? clamp(fr(b / 16) * 6) : 1 }));
+    if (crouch) fx.shake = 3;
+    fx.glow = 0.2;
+  } else if (b < DROP1B) {
+    const size = V() * 0.2;
+    grid(4, 4, size).forEach((p, i) => {
+      const active = beat % 2 === i % 2;
+      put(p, size, { dy: -hop(f) * (active ? 0.5 : 0.08), sx: 1 + land(f) * 0.18, sy: 1 - land(f) * 0.12,
+        skew: (active ? (beat % 2 ? 14 : -14) : 0) * land(f), flipT: bar % 2 ? -1 : 1 });
+    });
+    fx.flash = beat % 4 === 0 ? land(f) * 0.07 : 0; fx.glow = 0.6;
+  } else if (b < DROP2) {
+    const size = V() * 0.2;
+    grid(4, 4, size).forEach((p, i) => {
+      const g = fr(b - i * 0.25);
+      put(p, size, { dy: -hop(g) * 0.3, skew: Math.sin(Math.PI * g) * 10, rot: bar % 2 === 0 && beat % 4 === 0 ? ease(f) * 360 : 0 });
+    });
+    fx.glow = 0.3;
+  } else if (b < CALM) {
+    const size = V() * 0.17, half = DROP2 + (CALM - DROP2) / 2, swapBeat = beat % 2 === 0;
+    const steps = b < half ? beat + ease(f * 3) : 2 * half - beat - ease(f * 3);
+    ring(8, V() * 0.32, size, steps / 8 + (Math.floor(beat / 2) % 2) * 0.5).forEach((p, i) => put(p, size, {
+      dy: -hop(f) * (swapBeat ? 0.75 : 0.35), rot: beat % 4 === 0 ? ease(f) * 360 : (i % 2 ? 1 : -1) * 12 * land(f),
+      sx: 1 + land(f) * 0.18, sy: 1 - land(f) * 0.12, skew: (i % 2 ? 12 : -12) * land(f), hue: (bar % 2) * 180 }));
+    fx.flash = beat % 4 === 0 ? land(f) * 0.11 : land(f) * 0.03; fx.glow = 0.75; fx.glowHue = 180 + (bar % 2) * 140;
+  } else if (b < INTENSE) {
+    const size = V() * 0.3, half = Math.floor(b / 2) % 2;
+    put({ x: W() / 2, y: H() / 2 + size / 2 }, size, { rot: (half ? 8 : -8) * ease(fr(b / 2) * 2), skew: Math.sin(b * Math.PI / 2) * 6,
+      dy: -Math.abs(Math.sin(b * Math.PI / 2)) * 0.04 });
+    fx.glow = 0.15;
+  } else if (b >= CALMDRUMS && b < INTENSE2) {
+    const big = V() * 0.36, small = V() * 0.12, half = Math.floor(b / 2) % 2;
+    put({ x: W() / 2, y: H() / 2 + big / 2 }, big, { rot: (half ? 9 : -9) * ease(fr(b / 2) * 2), skew: Math.sin(b * Math.PI / 2) * 7,
+      dy: -hop(f) * 0.06, sx: 1 + land(f) * 0.06, sy: 1 - land(f) * 0.04 });
+    ring(8, V() * 0.4, small, bar / 16).forEach((p, i) => put(p, small, {
+      dy: -hop(fr(b - (i % 2) * 0.5)) * 0.5, skew: (i % 2 ? 14 : -14) * land(f), sx: 1 + land(f) * 0.15, sy: 1 - land(f) * 0.1,
+      rot: (half ? 10 : -10) * ease(fr(b / 2) * 2) }));
+    fx.flash = beat % 4 === 0 ? land(f) * 0.06 : 0; fx.glow = 0.55; fx.shake = land(f) * 2;
+  } else if (b < STORM) {
+    const size = V() * 0.16, cascade = b >= STORM - 8;
+    grid(9, 3, size, 1.6).forEach((p, i) => {
+      const ck = Math.floor((b - (STORM - 8)) * 2) % 9;
+      const on = cascade ? i === ck || i === 8 - ck : (p.c + p.r) % 2 === beat % 2;
+      const k = back(f * 3);
+      put(p, size, { dy: on ? -hop(f) * 0.45 : 0, sx: on ? 1 + 0.3 * k : 1, sy: on ? 1 + 0.3 * k : 1,
+        rot: on ? (beat % 2 ? 14 : -14) * k : 0, skew: on ? (beat % 2 ? -12 : 12) * land(f) : 0, flipT: bar % 2 ? -1 : 1 });
+    });
+    fx.flash = beat % 2 === 0 ? land(f) * 0.06 : 0; fx.glow = 0.7; fx.glowHue = 300;
+  } else if (b < FINAL) {
+    const p = (b - STORM) / (FINAL - STORM), size = V() * 0.22, freeze = b >= FINAL - 2;
+    const sub = p > 0.75 ? 4 : p > 0.5 ? 2 : 1, g = fr(b * sub);
+    put({ x: W() / 2, y: H() / 2 + size / 2 }, size, freeze ? { sx: 0.35, sy: 0.35 } : {
+      sx: 1 + p * 1.1 + land(g) * 0.12 * p, sy: 1 + p * 1.1 - land(g) * 0.06 * p, skew: Math.sin(b * Math.PI * sub) * 10 * p });
+    if (b >= FINAL - 16 && !freeze) {
+      const k = beat, blink = f > 0.55 ? (Math.floor(f * 24) % 2 ? 0.06 : 0.45) : 0.45;
+      for (let i = 0; i < 6; i++) {
+        if (hash(k * 7 + i) < 0.45) continue;
+        put({ x: hash(k * 13 + i) * W(), y: size + hash(k * 17 + i) * (H() - size) }, size * 0.6, { op: blink, skew: (hash(k + i) - 0.5) * 40, snap: true });
+      }
+    }
+    fx.dim = freeze ? 0.97 : p * 0.85; fx.shake = freeze ? 0 : p * p * 24;
+    fx.glowColor = '#ff2a2a'; fx.glowAbs = freeze ? 0 : (0.15 + p * 0.55) * (0.25 + 0.75 * land(g));
+  } else {
+    const size = V() * 0.14, move = MOVES[Math.floor(hash(Math.floor((b - FINAL) / 2) + 99) * MOVES.length)];
+    const g = fr((b - FINAL) / 2) * 2, T = V() * 0.95;
+    for (let i = 0; i < 16; i++) {
+      const k = Math.floor(b + (i % 2) * 0.5);
+      const p = { x: W() / 2 + (hash(k * 31 + i * 7 + 5) - 0.5) * T * 0.85, y: H() / 2 + (hash(k * 17 + i * 13 + 3) - 0.5) * T * 0.85 + size / 2, c: i % 4, r: Math.floor(i / 4), i };
+      const o = Object.assign({}, p);
+      move(o, b, f, g);
+      put(p, size, o);
+    }
+    const full = b < BREATHE || b >= FINAL2, len = 1, cut = Math.floor((b - FINAL) / len);
+    if (cut % 4) fx.cam = { s: 0.8 + hash(cut * 3 + 1) * 0.7, x: (hash(cut * 5 + 2) - 0.5) * 0.35 * W(), y: (hash(cut * 7 + 3) - 0.5) * 0.3 * H() };
+    fx.flash = land(f) * (full ? 0.16 : 0.08); fx.shake = land(f) * (full ? 10 : 5); fx.glow = full ? 0.9 : 0.6;
+    fx.tile = true;
+  }
+  return { out, fx };
+}
+
+let audio = null, analyser = null, bins = null, bass = 0, last = performance.now();
+function level(b) {
+  if (analyser) {
+    analyser.getByteFrequencyData(bins);
+    let s = 0;
+    for (let i = 1; i < 7; i++) s += bins[i];
+    return s / (6 * 255);
+  }
+  return audio ? land(fr(b)) * 0.8 : 0;
+}
+
+function draw(c, o, ox, oy) {
+  const sz = c.size * c.pump, wd = sz / ASPECT;
+  ctx.save();
+  ctx.globalAlpha = clamp(c.op);
+  ctx.translate(c.x + ox, c.y + oy + o.dy * c.size * M);
+  ctx.rotate(o.rot * M * Math.PI / 180);
+  ctx.transform(1, 0, Math.tan(o.skew * M * Math.PI / 180), 1, 0, 0);
+  ctx.scale(c.flip * (1 + (o.sx - 1) * M), 1 + (o.sy - 1) * M);
+  ctx.drawImage(sprite, -wd / 2, -sz, wd, sz);
+  ctx.restore();
+}
+
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  const t = audio ? audio.currentTime : 0;
+  const b = audio ? (t - OFFSET) / BEAT : 0;
+  const { out, fx } = dance(audio ? b : 0);
+  bass += (level(b) - bass) * Math.min(1, dt * 20);
+  const pump = 1 + bass * 0.12 * M;
+  const k = 1 - Math.exp(-dt * 16);
+  creams.forEach((c, i) => {
+    const o = out[i];
+    c.pump = pump;
+    if (!o) { c.op += (0 - c.op) * k; return; }
+    c.last = o;
+    if (c.size === 0 || o.snap) { c.x = o.x; c.y = o.y; c.size = o.size; c.flip = o.flipT; c.op = o.op; c.last = o; return; }
+    c.x += (o.x - c.x) * k; c.y += (o.y - c.y) * k; c.size += (o.size - c.size) * k;
+    c.flip += (o.flipT - c.flip) * k; c.op += (o.op - c.op) * k;
+  });
+
+  const s = calm ? 0 : fx.shake, cam = calm ? { s: 1, x: 0, y: 0 } : fx.cam;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, stage.width, stage.height);
+  if (sprite.complete && sprite.naturalWidth) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+    ctx.translate(W() / 2 + cam.x + (Math.random() * 2 - 1) * s, H() / 2 + cam.y + (Math.random() * 2 - 1) * s);
+    ctx.scale(cam.s, cam.s);
+    ctx.translate(-W() / 2, -H() / 2);
+    const tiles = [[0, 0]];
+    if (fx.tile) {
+      const T = V() * 0.95, drift = ((t - OFFSET) - FINAL * BEAT) * DRIFT * M;
+      const sx = -(((drift % T) + T) % T), sy = sx;
+      const reachX = (W() / cam.s) / 2 + T, reachY = (H() / cam.s) / 2 + T;
+      tiles.length = 0;
+      for (let ty = -Math.ceil(reachY / T); ty <= Math.ceil(reachY / T); ty++)
+        for (let tx = -Math.ceil(reachX / T); tx <= Math.ceil(reachX / T); tx++) tiles.push([tx * T + sx, ty * T + sy]);
+    }
+    creams.forEach((c) => {
+      const o = c.last;
+      if (!o || c.op < 0.01) return;
+      tiles.forEach(([ox, oy]) => draw(c, o, ox, oy));
+    });
+  }
+  dim.style.opacity = String(fx.dim);
+  glow.style.setProperty('--glow', fx.glowColor || '#8ea6dc');
+  glow.style.opacity = (audio ? (fx.glowAbs != null ? fx.glowAbs : fx.glow * (0.25 + bass * 0.75)) * (calm ? 0.4 : 1) : 0).toFixed(3);
+  flash.style.opacity = calm ? '0' : String(fx.flash);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+function start() {
+  if (audio) return;
+  document.body.style.cursor = 'default';
+  audio = new Audio(SONG);
+  audio.loop = true;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const src = ctx.createMediaElementSource(audio);
+    analyser = ctx.createAnalyser();
+    analyser.fftSize = 256;
+    analyser.smoothingTimeConstant = 0.5;
+    bins = new Uint8Array(analyser.frequencyBinCount);
+    src.connect(analyser);
+    analyser.connect(ctx.destination);
+    ctx.resume();
+  } catch { analyser = null; }
+  audio.play().catch(() => { });
+}
+document.addEventListener('click', start);
+document.addEventListener('keydown', start);
+document.addEventListener('touchend', start);
+</script>
+</body>
+</html>

@@ -6,6 +6,9 @@
   <title data-i18n="level_details_page_title">Level Details | KaizoList</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/images/app/icon-192.png">
+  <meta name="theme-color" content="#161616">
   <link rel="canonical" href="https://kaizolist.com/LevelDetails.html" />
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
@@ -64,26 +67,40 @@
 
       <div class="level-columns">
           <div class="level-column">
-              <h2 class="label-board board-9slice" data-i18n="victors_title">Victors</h2>
+              <h2 class="label-board board-9slice"><img class="kl-label-ico" src="images/icon/victor.png" width="24" height="28" alt=""><span data-i18n="victors_title">Victors</span></h2>
               <div id="victors-grid" class="grid panel-9slice"></div>
           </div>
 
           <div class="level-column">
-              <h2 class="label-board board-9slice" data-i18n="level_info_title">Level Info</h2>
+              <h2 class="label-board board-9slice"><img class="kl-label-ico" src="images/icon/info.png" width="22" height="26" alt=""><span data-i18n="level_info_title">Level Info</span></h2>
               <div id="level-info" class="panel-9slice">
 
-                  <p><strong data-i18n="creator">Creator:</strong> <span id="level-creator"></span></p>
-                  <p><strong data-i18n="verifier">Verifier:</strong> <span id="level-verifier"></span></p>
-                  <p><strong data-i18n="id">ID:</strong> <span id="level-id">N/A</span></p>
+                  <p><img class="kl-info-ico" src="images/icon/creator.png" width="32" height="32" alt=""><strong data-i18n="creator">Creator:</strong> <span id="level-creator"></span></p>
+                  <p><img class="kl-info-ico" src="images/icon/victor.png" width="24" height="28" alt=""><strong data-i18n="verifier">Verifier:</strong> <span id="level-verifier"></span></p>
+                  <p><img class="kl-info-ico" src="images/icon/id.png" width="22" height="26" alt=""><strong data-i18n="id">ID:</strong> <span id="level-id">N/A</span></p>
                   <p id="level-klp-row"><strong>KLP:</strong> <span id="level-klp">0</span></p>
-                  <p><strong data-i18n="rank_label">Rank:</strong> <span id="level-rank">0</span></p>
+                  <p><img class="kl-info-ico" src="images/icon/rank.png" width="22" height="26" alt=""><strong data-i18n="rank_label">Rank:</strong> <span id="level-rank">0</span></p>
                   <p id="level-legacy-date-row" class="hidden"><strong data-i18n="legacy_since_label">Moved to Legacy:</strong> <span id="level-legacy-date">N/A</span></p>
+                  <p id="level-enjoyment-row"><img class="kl-info-ico" src="images/icon/enjoyment.png" width="22" height="26" alt=""><strong data-i18n="enjoy_label">Enjoyment:</strong> <span id="level-enjoyment"><span class="kl-loading kl-loading-sm"></span></span></p>
+                  <div id="level-rate" class="level-rate hidden"></div>
               </div>
-
-              <h2 class="label-board board-9slice" style="margin-top:24px;" data-i18n="history_title">History</h2>
-              <div id="history" class="panel-9slice"></div>
           </div>
       </div>
+
+      <section id="level-layout-section" class="hidden">
+          <h2 class="label-board board-9slice" data-i18n="layout_title">Layout</h2>
+          <div id="level-layout" class="panel-9slice"></div>
+      </section>
+
+      <section id="level-history-section">
+          <h2 class="label-board board-9slice" data-i18n="history_title">History</h2>
+          <div id="history" class="panel-9slice"><div class="kl-loading-block"><span class="kl-loading"></span></div></div>
+      </section>
+
+      <section id="level-comments-section" class="comments-section">
+          <h2 class="label-board board-9slice"><span data-i18n="comments_title">Comments</span> <span class="comments-count"></span></h2>
+          <div id="level-comments" class="panel-9slice"></div>
+      </section>
   </div>
 
   <script type="module">

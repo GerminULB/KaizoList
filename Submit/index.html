@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N58SZ0J6W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7N58SZ0J6W');
+</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Submit your Kaizo List completion or verification right on the website." />
+  <title data-i18n="submit_page_title">Submit a Record | The Kaizo List</title>
+  <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/images/app/icon-192.png">
+  <meta name="theme-color" content="#161616">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="settings-menu">
+    <div class="lang-switcher">
+        <button onclick="window.setLanguage('en')" id="flag-en" title="English"></button>
+        <button onclick="window.setLanguage('es')" id="flag-es" title="Español"></button>
+    </div>
+
+    <button onclick="toggleDarkMode()" id="theme-toggle" title="Toggle Dark Mode">
+        <span id="theme-icon"></span>
+    </button>
+</div>
+
+<div class="background-stage">
+  <div class="sky-layer"></div>
+  <div class="sunset-mask"></div>
+  <div class="sunset-decor back"></div>
+  <div class="sunset-decor front"></div>
+</div>
+
+<div class="container panel-9slice">
+  <a href="/"><img src="../images/kaizolistlogo_wide.png" alt="Kaizo List Logo" class="logo"></a>
+  <h1 data-i18n="submit_title">Submit a Record</h1>
+  <p class="hub-intro" data-i18n="submit_intro">Beat a level on the list, or verified a new one? Send it in here. Read the <a href="/Rules/">rules</a> first: no proof, no record.</p>
+
+  <nav class="hub-links">
+    <a href="/MainList/" class="hub-button" data-i18n="nav_main_list">List</a>
+    <a href="/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
+    <a href="/Rules/" class="hub-button" data-i18n="nav_rules">Read the Rules</a>
+  </nav>
+
+  <p id="submit-loading" class="submit-center"><span class="kl-loading"></span></p>
+
+  <div id="submit-gate" class="submit-box panel-9slice hidden">
+    <p id="submit-gate-text"></p>
+    <button type="button" id="submit-gate-btn" class="hub-button"></button>
+  </div>
+
+  <form id="submit-form" class="submit-box panel-9slice hidden" novalidate>
+    <div class="submit-kind" role="radiogroup">
+      <label><input type="radio" name="kind" value="victor" checked> <span data-i18n="submit_kind_victor">I beat a level on the list</span></label>
+      <label><input type="radio" name="kind" value="verification"> <span data-i18n="submit_kind_verification">I verified a new level</span></label>
+    </div>
+
+    <p class="submit-as" id="submit-as"></p>
+
+    <div data-kind="victor">
+      <label class="account-hint" for="sub-level" data-i18n="submit_level">Level</label>
+      <input id="sub-level" class="account-input" list="sub-level-list" autocomplete="off" placeholder="Type the level's name...">
+      <datalist id="sub-level-list"></datalist>
+      <p class="account-hint" id="sub-level-info"></p>
+    </div>
+
+    <div data-kind="verification" class="hidden">
+      <label class="account-hint" for="sub-newname" data-i18n="submit_new_name">Level name</label>
+      <input id="sub-newname" class="account-input" maxlength="60" autocomplete="off">
+      <label class="account-hint" for="sub-newid" data-i18n="submit_new_id">Level ID</label>
+      <input id="sub-newid" class="account-input" maxlength="12" inputmode="numeric" autocomplete="off">
+      <label class="account-hint" for="sub-creator" data-i18n="submit_creator">Creator(s), separated by commas</label>
+      <input id="sub-creator" class="account-input" maxlength="100" autocomplete="off">
+    </div>
+
+    <label class="account-hint" for="sub-ign" data-i18n="submit_ign">In-game name</label>
+    <input id="sub-ign" class="account-input" maxlength="40" autocomplete="off">
+
+    <label class="account-hint" for="sub-video" data-i18n="submit_video">Completion recording (YouTube link or livestream VOD)</label>
+    <input id="sub-video" class="account-input" maxlength="300" type="url" placeholder="https://..." autocomplete="off">
+
+    <label class="account-hint" for="sub-klp" data-i18n="submit_klp">KLP opinion: how much KLP you think the level deserves</label>
+    <input id="sub-klp" class="account-input" type="number" min="0" max="10000" step="1" inputmode="numeric">
+    <p id="sub-klp-place" class="account-hint submit-place"></p>
+
+    <label class="account-hint" for="sub-thoughts" data-i18n="submit_thoughts">Overall thoughts (optional, but they help your submission get accepted faster)</label>
+    <textarea id="sub-thoughts" class="account-input submit-textarea" maxlength="1000" rows="4"></textarea>
+
+    <p id="submit-msg" class="account-msg"></p>
+    <button type="submit" id="submit-send" class="hub-button" data-i18n="submit_send">Send submission</button>
+  </form>
+
+  <div id="my-subs-box" class="submit-box panel-9slice hidden">
+    <h2 class="label-board board-9slice" data-i18n="submit_mine">Your submissions</h2>
+    <div id="my-subs"></div>
+  </div>
+</div>
+
+<footer class="site-footer panel-9slice">
+  <p>
+    <span data-i18n="copyright">The Kaizo List &copy; 2026</span> --
+    <span data-i18n="version_label">Version</span> <span id="app-version">1.3</span>
+  </p>
+  <p>
+    <span data-i18n="footer_attribution">Game & All assets belong to</span>
+    <a href="https://berneyvonbean.itch.io/" target="_blank">Berneyvonbean (Itch.io)</a> |
+    <a href="https://www.youtube.com/@Berneyvonbean" target="_blank">(YouTube)</a>
+  </p>
+</footer>
+
+<script type="module">
+  import { applyRandomPattern } from '../js/utils.js';
+  import { applyTranslations } from '../js/i18n.js';
+
+  const patterns = Array.from({length:13}, (_,i)=>`../images/pattern/pattern${i}.png`);
+  applyRandomPattern('.hub-button', patterns);
+
+  applyTranslations();
+</script>
+
+<script type="module" src="./submit.js"></script>
+<script type="module" src="../js/version.js"></script>
+
+</body>
+</html>

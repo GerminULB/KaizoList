@@ -64,19 +64,31 @@ let _historyPromise = null;
 
 let _filesPromise = null;
 
-/** Reads /history/index.json ({ "snapshots": ["2026-10-03.json", ...] }); falls back to HISTORY_FILES. Cached. */
 export function getHistoryFiles() {
   if (!_filesPromise) {
     _filesPromise = (async () => {
       const manifest = await fetchJson('/history/index.json');
       const list = Array.isArray(manifest) ? manifest : manifest?.snapshots;
-      if (Array.isArray(list) && list.length) {
-        return list.map(f => (String(f).startsWith('/') ? f : `/history/${f}`)).sort();
-      }
-      return [...HISTORY_FILES].sort();
+      const files = (Array.isArray(list) && list.length)
+        ? list.map(f => (String(f).startsWith('/') ? f : `/history/${f}`))
+        : [...HISTORY_FILES];
+      const fileDates = new Set(files.map(dateOf));
+      const saved = await loadSavedSnapshots();
+      const extra = [...saved.keys()].filter(d => !fileDates.has(d)).map(d => `fs:${d}`);
+      return [...files, ...extra].sort((a, b) => String(dateOf(a)).localeCompare(String(dateOf(b))));
     })();
   }
   return _filesPromise;
+}
+
+let _savedSnapshots = null;
+function loadSavedSnapshots() {
+  if (!_savedSnapshots) {
+    _savedSnapshots = import('./data.js')
+      .then(m => m.loadSnapshots())
+      .catch(err => { console.warn('Saved snapshots unavailable:', err); return new Map(); });
+  }
+  return _savedSnapshots;
 }
 
 /** Accepts both snapshot formats: legacy plain array, or v2 { version, date, levels, victors }. */
@@ -95,6 +107,7 @@ function normalizeSnapshot(raw, file) {
     file,
     levels: rankByKLP(levels),
     victors: Array.isArray(raw) ? null : (raw?.victors || null),
+    gapBefore: !!raw?.gapBefore,
   };
 }
 
@@ -102,7 +115,10 @@ const _snapshotCache = new Map(); // file -> Promise<snapshot|null>, so a file i
 
 function loadSnapshotFile(file) {
   if (!_snapshotCache.has(file)) {
-    _snapshotCache.set(file, fetchJson(file).then(raw => (raw ? normalizeSnapshot(raw, file) : null)));
+    const raw = String(file).startsWith('fs:')
+      ? loadSavedSnapshots().then(saved => saved.get(dateOf(file)) || null)
+      : fetchJson(file);
+    _snapshotCache.set(file, raw.then(r => (r ? normalizeSnapshot(r, file) : null)));
   }
   return _snapshotCache.get(file);
 }
@@ -225,15 +241,18 @@ export function buildLevelTimeline(frames, levelName) {
 
   for (const frame of frames) {
     const entry = frame.levels.find(l => l.name === levelName);
+    // a snapshot is saved before that day's changes, so whatever differs from the previous one happened on the previous one's date.
+    // gapBefore marks a snapshot after a stretch with nothing saved, where the real date is unknown.
+    const date = prevFrame && !frame.isLive && !frame.gapBefore ? prevFrame.date : frame.date;
     if (!entry) {
       // the level was on the previous frame but is gone now -> it got removed from the list
-      if (prevEntry) events.push({ type: 'removed', date: frame.date, isLive: !!frame.isLive, rank: prevEntry.rank });
+      if (prevEntry) events.push({ type: 'removed', date, isLive: !!frame.isLive, rank: prevEntry.rank });
       prevFrame = frame; prevEntry = null; continue;
     }
 
     if (!prevEntry) {
       // first appearance, or coming back after having been removed
-      events.push({ type: 'entry', date: frame.date, isLive: !!frame.isLive, klp: entry.klp, rank: entry.rank });
+      events.push({ type: 'entry', date, isLive: !!frame.isLive, klp: entry.klp, rank: entry.rank });
     } else {
       const own = diffLevels([prevEntry], [entry]).changed[0] || null;
       const moved = prevEntry.rank !== entry.rank;
@@ -259,7 +278,7 @@ export function buildLevelTimeline(frames, levelName) {
         }
         events.push({
           type: 'change',
-          date: frame.date,
+          date,
           isLive: !!frame.isLive,
           prev: prevEntry,
           curr: entry,
@@ -299,7 +318,7 @@ function rankMove(from, to) {
   const up = from - to; // positive = climbed
   if (!up) return `<span class="rank-flat">${fmtRank(to)}</span>`;
   const cls = up > 0 ? 'rank-up' : 'rank-down';
-  const arrow = up > 0 ? '▲' : '▼';
+  const arrow = up > 0 ? '<img class="kl-rank" src="/images/icon/rank_up.png" alt="up">' : '<img class="kl-rank" src="/images/icon/rank_down.png" alt="down">';
   return `${fmtRank(from)} ➔ <span class="${cls}">${fmtRank(to)} (${arrow}${Math.abs(up)})</span>`;
 }
 
@@ -402,11 +421,11 @@ function renderDiffHtml(diff, fromDate) {
 // Render recent changes INTO an element with id recentElId.
 // Compares the live levels.json against the newest snapshot; if nothing differs
 // (e.g. the snapshot was just saved), shows what changed between the two newest snapshots.
-export async function renderRecentChanges(recentElId, _historyFiles, levelsPath = '../levels.json') {
+export async function renderRecentChanges(recentElId, _historyFiles, levelsOrPath = null) {
     const recentChangesEl = document.getElementById(recentElId);
     if (!recentChangesEl) return;
 
-    const live = await fetchJson(levelsPath) || [];
+    const live = Array.isArray(levelsOrPath) ? levelsOrPath : await import('./data.js').then(m => m.loadLevels()).catch(() => []);
     if (!live.length) return;
 
     const history = await loadLatestSnapshots(2); // only the newest two, not the whole archive

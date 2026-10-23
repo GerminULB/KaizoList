@@ -14,6 +14,9 @@
   <meta name="description" content="Rules for the Kaizo List so you know how to submit completions, what counts as a legitimate run, and community rules." />
   <title>Rules | The Kaizo List</title>
   <link rel="icon" type="image/png" href="../images/kaizolistlogo.png" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/images/app/icon-192.png">
+  <meta name="theme-color" content="#161616">
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
@@ -45,217 +48,165 @@
 
   <div class="rules-page">
 
-    <h1 class="rules-title">Rules for the Kaizo List</h1>
+    <h1 class="rules-title" data-i18n="rules_page_title">Rules for the Kaizo List</h1>
 
-    <!-- ── HOW THE LE EPIC KAIZO LIST LIST LISTA LISTY LISTER LIST WORKS ────────────────────────────────── -->
     <section class="rules-section panel-9slice">
-      <h2 class="rules-section-title">How KLP, PLP &amp; the List Work</h2>
+      <h2 class="rules-section-title" data-i18n="rules_eco_title">How KLP, PLP &amp; the List Work</h2>
 
-      <p class="ecosystem-intro">
-        There are two separate point systems on the Kaizo List: <strong>KLP</strong>, which belongs
-        to <em>levels</em>, and <strong>PLP</strong>, which belongs to <em>players</em> and is
-        calculated from the KLP of everything that player has cleared.
-      </p>
+      <p class="ecosystem-intro" data-i18n="rules_eco_intro">There are two separate point systems on the Kaizo List: <strong>KLP</strong>, which belongs to <em>levels</em>, and <strong>PLP</strong>, which belongs to <em>players</em> and is calculated from the KLP of everything that player has cleared.</p>
 
       <div class="term-card">
-        <h3>KLP (Kaizo List Points)</h3>
-        <p>
-          Every level on the List has a single fixed KLP value, representing how difficult it's
-          judged (Not relative to the other levels on the list). There's no automatic formula for this
-          number because it's decided together by the List Admins and the level's verifier and/or
-          playtesters, weighing it against similar existing entries. Higher KLP means a harder level.
-        </p>
+        <h3 data-i18n="rules_klp_title">KLP (Kaizo List Points)</h3>
+        <p data-i18n="rules_klp_text">Every level on the List has a single fixed KLP value, representing how difficult it's judged (Not relative to the other levels on the list). There's no automatic formula for this number because it's decided together by the List Admins and the level's verifier and/or playtesters, weighing it against similar existing entries. Higher KLP means a harder level.</p>
       </div>
 
       <div class="term-card">
-        <h3>Verification vs. Victors</h3>
-        <p>
-          <strong>Verifying</strong> a level means being the one to beat it first, proving it's
-          legitimately possible. Once a level is verified, either the verifier or the level's
-          creator can get it uploaded to the ULB server and added to the List (this is why
-          verifications require video proof. See the Submitting a Completion rules below).
-        </p>
-        <p>
-          <strong>Victoring</strong> a level means beating it after it's already been verified and
-          added to the List. Every player who does this earns Victory KLP.
-        </p>
-        <p>
-          A level only has one verifier, and that role is locked in once the level is verified.
-          The verifier can't also be counted separately as a victor on that same level.
-          Each level only ever pays out its KLP once per player. Your <strong>Total KLP</strong>
-          (shown on your Player Details page) is your Verification KLP plus your Victory KLP,
-          added together across every different level you've cleared.
-        </p>
+        <h3 data-i18n="rules_ver_title">Verification vs. Victors</h3>
+        <p data-i18n="rules_ver_text1"><strong>Verifying</strong> a level means being the one to beat it first, proving it's legitimately possible. Once a level is verified, either the verifier or the level's creator can get it uploaded to the ULB server and added to the List (this is why verifications require video proof. See the Submitting a Completion rules below).</p>
+        <p data-i18n="rules_ver_text2"><strong>Victoring</strong> a level means beating it after it's already been verified and added to the List. Every player who does this earns Victory KLP.</p>
+        <p data-i18n="rules_ver_text3">A level only has one verifier, and that role is locked in once the level is verified. The verifier can't also be counted separately as a victor on that same level. Each level only ever pays out its KLP once per player. Your <strong>Total KLP</strong> (shown on your Player Details page) is your Verification KLP plus your Victory KLP, added together across every different level you've cleared.</p>
       </div>
 
       <div class="term-card">
-        <h3>PLP (Player List Points)</h3>
-        <p>
-          PLP is what ranks players against each other on the Player Rankings page. Not to be confused with
-          your KLP total. It's built to reward Kaizo players who both climb <em>high</em> and
-          clear a <em>broad, consistent</em> spread of hard levels, rather than just farming up
-          a ton on easy ones. It's made of three parts added together:
-        </p>
+        <h3 data-i18n="rules_plp_title">PLP (Player List Points)</h3>
+        <p data-i18n="rules_plp_intro">PLP is what ranks players against each other on the Player Rankings page. Not to be confused with your KLP total. It's built to reward Kaizo players who both climb <em>high</em> and clear a <em>broad, consistent</em> spread of hard levels, rather than just farming up a ton on easy ones. It's made of three parts added together:</p>
 
         <div class="formula-box">
-          <p class="formula-eq">PLP = Peak + Consistency + Breadth</p>
+          <p class="formula-eq" data-i18n="rules_plp_formula">PLP = Peak + Consistency + Breadth</p>
           <ul class="formula-var-list">
-            <li><strong>Peak</strong> is based on your single highest-KLP clear. That clear's KLP
-              is raised to the power of 0.85.</li>
-            <li><strong>Consistency</strong> looks at every clear you have, sorted from hardest to
-              easiest. Each one's KLP is raised to the power of 0.65, then all of those are added
-              up and multiplied by 0.6. Your top 12 hardest clears also get an extra bonus on top
-              of that, worth up to 60% more, which tapers down step by step until it disappears by
-              the 12th one.</li>
-            <li><strong>Breadth</strong> is a small bonus for sheer volume: take the square root of
-              your Total KLP, then multiply it by 0.035.</li>
+            <li data-i18n="rules_plp_peak"><strong>Peak</strong> is based on your single highest-KLP clear. That clear's KLP is raised to the power of 0.85.</li>
+            <li data-i18n="rules_plp_consistency"><strong>Consistency</strong> looks at every clear you have, sorted from hardest to easiest. Each one's KLP is raised to the power of 0.65, then all of those are added up and multiplied by 0.6. Your top 12 hardest clears also get an extra bonus on top of that, worth up to 60% more, which tapers down step by step until it disappears by the 12th one.</li>
+            <li data-i18n="rules_plp_breadth"><strong>Breadth</strong> is a small bonus for sheer volume: take the square root of your Total KLP, then multiply it by 0.035.</li>
           </ul>
         </div>
 
-        <p>
-          Two things  worth knowing: because Consistency uses a power less than 1, each
-          individual clear matters a little less than the last one. Which means there are diminishing
-          returns, but every clear still always helps some. And because your top 12 hardest clears
-          get the extra bonus, your hardest dozen completions matter disproportionately more to
-          your PLP than anything you clear after that. <em>(nerd)</em>
-        </p>
+        <p data-i18n="rules_plp_note">Two things worth knowing: because Consistency uses a power less than 1, each individual clear matters a little less than the last one. Which means there are diminishing returns, but every clear still always helps some. And because your top 12 hardest clears get the extra bonus, your hardest dozen completions matter disproportionately more to your PLP than anything you clear after that. <em>(nerd)</em></p>
       </div>
 
     </section>
 
-    <!-- ── LEVELS & PLAYERS ─────────────────────────────────── -->
     <section class="rules-section panel-9slice">
-      <h2 class="rules-section-title">Levels &amp; Players</h2>
+      <h2 class="rules-section-title" data-i18n="rules_lp_title">Levels &amp; Players</h2>
 
       <div class="rule-card">
         <div class="rule-number">1</div>
         <div class="rule-body">
-          <p class="rule-text">No secret ways.</p>
-          <p class="rule-note">
-            A <em>secret way</em> is defined as an intentional skip intended by the verifier
-            that dramatically eases specific parts of the level, framing an otherwise illegitimate
-            completion as valid.
-          </p>
+          <p class="rule-text" data-i18n="rules_lp_1">No secret ways.</p>
+          <p class="rule-note" data-i18n="rules_lp_1_note">A <em>secret way</em> is defined as an intentional skip intended by the verifier that dramatically eases specific parts of the level, framing an otherwise illegitimate completion as valid.</p>
         </div>
       </div>
-
       <div class="rule-card">
         <div class="rule-number">2</div>
         <div class="rule-body">
-          <p class="rule-text">No timmy-levels.</p>
-          <p class="rule-note">
-            Levels must have coherent, kaizo-worthy gameplay. A <em>timmy-level</em> is one with
-            lazy or spammy design. For example, enemies mindlessly spammed everywhere with no
-            actual design behind them.
-          </p>
+          <p class="rule-text" data-i18n="rules_lp_2">No timmy-levels.</p>
+          <p class="rule-note" data-i18n="rules_lp_2_note">Levels must have coherent, kaizo-worthy gameplay. A <em>timmy-level</em> is one with lazy or spammy design. For example, enemies mindlessly spammed everywhere with no actual design behind them.</p>
         </div>
       </div>
-
       <div class="rule-card">
         <div class="rule-number">3</div>
         <div class="rule-body">
-          <p class="rule-text">No third-party external applications.</p>
-          <p class="rule-note">
-            This includes auto-clickers, macros, or any software that eases or helps
-            in-game inputs in any way. (Note: This includes any modifications made to the game itself, such as the ANARCHY Mod.)
-          </p>
+          <p class="rule-text" data-i18n="rules_lp_3">No third-party external applications.</p>
+          <p class="rule-note" data-i18n="rules_lp_3_note">This includes auto-clickers, macros, or any software that eases or helps in-game inputs in any way. (Note: This includes any modifications made to the game itself, such as the ANARCHY Mod.)</p>
         </div>
       </div>
 
     </section>
 
-    <!-- ── SUBMITTING A COMPLETION ───────────────────────────── -->
     <section class="rules-section panel-9slice">
-      <h2 class="rules-section-title">Submitting a Completion</h2>
+      <h2 class="rules-section-title" data-i18n="rules_sub_title">Submitting a Completion</h2>
 
       <div class="rule-card">
         <div class="rule-number">1</div>
         <div class="rule-body">
-          <p class="rule-text">Provide a recording of you completing the level.</p>
-          <p class="rule-note">
-            The absolute bare minimum is footage of you beating the level, which simply means
-            entering the exit block. A livestream VOD works too. Edited or spliced footage, or
-            providing only a screenshot, is not accepted.
-          </p>
+          <p class="rule-text" data-i18n="rules_sub_1">Provide a recording of you completing the level.</p>
+          <p class="rule-note" data-i18n="rules_sub_1_note">The absolute bare minimum is footage of you beating the level, which simply means entering the exit block. A livestream VOD works too. Edited or spliced footage, or providing only a screenshot, is not accepted.</p>
         </div>
       </div>
-
       <div class="rule-card">
         <div class="rule-number">2</div>
         <div class="rule-body">
-          <p class="rule-text">Show your completion going through in the same recording.</p>
-          <p class="rule-note">
-            <strong>Verifiers:</strong> publish the level immediately after entering the exit
-            block, on raw footage.<br>
-            <strong>Victors:</strong> after completing the level, search it up in-game and show it
-            displaying the Green Medal on the level screen.
-          </p>
+          <p class="rule-text" data-i18n="rules_sub_2">Show your completion going through in the same recording.</p>
+          <p class="rule-note" data-i18n="rules_sub_2_note"><strong>Verifiers:</strong> publish the level immediately after entering the exit block, on raw footage.<br><strong>Victors:</strong> after completing the level, search it up in-game and show it displaying the Green Medal on the level screen.</p>
         </div>
       </div>
-
-    <div class="rule-card">
-      <div class="rule-number">3</div>
-      <div class="rule-body">
-        <p class="rule-text">
-          Submit your record in the <a href="https://discord.gg/3un6nh8G9w" target="_blank" rel="noopener noreferrer">Discord</a>.
-        </p>
-        <p class="rule-note">
-          Post your submission in the 
-          <a href="https://discord.com/channels/1291482741317042306/1299626936833933407" target="_blank" rel="noopener noreferrer">
-            <strong>#submit-records</strong>
-          </a> 
-          channel with your completion recording.
-        </p>
+      <div class="rule-card">
+        <div class="rule-number">3</div>
+        <div class="rule-body">
+          <p class="rule-text" data-i18n="rules_sub_3">Submit your record on the <a href="/Submit/">Submit page</a>.</p>
+          <p class="rule-note" data-i18n="rules_sub_3_note">Sign in with Discord, choose whether you beat a level on the list or verified a new one, and fill in the form. You can follow your submission's status on the same page. Submissions are still accepted in the <a href="https://discord.com/channels/1291482741317042306/1299626936833933407" target="_blank" rel="noopener noreferrer"><strong>#submit-records</strong></a> channel of the <a href="https://discord.gg/3un6nh8G9w" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
+        </div>
       </div>
-    </div>
-
-          <div class="rule-card">
+      <div class="rule-card">
         <div class="rule-number">4</div>
         <div class="rule-body">
-          <p class="rule-text">Use the submission template.</p>
-          <p class="rule-note">
-            Your submission must follow this format or it is less likely to be accepted:
-          </p>
+          <p class="rule-text" data-i18n="rules_sub_4">Include all the required information.</p>
+          <p class="rule-note" data-i18n="rules_sub_4_note">The Submit page asks for everything below. If you submit on Discord, use this format, otherwise your submission is less likely to be accepted:</p>
           <div class="submission-template">
-            <p><strong>In-Game Name:</strong> your name</p>
-            <p><strong>Player ID:</strong> your ID</p>
-            <p><strong>Level:</strong> level name</p>
-            <p><strong>Level ID:</strong> level ID</p>
-            <p><strong>Completion Recording:</strong> YouTube link or livestream VOD</p>
-            <p><strong>KLP Opinion:</strong> how much KLP you think the level deserves</p>
-            <p><strong>Overall Thoughts:</strong> <em>optional, but strongly encouraged. A brief description and opinion of the level goes a long way toward getting your submission accepted faster!</em></p>
+            <p data-i18n="rules_tpl_ign"><strong>In-Game Name:</strong> your name</p>
+            <p data-i18n="rules_tpl_level"><strong>Level:</strong> level name</p>
+            <p data-i18n="rules_tpl_id"><strong>Level ID:</strong> level ID</p>
+            <p data-i18n="rules_tpl_video"><strong>Completion Recording:</strong> YouTube link or livestream VOD</p>
+            <p data-i18n="rules_tpl_klp"><strong>KLP Opinion:</strong> how much KLP you think the level deserves</p>
+            <p data-i18n="rules_tpl_thoughts"><strong>Overall Thoughts:</strong> <em>optional, but strongly encouraged. A brief description and opinion of the level goes a long way toward getting your submission accepted faster!</em></p>
           </div>
         </div>
       </div>
-      
+
       <div class="rule-card">
         <div class="rule-number">5</div>
         <div class="rule-body">
-          <p class="rule-text">Legacy levels are not eligible for submission.</p>
-          <p class="rule-note">
-            Completions of levels in the Legacy List are no longer accepted. Only levels
-            actively placed in the Main List are eligible for record submission.
-          </p>
+          <p class="rule-text" data-i18n="rules_sub_5">Legacy levels are not eligible for submission.</p>
+          <p class="rule-note" data-i18n="rules_sub_5_note">Completions of levels in the Legacy List are no longer accepted. Only levels actively placed in the Main List are eligible for record submission.</p>
         </div>
       </div>
 
     </section>
 
-    <!-- ── FOOTER NOTE ────────────────────────────────────────── -->
+    <section class="rules-section panel-9slice">
+      <h2 class="rules-section-title" data-i18n="rules_acc_title">Accounts, Comments &amp; Ratings</h2>
+
+      <div class="rule-card">
+        <div class="rule-number">1</div>
+        <div class="rule-body">
+          <p class="rule-text" data-i18n="rules_acc_1">One account per person, under the name you are known by.</p>
+          <p class="rule-note" data-i18n="rules_acc_1_note">If you are already on the list, pick that same name when you sign up and send the claim request. I can see which Discord account sent it, so there's nothing else to do. Once I approve it, your record and all of its levels are linked to your account.</p>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">2</div>
+        <div class="rule-body">
+          <p class="rule-text" data-i18n="rules_acc_2">Do not impersonate other players or creators.</p>
+          <p class="rule-note" data-i18n="rules_acc_2_note">Accounts using a name that does not belong to them will be removed, and the name will be returned to its rightful owner.</p>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">3</div>
+        <div class="rule-body">
+          <p class="rule-text" data-i18n="rules_acc_3">Keep comments respectful.</p>
+          <p class="rule-note" data-i18n="rules_acc_3_note">Comments on levels and profiles are open to every signed-in player. Harassment, hate speech, spam and advertising are not allowed. List Admins may remove any comment that breaks these rules.</p>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">4</div>
+        <div class="rule-body">
+          <p class="rule-text" data-i18n="rules_acc_4">Rate enjoyment honestly.</p>
+          <p class="rule-note" data-i18n="rules_acc_4_note">Only players who beat or verified a level can rate it. The rating, from 0 to 10, is about how enjoyable the level is, not how difficult it is. Difficulty is already reflected in its KLP.</p>
+        </div>
+      </div>
+    </section>
+
     <div class="rules-footer panel-9slice">
-      <p>
-        If any rule seems unclear, or you're unsure about something,
-        feel free to reach out directly (hypergermented on Discord). New rules may be added as needed.
-      </p>
+      <p data-i18n="rules_footer">If any rule seems unclear, or you're unsure about something, feel free to reach out directly (hypergermented on Discord). New rules may be added as needed.</p>
     </div>
 
   </div>
+</div>
 </div>
 
 <footer class="site-footer panel-9slice">
   <p>
     <span data-i18n="copyright">The Kaizo List © 2026</span> --
-    <span data-i18n="version_label">Version</span> <span id="app-version">1.261</span>
+    <span data-i18n="version_label">Version</span> <span id="app-version">1.3</span>
   </p>
   <p>
     <span data-i18n="footer_attribution">Game & All assets belong to</span>

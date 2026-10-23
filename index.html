@@ -20,6 +20,9 @@
   <meta property="og:site_name" content="Kaizo List" />
   <meta name="application-name" content="Kaizo List" />
   <link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/images/app/icon-192.png">
+  <meta name="theme-color" content="#161616">
   <link rel="stylesheet" href="style.css" />
   <meta name="apple-mobile-web-app-title" content="KaizoList">
   <meta name="application-name" content="KaizoList">
@@ -64,11 +67,12 @@
       <nav class="hub-links">
         <a href="/MainList/" class="hub-button" data-i18n="nav_main_list">List</a>
         <a href="/PlayerList/" class="hub-button" data-i18n="nav_player_rankings">Player Rankings</a>
+        <a href="/Submit/" class="hub-button" data-i18n="nav_submit">Submit a Record</a>
       </nav>
 
       <div class="update-announcement panel-9slice">
         <div class="update-content">
-          <p><strong data-i18n="update_header">Hello Guys! Version 1.261 out!</strong></p>
+          <p><strong data-i18n="update_header">Version 1.3 is here!!</strong></p>
           <div data-i18n="update_body">
             Yo
           </div>
@@ -97,7 +101,7 @@
 
     <div id="recent-changes-container" class="scrollable panel-9slice">
       <h2 class="label-board board-9slice" data-i18n="recent_changes">Recent Changes</h2>
-      <div id="recent-changes"></div>
+      <div id="recent-changes"><div class="kl-loading-block"><span class="kl-loading"></span></div></div>
     </div>
 </div>
 
@@ -127,7 +131,7 @@
 <footer class="site-footer panel-9slice">
     <p>
       <span data-i18n="copyright">The Kaizo List &copy; 2026</span> -- 
-      <span data-i18n="version_label">Version</span> <span id="app-version">1.261</span>
+      <span data-i18n="version_label">Version</span> <span id="app-version">1.3</span>
     </p>
     <p>
       <span data-i18n="footer_attribution">Game & All assets belong to</span> 
@@ -139,10 +143,11 @@
 <script type="module">
     import { applyRandomPattern, renderRecentChanges } from './js/utils.js';
     import { applyTranslations } from './js/i18n.js';
+    import { loadLevels } from './js/data.js';
 
     const patterns = Array.from({length:13}, (_,i)=>`/images/pattern/pattern${i}.png`);
     applyRandomPattern('.hub-button', patterns);
-    renderRecentChanges('recent-changes');
+    loadLevels().then(levels => renderRecentChanges('recent-changes', undefined, levels));
     applyTranslations();
 </script>
 

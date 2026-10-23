@@ -1,4 +1,4 @@
-export const SITE_VERSION = "1.261";
+export const SITE_VERSION = "1.3";
 
 document.addEventListener('DOMContentLoaded', () => {
     const versionEl = document.getElementById('app-version');

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>negligence</title>
+<link rel="icon" type="image/png" href="images/kaizolistlogo.png" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  html, body { height: 100%; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; -webkit-user-select: none; }
+  #word { position: relative; font-size: clamp(32px, 11vw, 128px); line-height: 1; transition: transform 0.15s steps(2); }
+  #word .size { visibility: hidden; }
+  #word .piece { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+<div id="word"><span class="size">negligence</span></div>
+<script>
+const WORD = 'negligence';
+const el = document.getElementById('word');
+const h = [], v = [];
+let clicks = 0, skew = 0, sx = 1, sy = 1, rot = 0;
+const rand = (a, b) => a + Math.random() * (b - a);
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+
+function draw() {
+  el.querySelectorAll('.piece').forEach(p => p.remove());
+  const ys = [0, ...[...h].sort((a, b) => a - b), 100];
+  const xs = [0, ...[...v].sort((a, b) => a - b), 100];
+  const m = Math.min(clicks * 1.6, 70);
+  for (let i = 0; i < ys.length - 1; i++) {
+    for (let j = 0; j < xs.length - 1; j++) {
+      const p = document.createElement('span');
+      p.className = 'piece';
+      p.textContent = WORD;
+      p.style.clipPath = `inset(${ys[i]}% ${100 - xs[j + 1]}% ${100 - ys[i + 1]}% ${xs[j]}%)`;
+      if (clicks) p.style.transform = `translate(${rand(-m, m)}px, ${rand(-m, m) / 2}px) rotate(${rand(-m, m) / 6}deg)`;
+      el.appendChild(p);
+    }
+  }
+  el.style.transform = `rotate(${rot}deg) skewX(${skew}deg) scale(${sx}, ${sy})`;
+}
+
+function chop() {
+  clicks++;
+  if (h.length + v.length < 40) (clicks % 2 ? h : v).push(rand(4, 96));
+  skew = clamp(skew + rand(-9, 9), -60, 60);
+  sx = clamp(sx * rand(0.82, 1.2), 0.25, 3);
+  sy = clamp(sy * rand(0.82, 1.2), 0.25, 3);
+  rot = clamp(rot + rand(-4, 4), -30, 30);
+  draw();
+}
+
+document.addEventListener('pointerdown', chop);
+document.addEventListener('keydown', (e) => { if (!e.repeat) chop(); });
+draw();
+</script>
+</body>
+</html>

@@ -1,39 +1,27 @@
-import { fetchJson, splitNames, applyRandomPattern } from '../js/utils.js';
+import { applyRandomPattern } from '../js/utils.js';
+import { loadLevels, loadPlayers } from '../js/data.js';
 import { BADGES, getSpecialBadgeByRank } from '../js/badge.js';
 import { calculatePlayerScore } from '../score.js';
 import { t } from '../js/i18n.js';
 
 (async function() {
 
-    // Fetch all data
-    const levels = await fetchJson('../levels.json');
-    const challenges = await fetchJson('../challenges.json');
-    const victorsData = await fetchJson('../victors.json');
-    const allLevels = [...levels, ...challenges];
+    const [allLevels, players] = await Promise.all([loadLevels(), loadPlayers()]);
+    const levelById = new Map(allLevels.map(l => [String(l.id), l]));
 
     const playerMap = {};
-
-    const retiredPlayers = new Set([
-        "Ocelote"
-    ]);
-
-    // Add verifiers
-    allLevels.forEach(level => {
-        if (!level.verifier) return;
-        const v = level.verifier;
-        if (!playerMap[v]) playerMap[v] = { klp: 0, levels: [] };
-        playerMap[v].klp += level.klp;
-        playerMap[v].levels.push({ name: level.name, klp: level.klp, type: 'Verification' });
-    });
-
-    // Add victors
-    Object.entries(victorsData).forEach(([player, levelNames]) => {
-        levelNames.forEach(levelName => {
-            const level = allLevels.find(l => l.name === levelName);
+    const retiredPlayers = new Set(players.filter(p => p.retired).map(p => p.username));
+    [...players].sort((a, b) => a.username.localeCompare(b.username)).forEach(p => {
+        const entries = [
+            ...p.verifiedLevels.map(id => [id, 'Verification']),
+            ...p.beatenLevels.map(id => [id, 'Victor']),
+        ];
+        entries.forEach(([id, type]) => {
+            const level = levelById.get(String(id));
             if (!level) return;
-            if (!playerMap[player]) playerMap[player] = { klp: 0, levels: [] };
-            playerMap[player].klp += level.klp;
-            playerMap[player].levels.push({ name: level.name, klp: level.klp, type: 'Victor' });
+            if (!playerMap[p.username]) playerMap[p.username] = { klp: 0, levels: [] };
+            playerMap[p.username].klp += level.klp;
+            playerMap[p.username].levels.push({ name: level.name, klp: level.klp, type });
         });
     });
 
@@ -62,6 +50,27 @@ import { t } from '../js/i18n.js';
 
     // Sort by PLP initially
     playerList.sort((a, b) => b.plp - a.plp);
+
+    const creatorMap = new Map();
+    allLevels.forEach(l => String(l.creator || '').split(',').map(c => c.trim()).filter(Boolean).forEach(c => {
+        const key = c.toLowerCase();
+        const entry = creatorMap.get(key) || { name: players.find(p => p.username.toLowerCase() === key)?.username || c, levels: [] };
+        entry.levels.push(l);
+        creatorMap.set(key, entry);
+    }));
+    const creatorList = [...creatorMap.values()].map(c => {
+        const klp = c.levels.reduce((s, l) => s + l.klp, 0);
+        return { name: c.name, count: c.levels.length, klp, avgKlp: Math.round(klp / c.levels.length), ids: c.levels.map(l => String(l.id)), badges: [] };
+    });
+    let creatorEnjoy = null;
+    async function loadCreatorEnjoy() {
+        const { loadEnjoyment } = await import('../js/enjoyment.js');
+        const perLevel = await loadEnjoyment(allLevels.map(l => l.id), players).catch(() => new Map());
+        creatorEnjoy = new Map(creatorList.map(c => {
+            const scores = c.ids.map(id => perLevel.get(id)?.avg).filter(v => v != null);
+            return [c.name, scores.length ? scores.reduce((s, v) => s + v, 0) / scores.length : null];
+        }));
+    }
 
     // --- DOM elements ---
     const searchInput = document.getElementById('player-search');
@@ -95,9 +104,25 @@ import { t } from '../js/i18n.js';
         const pointType = pointTypeSelect.value;
         const klpType = klpTypeSelect.value;
 
-        let filtered = playerList.filter(p => p.name.toLowerCase().includes(search));
+        const arch = pointType.startsWith('arch_');
+        if (pointType === 'arch_enjoy' && !creatorEnjoy) {
+            listContainer.innerHTML = '<p class="submit-center"><span class="kl-loading"></span></p>';
+            loadCreatorEnjoy().then(renderPlayers);
+            return;
+        }
+        let filtered = (arch ? creatorList : playerList).filter(p => p.name.toLowerCase().includes(search));
 
-        filtered = filtered.map(p => {
+        if (arch) filtered = filtered.map(c => {
+            const enjoy = creatorEnjoy?.get(c.name);
+            const shown = {
+                arch_levels: [c.count, `${c.count} ${t(c.count === 1 ? 'arch_level_unit_one' : 'arch_level_unit')}`],
+                arch_klp: [c.klp, `${c.klp.toLocaleString()} KLP`],
+                arch_avgklp: [c.avgKlp, `${c.avgKlp.toLocaleString()} ${t('arch_avg_klp_unit')}`],
+                arch_enjoy: [enjoy ?? -1, `<img class="kl-score-ico" src="/images/icon/enjoyment.png" alt="">${enjoy == null ? '-' : (Math.round(enjoy * 10) / 10).toFixed(1)}`],
+            }[pointType];
+            return { ...c, displayPoints: shown[0], displayText: shown[1] };
+        });
+        else filtered = filtered.map(p => {
             let displayPoints;
             if (pointType === 'plp') {
                 displayPoints = p.plp;
@@ -112,12 +137,15 @@ import { t } from '../js/i18n.js';
         filtered.sort((a, b) => b.displayPoints - a.displayPoints);
 
         if (clearBtn) {
-            const anyActive = search !== '' || pointType !== 'plp' || klpType !== 'all';
+            const anyActive = search !== '' || pointType !== 'plp' || (pointType === 'klp' && klpType !== 'all');
             clearBtn.style.display = anyActive ? '' : 'none';
         }
 
         let totalPoints;
-        if (pointType === 'plp') {
+        if (arch) {
+            totalPoints = pointType === 'arch_levels' ? allLevels.length
+                : pointType === 'arch_klp' ? allLevels.reduce((s, l) => s + l.klp, 0) : 0;
+        } else if (pointType === 'plp') {
             totalPoints = playerList.reduce((sum, p) => sum + p.plp, 0);
         } else {
             totalPoints = playerList.reduce((sum, p) => {
@@ -127,7 +155,10 @@ import { t } from '../js/i18n.js';
             }, 0);
         }
 
-        const totalLabel = pointType === 'klp' 
+        const totalLabel = pointType === 'arch_levels' ? t('total_levels_created', { count: totalPoints.toLocaleString() })
+            : pointType === 'arch_klp' ? t('total_klp', { count: totalPoints.toLocaleString() })
+            : arch ? t('total_creators', { count: creatorList.length.toLocaleString() })
+            : pointType === 'klp' 
             ? t('total_klp', { count: totalPoints.toLocaleString() })
             : t('total_plp', { count: totalPoints.toLocaleString(), defaultValue: `Total: ${totalPoints.toLocaleString()} PLP` });
 
@@ -155,7 +186,7 @@ import { t } from '../js/i18n.js';
                     <span class="name-board board-9slice sm">${highlightText(p.name)}</span>
                     <div class="summary-right">
                         <div class="mini-badge-list"></div>
-                        <strong class="score-board board-9slice sm">${Math.round(p.displayPoints)} ${suffix}</strong>
+                        <strong class="score-board board-9slice sm">${p.displayText ?? `${Math.round(p.displayPoints)} ${suffix}`}</strong>
                     </div>
                 </div>
             `;
@@ -167,7 +198,7 @@ import { t } from '../js/i18n.js';
                 img.src = `../${BADGES[b.key].icon}`;
                 img.className = 'mini-badge';
                 img.title = `${BADGES[b.key].label} - ${b.level}`;
-                if (i > 0) img.style.marginLeft = '-10px';
+                if (i > 0) img.style.marginLeft = '-22px';
                 badgeContainer.appendChild(img);
             });
             if (p.badges.length > shown.length) {
@@ -200,47 +231,5 @@ import { t } from '../js/i18n.js';
 
     updateKLPTypeVisibility();
     renderPlayers();
-
-    // --- Secret CSV export ---
-    document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.key === 'E') {
-            const now = new Date();
-            const dateStr = now.toISOString().split('T')[0]; 
-            const headers = ['Date', 'Name', 'PLP', 'KLP', 'Verifications', 'Victors'];
-
-            const rows = playerList.map(p => {
-                const verifications = p.levels
-                    .filter(l => l.type === 'Verification')
-                    .map(l => `${l.name}(${l.klp})`)
-                    .join('; ');
-
-                const victors = p.levels
-                    .filter(l => l.type === 'Victor')
-                    .map(l => `${l.name}(${l.klp})`)
-                    .join('; ');
-
-                return [
-                    dateStr,       
-                    p.name,
-                    p.plp,
-                    p.klp,
-                    verifications,
-                    victors
-                ];
-            });
-
-            const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-            const filename = `player_data_${dateStr}.csv`;
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
-
-            console.log(`Secret CSV export triggered! File: ${filename}`);
-        }
-    });
 
 })();
