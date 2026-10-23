@@ -30,8 +30,7 @@ The site is plain HTML, CSS and JavaScript, hosted on GitHub Pages. There is no 
 The list itself (levels, players, submissions, ratings and comments) lives in **Firebase Firestore**, and
 accounts use **Firebase Authentication** with Discord sign-in. Firebase has no Discord option built in, so a
 small Cloud Function in `functions/` checks the Discord login and hands the browser a Firebase sign-in. The
-site reads Firestore directly in the browser. What each account is allowed to change is enforced by the Firestore security rules in
-`firestore.rules`, so the website never has to be trusted to protect the data.
+site reads Firestore directly in the browser.
 
 | Folder / file | What it is |
 | --- | --- |
@@ -47,7 +46,6 @@ site reads Firestore directly in the browser. What each account is allowed to ch
 | `history/` | Older snapshots of the list, used by the History timelines |
 | `js/` | Shared scripts: data loading, accounts, comments, ratings, translations |
 | `images/` | Badges, hats, UI sprites and icons |
-| `firestore.rules` | Firestore security rules |
 
 ## Running it locally
 
