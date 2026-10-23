@@ -27,8 +27,9 @@ export async function pushStatus(user) {
 }
 
 async function messaging() {
-    const reg = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
-    return { m: getMessaging(getApp()), reg };
+    await navigator.serviceWorker.register('/KaizoList/firebase-messaging-sw.js');
+    const reg = await navigator.serviceWorker.ready;
+    const token = await getToken(messaging, { vapidKey, serviceWorkerRegistration: reg });
 }
 
 export async function enablePush(user) {
