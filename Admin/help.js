@@ -12,6 +12,8 @@ export const HELP = {
 
     reqs_admin: `This is where ListAdmins can view and manage their own requests. You can ask me to change a level's KLP or badges. Cause I gets the final say; you'll see the result below. Btw your own approval badges will be added automatically, no request needed! yay!`,
 
+    announce_intro: ``,
+
     snap_intro: `This is where I see new stuff I should always do this before yknow doing the changey changey muahaha`,
 
     levels_intro: `Sigh I guess this is where i decide KLP and the badges or if a level gets removed.`,

@@ -9,6 +9,7 @@ import { placementText, enT } from '../js/placement.js';
 import { HELP } from './help.js';
 import { startDiscordSignIn } from '../js/discord.js';
 import { clearDataCache } from '../js/data.js';
+import { initAnnounce } from './announce.js';
 
 (function applyHelp() {
     const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -126,7 +127,7 @@ function logEntry(batch, action, target, details = '') {
     batch.set(doc(collection(db, 'changeLog')), { at: serverTimestamp(), by: me.uid, byName: me.name, action, target, details });
 }
 const ACTION_LABEL = {
-    'snapshot': 'Saved a snapshot', 'level.add': 'Added a level', 'level.edit': 'Edited a level', 'level.remove': 'Removed a level',
+    'snapshot': 'Saved a snapshot', 'announce': 'Marked an announcement', 'level.add': 'Added a level', 'level.edit': 'Edited a level', 'level.remove': 'Removed a level',
     'victor.add': 'Added a victor', 'victor.remove': 'Removed a victor', 'team.role': 'Changed a role', 'player.retired': 'Changed retired status',
     'claim.approve': 'Approved a claim', 'claim.reject': 'Turned down a claim',
     'submission.accept': 'Accepted a submission', 'submission.reject': 'Turned down a submission',
@@ -1014,3 +1015,5 @@ $('claimRows').onclick = async (e) => {
     try { await batch.commit(); await reload(); toast(approve ? 'Claim approved.' : 'Claim turned down.'); }
     catch (err) { alert(err.message); }
 };
+
+initAnnounce({ levels: () => levels, players: () => players, me: () => me });

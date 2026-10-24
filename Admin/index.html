@@ -144,6 +144,7 @@
             <button type="button" class="list-tab-btn" data-tab="subs">Submissions</button>
             <button type="button" class="list-tab-btn" data-tab="reqs">Requests</button>
             <button type="button" class="list-tab-btn owner-only" data-tab="snap">Snapshot</button>
+            <button type="button" class="list-tab-btn owner-only" data-tab="announce">Announce</button>
             <button type="button" class="list-tab-btn owner-only" data-tab="levels">Levels</button>
             <button type="button" class="list-tab-btn" data-tab="victors">Victors</button>
             <button type="button" class="list-tab-btn owner-only" data-tab="claims">Claims</button>
@@ -214,6 +215,31 @@
                 </div>
                 <div id="snapBanner" class="banner hidden">No snapshot saved today yet. Save one before you change anything.</div>
                 <p id="snapStatus"></p>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="announce">
+            <h2 class="label-board board-9slice">Announcement</h2>
+            <div class="panel-9slice">
+                <p class="muted" data-help="announce_intro">Builds the list-changes post from everything that changed since the last announcement.
+                   Check it, add the jokes, copy it into Discord, then press <b>Mark as announced</b> so the next post starts from here.</p>
+                <div class="row">
+                    <label>Changes since <select id="annBase"></select></label>
+                    <button id="annBuild" class="hub-button">Build post</button>
+                </div>
+                <textarea id="annText" rows="18" style="width:100%;margin-top:12px;font-family:inherit" spellcheck="false"></textarea>
+                <div class="row">
+                    <button id="annCopy" class="hub-button">Copy</button>
+                    <button id="annMark" class="hub-button" disabled>Mark as announced</button>
+                </div>
+                <p id="annStatus"></p>
+            </div>
+            <div class="panel-9slice" style="margin-top:18px">
+                <div class="big">PLP changes</div>
+                <div class="tablebox">
+                    <table><thead><tr><th>Player</th><th>PLP</th><th>Rank</th></tr></thead>
+                    <tbody id="annPlp"></tbody></table>
+                </div>
             </div>
         </section>
 
