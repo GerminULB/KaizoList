@@ -5,8 +5,8 @@ import { collection, doc, getDoc, getDocs, setDoc, query, where, writeBatch, ser
 import { calculatePlayerScore } from '../score.js';
 
 
-const PING_MAJOR = '<@1291483903818989659>';
-const PING_MINOR = '<@1292021069192101898>';
+const PING_MAJOR = '<@&1291483903818989659>';
+const PING_MINOR = '<@&1292021069192101898>';
 
 const TIERS = [50, 25, 15, 10, 5];
 const MAIN = 100;
@@ -52,6 +52,12 @@ function duration(fromMs, toMs = Date.now()) {
     return parts.length ? joinList(parts).replace(/, and /, ' and ') : '0 days';
 }
 
+const SITE = 'https://kaizolist.com';
+const lvl = (l) => `[${l.name}](${SITE}/LevelDetails.html?id=${encodeURIComponent(l.id)})`;
+const ply = (name) => `[${name}](${SITE}/PlayerDetails.html?name=${encodeURIComponent(name)})`;
+const it = (name) => `*${name}*`;
+const creators = (c) => String(c || '').split(/\s*(?:,|&)\s*/).filter(Boolean).map(it).join(' & ');
+
 export function buildPost(prev, now, top1SinceMs) {
     const out = [];
     const ids = (s) => Object.keys(s.levels);
@@ -69,7 +75,7 @@ export function buildPost(prev, now, top1SinceMs) {
         out.push(`Added ${count(added.length)} level${added.length === 1 ? '' : 's'}:`);
         for (const id of added) {
             const l = now.levels[id];
-            out.push(`${emoji(tierOf(l.rank))}${l.name}${l.creator ? ` by ${l.creator}` : ''} with ${l.klp}KLP at #${l.rank}`);
+            out.push(`- ${emoji(tierOf(l.rank))}${lvl({ ...l, id })}${l.creator ? ` by ${creators(l.creator)}` : ''} with **${l.klp}KLP** at #${l.rank}`);
         }
         out.push('');
     }
@@ -80,8 +86,8 @@ export function buildPost(prev, now, top1SinceMs) {
         const p = prev.levels[id], n = now.levels[id];
         if (!p || movedSet.has(id)) continue;
         const t = [...TIERS].reverse().find(t => p.rank <= t && n.rank > t);
-        if (t) pushed[t].push(n.name);
-        if (p.rank <= MAIN && n.rank > MAIN) mainOut.push(n.name);
+        if (t) pushed[t].push(it(n.name));
+        if (p.rank <= MAIN && n.rank > MAIN) mainOut.push(it(n.name));
     }
     for (const t of TIERS) if (pushed[t].length) pushParts.push(`${joinList(pushed[t])} out of the Top ${t} ${emoji(t)}`);
 
@@ -89,27 +95,30 @@ export function buildPost(prev, now, top1SinceMs) {
     if (newTop) {
         const old = now.levels[prev.top1] || prev.levels[prev.top1];
         const held = top1SinceMs ? `${Math.floor((Date.now() - top1SinceMs) / 86400000)} days` : '[N] days';
-        para.push(`This change dethrones ${old.name} (${old.klp}KLP), which held #1 for ${held}.`);
+        para.push(`This change dethrones ${lvl({ ...old, id: prev.top1 })} (${old.klp}KLP), which held #1 for ${held}.`);
     }
-    if (pushParts.length) para.push(`${newTop ? 'It also pushes' : `${changes > 1 ? 'These changes push' : 'This change pushes'}`} ${joinList(pushParts)}.`);
-    if (mainOut.length) para.push(`${joinList(mainOut)} ${mainOut.length === 1 ? 'has' : 'have'} been pushed out of the Main List as well.`);
+    if (pushParts.length) para.push(`${newTop ? 'It also pushes' : changes > 1 ? 'These changes push' : 'This change pushes'} ${joinList(pushParts)}.`);
+    if (mainOut.length) para.push(`${joinList(mainOut)} ${mainOut.length === 1 ? 'was' : 'were'} pushed out of the Main List as well.`);
     if (para.length) out.push(...para, '');
 
-    if (moved.length || removed.length) {
-        for (const id of moved) {
-            const p = prev.levels[id], n = now.levels[id];
-            const tag = emoji(tierOf(n.rank));
-            if (p.rank === n.rank) { out.push(`${tag}${n.name} has been changed from ${p.klp} to ${n.klp}KLP (still #${n.rank}).`); continue; }
-            const verb = n.klp > p.klp ? 'Raised' : 'Lowered';
-            const above = atRank[n.rank - 1], below = atRank[n.rank + 1];
-            const where = above && below ? ` below ${above.name} and above ${below.name}` : below ? ` above ${below.name}` : above ? ` below ${above.name}` : '';
-            const legacy = p.rank <= MAIN && n.rank > MAIN ? ' (out of the Main List)' : '';
-            out.push(`${verb} ${tag}${n.name} from #${p.rank} to #${n.rank}${where} with ${n.klp}KLP${legacy}.`);
-        }
-        for (const id of removed) out.push(`Removed ${prev.levels[id].name} from the list.`);
-        out.push('');
+    const moveLines = [];
+    const droppedOut = moved.filter(id => prev.levels[id].rank <= MAIN && now.levels[id].rank > MAIN);
+    if (droppedOut.length) moveLines.push(`${joinList(droppedOut.map(id => lvl({ ...now.levels[id], id })))} ${droppedOut.length === 1 ? 'has' : 'have'} been lowered out of the Main List.`);
+    for (const id of moved) {
+        if (droppedOut.includes(id)) continue;
+        const p = prev.levels[id], n = now.levels[id];
+        const before = tierOf(p.rank), after = tierOf(n.rank);
+        const name = before === after ? `${emoji(before)}${before ? ' ' : ''}${lvl({ ...n, id })}` : `${emoji(before)}${before ? ' ' : ''}${lvl({ ...n, id })}${after ? ` ${emoji(after)}` : ''}`;
+        const verb = n.klp > p.klp ? 'buffed' : 'lowered';
+        if (p.rank === n.rank) { moveLines.push(`${name} has been ${verb} from ${p.klp} to **${n.klp}KLP** (still #${n.rank}).`); continue; }
+        const above = atRank[n.rank - 1], below = atRank[n.rank + 1];
+        const where = above && below ? ` below ${it(above.name)} and above ${it(below.name)}` : below ? ` above ${it(below.name)}` : above ? ` below ${it(above.name)}` : '';
+        moveLines.push(`${name} has been ${verb} from #${p.rank} to #${n.rank}${where} with **${n.klp}KLP**.`);
     }
+    for (const id of removed) moveLines.push(`${it(prev.levels[id].name)} has been removed from the list.`);
+    if (moveLines.length) out.push(...moveLines, '');
 
+    // completions gained since then (verifications of the new levels themselves don't count as submissions)
     const prevBeatenBy = new Set(Object.values(prev.players).flatMap(p => p.beaten));
     const gains = [];
     for (const [docId, n] of Object.entries(now.players)) {
@@ -117,11 +126,13 @@ export function buildPost(prev, now, top1SinceMs) {
         const had = new Set([...p.beaten, ...p.verified]);
         const beat = n.beaten.filter(id => !had.has(id) && now.levels[id]);
         const verified = n.verified.filter(id => !had.has(id) && now.levels[id] && prev.levels[id]);
-        if (beat.length || verified.length) gains.push({ docId, n, p, beat });
+        if (beat.length || verified.length) gains.push({ docId, n, p, beat, all: [...beat, ...verified] });
     }
     if (gains.length) {
-        const names = gains.map(g => g.n.name).sort((a, b) => a.localeCompare(b));
-        out.push(names.length === 1 ? `A submission by ${names[0]} has been accepted.` : `Submissions by ${joinList(names)} have been accepted.`);
+        gains.sort((a, b) => a.n.name.localeCompare(b.n.name));
+        if (gains.length === 1 && gains[0].all.length === 1) out.push(`${lvl({ ...now.levels[gains[0].all[0]], id: gains[0].all[0] })} submission by ${ply(gains[0].n.name)} has been accepted.`);
+        else if (gains.length === 1) out.push(`Several submissions by ${ply(gains[0].n.name)} have been accepted.`);
+        else out.push(`Submissions by ${joinList(gains.map(g => ply(g.n.name)))} were accepted.`);
         out.push('');
     }
 
@@ -132,9 +143,9 @@ export function buildPost(prev, now, top1SinceMs) {
         const hardest = (firsts.length ? firsts : [...beat].sort(byRank(now)))[0];
         const rankUp = n.rank && (!p.rank || n.rank < p.rank);
         if (!firsts.length && !(rankUp && n.rank <= 10)) continue;
-        let line = `Congratulations to ${n.name} (${n.plp}PLP) for beating ${now.levels[hardest].name}`;
+        let line = `Congratulations to ${ply(n.name)} (**${n.plp}PLP**) for beating ${lvl({ ...now.levels[hardest], id: hardest })}`;
         if (firsts.length) line += ', making them the first victor of the level';
-        if (rankUp) line += `, which pushes them into the #${n.rank} spot of the Leaderboards`;
+        if (rankUp) line += `${firsts.length ? ' which' : ', which'} pushes them into the #${n.rank} spot of the Leaderboards`;
         cheers.push(line + '.');
     }
     for (const [docId, n] of Object.entries(now.players)) {
@@ -143,7 +154,7 @@ export function buildPost(prev, now, top1SinceMs) {
         if (after <= before || after < 1) continue;
         const mark = after * 1000;
         const first = !Object.entries(prev.players).some(([id, x]) => id !== docId && x.plp >= mark);
-        cheers.push(`${n.name} hits ${n.plp}PLP, ${first ? `making them the first player to surpass the ${mark}PLP mark` : `passing the ${mark}PLP mark`}.`);
+        cheers.push(`${ply(n.name)} also hits **${n.plp}PLP**, ${first ? `making them the first player to surpass the ${mark}PLP mark` : `passing the ${mark}PLP mark`}.`);
     }
     if (cheers.length) out.push(...cheers, '');
 
