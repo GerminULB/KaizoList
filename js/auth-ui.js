@@ -191,7 +191,9 @@ function showClaimStatus() {
     };
 }
 
-const pushFlagged = () => { try { return !!state.user && localStorage.getItem('kl_push_on') === state.user.uid; } catch { return false; } };
+const PUSH_TRIED = 'kl_push_tried';
+const pushFlagged = () => { try { return !!state.user && (localStorage.getItem('kl_push_on') === state.user.uid || localStorage.getItem(PUSH_TRIED) === '1'); } catch { return false; } };
+const markPushTried = () => { try { localStorage.setItem(PUSH_TRIED, '1'); } catch { } };
 
 let eggRunning = false;
 let ambient = null;
@@ -280,6 +282,7 @@ export function openPushEgg(x, y) {
     if (eggRunning || !overlay.classList.contains('hidden')) return;
     if (eggDone()) return voidEgg();
     eggRunning = true;
+    markPushTried();
     document.documentElement.classList.add('kl-egg-lock');
     sfx('scream');
     ambient = sfx('ambient', { volume: 0, loop: true });
@@ -308,10 +311,12 @@ async function showPush(egg = false) {
     ensureOverlay();
     overlay.classList.remove('hidden');
     const title = t(egg ? 'push_egg_title' : 'push_title');
+    markPushTried();
     frame(title, `<p><span class="kl-loading"></span></p>`);
     const push = await import('./push.js').catch(() => null);
     const status = push ? await push.pushStatus(state.user) : 'unsupported';
-    if (status === 'ios' || status === 'unsupported' || status === 'denied') {
+    if (status === 'denied') return showPushDenied(title, egg);
+    if (status === 'ios' || status === 'unsupported') {
         frame(title, `<p>${esc(t('push_' + status))}</p>
             <div class="account-actions"><button type="button" class="hub-button" id="acct-ok">${esc(t('account_ok'))}</button></div>`);
         win().querySelector('#acct-ok').onclick = closeWindow;
@@ -330,6 +335,7 @@ async function showPush(egg = false) {
         try {
             const result = on ? await push.disablePush(state.user) : await push.enablePush(state.user);
             if (egg && result === 'on') { try { localStorage.setItem(EGG_DONE, '1'); } catch { } }
+            if (result === 'denied') return showPushDenied(title, egg);
             frame(title, `<p>${esc(t(result === 'on' ? 'push_done' : result === 'denied' ? 'push_denied' : 'push_off_done'))}</p>
                 <div class="account-actions"><button type="button" class="hub-button" id="acct-ok">${esc(t('account_ok'))}</button></div>`);
             win().querySelector('#acct-ok').onclick = closeWindow;
@@ -338,6 +344,16 @@ async function showPush(egg = false) {
             e.target.disabled = false;
         }
     };
+}
+
+function showPushDenied(title, egg) {
+    frame(title, `<p>${esc(t('push_denied'))}</p>
+        <div class="account-actions">
+            <button type="button" class="hub-button" id="acct-retry">${esc(t('push_retry'))}</button>
+            <button type="button" class="hub-button" id="acct-ok">${esc(t('account_ok'))}</button>
+        </div>`);
+    win().querySelector('#acct-retry').onclick = () => showPush(egg);
+    win().querySelector('#acct-ok').onclick = closeWindow;
 }
 
 function showDelete() {

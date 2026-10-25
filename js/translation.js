@@ -340,6 +340,7 @@ export const translations = {
             "push_done": "Done. The Kaizo List will miss you.",
             "push_off_done": "Notifications are off. The Kaizo List is fine. Totally fine. It's fine. Really. It is.",
             "push_denied": "Your browser is blocking notifications for this site. Allow them in the site settings, then try again. Please",
+            "push_retry": "Try again",
             "push_unsupported": "This browser can't show notifications.",
             "push_ios": "On iPhone and iPad, tap Share, then Add to Home Screen, and open the Kaizo List from there to turn this on.",
             "account_my_profile": "My profile",
