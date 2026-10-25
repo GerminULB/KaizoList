@@ -192,7 +192,7 @@ function showClaimStatus() {
 }
 
 const PUSH_TRIED = 'kl_push_tried';
-const pushFlagged = () => { try { return !!state.user && (localStorage.getItem('kl_push_on') === state.user.uid || localStorage.getItem(PUSH_TRIED) === '1'); } catch { return false; } };
+const pushFlagged = () => { try { return !!state.user && (localStorage.getItem('kl_push_on') === state.user.uid || localStorage.getItem(PUSH_TRIED) === '1' || eggDone()); } catch { return false; } };
 const markPushTried = () => { try { localStorage.setItem(PUSH_TRIED, '1'); } catch { } };
 
 let eggRunning = false;
