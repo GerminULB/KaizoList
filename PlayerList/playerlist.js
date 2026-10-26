@@ -25,7 +25,7 @@ import { t } from '../js/i18n.js';
         });
     });
 
-    // Level -> rank by KLP, used for each player's special (Top N) badges
+    // level rank by KLP for the top N badges
     const rankByLevel = {};
     [...allLevels].sort((a, b) => b.klp - a.klp).forEach((l, i) => { rankByLevel[l.name] = i + 1; });
 

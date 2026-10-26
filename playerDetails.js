@@ -121,7 +121,7 @@ document.getElementById('back-button')?.addEventListener('click', (e) => {
     document.title = hasPlayed ? t('player_page_title_full', { name: player.username, plp: plp.toFixed(0) })
                                : t('builder_title', { name: player ? player.username : playerName });
 
-    // Every level is shown (no pagination), highest KLP first.
+    // show every level, no pages, highest KLP first
     function renderLevelGrid(items, container) {
         if (!container) return;
         container.innerHTML = '';

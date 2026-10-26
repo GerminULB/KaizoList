@@ -60,8 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 rankEl.innerHTML = `${t('legacy_label', { defaultValue: 'Legacy' })} <span style="font-size: 0.7em; opacity: 0.6; margin-left: 5px;">${t('label_legacy_list', { defaultValue: '(Legacy List)' })}</span>`;
             }
 
-            // Fire-and-forget: scan snapshot history for when this level first
-            // showed up past the legacy cutoff. Doesn't block the rest of the page.
+            // look through history for when it went legacy (runs in the background)
             const legacyDateRowEl = document.getElementById('level-legacy-date-row');
             const legacyDateEl = document.getElementById('level-legacy-date');
             if (legacyDateRowEl && legacyDateEl) {
@@ -73,13 +72,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                         });
                         legacyDateRowEl.classList.remove('hidden');
                     } else if (!everSeenInHistory) {
-                        // Not found in any snapshot -> likely dropped to Legacy after the most recent one
+                        // not in any snapshot, probably went legacy after the newest one
                         legacyDateEl.innerText = t('legacy_since_recent', { defaultValue: 'Recently' });
                         legacyDateRowEl.classList.remove('hidden');
                     }
-                    // If date is null but everSeenInHistory is true, the level was
-                    // confirmed non-legacy in the newest snapshot we have, and only
-                    // dropped afterward -- leave the row hidden rather than guess.
+                    // no date but seen in history = it was main list in the newest snapshot
+                    // and dropped after, so just hide the row
                 }).catch(() => { /* best-effort, no history data is not fatal lol */ });
             }
         } else if (rankEl) {
@@ -122,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.addEventListener('mousemove', handleBadgeSkew);
 
-    // History loads in the background so it never holds up the rest of the page.
+    // history loads in the background so the page doesnt wait for it
     void (async () => {
         const historyEl = document.getElementById('history');
         if (historyEl && level) {
@@ -130,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const history = await loadHistory();
 
-            // Live levels.json is the newest "snapshot" so the timeline includes unsaved changes.
+            // live list counts as the newest snapshot so unsaved changes show up too
             const liveRanked = rankByKLP(levels.map(l => ({ ...l, badges: Array.isArray(l.badges) ? l.badges : undefined })));
             const frames = [
                 ...history.map(s => ({ date: s.date, levels: s.levels })),

@@ -59,7 +59,7 @@ h1, h2, p {
     pointer-events: none;
 }
 
-/* Vignette + sprite frame around the WHOLE panel body (see BOARDS & FRAMES at the bottom) */
+/* vignette + frame around the whole panel (boards & frames is at the bottom) */
 .panel-9slice::after {
     content: "";
     position: absolute;
@@ -1499,7 +1499,7 @@ body.dark-mode .filters button {
     color: #c8b89a;
 }
 
-/* --- v1.261: richer Recent Changes / history --- */
+/* --- v1.261 recent changes stuff --- */
 .change-item.is-legacy { border-left-color: #c58bff; }
 .change-item.is-badges { border-left-color: #7bc7f2; }
 .tag-legacy { background: #c58bff; }
@@ -1521,7 +1521,7 @@ body.dark-mode .filters button {
 .change-footnote { margin-top: 8px; font-size: 0.8em; opacity: 0.65; text-align: center; }
 .timeline-rank { opacity: 0.7; }
 
-/* --- v1.261: Player Compare shortcut (a smaller .hub-button, fixed top-left) --- */
+/* --- v1.261 player compare button (small, top left) --- */
 #compare-btn {
     position: fixed;
     top: 10px;
@@ -1537,11 +1537,8 @@ body.dark-mode .filters button {
 }
 
 /* =================== BOARDS & FRAMES ======================
-   Sprites are tinted by js/sprites.js, which sets
-   --board-img-light/dark and --frame-img-light/dark on <html>.
-   .board-9slice  = a board (plaque) with its own frame around the whole body
-   .board-9slice.sm = the same at 1x pixel scale, for small blocks (rows, chips)
-   .panel-9slice already gets a frame (see its ::after above).
+   sprites get tinted in js/sprites.js
+   .board-9slice = board with a frame, .sm = 1x version for small stuff
 ============================================================ */
 body {
     --board-img: var(--board-img-light);
@@ -1582,13 +1579,13 @@ body.dark-mode {
     z-index: 2;
 }
 
-/* Board only, no frame around it: Player Details name, and the name on list rows */
+/* board without a frame (player name + list row names) */
 .board-9slice.no-frame::after,
 .level-summary .name-board::after {
     display: none;
 }
 
-/* Section labels: every label sits on its own framed board */
+/* section labels on their own framed boards */
 .label-board {
     display: table;
     margin: 0 auto 14px auto;
@@ -1644,7 +1641,7 @@ body.dark-mode {
     #badges-container-right.board-9slice { flex-basis: 100%; }
 }
 
-/* ----- Small blocks that now share the board + frame look ----- */
+/* ----- small blocks with the board + frame look ----- */
 .grid-item.board-9slice {
     background: none;
     color: #f4e9dc;
@@ -1718,7 +1715,7 @@ body.dark-mode {
 
 .player-col + .player-col .label-board:not(:first-child) { margin-top: 24px; }
 
-/* ----- Rows (MainList + PlayerList): rank board | name board | badges | score board ----- */
+/* ----- rows (main list + player list) ----- */
 .level-summary {
     gap: 10px;
     padding: 8px 10px;

@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="../images/kaizolistlogo.png">
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* ---------- Admin Panel: built on the site's own look (style.css) ---------- */
+        /* ---------- admin panel (uses the style.css look) ---------- */
         .admin.container { max-width: 1040px; text-align: left; }
         .admin .logo { display: block; margin: 0 auto 4px auto; }
         .admin h1 { text-align: center; margin: 0 0 6px 0; }
@@ -22,12 +22,12 @@
         #roleNote { text-align: center; margin: 6px 0 0 0; }
         #roleNote code { word-break: break-all; }
 
-        /* tabs (same look as the Main List / Legacy List tabs) */
+        /* tabs (same as main list tabs) */
         .admin .list-tabs { margin: 18px 0 18px 0; }
         .tab-page { display: none; }
         .tab-page.on { display: block; }
 
-        /* inputs: the site's green search-box look */
+        /* inputs (green search box look) */
         .admin input:not([type=checkbox]), .admin select {
             font-family: 'Manaspace', monospace; font-size: .95em;
             padding: 7px 10px; border: 2px solid #6c9270; border-radius: 2px;
@@ -39,7 +39,7 @@
         .admin label.field { display: block; font-size: .85em; opacity: .85; margin: 10px 0 4px; }
         .admin label.field + input { width: 100%; }
 
-        /* buttons: hub-button for main actions, small green ones for row actions */
+        /* buttons */
         .admin .hub-button { border: none; font-family: 'Manaspace', monospace; font-size: .95em; }
         .admin .hub-button:disabled { opacity: .45; cursor: default; transform: none; }
         .admin .hub-button.danger { background-color: #e07a72; box-shadow: 0 4px 0 #7a2f2a, 0 6px 10px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.4); }
@@ -102,7 +102,7 @@
         .toplist li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 10px; margin-bottom: 4px; background: rgba(167, 224, 173, .12); border-left: 3px solid #6c9270; }
         .tablebox.short { max-height: 300px; }
         .admin td.nowrap { white-space: nowrap; }
-        /* a ListAdmin only sees the tabs they can use */
+        /* listadmins only see their tabs */
         body[data-role="listadmin"] .owner-only { display: none !important; }
         body[data-role="owner"] .listadmin-only { display: none !important; }
         .help-new:empty { display: none; }
@@ -227,9 +227,18 @@
                     <label>Changes since <select id="annBase"></select></label>
                     <button id="annBuild" class="hub-button">Build post</button>
                 </div>
-                <textarea id="annText" rows="18" style="width:100%;margin-top:12px;font-family:inherit" spellcheck="false"></textarea>
                 <div class="row">
-                    <button id="annCopy" class="hub-button">Copy</button>
+                    <label>Discord limit <select id="annLimit"><option value="2000">2000 (normal)</option><option value="4000">4000 (Nitro)</option></select></label>
+                    <label>Links <select id="annLinks"><option value="all">Levels + players</option><option value="levels">Levels only</option><option value="none">No links</option></select></label>
+                    <label><input type="checkbox" id="annEmbeds" checked> No link previews</label>
+                </div>
+                <div class="row">
+                    <label>Type <select id="annKind"><option value="auto">Auto</option><option value="everyone">@everyone</option><option value="major">Major</option><option value="minor">Minor (detailed)</option></select></label>
+                    <span id="annKindNote" class="muted"></span>
+                </div>
+                <div id="annNotes"></div>
+                <div id="annOut"></div>
+                <div class="row">
                     <button id="annMark" class="hub-button" disabled>Mark as announced</button>
                 </div>
                 <p id="annStatus"></p>
@@ -442,7 +451,7 @@
         document.querySelectorAll('.list-tab-btn').forEach(b => b.classList.toggle('active', b === btn));
         document.querySelectorAll('.tab-page').forEach(p => p.classList.toggle('on', p.dataset.page === btn.dataset.tab));
     }));
-    // the site's random button patterns
+    // random button patterns
     import { applyRandomPattern } from '../js/utils.js';
     applyRandomPattern('.hub-button:not(.danger)', Array.from({ length: 13 }, (_, i) => `../images/pattern/pattern${i}.png`));
 </script>

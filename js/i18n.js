@@ -3,15 +3,11 @@ import './sprites.js';
 
 let currentLang = localStorage.getItem('lang') || 'en';
 
-/**
- * Translates a key (word) based on the current language
- * @param {string} key - the key from translation.js
- * @param {object} variables - the key-value pairs for replacing {variable} in strings
- */
+// translate a key from translation.js, variables fill in the {stuff}
 export function t(key, variables = {}) {
     if (!translations[currentLang]) currentLang = 'en';
     
-    // falls back to English, then to the key itself, so a missing translation never shows a raw key
+    // fallback: english, then the key itself
     let text = translations[currentLang][key] || translations.en?.[key] || key;
 
     Object.keys(variables).forEach(v => {
@@ -21,8 +17,7 @@ export function t(key, variables = {}) {
     return text;
 }
 
-// Plural-aware t(): uses "<key>_one" when count is 1 (if the current language defines it),
-// otherwise the normal key. Languages without a "_one" key just keep using the base key.
+// plural stuff: key_one when count is 1 (if the language has it), otherwise the normal key
 export function tn(key, count, variables = {}) {
     if (!translations[currentLang]) currentLang = 'en';
     const useOne = Number(count) === 1 && translations[currentLang][key + '_one'];
@@ -89,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     a.href = '/PlayerCompare/';
     a.textContent = t('nav_player_compare');
 
-    // same random pattern the other .hub-button elements get (see applyRandomPattern in utils.js)
+    // same random pattern as the other hub buttons
     const idx = Math.floor(Math.random() * 13);
     Object.assign(a.style, {
         backgroundImage: `url('/images/pattern/pattern${idx}.png')`,

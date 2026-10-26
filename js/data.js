@@ -6,11 +6,11 @@ let playersPromise = null;
 let ratingsPromise = null;
 let snapshotsPromise = null;
 
-// every visitor used to re-read whole collections on every page; keep them for a few minutes instead
+// everyone used to re-read entire collections on every page lol, cache it for a bit
 const CACHE_KEY = 'kl-cache-v1:';
 const CACHE_TTL = 10 * 60 * 1000;
 
-// the admin page bumps meta/version after every change, so a cache from before that is thrown away
+// admin bumps meta/version on every change so old caches get tossed
 let versionPromise = null;
 function dataVersion() {
     versionPromise = versionPromise || getDoc(doc(db, 'meta', 'version'))

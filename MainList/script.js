@@ -37,9 +37,8 @@ import { loadLevels } from '../js/data.js';
                 badges: lvl.badges || []
             }));
 
-            // Rank is derived from KLP, but we keep the array itself in the
-            // original levels.json order so the Legacy List can display
-            // top-to-bottom-of-file order rather than a KLP re-sort.
+            // rank comes from KLP but the array stays in levels.json order
+            // so legacy shows in file order
             const rankByName = new Map(
                 [...normalized]
                     .sort((a, b) => b.klp - a.klp)
@@ -202,7 +201,7 @@ import { loadLevels } from '../js/data.js';
         else if (sortMethod === 'id-desc') filtered.sort((a, b) => +b.id - +a.id);
         else filtered.sort((a, b) => a.rank - b.rank);
 
-        // "Clear Filters" only shows while something is actually filtered or re-sorted.
+        // clear filters only shows up when something is actually filtered
         const clearBtn = document.getElementById('clear-filters');
         if (clearBtn) {
             const anyActive = search !== '' || selectedCreator !== '' || selectedVerifier !== '' ||

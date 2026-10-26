@@ -1,172 +1,18 @@
-
+// announce tab. compares the list now vs the last announcement (or a snapshot) and spits out the discord post
+// the actual logic is in announce-core.js
 import { db } from '../firebase-config.js';
-import { collection, doc, getDoc, getDocs, setDoc, query, where, writeBatch, serverTimestamp, Timestamp }
+import { collection, doc, getDoc, getDocs, query, where, writeBatch, serverTimestamp, Timestamp }
     from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-import { calculatePlayerScore } from '../score.js';
+import { buildState, buildPost, splitMessages } from './announce-core.js';
 
-
+// role pings (so they actually ping when pasted)
 const PING_MAJOR = '<@&1291483903818989659>';
 const PING_MINOR = '<@&1292021069192101898>';
 
-const TIERS = [50, 25, 15, 10, 5];
-const MAIN = 100;
-const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
-
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const count = (n) => n <= 10 ? `${WORDS[n]} (${n})` : String(n);
-const joinList = (a) => a.length <= 1 ? (a[0] || '') : a.length === 2 ? `${a[0]} and ${a[1]}` : `${a.slice(0, -1).join(', ')}, and ${a[a.length - 1]}`;
-const tierOf = (rank) => rank === 1 ? 1 : [5, 10, 15, 25, 50].find(t => rank <= t) || null;
-const emoji = (t) => t ? `:badge_top_${t}:` : '';
-const period = (name) => { const w = String(name || '').trim().split(/\s+/).pop() || ''; return w.charAt(0).toUpperCase() + w.slice(1); };
-
-function rankLevels(list) {
-    return list.map(l => ({ ...l, id: String(l.id), klp: Number(l.klp) || 0 }))
-        .sort((a, b) => (b.klp - a.klp) || ((a.position ?? 1e9) - (b.position ?? 1e9)) || String(a.name).localeCompare(String(b.name)))
-        .map((l, i) => ({ ...l, rank: i + 1 }));
-}
-
-function buildState(levelList, playerList) {
-    const ranked = rankLevels(levelList);
-    const byId = new Map(ranked.map(l => [l.id, l]));
-    const scored = playerList.filter(p => p.username).map(p => {
-        const beaten = (p.beatenLevels || []).map(String), verified = (p.verifiedLevels || []).map(String);
-        const done = [...verified, ...beaten].map(id => byId.get(id)).filter(Boolean);
-        return { docId: p.docId, name: p.username, retired: !!p.retired, beaten, verified, plp: done.length ? calculatePlayerScore(done) : 0 };
-    });
-    const board = scored.filter(p => !p.retired && p.plp > 0).sort((a, b) => b.plp - a.plp);
-    const rankOf = new Map(board.map((p, i) => [p.docId, i + 1]));
-    return {
-        levels: Object.fromEntries(ranked.map(l => [l.id, { name: l.name, klp: l.klp, rank: l.rank, creator: l.creator || '' }])),
-        players: Object.fromEntries(scored.map(p => [p.docId, { name: p.name, plp: Math.round(p.plp), rank: rankOf.get(p.docId) ?? null, beaten: p.beaten, verified: p.verified }])),
-        top1: ranked[0]?.id || null,
-    };
-}
-
-function duration(fromMs, toMs = Date.now()) {
-    const a = new Date(fromMs), b = new Date(toMs);
-    let y = b.getFullYear() - a.getFullYear(), m = b.getMonth() - a.getMonth(), d = b.getDate() - a.getDate();
-    if (d < 0) { m--; d += new Date(b.getFullYear(), b.getMonth(), 0).getDate(); }
-    if (m < 0) { y--; m += 12; }
-    const parts = [[y, 'year'], [m, 'month'], [d, 'day']].filter(([n]) => n > 0).map(([n, w]) => `${n} ${w}${n === 1 ? '' : 's'}`);
-    return parts.length ? joinList(parts).replace(/, and /, ' and ') : '0 days';
-}
-
-const SITE = 'https://kaizolist.com';
-const lvl = (l) => `[${l.name}](${SITE}/LevelDetails.html?id=${encodeURIComponent(l.id)})`;
-const ply = (name) => `[${name}](${SITE}/PlayerDetails.html?name=${encodeURIComponent(name)})`;
-const it = (name) => `*${name}*`;
-const creators = (c) => String(c || '').split(/\s*(?:,|&)\s*/).filter(Boolean).map(it).join(' & ');
-
-export function buildPost(prev, now, top1SinceMs) {
-    const out = [];
-    const ids = (s) => Object.keys(s.levels);
-    const byRank = (s) => (a, b) => s.levels[a].rank - s.levels[b].rank;
-    const atRank = Object.fromEntries(Object.entries(now.levels).map(([id, l]) => [l.rank, l]));
-
-    const added = ids(now).filter(id => !prev.levels[id]).sort(byRank(now));
-    const removed = ids(prev).filter(id => !now.levels[id]).sort(byRank(prev));
-    const moved = ids(now).filter(id => prev.levels[id] && prev.levels[id].klp !== now.levels[id].klp).sort(byRank(now));
-    const movedSet = new Set(moved);
-    const newTop = !!(prev.top1 && now.top1 && prev.top1 !== now.top1);
-    const changes = added.length + moved.length + removed.length;
-
-    if (added.length) {
-        out.push(`Added ${count(added.length)} level${added.length === 1 ? '' : 's'}:`);
-        for (const id of added) {
-            const l = now.levels[id];
-            out.push(`- ${emoji(tierOf(l.rank))}${lvl({ ...l, id })}${l.creator ? ` by ${creators(l.creator)}` : ''} with **${l.klp}KLP** at #${l.rank}`);
-        }
-        out.push('');
-    }
-
-    const pushParts = [], mainOut = [];
-    const pushed = Object.fromEntries(TIERS.map(t => [t, []]));
-    for (const id of ids(now)) {
-        const p = prev.levels[id], n = now.levels[id];
-        if (!p || movedSet.has(id)) continue;
-        const t = [...TIERS].reverse().find(t => p.rank <= t && n.rank > t);
-        if (t) pushed[t].push(it(n.name));
-        if (p.rank <= MAIN && n.rank > MAIN) mainOut.push(it(n.name));
-    }
-    for (const t of TIERS) if (pushed[t].length) pushParts.push(`${joinList(pushed[t])} out of the Top ${t} ${emoji(t)}`);
-
-    const para = [];
-    if (newTop) {
-        const old = now.levels[prev.top1] || prev.levels[prev.top1];
-        const held = top1SinceMs ? `${Math.floor((Date.now() - top1SinceMs) / 86400000)} days` : '[N] days';
-        para.push(`This change dethrones ${lvl({ ...old, id: prev.top1 })} (${old.klp}KLP), which held #1 for ${held}.`);
-    }
-    if (pushParts.length) para.push(`${newTop ? 'It also pushes' : changes > 1 ? 'These changes push' : 'This change pushes'} ${joinList(pushParts)}.`);
-    if (mainOut.length) para.push(`${joinList(mainOut)} ${mainOut.length === 1 ? 'was' : 'were'} pushed out of the Main List as well.`);
-    if (para.length) out.push(...para, '');
-
-    const moveLines = [];
-    const droppedOut = moved.filter(id => prev.levels[id].rank <= MAIN && now.levels[id].rank > MAIN);
-    if (droppedOut.length) moveLines.push(`${joinList(droppedOut.map(id => lvl({ ...now.levels[id], id })))} ${droppedOut.length === 1 ? 'has' : 'have'} been lowered out of the Main List.`);
-    for (const id of moved) {
-        if (droppedOut.includes(id)) continue;
-        const p = prev.levels[id], n = now.levels[id];
-        const before = tierOf(p.rank), after = tierOf(n.rank);
-        const name = before === after ? `${emoji(before)}${before ? ' ' : ''}${lvl({ ...n, id })}` : `${emoji(before)}${before ? ' ' : ''}${lvl({ ...n, id })}${after ? ` ${emoji(after)}` : ''}`;
-        const verb = n.klp > p.klp ? 'buffed' : 'lowered';
-        if (p.rank === n.rank) { moveLines.push(`${name} has been ${verb} from ${p.klp} to **${n.klp}KLP** (still #${n.rank}).`); continue; }
-        const above = atRank[n.rank - 1], below = atRank[n.rank + 1];
-        const where = above && below ? ` below ${it(above.name)} and above ${it(below.name)}` : below ? ` above ${it(below.name)}` : above ? ` below ${it(above.name)}` : '';
-        moveLines.push(`${name} has been ${verb} from #${p.rank} to #${n.rank}${where} with **${n.klp}KLP**.`);
-    }
-    for (const id of removed) moveLines.push(`${it(prev.levels[id].name)} has been removed from the list.`);
-    if (moveLines.length) out.push(...moveLines, '');
-
-    // completions gained since then (verifications of the new levels themselves don't count as submissions)
-    const prevBeatenBy = new Set(Object.values(prev.players).flatMap(p => p.beaten));
-    const gains = [];
-    for (const [docId, n] of Object.entries(now.players)) {
-        const p = prev.players[docId] || { beaten: [], verified: [], plp: 0, rank: null };
-        const had = new Set([...p.beaten, ...p.verified]);
-        const beat = n.beaten.filter(id => !had.has(id) && now.levels[id]);
-        const verified = n.verified.filter(id => !had.has(id) && now.levels[id] && prev.levels[id]);
-        if (beat.length || verified.length) gains.push({ docId, n, p, beat, all: [...beat, ...verified] });
-    }
-    if (gains.length) {
-        gains.sort((a, b) => a.n.name.localeCompare(b.n.name));
-        if (gains.length === 1 && gains[0].all.length === 1) out.push(`${lvl({ ...now.levels[gains[0].all[0]], id: gains[0].all[0] })} submission by ${ply(gains[0].n.name)} has been accepted.`);
-        else if (gains.length === 1) out.push(`Several submissions by ${ply(gains[0].n.name)} have been accepted.`);
-        else out.push(`Submissions by ${joinList(gains.map(g => ply(g.n.name)))} were accepted.`);
-        out.push('');
-    }
-
-    const cheers = [];
-    for (const { n, p, beat } of gains) {
-        if (!beat.length) continue;
-        const firsts = beat.filter(id => prev.levels[id] && !prevBeatenBy.has(id)).sort(byRank(now));
-        const hardest = (firsts.length ? firsts : [...beat].sort(byRank(now)))[0];
-        const rankUp = n.rank && (!p.rank || n.rank < p.rank);
-        if (!firsts.length && !(rankUp && n.rank <= 10)) continue;
-        let line = `Congratulations to ${ply(n.name)} (**${n.plp}PLP**) for beating ${lvl({ ...now.levels[hardest], id: hardest })}`;
-        if (firsts.length) line += ', making them the first victor of the level';
-        if (rankUp) line += `${firsts.length ? ' which' : ', which'} pushes them into the #${n.rank} spot of the Leaderboards`;
-        cheers.push(line + '.');
-    }
-    for (const [docId, n] of Object.entries(now.players)) {
-        const p = prev.players[docId];
-        const before = Math.floor((p?.plp || 0) / 1000), after = Math.floor(n.plp / 1000);
-        if (after <= before || after < 1) continue;
-        const mark = after * 1000;
-        const first = !Object.entries(prev.players).some(([id, x]) => id !== docId && x.plp >= mark);
-        cheers.push(`${ply(n.name)} also hits **${n.plp}PLP**, ${first ? `making them the first player to surpass the ${mark}PLP mark` : `passing the ${mark}PLP mark`}.`);
-    }
-    if (cheers.length) out.push(...cheers, '');
-
-    if (newTop) {
-        const oldName = (now.levels[prev.top1] || prev.levels[prev.top1]).name;
-        out.push(`${period(oldName)} Period is over (${top1SinceMs ? duration(top1SinceMs) : '[duration]'}). Welcome to the ${period(now.levels[now.top1].name)} Period.`, '');
-    }
-
-    if (!changes && !gains.length) out.push('(Nothing changed since then.)', '');
-    out.push(newTop ? '@everyone' : `${PING_MAJOR || '@Major List Changes Ping'}\n${PING_MINOR || '@Minor List Changes Ping'}`);
-    return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
-}
+const pref = (k, d) => { try { return localStorage.getItem('kl-ann-' + k) ?? d; } catch { return d; } };
+const keep = (k, v) => { try { localStorage.setItem('kl-ann-' + k, v); } catch { } };
 
 function plpTable(prev, now) {
     const rows = Object.entries(now.players).map(([id, n]) => ({ n, p: prev.players[id] || { plp: 0, rank: null } }))
@@ -180,7 +26,8 @@ function plpTable(prev, now) {
     }).join('');
 }
 
-
+// first time there's no saved state so we start from a snapshot
+// completions back then = completions now minus whatever the change log says got added since
 async function stateFromSnapshot(snapDoc, levelsNow, playersNow) {
     const snapLevels = snapDoc.levels || [];
     const since = new Date(`${snapDoc.date || snapDoc.id}T00:00:00`);
@@ -202,11 +49,36 @@ async function stateFromSnapshot(snapDoc, levelsNow, playersNow) {
         if (!m) return p;
         return { ...p, beatenLevels: p.beatenLevels.filter(id => !m.has(String(id))), verifiedLevels: p.verifiedLevels.filter(id => !m.has(String(id))) };
     });
-    return buildState(snapLevels, playersThen);
+    // old snapshots dont have badges/credits so dont compare those
+    const st = buildState(snapLevels, playersThen);
+    for (const l of Object.values(st.levels)) { delete l.badges; delete l.creator; delete l.verifier; }
+    for (const p of Object.values(st.players)) delete p.retired;
+    return st;
+}
+
+function drawMessages(msgs, limit) {
+    $('annOut').innerHTML = msgs.map((m, i) => `
+        <div class="ann-msg" style="margin-top:12px">
+            <div class="muted">Message ${i + 1} of ${msgs.length} · <span class="ann-count"></span></div>
+            <textarea class="ann-text" rows="${Math.min(18, m.split('\n').length + 2)}" style="width:100%;font-family:inherit" spellcheck="false">${esc(m)}</textarea>
+            <button class="hub-button ann-copy">Copy message ${i + 1}</button>
+        </div>`).join('');
+    $('annOut').querySelectorAll('.ann-msg').forEach(box => {
+        const ta = box.querySelector('textarea'), c = box.querySelector('.ann-count');
+        const upd = () => { const n = ta.value.length; c.innerHTML = `<span class="${n > limit ? 'bad' : 'ok'}">${n} / ${limit} characters</span>`; };
+        ta.addEventListener('input', upd); upd();
+        box.querySelector('.ann-copy').onclick = async () => {
+            try { await navigator.clipboard.writeText(ta.value); box.querySelector('.ann-copy').textContent = 'Copied!'; }
+            catch { ta.select(); }
+        };
+    });
 }
 
 export function initAnnounce({ levels, players, me }) {
     let saved = null, snaps = [], prev = null, now = null, prevTop1Since = null;
+    $('annLimit').value = pref('limit', '2000');
+    $('annLinks').value = pref('links', 'all');
+    $('annEmbeds').checked = pref('noEmbeds', '1') === '1';
 
     async function load() {
         const [st, sn] = await Promise.all([
@@ -222,8 +94,31 @@ export function initAnnounce({ levels, players, me }) {
         $('annStatus').innerHTML = saved ? '' : '<span class="muted">No announcement marked yet, so pick the snapshot from right after your last post.</span>';
     }
 
+    function render() {
+        if (!prev || !now) return;
+        const limit = Number($('annLimit').value) || 2000;
+        const { paragraphs, notes, kind, autoKind } = buildPost(prev, now, {
+            kind: $('annKind').value, links: $('annLinks').value, noEmbeds: $('annEmbeds').checked,
+            pingMajor: PING_MAJOR, pingMinor: PING_MINOR, top1SinceMs: prevTop1Since,
+        });
+        const msgs = splitMessages(paragraphs, limit);
+        drawMessages(msgs, limit);
+        const KIND = { everyone: '@everyone (new #1)', major: 'Major (both pings)', minor: 'Minor (Minor ping only, detailed)' };
+        $('annKindNote').textContent = `Auto picked: ${KIND[autoKind]}${kind !== autoKind ? ` · using ${KIND[kind]} instead` : ''}`;
+        $('annNotes').innerHTML = [
+            msgs.length > 1 ? `Too long for one Discord message, so it's split into ${msgs.length}. Post them in order; the pings are in the last one.` : '',
+            ...notes,
+        ].filter(Boolean).map(n => `<div class="warn">⚠ ${esc(n)}</div>`).join('');
+    }
+    $('annKind').addEventListener('change', render);
+    ['annLimit', 'annLinks', 'annEmbeds'].forEach(id => $(id).addEventListener('change', () => {
+        keep('limit', $('annLimit').value); keep('links', $('annLinks').value); keep('noEmbeds', $('annEmbeds').checked ? '1' : '0');
+        render();
+    }));
+
     $('annBuild').onclick = async () => {
         $('annBuild').disabled = true;
+        $('annStatus').innerHTML = '';
         try {
             now = buildState(levels(), players());
             const base = $('annBase').value;
@@ -234,16 +129,11 @@ export function initAnnounce({ levels, players, me }) {
                 prev = await stateFromSnapshot(s, levels(), players());
                 prevTop1Since = saved && saved.top1 === prev.top1 ? saved.top1Since?.toMillis?.() || null : null;
             }
-            $('annText').value = buildPost(prev, now, prevTop1Since);
+            render();
             $('annPlp').innerHTML = plpTable(prev, now);
             $('annMark').disabled = false;
         } catch (err) { $('annStatus').innerHTML = `<span class="bad">${esc(err.message)}</span>`; }
         $('annBuild').disabled = false;
-    };
-
-    $('annCopy').onclick = async () => {
-        try { await navigator.clipboard.writeText($('annText').value); $('annStatus').innerHTML = '<span class="ok">Copied!</span>'; }
-        catch { $('annText').select(); $('annStatus').innerHTML = '<span class="muted">Select all and copy it by hand.</span>'; }
     };
 
     $('annMark').onclick = async () => {
@@ -256,7 +146,7 @@ export function initAnnounce({ levels, players, me }) {
                 ...now, at: serverTimestamp(),
                 top1Since: newTop ? serverTimestamp() : (prevTop1Since ? Timestamp.fromMillis(prevTop1Since) : null),
             });
-
+            // not using logEntry here or it wipes everyone's cache
             const m = me();
             batch.set(doc(collection(db, 'changeLog')), { at: serverTimestamp(), by: m.uid, byName: m.name, action: 'announce', target: 'list changes', details: '' });
             await batch.commit();

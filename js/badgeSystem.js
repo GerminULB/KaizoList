@@ -1,9 +1,4 @@
-/**
- * @param {Array} trophies - Array of { key, levelName, rank }
- * @param {HTMLElement} container - The container element.
- * @param {Object} BADGES - The global BADGES data object.
- * @param {string} playerName - If provided, the description becomes personalized.
- */
+// trophies = [{ key, levelName, rank }], playerName makes the descriptions personal
 export function renderBadgeDeck(trophies, container, BADGES, playerName = null) {
     if (!container) return;
     container.innerHTML = '';

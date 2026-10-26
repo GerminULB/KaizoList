@@ -1,14 +1,10 @@
-// js/utils.js
 import { BADGES } from './badge.js';
 import { t, tn } from './i18n.js';
 
-/** Ranks 1-100 are the Main List, 101+ are Legacy. Single source of truth. */
+// 1-100 main list, 101+ legacy
 export const LEGACY_RANK_CUTOFF = 100;
 
-/**
- * Fallback only. The real list of snapshots lives in /history/index.json
- * (see tools/save-snapshot.mjs), so adding a snapshot no longer needs a code edit.
- */
+// fallback only, the real list is in /history/index.json
 export const HISTORY_FILES = [
   "/history/2025-09-11.json",
   "/history/2025-09-20.json",
@@ -42,11 +38,7 @@ export function escapeHtml(str) {
   return String(str ?? '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
 }
 
-/**
- * Rank by KLP (highest first). Ties keep their original order in the source
- * file, so a level's placement is identical everywhere (Main List, Level
- * Details, history) -- this is the one ranking function the whole site uses.
- */
+// rank by KLP. ties keep file order so a level is placed the same everywhere
 export function rankByKLP(levels = []) {
   return levels
     .map((lvl, i) => ({ lvl, i }))
@@ -54,9 +46,7 @@ export function rankByKLP(levels = []) {
     .map(({ lvl }, idx) => ({ ...lvl, klp: Number(lvl.klp) || 0, rank: idx + 1 }));
 }
 
-// ---------------------------------------------------------------------------
-// History loading
-// ---------------------------------------------------------------------------
+// ---------- history loading ----------
 
 const dateOf = (file) => String(file).match(/\d{4}-\d{2}-\d{2}/)?.[0] || null;
 
@@ -91,15 +81,15 @@ function loadSavedSnapshots() {
   return _savedSnapshots;
 }
 
-/** Accepts both snapshot formats: legacy plain array, or v2 { version, date, levels, victors }. */
+// works with both snapshot formats (old plain array + v2)
 function normalizeSnapshot(raw, file) {
   const arr = Array.isArray(raw) ? raw : (raw?.levels || []);
   const levels = arr.map(l => ({
     ...l,
     // one 2026-04-18 entry has a "crea tor" typo key
     creator: l.creator ?? l['crea tor'] ?? '',
-    // old snapshots (before 2026-04-18) have no badge data at all; keep that as `undefined`
-    // so we never report "all badges removed" when we simply don't know.
+    // old snapshots (before 2026-04-18) have no badges, keep it undefined
+    // so it doesnt say "all badges removed"
     badges: Array.isArray(l.badges) ? l.badges : undefined,
   }));
   return {
@@ -111,7 +101,7 @@ function normalizeSnapshot(raw, file) {
   };
 }
 
-const _snapshotCache = new Map(); // file -> Promise<snapshot|null>, so a file is never downloaded twice
+const _snapshotCache = new Map(); // cache per file so nothing downloads twice
 
 function loadSnapshotFile(file) {
   if (!_snapshotCache.has(file)) {
@@ -130,32 +120,22 @@ async function loadSnapshots(files) {
     .sort((a, b) => String(a.date).localeCompare(String(b.date)));
 }
 
-/**
- * Loads every snapshot (cached), oldest -> newest. Each snapshot has its
- * levels ranked, so rank is always "the rank that level had on that date".
- * Only needed where the full timeline is shown (Level Details).
- */
+// every snapshot oldest -> newest, each one ranked. only level details needs all of them
 export function loadHistory() {
   if (!_historyPromise) _historyPromise = getHistoryFiles().then(loadSnapshots);
   return _historyPromise;
 }
 
-/** Just the newest `n` snapshots (default 2). Recent Changes only ever needs the last two. */
+// just the newest n snapshots, recent changes only needs 2
 export async function loadLatestSnapshots(n = 2) {
   const files = await getHistoryFiles();
   return loadSnapshots(files.slice(-n));
 }
 
-// ---------------------------------------------------------------------------
-// Diffing
-// ---------------------------------------------------------------------------
+// ---------- diffing ----------
 
-/**
- * Compares two ranked level lists (prev -> curr). Levels are matched by name,
- * the same way the rest of the site looks levels up (a rename shows as removed + new).
- *
- * rankDelta / klpDelta are positive when the level improved.
- */
+// compares two ranked lists. matched by name so a rename = removed + new
+// rankDelta / klpDelta positive = went up
 export function diffLevels(prevRanked, currRanked, cutoff = LEGACY_RANK_CUTOFF) {
   const prevMap = new Map(prevRanked.map(l => [l.name, l]));
   const currMap = new Map(currRanked.map(l => [l.name, l]));
@@ -195,10 +175,7 @@ export function diffLevels(prevRanked, currRanked, cutoff = LEGACY_RANK_CUTOFF) 
   return { added, removed, changed, shifted, isEmpty: !added.length && !removed.length && !changed.length && !shifted.length };
 }
 
-/**
- * When did this level first show up past the Legacy cutoff?
- * Uses the same ranking as everything else (and the real cutoff, 100).
- */
+// when did this level first drop past the legacy cutoff
 export async function findLegacyTransition(levelName, legacyRankCutoff = LEGACY_RANK_CUTOFF) {
   const history = await loadHistory();
   let earliestLegacyDate = null;
@@ -223,17 +200,12 @@ export async function findLegacyTransition(levelName, legacyRankCutoff = LEGACY_
   };
 }
 
-/**
- * Builds one level's history from a list of frames ({ date, levels (ranked), isLive? }, oldest -> newest).
- * An event is created whenever the level's KLP, badges, Main/Legacy status OR position changed.
- * For position changes it also works out WHY it moved, by comparing which levels sat above it
- * before and after:
- *   cause.added   levels that appeared above it (brand new levels)
- *   cause.passed  levels that climbed past it (their KLP went up)
- *   cause.removed levels above it that were removed from the list
- *   cause.dropped levels that used to be above it but fell below
- * Event types: 'entry' (added, or re-added), 'change', 'removed'. Returns events oldest -> newest.
- */
+// one level's history from the snapshots (oldest -> newest)
+// makes an event when KLP, badges, main/legacy or position changes
+// for position changes it also figures out why it moved:
+//   added = new levels above it, passed = levels that got buffed past it,
+//   removed = levels above it got removed, dropped = levels above it fell below
+// event types: entry, change, removed
 export function buildLevelTimeline(frames, levelName) {
   const events = [];
   let prevFrame = null;
@@ -241,11 +213,11 @@ export function buildLevelTimeline(frames, levelName) {
 
   for (const frame of frames) {
     const entry = frame.levels.find(l => l.name === levelName);
-    // a snapshot is saved before that day's changes, so whatever differs from the previous one happened on the previous one's date.
-    // gapBefore marks a snapshot after a stretch with nothing saved, where the real date is unknown.
+    // snapshots are saved BEFORE the day's changes, so a diff belongs to the previous snapshot's date
+    // gapBefore = there was a gap with no snapshots so we dont know the real date
     const date = prevFrame && !frame.isLive && !frame.gapBefore ? prevFrame.date : frame.date;
     if (!entry) {
-      // the level was on the previous frame but is gone now -> it got removed from the list
+      // was there before, gone now = removed
       if (prevEntry) events.push({ type: 'removed', date, isLive: !!frame.isLive, rank: prevEntry.rank });
       prevFrame = frame; prevEntry = null; continue;
     }
@@ -418,9 +390,8 @@ function renderDiffHtml(diff, fromDate) {
   return html;
 }
 
-// Render recent changes INTO an element with id recentElId.
-// Compares the live levels.json against the newest snapshot; if nothing differs
-// (e.g. the snapshot was just saved), shows what changed between the two newest snapshots.
+// recent changes: live list vs newest snapshot
+// if nothing changed (snapshot was just saved) it compares the two newest snapshots instead
 export async function renderRecentChanges(recentElId, _historyFiles, levelsOrPath = null) {
     const recentChangesEl = document.getElementById(recentElId);
     if (!recentChangesEl) return;
@@ -428,7 +399,7 @@ export async function renderRecentChanges(recentElId, _historyFiles, levelsOrPat
     const live = Array.isArray(levelsOrPath) ? levelsOrPath : await import('./data.js').then(m => m.loadLevels()).catch(() => []);
     if (!live.length) return;
 
-    const history = await loadLatestSnapshots(2); // only the newest two, not the whole archive
+    const history = await loadLatestSnapshots(2); // only the newest two
     const liveRanked = rankByKLP(live.map(l => ({ ...l, badges: Array.isArray(l.badges) ? l.badges : undefined })));
 
     let diff = null;

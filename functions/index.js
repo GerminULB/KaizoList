@@ -1,4 +1,4 @@
-// Discord sign-in: swaps the code Discord gives the site for a Firebase sign-in token.
+// discord sign in: turns discord's code into a firebase token
 const { onRequest } = require('firebase-functions/v2/https');
 const { onSchedule } = require('firebase-functions/v2/scheduler');
 const { onDocumentCreated, onDocumentUpdated } = require('firebase-functions/v2/firestore');

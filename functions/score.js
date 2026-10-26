@@ -1,4 +1,4 @@
-// copy of the site's score.js (PLP formula); keep the two the same
+// copy of score.js (PLP formula). KEEP BOTH THE SAME
 const PLP_P = 0.85; // peak exponent
 const PLP_Q = 0.65; // consistency exponent
 const PLP_A = 1.0;  // peak weight
