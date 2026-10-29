@@ -1,5 +1,6 @@
 import { parseUlb } from './ulb.js';
 import { loadAssets, readArea, renderToCanvas, loadBackground, thumbnailCells } from './renderer.js';
+import { loadLevels } from '../js/data.js';
 
 const COLS = 40, ROWS = 12, SCALE = 2;
 
@@ -21,7 +22,7 @@ async function makeThumb(text) {
     const area = readArea(level.mainData, { z });
     await loadBackground(assets, area.background);
     const { canvas } = renderToCanvas(assets, area, thumbnailCells(area, COLS, ROWS), SCALE, {
-        unknown: 'skip', background: 'art', links: $('links').checked, start: false,
+        unknown: 'skip', background: 'art', links: $('links').checked, start: false, hideEditor: true, border: false,
     });
     return new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
 }
@@ -44,17 +45,23 @@ async function addThumb(id, text, label) {
 
 $('fromSite').onclick = async () => {
     $('fromSite').disabled = true;
-    const list = await (await fetch('../levels.json')).json();
-    const challenges = await fetch('../challenges.json').then(r => r.ok ? r.json() : []).catch(() => []);
-    let found = 0;
-    for (const lvl of [...list, ...challenges]) {
-        if (!lvl.id) continue;
-        const res = await fetch(`../levels/${encodeURIComponent(lvl.id)}.ulb`).catch(() => null);
-        if (!res || !res.ok) continue;
-        found++;
-        await addThumb(lvl.id, await res.text(), lvl.name);
+    try {
+        // the list lives in Firestore since 1.3 (levels.json is gone)
+        const list = await loadLevels();
+        let found = 0;
+        const missing = [];
+        for (const lvl of list) {
+            if (!lvl.id) continue;
+            const res = await fetch(`../levels/${encodeURIComponent(lvl.id)}.ulb`).catch(() => null);
+            if (!res || !res.ok) { missing.push(lvl.name || lvl.id); continue; }
+            found++;
+            await addThumb(lvl.id, await res.text(), lvl.name);
+        }
+        if (!found) log('No level files found in levels/. Name them after the level ID, like levels/913800.ulb.', 'bad');
+        else if (missing.length) log(`No .ulb file for: ${missing.join(', ')}`, 'bad');
+    } catch (err) {
+        log(`Could not load the level list (${err.message})`, 'bad');
     }
-    if (!found) log('No level files found in levels/. Name them after the level ID, like levels/913800.ulb.', 'bad');
     $('fromSite').disabled = false;
 };
 

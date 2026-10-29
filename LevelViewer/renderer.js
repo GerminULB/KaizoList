@@ -233,6 +233,19 @@ function drawAttachment(ctx, assets, host, m) {
     ctx.restore();
 }
 
+export const EDITOR_ONLY = new Set([
+    163,                                                            // Hidden Block (would spoil secrets)
+    192, 193,                                                       // Darkness, Light markers
+    213,                                                            // Cam
+    215, 216, 217, 218, 219, 220, 221, 249, 250, 251, 252, 253, 254, 255, 473, 474, // music
+    223, 224, 225,                                                  // gravity
+    271, 272, 273,                                                  // Rain, Snow, Clear
+    276, 326,                                                       // Load Zone, Load Attachment
+    277,                                                            // Remove Power-Ups
+    368, 369,                                                       // Boss Block, No Boss Block
+    472, 476, 477,                                                  // Hide Object, Speech, Tag
+]);
+
 export function drawItems(ctx, assets, items, options = {}) {
     const vis = options.visible;
     const unknownStyle = options.unknown || 'mark';
@@ -259,6 +272,7 @@ export function drawItems(ctx, assets, items, options = {}) {
         if (options.start === false && it.kind === 'block' && it.id === 125) continue;
         if (options.hideBack && it.back) continue;
         if (options.hideDeco && it.kind === 'block' && !it.back && assets.map.items[it.id]?.deco) continue;
+        if (options.hideEditor && EDITOR_ONLY.has(it.id)) continue;
         if (it.kind === 'span') {
             if (!onScreen(it.x, it.y, it.x2, it.y2)) continue;
             if (!drawSpan(ctx, assets, it)) {
@@ -277,10 +291,10 @@ export function drawItems(ctx, assets, items, options = {}) {
         const sprite = found && getTintedSprite(assets, found.key, found.rot, tintFor(assets, it, options.background));
         if (!sprite) { markUnknown(it); continue; }
         put(ctx, sprite, it.x * TILE + found.dx, -it.y * TILE + found.dy);
-        for (const m of it.mods || []) drawAttachment(ctx, assets, it, m);
+        for (const m of it.mods || []) if (!(options.hideEditor && EDITOR_ONLY.has(m.id))) drawAttachment(ctx, assets, it, m);
     }
     if (options.border !== false) drawBorder(ctx);
-    if (options.links !== false) drawLinks(ctx, assets, items, vis);
+    if (options.links !== false) drawLinks(ctx, assets, options.hideEditor ? items.filter(it => !EDITOR_ONLY.has(it.id)) : items, vis);
     return missing;
 }
 
@@ -402,6 +416,7 @@ export function renderToCanvas(assets, area, cells, scale = 1, options = {}) {
         border: options.border,
         hideBack: options.hideBack,
         hideDeco: options.hideDeco,
+        hideEditor: options.hideEditor,
     });
     return { canvas, missing };
 }
@@ -411,7 +426,9 @@ export function thumbnailCells(area, cols = 32, rows = 18) {
     const clamp = (want, size, lo, hi) => (hi - lo + 1 <= size) ? Math.floor((lo + hi) / 2 - size / 2 + 0.5)
         : Math.max(lo, Math.min(want, hi - size + 1));
     const sx = area.start.x ?? b.minX, sy = area.start.y ?? b.maxY;
-    const minX = clamp(sx - Math.floor(cols / 4), cols, b.minX - 1, b.maxX + 1);
-    const minY = clamp(sy - Math.floor(rows / 2), rows, b.minY - 1, b.maxY + 1);
+    // keep the picture inside the level's red border (tiles 0..249) when the level is near an edge
+    const inLevel = (v, size) => Math.max(0, Math.min(v, LEVEL / TILE - size));
+    const minX = inLevel(clamp(sx - Math.floor(cols / 4), cols, b.minX - 1, b.maxX + 1), cols);
+    const minY = inLevel(clamp(sy - Math.floor(rows / 2), rows, b.minY - 1, b.maxY + 1), rows);
     return { minX, maxX: minX + cols - 1, minY, maxY: minY + rows - 1 };
 }
