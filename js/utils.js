@@ -134,11 +134,13 @@ export async function loadLatestSnapshots(n = 2) {
 
 // ---------- diffing ----------
 
-// compares two ranked lists. matched by name so a rename = removed + new
-// rankDelta / klpDelta positive = went up
+
+export const levelKey = (name) => String(name ?? '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+
+
 export function diffLevels(prevRanked, currRanked, cutoff = LEGACY_RANK_CUTOFF) {
-  const prevMap = new Map(prevRanked.map(l => [l.name, l]));
-  const currMap = new Map(currRanked.map(l => [l.name, l]));
+  const prevMap = new Map(prevRanked.map(l => [levelKey(l.name), l]));
+  const currMap = new Map(currRanked.map(l => [levelKey(l.name), l]));
 
   const added = [];
   const removed = [];
@@ -146,7 +148,7 @@ export function diffLevels(prevRanked, currRanked, cutoff = LEGACY_RANK_CUTOFF) 
   const shifted = [];   // only moved because other levels moved around them
 
   currRanked.forEach(c => {
-    const p = prevMap.get(c.name);
+    const p = prevMap.get(levelKey(c.name));
     if (!p) { added.push(c); return; }
 
     const klpDelta = c.klp - p.klp;
@@ -170,7 +172,7 @@ export function diffLevels(prevRanked, currRanked, cutoff = LEGACY_RANK_CUTOFF) 
     else if (rankDelta) shifted.push(entry);
   });
 
-  prevRanked.forEach(p => { if (!currMap.has(p.name)) removed.push(p); });
+  prevRanked.forEach(p => { if (!currMap.has(levelKey(p.name))) removed.push(p); });
 
   return { added, removed, changed, shifted, isEmpty: !added.length && !removed.length && !changed.length && !shifted.length };
 }
@@ -182,7 +184,7 @@ export async function findLegacyTransition(levelName, legacyRankCutoff = LEGACY_
   let sawLevel = false;
 
   for (const snap of history) {
-    const entry = snap.levels.find(l => l.name === levelName);
+    const entry = snap.levels.find(l => levelKey(l.name) === levelKey(levelName));
     if (!entry) continue;
     sawLevel = true;
 
@@ -212,7 +214,7 @@ export function buildLevelTimeline(frames, levelName) {
   let prevEntry = null;
 
   for (const frame of frames) {
-    const entry = frame.levels.find(l => l.name === levelName);
+    const entry = frame.levels.find(l => levelKey(l.name) === levelKey(levelName));
     // snapshots are saved BEFORE the day's changes, so a diff belongs to the previous snapshot's date
     // gapBefore = there was a gap with no snapshots so we dont know the real date
     const date = prevFrame && !frame.isLive && !frame.gapBefore ? prevFrame.date : frame.date;
@@ -232,12 +234,12 @@ export function buildLevelTimeline(frames, levelName) {
       if (own || moved) {
         let cause = null;
         if (moved) {
-          const prevAbove = new Set(prevFrame.levels.filter(l => l.rank < prevEntry.rank).map(l => l.name));
-          const currAbove = new Set(frame.levels.filter(l => l.rank < entry.rank).map(l => l.name));
-          const prevNames = new Set(prevFrame.levels.map(l => l.name));
-          const currNames = new Set(frame.levels.map(l => l.name));
-          const currRank = new Map(frame.levels.map(l => [l.name, l.rank]));
-          const prevRank = new Map(prevFrame.levels.map(l => [l.name, l.rank]));
+          const prevAbove = new Set(prevFrame.levels.filter(l => l.rank < prevEntry.rank).map(l => levelKey(l.name)));
+          const currAbove = new Set(frame.levels.filter(l => l.rank < entry.rank).map(l => levelKey(l.name)));
+          const prevNames = new Set(prevFrame.levels.map(l => levelKey(l.name)));
+          const currNames = new Set(frame.levels.map(l => levelKey(l.name)));
+          const currRank = new Map(frame.levels.map(l => [levelKey(l.name), l.rank]));
+          const prevRank = new Map(prevFrame.levels.map(l => [levelKey(l.name), l.rank]));
 
           cause = { added: [], passed: [], removed: [], dropped: [] };
           currAbove.forEach(n => { if (!prevAbove.has(n)) (prevNames.has(n) ? cause.passed : cause.added).push(n); });
@@ -247,6 +249,9 @@ export function buildLevelTimeline(frames, levelName) {
           cause.passed.sort((a, b) => currRank.get(a) - currRank.get(b));
           cause.dropped.sort((a, b) => currRank.get(a) - currRank.get(b));
           cause.removed.sort((a, b) => prevRank.get(a) - prevRank.get(b));
+          // keys back to names for display (the newer spelling wins)
+          const shown = new Map([...prevFrame.levels, ...frame.levels].map(l => [levelKey(l.name), l.name]));
+          for (const k of Object.keys(cause)) cause[k] = cause[k].map(n => shown.get(n) ?? n);
         }
         events.push({
           type: 'change',

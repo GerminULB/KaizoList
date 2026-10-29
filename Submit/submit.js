@@ -51,7 +51,7 @@ function fillLevelList() {
 function pickedLevel() {
     const name = $('sub-level').value.trim().toLowerCase();
     if (!name) return { level: null, why: '' };
-    const level = levels.find(l => l.name.toLowerCase() === name);
+    const level = levels.find(l => l.name.trim().toLowerCase() === name);
     if (!level) return { level: null, why: t('submit_level_unknown') };
     const id = String(level.id);
     if ((state.player.beatenLevels || []).map(String).includes(id) || (state.player.verifiedLevels || []).map(String).includes(id))

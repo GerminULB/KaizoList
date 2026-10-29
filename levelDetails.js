@@ -1,4 +1,4 @@
-import { fetchJson, loadHistory, rankByKLP, buildLevelTimeline, findLegacyTransition, LEGACY_RANK_CUTOFF, escapeHtml } from './js/utils.js';
+import { fetchJson, loadHistory, rankByKLP, buildLevelTimeline, findLegacyTransition, LEGACY_RANK_CUTOFF, escapeHtml, levelKey } from './js/utils.js';
 import { BADGES, getSpecialBadgeByRank } from './js/badge.js';
 import { renderBadgeDeck, handleBadgeSkew } from './js/badgeSystem.js';
 import { t } from './js/i18n.js';
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const [levels, players] = await Promise.all([loadLevels(), loadPlayers()]);
 
-    const level = wantedId ? levels.find(l => String(l.id) === wantedId) : levels.find(l => l.name === params.get('name'));
+    const level = wantedId ? levels.find(l => String(l.id) === wantedId) : levels.find(l => levelKey(l.name) === levelKey(params.get('name')));
     if (!level) return alert(t('error_level_not_found'));
     const levelName = level.name;
 

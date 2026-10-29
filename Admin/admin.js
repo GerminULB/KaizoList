@@ -438,7 +438,7 @@ function showPlayer(name) {
 }
 
 $('addVictory').onclick = async () => {
-    const lvl = levels.find(l => l.name.toLowerCase() === $('levelPick').value.trim().toLowerCase());
+    const lvl = levels.find(l => l.name.trim().toLowerCase() === $('levelPick').value.trim().toLowerCase());
     if (!lvl) return say('playerStatus', 'Pick a level from the list.', 'bad');
     if (!openPlayerName) return;
     const p = findPlayer(openPlayerName);
@@ -658,7 +658,7 @@ function drawReqs() {
 
 let reqLevel = null;
 $('reqLevel').oninput = () => {
-    const lvl = levels.find(l => l.name.toLowerCase() === $('reqLevel').value.trim().toLowerCase());
+    const lvl = levels.find(l => l.name.trim().toLowerCase() === $('reqLevel').value.trim().toLowerCase());
     if (lvl) showReqLevel(lvl.id); else { reqLevel = null; $('reqLevelBox').classList.add('hidden'); }
 };
 
