@@ -47,16 +47,6 @@ site reads Firestore directly in the browser.
 | `js/` | Shared scripts: data loading, accounts, comments, ratings, translations |
 | `images/` | Badges, hats, UI sprites and icons |
 
-## Running it locally
-
-Serve the folder with any static file server, for example:
-
-```
-python -m http.server 8000
-```
-
-then open `http://localhost:8000`. The pages load their data from the live Firestore project.
-
 ## Translations
 
 The site is available in English and Spanish. All texts are in `js/translation.js`; anything without a
