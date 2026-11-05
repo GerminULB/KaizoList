@@ -6,42 +6,58 @@
   {
    "name": "Bob is Mad",
    "creator": "Ocelote",
-   "klp": 109
+   "klp": 109,
+   "verifier": "Ocelote",
+   "id": "178237"
   },
   {
    "name": "Red Castle Kaizo",
    "creator": "Ocelote",
-   "klp": 108
+   "klp": 108,
+   "verifier": "Ocelote",
+   "id": "165924"
   },
   {
    "name": "Catastrophic Misery",
    "creator": "RainCube, Ocelote",
-   "klp": 107
+   "klp": 107,
+   "verifier": "Ocelote",
+   "id": "225200"
   },
   {
    "name": "VS Fake Ocelote",
    "creator": "Ocelote",
-   "klp": 106
+   "klp": 106,
+   "verifier": "Ocelote",
+   "id": "190259"
   },
   {
    "name": "Magnetic Hard Kaizo",
    "creator": "Samuel CM",
-   "klp": 105
+   "klp": 105,
+   "verifier": "Samuel CM",
+   "id": "216225"
   },
   {
    "name": "Cataclysmic Delusion",
    "creator": "RainCube",
-   "klp": 104
+   "klp": 104,
+   "verifier": "Raincube",
+   "id": "175812"
   },
   {
    "name": "Kaizo Ship",
    "creator": "Ocelote",
-   "klp": 103
+   "klp": 103,
+   "verifier": "Ocelote",
+   "id": "173618"
   },
   {
    "name": "Harakiri",
    "creator": "mecalo",
-   "klp": 102
+   "klp": 102,
+   "verifier": "Mecalo",
+   "id": "187164"
   }
  ]
 }

@@ -6,22 +6,30 @@
   {
    "name": "Liquid",
    "klp": 680,
-   "creator": "Ocelote"
+   "creator": "Ocelote",
+   "verifier": "Ocelote",
+   "id": "220142"
   },
   {
    "name": "Meow Speedrun",
    "klp": 650,
-   "creator": "redstom"
+   "creator": "redstom",
+   "verifier": "redstom",
+   "id": "270324"
   },
   {
    "name": "Bombas de Ocelote",
    "klp": 620,
-   "creator": "redstom"
+   "creator": "redstom",
+   "verifier": "redstom",
+   "id": "249411"
   },
   {
    "name": "Bob is Mad",
    "klp": 590,
-   "creator": "Ocelote"
+   "creator": "Ocelote",
+   "verifier": "Ocelote",
+   "id": "178237"
   },
   {
    "name": "Magnihell",
@@ -33,17 +41,23 @@
   {
    "name": "Catastrophic Misery",
    "klp": 570,
-   "creator": "RainCube, Ocelote"
+   "creator": "RainCube, Ocelote",
+   "verifier": "Ocelote",
+   "id": "225200"
   },
   {
    "name": "Cataclysmic Delusion",
    "klp": 550,
-   "creator": "RainCube"
+   "creator": "RainCube",
+   "verifier": "Raincube",
+   "id": "175812"
   },
   {
    "name": "Kaizo 0",
    "klp": 530,
-   "creator": "Ocelote"
+   "creator": "Ocelote",
+   "verifier": "Ocelote",
+   "id": "189503"
   },
   {
    "name": "Cliffside Precision",
@@ -62,27 +76,37 @@
   {
    "name": "Dark Travel",
    "klp": 470,
-   "creator": "MK Milxky Maker"
+   "creator": "MK Milxky Maker",
+   "verifier": "Mk Milxky Maker",
+   "id": "308749"
   },
   {
    "name": "Kaizo Ship",
    "klp": 450,
-   "creator": "Ocelote"
+   "creator": "Ocelote",
+   "verifier": "Ocelote",
+   "id": "173618"
   },
   {
    "name": "Ice Shardnel",
    "klp": 430,
-   "creator": "Germinxvee"
+   "creator": "Germinxvee",
+   "verifier": "Germinxvee",
+   "id": "329215"
   },
   {
    "name": "Castle Shooter",
    "klp": 410,
-   "creator": "AnDronolis"
+   "creator": "AnDronolis",
+   "verifier": "AnDronolis",
+   "id": "260880"
   },
   {
    "name": "VS Fake Ocelote",
    "klp": 390,
-   "creator": "Ocelote"
+   "creator": "Ocelote",
+   "verifier": "Ocelote",
+   "id": "190259"
   },
   {
    "name": "Make Longs Kaizo Jumps",
@@ -94,27 +118,37 @@
   {
    "name": "Magnetic Hard Kaizo",
    "klp": 350,
-   "creator": "Samuel CM"
+   "creator": "Samuel CM",
+   "verifier": "Samuel CM",
+   "id": "216225"
   },
   {
    "name": "Red house",
    "klp": 330,
-   "creator": "Wytems"
+   "creator": "Wytems",
+   "verifier": "Wytems",
+   "id": "164816"
   },
   {
    "name": "Red Castle Kaizo",
    "klp": 310,
-   "creator": "Ocelote"
+   "creator": "Ocelote",
+   "verifier": "Ocelote",
+   "id": "165924"
   },
   {
    "name": "Sonic power",
    "klp": 290,
-   "creator": "Ocelote"
+   "creator": "Ocelote",
+   "verifier": "Ocelote",
+   "id": "200000"
   },
   {
    "name": "Magnetic Easy Kaizo",
    "klp": 270,
-   "creator": "Samuel CM"
+   "creator": "Samuel CM",
+   "verifier": "Samuel CM",
+   "id": "204705"
   },
   {
    "name": "Tidal Wave",
@@ -125,52 +159,72 @@
   {
    "name": "Dark Moon",
    "klp": 230,
-   "creator": "Samuel CM"
+   "creator": "Samuel CM",
+   "verifier": "Samuel CM",
+   "id": "236780"
   },
   {
    "name": "Extreme Worlds 1",
    "klp": 210,
-   "creator": "T0ps 1"
+   "creator": "T0ps 1",
+   "verifier": "T0ps 1",
+   "id": "196077"
   },
   {
    "name": "Ablivision",
    "klp": 190,
-   "creator": "Infernal CHAOS"
+   "creator": "Infernal CHAOS",
+   "verifier": "Infernal Chaos",
+   "id": "185582"
   },
   {
    "name": "Harakiri",
    "klp": 170,
-   "creator": "mecalo"
+   "creator": "mecalo",
+   "verifier": "Mecalo",
+   "id": "187164"
   },
   {
    "name": "Tower of Worlds",
    "klp": 150,
-   "creator": "Alexsound"
+   "creator": "Alexsound",
+   "verifier": "Alexsound",
+   "id": "275665"
   },
   {
    "name": "The Hardst",
    "klp": 130,
-   "creator": "bradley"
+   "creator": "bradley",
+   "verifier": "Bradley",
+   "id": "197429"
   },
   {
    "name": "Moonl",
    "klp": 110,
-   "creator": "Top1PL"
+   "creator": "Top1PL",
+   "verifier": "Top1PL",
+   "id": "267903"
   },
   {
    "name": "Speedrun-40 Seconds",
    "klp": 90,
-   "creator": "psychic"
+   "creator": "psychic",
+   "verifier": "Psychic",
+   "id": "270188"
   },
   {
    "name": "Forest Madness",
    "klp": 80,
-   "creator": "AnDronolis"
+   "creator": "AnDronolis",
+   "verifier": "AnDronolis",
+   "id": "195256"
   },
   {
    "name": "Kaizo Lol",
    "klp": 70,
-   "creator": "Sasha Krutoy YT2"
+   "creator": "Sasha Krutoy YT2",
+   "verifier": "Sasha Krutoy YT2",
+   "id": "324632"
   },
   {
    "name": "Frozurn Fate",
@@ -193,7 +247,7 @@
    "name": "Forest Hell",
    "creator": "Theredman3222",
    "verifier": "Theredman3222",
-   "id": "398000",
+   "id": "389000",
    "klp": 30
   }
  ]
