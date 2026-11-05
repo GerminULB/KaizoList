@@ -1,0 +1,47 @@
+{
+ "date": "2024-03-30",
+ "gapBefore": false,
+ "source": "discord",
+ "levels": [
+  {
+   "name": "Bob is Mad",
+   "creator": "Ocelote",
+   "klp": 109
+  },
+  {
+   "name": "Red Castle Kaizo",
+   "creator": "Ocelote",
+   "klp": 108
+  },
+  {
+   "name": "Catastrophic Misery",
+   "creator": "RainCube, Ocelote",
+   "klp": 107
+  },
+  {
+   "name": "VS Fake Ocelote",
+   "creator": "Ocelote",
+   "klp": 106
+  },
+  {
+   "name": "Magnetic Hard Kaizo",
+   "creator": "Samuel CM",
+   "klp": 105
+  },
+  {
+   "name": "Cataclysmic Delusion",
+   "creator": "RainCube",
+   "klp": 104
+  },
+  {
+   "name": "Kaizo Ship",
+   "creator": "Ocelote",
+   "klp": 103
+  },
+  {
+   "name": "Harakiri",
+   "creator": "mecalo",
+   "klp": 102
+  }
+ ]
+}

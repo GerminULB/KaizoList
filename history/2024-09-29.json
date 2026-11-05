@@ -1,22 +1,147 @@
-[
-  {"name": "Liquid", "klp": 110, "creator": "Ocelote"},
-  {"name": "Bob is Mad", "klp": 109, "creator": "Ocelote"},
-  {"name": "Catastrophic Misery", "klp": 108, "creator": "RainCube, Ocelote"},
-  {"name": "Magnetic Hard Kaizo", "klp": 107, "creator": "Samuel CM"},
-  {"name": "Cataclysmic Delusion", "klp": 106, "creator": "RainCube"},
-  {"name": "Red house", "klp": 105, "creator": "Wytems"},
-  {"name": "Meow Speedrun", "klp": 104, "creator": "redstom"},
-  {"name": "Magnetic Easy Kaizo", "klp": 103, "creator": "Samuel CM"},
-  {"name": "Red Castle Kaizo", "klp": 102, "creator": "Ocelote"},
-  {"name": "Make Longs Kaizo Jumps", "klp": 101, "creator": "Aya N3ro"},
-  {"name": "Bombas de Ocelote", "klp": 100, "creator": "redstom"},
-  {"name": "Extreme Worlds 1", "klp": 99, "creator": "T0ps 1"},
-  {"name": "Dark Moon", "klp": 98, "creator": "Samuel CM"},
-  {"name": "The Hardst", "klp": 97, "creator": "bradley"},
-  {"name": "Tower of Worlds", "klp": 96, "creator": "Alexsound"},
-  {"name": "Harakiri", "klp": 95, "creator": "mecalo"},
-  {"name": "Moonl", "klp": 94, "creator": "Top1PL"},
-  {"name": "Speedrun-40 Seconds", "klp": 93, "creator": "psychic"},
-  {"name": "Castle Shooter", "klp": 92, "creator": "AnDronolis"},
-  {"name": "Forest Madness", "klp": 91, "creator": "AnDronolis"}
-]
+{
+ "date": "2024-09-29",
+ "gapBefore": true,
+ "levels": [
+  {
+   "name": "Liquid",
+   "klp": 110,
+   "creator": "Ocelote"
+  },
+  {
+   "name": "Bob is Mad",
+   "klp": 109,
+   "creator": "Ocelote"
+  },
+  {
+   "name": "Catastrophic Misery",
+   "klp": 108,
+   "creator": "RainCube, Ocelote"
+  },
+  {
+   "name": "Magnetic Hard Kaizo",
+   "klp": 107,
+   "creator": "Samuel CM"
+  },
+  {
+   "name": "Cataclysmic Delusion",
+   "klp": 106,
+   "creator": "RainCube"
+  },
+  {
+   "name": "Kaizo 0",
+   "klp": 105,
+   "creator": "Ocelote"
+  },
+  {
+   "name": "Dark Travel",
+   "klp": 104,
+   "creator": "MK Milxky Maker"
+  },
+  {
+   "name": "Kaizo Ship",
+   "klp": 103,
+   "creator": "Ocelote"
+  },
+  {
+   "name": "Red house",
+   "klp": 102,
+   "creator": "Wytems"
+  },
+  {
+   "name": "Sonic power",
+   "klp": 101,
+   "creator": "Ocelote"
+  },
+  {
+   "name": "Meow Speedrun",
+   "klp": 100,
+   "creator": "redstom"
+  },
+  {
+   "name": "Magnetic Easy Kaizo",
+   "klp": 99,
+   "creator": "Samuel CM"
+  },
+  {
+   "name": "Red Castle Kaizo",
+   "klp": 98,
+   "creator": "Ocelote"
+  },
+  {
+   "name": "Make Longs Kaizo Jumps",
+   "klp": 97,
+   "creator": "Aya N3ro"
+  },
+  {
+   "name": "Bombas de Ocelote",
+   "klp": 96,
+   "creator": "redstom"
+  },
+  {
+   "name": "VS Fake Ocelote",
+   "klp": 95,
+   "creator": "Ocelote"
+  },
+  {
+   "name": "Extreme Worlds 1",
+   "klp": 94,
+   "creator": "T0ps 1"
+  },
+  {
+   "name": "Ablivision",
+   "klp": 93,
+   "creator": "Infernal CHAOS"
+  },
+  {
+   "name": "Dark Moon",
+   "klp": 92,
+   "creator": "Samuel CM"
+  },
+  {
+   "name": "The Hardst",
+   "klp": 91,
+   "creator": "bradley"
+  },
+  {
+   "name": "Tower of Worlds",
+   "klp": 90,
+   "creator": "Alexsound"
+  },
+  {
+   "name": "Harakiri",
+   "klp": 89,
+   "creator": "mecalo"
+  },
+  {
+   "name": "Moonl",
+   "klp": 88,
+   "creator": "Top1PL"
+  },
+  {
+   "name": "Speedrun-40 Seconds",
+   "klp": 87,
+   "creator": "psychic"
+  },
+  {
+   "name": "Castle Shooter",
+   "klp": 86,
+   "creator": "AnDronolis"
+  },
+  {
+   "name": "Forest Madness",
+   "klp": 85,
+   "creator": "AnDronolis"
+  },
+  {
+   "name": "Kaizo Lol",
+   "klp": 84,
+   "creator": "Sasha Krutoy YT2"
+  },
+  {
+   "name": "Frozurn Fate",
+   "klp": 83,
+   "creator": "Cryo"
+  }
+ ],
+ "source": "discord"
+}
